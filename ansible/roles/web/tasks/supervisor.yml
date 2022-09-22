@@ -1,0 +1,20 @@
+---
+- name: Directory /etc/supervisor/conf.d
+  file: path=/etc/supervisor/conf.d
+    state=directory
+  become: yes
+  tags:
+    - supervisor
+
+- name: Start and enable Supervisor(disabled and stopped atm)
+  service: name=supervisor state=started enabled=no
+  become: yes
+  tags:
+    - supervisor
+
+- name: Install Supervisor Consumers
+  copy: src=supervisor/application.conf
+    dest="/etc/supervisor/conf.d/application.conf"
+  become: yes
+  tags:
+    - supervisor

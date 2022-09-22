@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="parthenon.ab_testing.decider.choice_decider.predefined_choice" class="Parthenon\AbTesting\Decider\ChoiceDecider\PredefinedChoice">
+            <argument type="service" id="parthenon.ab_testing.decider.choice_decider.cache_redis" />
+        </service>
+
+        <service id="Parthenon\AbTesting\Decider\ChoiceDecider\CacheGenerator">
+            <argument type="service" id="Parthenon\AbTesting\Repository\ExperimentRepositoryInterface" />
+            <argument type="service" id="parthenon.ab_testing.decider.choice_decider.cache_redis" />
+        </service>
+
+        <service id="Parthenon\AbTesting\Command\GenerateDecisionCacheCommand">
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+            <argument type="service" id="Parthenon\AbTesting\Decider\ChoiceDecider\CacheGenerator" />
+            <tag name="console.command" command="parthenon:ab-testing:generate-decision-cache"/>
+        </service>
+    </services>
+</container>

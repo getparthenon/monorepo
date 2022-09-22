@@ -1,0 +1,86 @@
+---
+- name: create /var/www/ timestamp directory
+  file:
+    dest: "/var/www/application/"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0700
+
+- name: Clone app git git repository
+  git:
+    dest: "/var/www/application/{{timestamp}}"
+    repo: git@github.com:getparthenon/parthenon-skeleton.git
+    update: no
+    key_file: /root/id_rsa
+    accept_hostkey: yes
+
+- name: create /var/www/ timestamp directory
+  file:
+    dest: "/var/www/application/{{timestamp}}/"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0700
+    recurse: yes
+
+- name: Copy Parameter Overrides
+  template: src="env.j2" dest=/var/www/application/{{timestamp}}/.env
+
+- name: Make cache writable
+  file:
+    path: /var/www/application/{{ timestamp }}/public
+    state: directory
+    recurse: yes
+    mode: '0777'
+
+- composer:
+    command: config
+    arguments: --global --auth http-basic.packagist.parthenon.cloud token {{ PACKAGIST_TOKEN }}
+    global_command: true
+  become: yes
+  become_user: www-data
+
+
+- composer:
+    command: install
+    working_dir:  "/var/www/application/{{timestamp}}"
+  become: yes
+  become_user: www-data
+
+- name: install yarn
+  command: yarn install
+    chdir="/var/www/application/{{timestamp}}"
+
+- name: install encore
+  command: yarn encore production
+    chdir="/var/www/application/{{timestamp}}"
+
+- name: Cache
+  command: bin/console cache:warmup --no-interaction --env=prod
+    chdir=/var/www/application/{{ timestamp }}
+
+- name: Migrate
+  command: bin/console doctrine:migrations:migrate --no-interaction --env=prod
+    chdir=/var/www/application/{{ timestamp }}
+
+- name: Make cache writable
+  file:
+    path: /var/www/application/{{ timestamp }}/var
+    state: directory
+    recurse: yes
+    mode: '0777'
+
+- name: Create symbolic link
+  file:
+    src: "/var/www/application/{{timestamp}}"
+    dest: "/var/www/application/current"
+    state: link
+  notify:
+    - restart php8.1-fpm
+    - restart nginx
+    - restart supervisor
+
+- name: Delete old directory
+  command: find . -maxdepth 1 \! -name '{{ timestamp }}' \! -name '.' -type d -exec rm -rf {} +
+    chdir="/var/www/qa"

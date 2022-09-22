@@ -1,0 +1,8 @@
+---
+- set_fact:
+    timestamp: "{{ lookup('pipe', 'date +%Y%m%d%H%M%SZ') }}"
+
+- include: setup.yml
+- include: supervisor.yml
+- include: deploy.yml
+- include: cron.yml

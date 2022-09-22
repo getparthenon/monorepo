@@ -1,0 +1,82 @@
+---
+- name: Add yarn Apt signing key, will not download if present
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- name: Install the gpg key for nodejs LTS
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state: present
+
+- name: Install the nodejs LTS repos
+  apt_repository:
+      repo: "deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
+      state: present
+      update_cache: yes
+
+- name: Add yarn sources list
+  become: yes
+  lineinfile: >
+      line="deb https://dl.yarnpkg.com/debian/ stable main"
+      dest=/etc/apt/sources.list.d/yarn.list
+      state=present
+      create=yes
+
+- name: install packages
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - nginx
+    - yarn
+    - software-properties-common
+    - nodejs
+    - wkhtmltopdf
+    - supervisor
+
+- name: Add ondrej/php
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+
+- name: install packages
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - php8.1-dev
+    - php8.1-cli
+    - php8.1-curl
+    - php8.1-fpm
+    - php8.1-intl
+    - php8.1-xml
+    - php8.1-mbstring
+    - php8.1-zip
+    - php8.1-mysql
+    - php8.1-redis
+    - php8.1-pgsql
+    - pkg-php-tools
+
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
+
+- name: ensure php8.1-fpm cgi.fix_pathinfo=0
+  lineinfile:
+    dest: /etc/php/8.1/fpm/php.ini
+    regexp: '^(.*)cgi.fix_pathinfo='
+    line: cgi.fix_pathinfo=0
+
+- name: create /var/www/ directory
+  file:
+    dest: /var/www/
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0700
+
+- name: Configure nginx
+  template:
+    src: files/nginx/nginx.conf
+    dest: /etc/nginx/sites-enabled/application
+  notify:
+    - restart php8.1-fpm
+    - restart nginx
+

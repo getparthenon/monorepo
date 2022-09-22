@@ -1,0 +1,9 @@
+---
+- name: restart php8.1-fpm
+  service: name=php8.1-fpm state=restarted
+
+- name: restart nginx
+  service: name=nginx state=restarted
+
+- name: restart supervisor
+  service: name=supervisor state=restarted

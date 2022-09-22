@@ -1,0 +1,43 @@
+default:
+    suites:
+        default:
+            contexts:
+                - App\Tests\Behat\DemoContext
+
+                # Skeleton
+                - App\Tests\Behat\Skeleton\GeneralContext
+                - App\Tests\Behat\Skeleton\UserContext
+                - App\Tests\Behat\Skeleton\PlanContext
+                - App\Tests\Behat\Skeleton\TeamContext
+
+                # A/B Testing
+                - App\Tests\Behat\Qa\AbTesting\MainContext
+
+                # Athena
+                - App\Tests\Behat\Qa\Athena\MainContext
+
+                # User
+                - App\Tests\Behat\Qa\User\AthenaContext
+
+                # Subscriptions
+                - App\Tests\Behat\Qa\Subscriptions\MainContext
+                - App\Tests\Behat\Qa\Subscriptions\AthenaContext
+
+                # Invoice
+                - App\Tests\Behat\Qa\Invoice\MainContext
+
+                # Common
+                - App\Tests\Behat\Qa\Common\Elasticsearch\ClientContext
+
+                # MultiTenancy
+                - App\Tests\Behat\Qa\MultiTenancy\MainContext
+
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                class: App\Tests\TestKernel
+            bootstrap: tests/bootstrap.php
+        Behat\MinkExtension:
+            sessions:
+                symfony:
+                    symfony: ~

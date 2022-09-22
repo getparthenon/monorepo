@@ -1,0 +1,21 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="parthenon.ab_testing.optimizely" class="Optimizely\Optimizely">
+            <factory class="Optimizely\OptimizelyFactory" method="create" />
+            <argument>%parthenon_ab_testing_optimizely_api_key%</argument>
+        </service>
+
+        <service id="Parthenon\AbTesting\Experiment\OptimizelyDecider" class="Parthenon\AbTesting\Experiment\OptimizelyDecider">
+            <argument type="service" id="parthenon.ab_testing.optimizely" />
+        </service>
+        <service id="Parthenon\AbTesting\Experiment\DeciderInterface" alias="Parthenon\AbTesting\Experiment\OptimizelyDecider" />
+
+        <service id="Parthenon\AbTesting\Experiment\OptimizelyResultLogger" class="Parthenon\AbTesting\Experiment\OptimizelyResultLogger">
+            <argument type="service" id="parthenon.ab_testing.optimizely" />
+        </service>
+        <service id="Parthenon\AbTesting\Experiment\ResultLoggerInterface" alias="Parthenon\AbTesting\Experiment\OptimizelyResultLogger" />
+    </services>
+</container>

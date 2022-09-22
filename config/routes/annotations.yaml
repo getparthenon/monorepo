@@ -1,0 +1,34 @@
+controllers:
+    resource: ../../src/Controller/
+    type: annotation
+
+qa_controllers:
+    resource: ../../src/Qa/Controller/
+    type: annotation
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
+
+parthenon_user_controllers:
+    prefix: /api
+    resource: ../../src/Parthenon/User/Controller/
+    type: annotation
+
+parthenon_plan_controllers:
+    prefix: /api
+    resource: ../../src/Parthenon/Subscriptions/Controller/
+    type: annotation
+
+parthenon_payments_controllers:
+    prefix: /api
+    resource: ../../src/Parthenon/Payments/Controller/
+    type: annotation
+
+parthenon_multi_tenancy_controllers:
+    resource: ../../src/Parthenon/MultiTenancy/Controller/
+    type: annotation
+
+parthenon_ab_testing_controllers:
+    resource: ../../src/Parthenon/AbTesting/Controller/
+    type: annotation

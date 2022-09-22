@@ -1,0 +1,10 @@
+---
+- name: configure and deploy the webservers and application code
+  hosts: webservers
+  vars_files:
+    - "./vars/env_{{ env }}.yml"
+  roles:
+    - common
+    - database
+    - web
+    - redis

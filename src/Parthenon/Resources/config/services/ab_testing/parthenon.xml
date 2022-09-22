@@ -1,0 +1,22 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Parthenon\AbTesting\Experiment\Decider" class="Parthenon\AbTesting\Experiment\Decider">
+            <argument type="service" id="Parthenon\AbTesting\Repository\ExperimentRepositoryInterface" />
+            <argument type="service" id="Parthenon\AbTesting\Repository\ExperimentLogRepositoryInterface" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Parthenon\AbTesting\Decider\EnabledDeciderInterface" />
+            <argument type="service" id="Parthenon\AbTesting\Decider\ChoiceDeciderInterface" />
+        </service>
+        <service id="Parthenon\AbTesting\Experiment\DeciderInterface" alias="Parthenon\AbTesting\Experiment\Decider" />
+
+        <service id="Parthenon\AbTesting\Experiment\ResultLogger" class="Parthenon\AbTesting\Experiment\ResultLogger">
+            <argument type="service" id="Parthenon\AbTesting\Repository\ResultLogRepositoryInterface" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Parthenon\AbTesting\Decider\EnabledDeciderInterface" />
+        </service>
+        <service id="Parthenon\AbTesting\Experiment\ResultLoggerInterface" alias="Parthenon\AbTesting\Experiment\ResultLogger" />
+    </services>
+</container>

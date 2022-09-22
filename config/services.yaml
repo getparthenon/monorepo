@@ -1,0 +1,129 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    env(MONGODB_URL): ''
+    env(MONGODB_DB): ''
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Parthenon/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Qa\Controller\:
+        resource: '../src/Qa/Controller/'
+        tags: ['controller.service_arguments']
+
+    #####
+    ## Parthenon user services
+    #####
+    Parthenon\User\Factory\EntityFactory: '@App\User\Entity\EntityFactory'
+    Parthenon\User\Repository\UserRepositoryInterface: '@App\Repository\UserRepository'
+    Parthenon\User\Repository\TeamRepositoryInterface: '@App\Repository\TeamRepository'
+    Parthenon\User\Notification\MessageFactory: '@App\User\Notification\MessageFactory'
+    Parthenon\User\Repository\TeamInviteCodeRepositoryInterface: '@App\Repository\TeamInviteCodeRepository'
+    Parthenon\User\Repository\ActiveMemberRepositoryInterface: '@App\Repository\UserRepository'
+
+    #####
+    ## A/B Testing
+    #####
+    Parthenon\AbTesting\Repository\ExperimentRepositoryInterface: '@Parthenon\AbTesting\Repository\ExperimentRepository'
+    Parthenon\AbTesting\Repository\ExperimentRepository:
+        arguments:
+            $entityRepository: '@app.repository.orm.experiment'
+    app.repository.orm.experiment:
+        class: App\Repository\Orm\ExperimentRepository
+    Doctrine\DBAL\Connection:
+        factory:      Doctrine\DBAL\DriverManager::getConnection
+        arguments:
+            $params:
+                driver:   pdo_pgsql
+                url:      '%env(TIMESCALE_URL)%'
+                charset:  UTF8
+
+    Redis:
+        class: Redis
+        calls:
+            - connect: ['%env(REDIS_HOST)%']
+
+
+
+    parthenon.tenant.repository:
+        class: App\Repository\TenantRepository
+        arguments:
+            - '@App\Repository\Orm\TenantRepository'
+    Parthenon\MultiTenancy\Repository\TenantRepositoryInterface: '@parthenon.tenant.repository'
+
+    Parthenon\RuleEngine\Repository\RuleRepositoryInterface: '@parthenon.rule_engine.repository.rule'
+    parthenon.rule_engine.repository.rule:
+        class: Parthenon\RuleEngine\Repository\RuleEngineRepository
+        arguments:
+            - '@App\Repository\Orm\RuleRepository'
+
+
+    Parthenon\RuleEngine\Repository\RuleExecutionLogRepositoryInterface: '@parthenon.rule_engine.repository.rule_log_execution'
+
+    parthenon.rule_engine.repository.rule_log_execution:
+        class: Parthenon\RuleEngine\Repository\RuleExecutionLogRepository
+        arguments:
+            - '@App\Repository\Orm\RuleExecutionLogRepository'
+
+    Parthenon\Athena\Repository\NotificationRepositoryInterface: '@Parthenon\Athena\Repository\NotificationRepository'
+    Parthenon\Athena\Repository\NotificationRepository:
+        class: Parthenon\Athena\Repository\NotificationRepository
+        arguments:
+            - '@App\Repository\Orm\NotificationRepository'
+
+    ###
+    # App
+    ###
+
+    App\Repository\UserRepository:
+        arguments:
+            $entityRepository: '@app.repository.orm.user'
+    app.repository.orm.user:
+        class: App\Repository\Orm\UserRepository
+
+    App\Repository\TeamRepository:
+        arguments:
+            $entityRepository: '@app.repository.orm.team'
+    app.repository.orm.team:
+        class: App\Repository\Orm\TeamRepository
+
+    App\Repository\TeamInviteCodeRepository:
+        arguments:
+            $entityRepository: '@app.repository.orm.team_invite_code'
+    app.repository.orm.team_invite_code:
+        class: App\Repository\Orm\TeamInviteCodeRepository
+
+
+    parthenon.user.repository.forgot_password_code_repository:
+        class: Parthenon\User\Repository\ForgotPasswordCodeRepository
+        arguments:
+            - '@App\Repository\Orm\ForgotPasswordCodeRepository'
+
+    parthenon.user.repository.orm.invite_code_repository_doctrine: '@App\Repository\Orm\InviteCodeRepository'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+

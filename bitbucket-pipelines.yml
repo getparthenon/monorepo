@@ -1,0 +1,35 @@
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: php:8.0.8
+
+definitions:
+  services:
+    pgsql:
+      image: postgres:13.3-alpine3.14
+      variables:
+        POSTGRES_DB: 'parthenon_test'
+        POSTGRES_ROOT_PASSWORD: 'admin-password'
+        POSTGRES_USER: 'appuser'
+        POSTGRES_PASSWORD: 'apppassword'
+        
+pipelines:
+  default:
+    - step:
+        caches:
+          - composer
+        script:
+          - apt-get update && apt-get install -y unzip git wkhtmltopdf  libpq-dev
+          - git clone git@bitbucket.org:humblyarrogant/parthenon.git ../bundle
+          - docker-php-ext-install pdo_pgsql
+          - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+          - composer config --global repositories.private-packagist composer https://packagist.parthenon.cloud/$PACKAGIST_USERNAME/
+          - composer config --global --auth http-basic.packagist.parthenon.cloud token $COMPOSER_TOKEN
+          - composer self-update --preview
+          - composer install
+          - composer update "parthenon/parthenon"
+          - vendor/bin/behat
+        services:
+          - pgsql

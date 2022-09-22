@@ -1,0 +1,249 @@
+name: PHP test
+
+on:
+  push:
+  pull_request:
+  repository_dispatch:
+      types: [ push ]
+
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['8.1']
+
+    services:
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_DATABASE: easio_test
+          MONGO_INITDB_ROOT_USERNAME: appuser
+          MONGO_INITDB_ROOT_PASSWORD: apppassword
+      postgres:
+        image: postgres:13.3-alpine3.14
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: 'parthenon_test'
+          POSTGRES_USER: 'appuser'
+          POSTGRES_PASSWORD: 'apppassword'
+
+      timescale:
+        image: timescale/timescaledb:latest-pg12
+        ports:
+          - 5433:5432
+        env:
+          POSTGRES_DB: 'parthenon_test'
+          POSTGRES_USER: 'appuser'
+          POSTGRES_PASSWORD: 'apppassword'
+      redis:
+        image: redis
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Runs Elasticsearch
+        uses: elastic/elastic-github-actions/elasticsearch@master
+        with:
+          stack-version: 7.14.0
+          port: 9200
+
+      - name: Create all the databases
+        run: psql -h localhost -d parthenon_test -U appuser -f docker/database/init.sql
+        env:
+          PGPASSWORD: apppassword
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit-bridge
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, pgsql, mongodb
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install yarn
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install # will run `yarn install` command
+
+      - name: Install yarn encore production
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: encore dev
+
+      - name: Run vitest
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: vitest run
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist
+
+      - name: Code Style
+        run: |
+          vendor/bin/php-cs-fixer fix src --dry-run
+
+      - name: Behat
+        run: |
+          vendor/bin/behat
+
+      - name: PHPUnit
+        run: |
+          vendor/bin/phpunit
+
+      - name: Deptrac
+        run: |
+          vendor/bin/deptrac
+
+  create_bundle_repos:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set commit env
+        run: echo "LOCATION=$(pwd)" >> $GITHUB_ENV
+
+      - name: Set commit env
+        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set branch env
+        run: echo "BRANCH=$(echo $GITHUB_REF | rev | cut -d\/ -f1 | rev)" >> $GITHUB_ENV
+
+      - name: Set committer email
+        run: echo "COMITTER_EMAIL=$(git show -s --format='%ae' -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set committer name
+        run: echo "COMITTER_NAME=$(git show -s --format='%an'  -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Setup git
+        run: |
+          git config --global user.name "$COMITTER_NAME"
+          git config --global user.email "$COMITTER_EMAIL"
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.BUILDBOT_PRIVATE_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Test
+        run: echo $BRANCH
+
+      - name: Clone funded
+        run: git clone git@github.com:getparthenon/parthenon.git ../public-edition
+
+      - name: Checkout branch
+        run: |
+          cd ../public-edition
+          git checkout $BRANCH || git checkout -b $BRANCH
+          cd $LOCATION
+          sh create-public-edition.sh
+
+  create_skeleton_repos:
+    needs: create_bundle_repos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set commit env
+        run: echo "LOCATION=$(pwd)" >> $GITHUB_ENV
+
+      - name: Set commit env
+        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set branch env
+        run: echo "BRANCH=$(echo $GITHUB_REF | rev | cut -d\/ -f1 | rev)" >> $GITHUB_ENV
+
+      - name: Set committer email
+        run: echo "COMITTER_EMAIL=$(git show -s --format='%ae' -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set committer name
+        run: echo "COMITTER_NAME=$(git show -s --format='%an'  -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Setup git
+        run: |
+          git config --global user.name "$COMITTER_NAME"
+          git config --global user.email "$COMITTER_EMAIL"
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.BUILDBOT_PRIVATE_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Test
+        run: echo $BRANCH
+
+      - name: Clone funded
+        run: git clone git@github.com:getparthenon/skeleton.git ../skeleton
+
+      - name: Checkout branch
+        run: |
+          cd ../skeleton
+          git checkout $BRANCH || git checkout -b $BRANCH
+          cd $LOCATION
+          sh create-skeleton.sh
+
+  create_js_sub_repos:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set commit env
+        run: echo "LOCATION=$(pwd)" >> $GITHUB_ENV
+
+      - name: Set commit env
+        run: echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set branch env
+        run: echo "BRANCH=$(echo $GITHUB_REF | rev | cut -d\/ -f1 | rev)" >> $GITHUB_ENV
+
+      - name: Set committer email
+        run: echo "COMITTER_EMAIL=$(git show -s --format='%ae' -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Set committer name
+        run: echo "COMITTER_NAME=$(git show -s --format='%an'  -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Setup git
+        run: |
+          git config --global user.name "$COMITTER_NAME"
+          git config --global user.email "$COMITTER_EMAIL"
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.BUILDBOT_PRIVATE_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+      - name: Test
+        run: echo $BRANCH
+
+      - name: Clone vue-menu
+        run: git clone git@github.com:getparthenon/vue-menu.git ../vue-menu
+
+      - name: Checkout branch
+        run: |
+          cd ../vue-menu
+          git checkout $BRANCH || git checkout -b $BRANCH
+          cd $LOCATION
+          sh create-vue-menu.sh
+

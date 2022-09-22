@@ -1,0 +1,19 @@
+---
+APP_SECRET: tjBZvLVlpa1K7vdivX4whdb6dSsTmShEux
+
+PGSQL_USERNAME: 'application'
+PGSQL_PASSWORD: 'password'
+PGSQL_HOST: 'localhost'
+PGSQL_DATABASE: 'application'
+
+REDIS_HOST: ""
+STRIPE_PRIVATE_API_KEY: ''
+STRIPE_PUBLIC_API_KEY: ''
+
+BASIC_MONTHLY_PRICE_ID: ""
+BASIC_YEARLY_PRICE_ID: ""
+
+APPLICATION_URL: 'https://www.application.host'
+ATHENA_HOST: "athena.application.host"
+
+PACKAGIST_TOKEN: ''

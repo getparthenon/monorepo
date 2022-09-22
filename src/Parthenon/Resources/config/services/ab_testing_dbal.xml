@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service class="Parthenon\AbTesting\Repository\Timescale\SessionRepository" id="parthenon.ab_testing.repository.session">
+            <argument type="service" id="parthenon_ab_dbal_connection" />
+        </service>
+        <service id="Parthenon\AbTesting\Repository\SessionRepositoryInterface" alias="parthenon.ab_testing.repository.session" />
+
+        <service class="Parthenon\AbTesting\Repository\Timescale\StatsRepository" id="parthenon.ab_testing.repository.stats">
+            <argument type="service" id="parthenon_ab_dbal_connection" />
+        </service>
+        <service id="Parthenon\AbTesting\Repository\StatsRepositoryInterface" alias="parthenon.ab_testing.repository.stats" />
+
+        <service class="Parthenon\AbTesting\Repository\Timescale\ExperimentLogRepository" id="parthenon.ab_testing.repository.experiment_log">
+            <argument type="service" id="parthenon_ab_dbal_connection" />
+        </service>
+        <service id="Parthenon\AbTesting\Repository\ExperimentLogRepositoryInterface" alias="parthenon.ab_testing.repository.experiment_log" />
+
+        <service class="Parthenon\AbTesting\Repository\Timescale\ResultLogRepository" id="parthenon.ab_testing.repository.result_log">
+            <argument type="service" id="parthenon_ab_dbal_connection" />
+        </service>
+        <service id="Parthenon\AbTesting\Repository\ResultLogRepositoryInterface" alias="parthenon.ab_testing.repository.result_log" />
+
+    </services>
+</container>
+

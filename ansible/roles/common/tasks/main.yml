@@ -1,0 +1,18 @@
+---
+- name: Create SSH directory
+  file: path=/root/.ssh state=directory
+
+
+- name: install packages
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - git
+    - mcrypt
+    - unzip
+    - gcc
+    - pgpgpg
+    - curl
+    - dirmngr
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates

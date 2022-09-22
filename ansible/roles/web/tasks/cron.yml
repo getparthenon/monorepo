@@ -1,0 +1,7 @@
+---
+#- name: Example
+#  ansible.builtin.cron:
+#    name: "Stuff"
+#    minute: '0'
+#    hour: '11'
+#    job: "sudo -u www-data php /var/www/application/current/bin/console"

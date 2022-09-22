@@ -1,0 +1,39 @@
+---
+- name: Add yarn Apt signing key, will not download if present
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add postgres sources list
+  become: yes
+  lineinfile: >
+    line="deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main"
+    dest=/etc/apt/sources.list.d/postgres.list
+    state=present
+    create=yes
+
+- name: install postgres
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - postgresql-13
+    - postgresql-client-13
+    - python3-psycopg2
+
+- name: Create database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ PGSQL_DATABASE }}"
+
+- name: Ensure user does not have unnecessary permissions
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ PGSQL_USERNAME }}"
+    role_attr_flags: NOSUPERUSER,NOCREATEDB
+    password: "{{ PGSQL_PASSWORD }}"
+    state: present
+    db: "{{ PGSQL_DATABASE }}"
+
+
+
