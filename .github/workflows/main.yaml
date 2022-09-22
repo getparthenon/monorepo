@@ -105,6 +105,7 @@ jobs:
 
       - name: Code Style
         run: |
+          export PHP_CS_FIXER_IGNORE_ENV=1
           vendor/bin/php-cs-fixer fix src --dry-run
 
       - name: Behat
