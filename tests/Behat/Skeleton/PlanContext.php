@@ -16,7 +16,7 @@ namespace App\Tests\Behat\Skeleton;
 
 use Behat\Behat\Context\Context;
 use Behat\Mink\Session;
-use Parthenon\Subscriptions\Plan\PlanManager;
+use Parthenon\Payments\Plan\PlanManager;
 
 class PlanContext implements Context
 {

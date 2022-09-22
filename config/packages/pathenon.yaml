@@ -80,33 +80,7 @@ parthenon:
       provider: sendgrid
       sendgrid:
         api_key: '%env(resolve:SENDGRID_API_KEY)%'
-  subscriptions:
-    enabled: true
-    subscriber_type: team
-    plan:
-      Free:
-        is_free: true
-        user_count: 1
-        features:
-          - send_pdf
-        limit:
-          team_invite:
-            limit: 1
-            description: "Number of users"
-      Basic:
-        user_count: 1
-        features:
-          - send_pdf
-        limit:
-          team_invite:
-            limit: 1
-            description: "Number of users"
-      Standard:
-        user_count: 5
-        limit:
-          team_invite:
-            limit: 5
-            description: "Number of users"
+
   athena:
     enabled: true
   payments:
@@ -134,3 +108,29 @@ parthenon:
         yearly:
           price: '5000'
           price_id: '%env(resolve:STANDARD_YEARLY_PRICE_ID)%'
+    subscriptions:
+      subscriber_type: team
+      plan:
+        Free:
+          is_free: true
+          user_count: 1
+          features:
+            - send_pdf
+          limit:
+            team_invite:
+              limit: 1
+              description: "Number of users"
+        Basic:
+          user_count: 1
+          features:
+            - send_pdf
+          limit:
+            team_invite:
+              limit: 1
+              description: "Number of users"
+        Standard:
+          user_count: 5
+          limit:
+            team_invite:
+              limit: 5
+              description: "Number of users"

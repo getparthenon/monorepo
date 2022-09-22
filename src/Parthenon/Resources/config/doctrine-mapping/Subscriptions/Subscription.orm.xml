@@ -4,7 +4,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <embeddable name="Parthenon\Subscriptions\Entity\Subscription">
+    <embeddable name="Parthenon\Payments\Entity\Subscription">
         <field name="priceId" column="price_id" type="string" nullable="true"  />
         <field name="planName" column="plan_name" type="string" nullable="true"  />
         <field name="paymentSchedule" column="payment_schedule" type="string"  nullable="true"  />

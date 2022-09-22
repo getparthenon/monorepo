@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Parthenon\Subscriptions\Repository\SubscriberRepositoryInterface;
+use Parthenon\Payments\Repository\SubscriberRepositoryInterface;
 
 interface TeamRepositoryInterface extends \Parthenon\User\Repository\TeamRepositoryInterface, SubscriberRepositoryInterface
 {

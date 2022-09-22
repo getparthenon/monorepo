@@ -24,7 +24,9 @@ mkdir ../public-edition/src/Resources/config/services/orm/
 mkdir ../public-edition/src/Resources/config/services/odm/
 mkdir ../public-edition/src/Resources/config/services/common/
 mkdir -p ../public-edition/tests/Parthenon
-cp src/Parthenon/DependencyInjection/Modules/ModuleConfigurationInterface.php ../public-edition/src/DependencyInjection/Modules/ModuleConfigurationInterface.php
+
+cp src/Parthenon/DependencyInjection ../public-edition/src/DependencyInjection/
+cp src/Parthenon/ParthenonBundle.php ../public-edition/src/ParthenonBundle.php
 
 echo "[x] Update Core"
 cp -R src/Parthenon/Resources/translations ../public-edition/src/Resources/translations
@@ -96,14 +98,9 @@ echo "[x] Update Payments"
 cp -R src/Parthenon/Payments ../public-edition/src/
 cp src/Parthenon/DependencyInjection/Modules/Payments.php ../public-edition/src/DependencyInjection/Modules/Payments.php
 cp -R src/Parthenon/Resources/config/services/payments.xml ../public-edition/src/Resources/config/services/payments.xml
+cp -R src/Parthenon/Resources/config/doctrine-mapping/Payments ../public-edition/src/Resources/config/doctrine-mapping/
 cp -R tests/Parthenon/Payments ../public-edition/tests/Parthenon/
 
-echo "[x] Update Subscriptions"
-cp -R src/Parthenon/Subscriptions ../public-edition/src/
-cp src/Parthenon/DependencyInjection/Modules/Subscriptions.php ../public-edition/src/DependencyInjection/Modules/Subscriptions.php
-cp -R src/Parthenon/Resources/config/services/subscriptions.xml ../public-edition/src/Resources/config/services/subscriptions.xml
-cp -R src/Parthenon/Resources/config/doctrine-mapping/Subscriptions ../public-edition/src/Resources/config/doctrine-mapping/
-cp -R tests/Parthenon/Subscriptions ../public-edition/tests/Parthenon/
 
 echo "[x] Update User"
 cp -R src/Parthenon/User ../public-edition/src/

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Payments\Event;
 
-use Parthenon\Subscriptions\Subscriber\SubscriberInterface;
+use Parthenon\Payments\Subscriber\SubscriberInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 final class PaymentSuccessEvent extends Event

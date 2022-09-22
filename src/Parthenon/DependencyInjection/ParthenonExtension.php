@@ -53,7 +53,6 @@ class ParthenonExtension extends Extension
         $this->handlePayments($config, $container);
         $this->handleMultiTenancy($config, $container);
         $this->handleCloud($config, $container);
-        $this->handleSubscriptions($config, $container);
     }
 
     public function handleFunnelConfig(array $config, ContainerBuilder $container)
@@ -131,12 +130,5 @@ class ParthenonExtension extends Extension
         $cloud = new Cloud();
         $cloud->handleDefaultParameters($container);
         $cloud->handleConfiguration($config, $container);
-    }
-
-    private function handleSubscriptions(array $config, ContainerBuilder $container)
-    {
-        $subscriptions = new Subscriptions();
-        $subscriptions->handleDefaultParameters($container);
-        $subscriptions->handleConfiguration($config, $container);
     }
 }

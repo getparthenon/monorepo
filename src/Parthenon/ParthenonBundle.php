@@ -23,7 +23,7 @@ use Parthenon\Common\Compiler\CommonCompilerPass;
 use Parthenon\Funnel\Compiler\FunnelCompilerPass;
 use Parthenon\Health\Compiler\HealthCompilerPass;
 use Parthenon\MultiTenancy\Compiler\MultiTenancyCompilerPass;
-use Parthenon\Subscriptions\CompilerPass\SubscriptionsCompilerPass;
+use Parthenon\Payments\CompilerPass\SubscriptionsCompilerPass;
 use Parthenon\User\CompilerPass\UserCompilerPass;
 use Parthenon\User\Dbal\Types\UtcDateTimeType;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -40,7 +40,7 @@ class ParthenonBundle extends Bundle
             realpath(__DIR__.'/Resources/config/doctrine-mapping/User') => 'Parthenon\User\Entity',
             realpath(__DIR__.'/Resources/config/doctrine-mapping/Athena') => 'Parthenon\Athena\Entity',
             realpath(__DIR__.'/Resources/config/doctrine-mapping/Common') => 'Parthenon\Common',
-            realpath(__DIR__.'/Resources/config/doctrine-mapping/Subscriptions') => 'Parthenon\Subscriptions\Entity',
+            realpath(__DIR__.'/Resources/config/doctrine-mapping/Subscriptions') => 'Parthenon\Payments\Entity',
             realpath(__DIR__.'/Resources/config/doctrine-mapping/AbTesting') => 'Parthenon\AbTesting\Entity',
             realpath(__DIR__.'/Resources/config/doctrine-mapping/MultiTenancy') => 'Parthenon\MultiTenancy\Entity',
         ];

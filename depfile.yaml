@@ -46,9 +46,6 @@ layers:
 ruleset:
   Payments:
     - Common
-    - Subscriptions
-  Subscriptions:
-    - Common
     - User
     - Athena
   Plan:

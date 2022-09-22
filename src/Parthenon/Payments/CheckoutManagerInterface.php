@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Payments;
 
-use Parthenon\Subscriptions\Entity\Subscription;
+use Parthenon\Payments\Entity\Subscription;
 
 interface CheckoutManagerInterface
 {

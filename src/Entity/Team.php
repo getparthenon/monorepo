@@ -16,8 +16,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Subscriptions\Entity\Subscription;
-use Parthenon\Subscriptions\Subscriber\SubscriberInterface;
+use Parthenon\Payments\Entity\Subscription;
+use Parthenon\Payments\Subscriber\SubscriberInterface;
 use Parthenon\User\Entity\UserInterface;
 
 /**
@@ -33,7 +33,7 @@ class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
      */
     protected Collection $members;
     /**
-     * @ORM\Embedded(class="Parthenon\Subscriptions\Entity\Subscription")
+     * @ORM\Embedded(class="Parthenon\Payments\Entity\Subscription")
      */
     private ?Subscription $subscription;
 

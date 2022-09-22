@@ -71,9 +71,6 @@ class Configuration implements ConfigurationInterface
         $cloud = new Cloud();
         $cloud->addConfig($children);
 
-        $subscriptions = new Subscriptions();
-        $subscriptions->addConfig($children);
-
         $children->end();
 
         return $treeBuilder;
