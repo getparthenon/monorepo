@@ -15,7 +15,7 @@ rm -Rf ../public-edition/src/Subscriptions/*
 rm -Rf ../public-edition/src/User/*
 rm -Rf ../public-edition/src/MultiTenancy/*
 rm -Rf ../public-edition/spec/Parthenon/*
-rm -Rf ../public-edition/src/DependencyInjection/Modules/*
+rm -Rf ../public-edition/src/DependencyInjection/*
 rm -Rf ../public-edition/src/Resources/config/doctrine-mapping/*
 rm -Rf ../public-edition/src/Resources/views/*
 rm -Rf ../public-edition/src/Resources/config/services/*
@@ -25,7 +25,7 @@ mkdir ../public-edition/src/Resources/config/services/odm/
 mkdir ../public-edition/src/Resources/config/services/common/
 mkdir -p ../public-edition/tests/Parthenon
 
-cp -R src/Parthenon/DependencyInjection ../public-edition/src/DependencyInjection/
+cp -R src/Parthenon/DependencyInjection ../public-edition/src
 cp src/Parthenon/ParthenonBundle.php ../public-edition/src/ParthenonBundle.php
 
 echo "[x] Update Core"
