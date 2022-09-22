@@ -32,6 +32,6 @@ else
   git commit -am "$COMMIT_MESSAGE
 
 
-Automatic commit for https://github.com/getparthenon/parthenon-dev/commit/$GITHUB_SHA"
+Automatic commit for https://github.com/getparthenon/monorepo/commit/$GITHUB_SHA"
   git push origin $BRANCH
 fi
