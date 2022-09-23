@@ -32,6 +32,9 @@
     "clue/stream-filter": {
         "version": "v1.6.0"
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.10.99.1"
+    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -292,9 +295,6 @@
     "php-amqplib/php-amqplib": {
         "version": "v3.2.0"
     },
-    "php-cs-fixer/diff": {
-        "version": "v2.0.2"
-    },
     "php-http/client-common": {
         "version": "2.5.0"
     },
@@ -404,9 +404,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "ramsey/collection": {
-        "version": "1.1.1"
     },
     "ramsey/uuid": {
         "version": "4.1.1"
