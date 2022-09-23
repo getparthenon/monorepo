@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "brick/money": "^0.5.0",
-        "chadhutchins/oauth2-slack": "^1.2",
+        "chadhutchins/oauth2-slack": "^1.2.2",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
