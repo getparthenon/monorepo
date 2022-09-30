@@ -98,6 +98,7 @@ echo "[x] Update Payments"
 cp -R src/Parthenon/Payments ../public-edition/src/
 cp src/Parthenon/DependencyInjection/Modules/Payments.php ../public-edition/src/DependencyInjection/Modules/Payments.php
 cp -R src/Parthenon/Resources/config/services/payments.xml ../public-edition/src/Resources/config/services/payments.xml
+cp -R src/Parthenon/Resources/config/services/payments ../public-edition/src/Resources/config/services/
 cp -R src/Parthenon/Resources/config/doctrine-mapping/Payments ../public-edition/src/Resources/config/doctrine-mapping/
 cp -R tests/Parthenon/Payments ../public-edition/tests/Parthenon/
 
