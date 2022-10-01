@@ -251,3 +251,13 @@ jobs:
           cd $LOCATION
           sh create-vue-menu.sh
 
+      - name: Clone ui
+        run: git clone git@github.com:getparthenon/parthenon-ui.git ../ui
+
+      - name: Checkout branch
+        run: |
+          cd ../vue-menu
+          git checkout $BRANCH || git checkout -b $BRANCH
+          cd $LOCATION
+          sh create-parthenon-ui.sh
+
