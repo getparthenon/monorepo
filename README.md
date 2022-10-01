@@ -6,8 +6,6 @@
   <h1 style="text-align: center">Monorepo Development Repository</h1>
 </p>
 
-**Version 2.0 is still WIP. Release date is expected to be 03.10.2022**
-
 ## What is Parthenon?
 
 [Parthenon](https://getparthenon.com) is a general functionality bundle for Symfony. Combined with the skeleton application it is a SaaS boilerplate which can allow you to build a project quicker by providing the generic functionality you would require.
