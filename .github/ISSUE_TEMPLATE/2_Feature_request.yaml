@@ -2,12 +2,17 @@ name: 🚀 Feature Request
 description: RFC and ideas for new features and improvements
 body:
   - type: textarea
-    id: description
+    id: problem
     attributes:
-      label: Description
-      description: A clear and concise description of the new feature
+      label: Problem
+      description: A clear and concise description of the problem the feature solves
     validations:
       required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution
+      description: A clear and concise description of how the feature should solve the problem
   - type: textarea
     id: example
     attributes:
