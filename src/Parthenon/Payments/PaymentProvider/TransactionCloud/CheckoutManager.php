@@ -14,6 +14,7 @@ final class CheckoutManager implements CheckoutManagerInterface
     public function __construct(
         private TransactionCloud $transactionCloud,
         private RequestStack $requestStack,
+        private Config $config,
     ) {
     }
 
@@ -28,7 +29,7 @@ final class CheckoutManager implements CheckoutManagerInterface
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        $subscription->setPaymentId($request->get('paymentId'));
-        $subscription->setCustomerId($request->get('customerId'));
+        $subscription->setPaymentId($request->get($this->config->getPaymentIdParameter()));
+        $subscription->setCustomerId($request->get($this->config->getCustomerIdParameter()));
     }
 }
