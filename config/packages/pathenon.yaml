@@ -86,6 +86,7 @@ parthenon:
   payments:
     enabled: true
     provider: stripe
+    subscriber_type: team
     stripe:
       private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
       public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
@@ -109,7 +110,6 @@ parthenon:
           price: '5000'
           price_id: '%env(resolve:STANDARD_YEARLY_PRICE_ID)%'
     subscriptions:
-      subscriber_type: team
       plan:
         Free:
           is_free: true
