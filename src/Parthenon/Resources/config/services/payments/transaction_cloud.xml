@@ -15,6 +15,7 @@
             <argument>%parthenon_payments_transaction_cloud_customer_id_parameter%</argument>
             <argument>%parthenon_payments_transaction_cloud_payment_id_parameter%</argument>
         </service>
+        <service id="Parthenon\Payments\ConfigInterface" alias="Parthenon\Payments\PaymentProvider\TransactionCloud\Config" />
 
         <service id="Parthenon\Payments\PaymentProvider\TransactionCloud\ClientFactory"
                  class="Parthenon\Payments\PaymentProvider\TransactionCloud\ClientFactory">

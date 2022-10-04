@@ -21,7 +21,6 @@ use Parthenon\Payments\Plan\PlanManagerInterface;
 use Parthenon\Payments\PriceProviderInterface;
 use Parthenon\Payments\Repository\SubscriberRepositoryInterface;
 use Parthenon\Payments\Stripe\Config;
-use Parthenon\Payments\Stripe\SubscriptionManager;
 use Parthenon\Payments\Subscriber\CurrentSubscriberProviderInterface;
 use Parthenon\Payments\Subscriber\SubscriptionFactoryInterface;
 use Parthenon\Payments\SubscriptionManagerInterface;
@@ -120,7 +119,7 @@ class PaymentsController
         LoggerInterface $logger,
         CurrentSubscriberProviderInterface $subscriberProvider,
         SubscriberRepositoryInterface $subscriberRepository,
-        SubscriptionManager $subscriptionManager,
+        SubscriptionManagerInterface $subscriptionManager,
         PlanManager $planManager,
         PriceProviderInterface $priceProvider
     ) {
