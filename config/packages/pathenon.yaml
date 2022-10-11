@@ -85,8 +85,12 @@ parthenon:
     enabled: true
   payments:
     enabled: true
+<<<<<<< Updated upstream
     provider: stripe
     subscriber_type: team
+=======
+    provider: '%env(resolve:PAYMENT_PROVIDER)%'
+>>>>>>> Stashed changes
     stripe:
       private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
       public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
