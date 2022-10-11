@@ -26,6 +26,11 @@
             <factory service="Parthenon\Payments\PaymentProvider\TransactionCloud\ClientFactory" method="createBuild" />
         </service>
 
+        <service id="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager" class="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager">
+
+        </service>
+        <service id="Parthenon\Payments\SubscriptionManagerInterface" alias="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager" />
+
     </services>
 </container>
 

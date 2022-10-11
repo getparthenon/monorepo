@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace Parthenon\Payments\Controller;
 
 use Parthenon\Payments\CheckoutManagerInterface;
+use Parthenon\Payments\ConfigInterface;
 use Parthenon\Payments\Event\PaymentSuccessEvent;
 use Parthenon\Payments\Plan\PlanManager;
 use Parthenon\Payments\Plan\PlanManagerInterface;
 use Parthenon\Payments\PriceProviderInterface;
 use Parthenon\Payments\Repository\SubscriberRepositoryInterface;
-use Parthenon\Payments\Stripe\Config;
 use Parthenon\Payments\Subscriber\CurrentSubscriberProviderInterface;
 use Parthenon\Payments\Subscriber\SubscriptionFactoryInterface;
 use Parthenon\Payments\SubscriptionManagerInterface;
@@ -192,7 +192,7 @@ class PaymentsController
     }
 
     #[Route('/payments/plans', name: 'parthenon_payments_plans')]
-    public function listAction(PlanManager $planManager, Config $config, CurrentSubscriberProviderInterface $currentSubscriberProvider, PriceProviderInterface $priceProvider)
+    public function listAction(PlanManager $planManager, ConfigInterface $config, CurrentSubscriberProviderInterface $currentSubscriberProvider, PriceProviderInterface $priceProvider)
     {
         $plans = $planManager->getPlans();
 

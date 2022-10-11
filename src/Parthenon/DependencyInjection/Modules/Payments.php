@@ -122,6 +122,7 @@ final class Payments implements ModuleConfigurationInterface
             $this->handlePaymentsTransactionCloud($config, $container);
             $loader->load('services/payments/transaction_cloud.xml');
         }
+        $config = $this->configurePrice($config, $container);
 
         $loader->load('services/payments.xml');
     }
@@ -165,8 +166,6 @@ final class Payments implements ModuleConfigurationInterface
         $containerBuilder->setParameter('parthenon_payments_stripe_success_url', $stripeConfig['success_url'] ?? '');
         $containerBuilder->setParameter('parthenon_payments_stripe_cancel_url', $stripeConfig['cancel_url'] ?? '');
         $containerBuilder->setParameter('parthenon_payments_stripe_return_url', $stripeConfig['return_url'] ?? '');
-
-        $config = $this->configurePrice($config, $containerBuilder);
 
         $this->configureSuccessRedirectRoute($config, $containerBuilder);
     }
@@ -288,7 +287,7 @@ final class Payments implements ModuleConfigurationInterface
                 throw new ParameterNotSetException('Invalid setting for subscriptions.subscriber_type');
             }
 
-            $containerBuilder->setParameter('parthenon_subscriptions_subscriber_type', $config['payments']['subscriptions']['subscriber_type']);
+            $containerBuilder->setParameter('parthenon_payments_subscriber_type', $config['payments']['subscriptions']['subscriber_type']);
         }
 
         return $config;
