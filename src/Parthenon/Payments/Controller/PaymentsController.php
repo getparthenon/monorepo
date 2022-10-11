@@ -77,7 +77,7 @@ class PaymentsController
         return new JsonResponse(['id' => $checkout->getId()]);
     }
 
-    #[Route('/payments/success/{checkoutId}', name: 'parthenon_payment_checkout_success')]
+    #[Route('/payments/success/{checkoutId}', name: 'parthenon_payment_checkout_success', requirements: ['checkoutId' => '\w+'])]
     public function success(
         Request $request,
         LoggerInterface $logger,
@@ -86,21 +86,22 @@ class PaymentsController
         CheckoutManagerInterface $checkoutManager,
         UrlGeneratorInterface $urlGenerator,
         EventDispatcherInterface $dispatcher,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        ?string $checkoutId = null,
     ) {
         $subscriber = $subscriberProvider->getSubscriber();
-        if (!$subscriber->getSubscription()->getCheckoutId()) {
-            $logger->warning("The subscriber doesn't have a checkout id");
+        if ($checkoutId) {
+            if (!$subscriber->getSubscription()->getCheckoutId()) {
+                $logger->warning("The subscriber doesn't have a checkout id");
 
-            return new RedirectResponse('/');
-        }
+                return new RedirectResponse('/');
+            }
 
-        $checkoutId = $request->get('checkoutId');
+            if ($subscriber->getSubscription()->getCheckoutId() !== $checkoutId) {
+                $logger->warning("The checkout ids don't match");
 
-        if ($subscriber->getSubscription()->getCheckoutId() !== $checkoutId) {
-            $logger->warning("The checkout ids don't match");
-
-            return new RedirectResponse('/');
+                return new RedirectResponse('/');
+            }
         }
 
         $checkoutManager->handleSuccess($subscriber->getSubscription());
@@ -215,7 +216,7 @@ class PaymentsController
                 'status' => $subscriber->getSubscription()->getStatus(),
                 'payment_schedule' => $subscriber->getSubscription()->getPaymentSchedule(),
             ],
-            'stripe' => ['api_key' => $config->getPublicApiKey()],
+            'provider' => $config->getConfigPublicPayload(),
         ]);
     }
 }

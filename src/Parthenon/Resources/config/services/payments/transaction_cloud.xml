@@ -23,8 +23,15 @@
         </service>
 
         <service id="parthenon.payments.third_party.transaction_cloud.client" class="TransactionCloud\TransactionCloud">
-            <factory service="Parthenon\Payments\PaymentProvider\TransactionCloud\ClientFactory" method="createBuild" />
+            <factory service="Parthenon\Payments\PaymentProvider\TransactionCloud\ClientFactory" method="buildClient" />
         </service>
+
+        <service id="Parthenon\Payments\PaymentProvider\TransactionCloud\CheckoutManager" class="Parthenon\Payments\PaymentProvider\TransactionCloud\CheckoutManager">
+            <argument type="service" id="parthenon.payments.third_party.transaction_cloud.client" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="Parthenon\Payments\PaymentProvider\TransactionCloud\Config" />
+        </service>
+        <service id="Parthenon\Payments\CheckoutManagerInterface" alias="Parthenon\Payments\PaymentProvider\TransactionCloud\CheckoutManager" />
 
         <service id="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager" class="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager">
 
