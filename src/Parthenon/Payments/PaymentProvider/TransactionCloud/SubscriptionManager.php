@@ -16,9 +16,14 @@ namespace Parthenon\Payments\PaymentProvider\TransactionCloud;
 
 use Parthenon\Payments\Entity\Subscription;
 use Parthenon\Payments\SubscriptionManagerInterface;
+use TransactionCloud\TransactionCloud;
 
 class SubscriptionManager implements SubscriptionManagerInterface
 {
+    public function __construct(private TransactionCloud $transactionCloud)
+    {
+    }
+
     public function cancel(Subscription $subscription)
     {
         // TODO: Implement cancel() method.
@@ -41,6 +46,6 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     public function getBillingPortal(Subscription $subscription): string
     {
-        // TODO: Implement getBillingPortal() method.
+        return $this->transactionCloud->getUrlToManageTransactions($subscription->getCustomerId());
     }
 }

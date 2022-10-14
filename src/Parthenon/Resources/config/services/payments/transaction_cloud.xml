@@ -34,7 +34,7 @@
         <service id="Parthenon\Payments\CheckoutManagerInterface" alias="Parthenon\Payments\PaymentProvider\TransactionCloud\CheckoutManager" />
 
         <service id="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager" class="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager">
-
+            <argument type="service" id="parthenon.payments.third_party.transaction_cloud.client" />
         </service>
         <service id="Parthenon\Payments\SubscriptionManagerInterface" alias="Parthenon\Payments\PaymentProvider\TransactionCloud\SubscriptionManager" />
 
