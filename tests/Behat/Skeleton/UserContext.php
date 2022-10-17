@@ -754,8 +754,6 @@ class UserContext implements Context
     }
 
     /**
-     * @param $email
-     *
      * @return User|null
      *
      * @throws \Doctrine\ORM\ORMException
