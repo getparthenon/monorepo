@@ -26,7 +26,7 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     public function cancel(Subscription $subscription)
     {
-        // TODO: Implement cancel() method.
+        $this->transactionCloud->cancelSubscription($subscription->getPaymentId());
     }
 
     public function change(Subscription $subscription)
@@ -36,7 +36,21 @@ class SubscriptionManager implements SubscriptionManagerInterface
 
     public function syncStatus(Subscription $subscription): Subscription
     {
-        // TODO: Implement syncStatus() method.
+        $transaction = $this->transactionCloud->getTransactionById($subscription->getPaymentId());
+        $remoteStatus = $transaction->getTransactionStatus();
+
+        switch ($remoteStatus) {
+            case 'SUBSCRIPTION_STATUS_CANCELLED_PENDING':
+            case 'SUBSCRIPTION_STATUS_CANCELLED':
+                $status = Subscription::STATUS_CANCELLED;
+                // no break
+            default:
+                $status = Subscription::STATUS_ACTIVE;
+        }
+
+        $subscription->setStatus($status);
+
+        return $subscription;
     }
 
     public function getInvoiceUrl(Subscription $subscription)
