@@ -14,9 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Common\Export;
 
-interface ExporterInterface
+interface NormalizerInterface
 {
-    public function getMimeType(): string;
-
-    public function getOutput(array $input): mixed;
+    public function normalize(mixed $input): array;
 }
