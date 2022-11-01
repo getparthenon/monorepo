@@ -12,12 +12,23 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\Engine;
+namespace Parthenon\Export;
 
-use Parthenon\Export\ExportRequest;
-use Parthenon\Export\ExportResponse;
-
-interface EngineInterface
+class ExportRequest
 {
-    public function process(ExportRequest $exportRequest): ExportResponse;
+    public function __construct(
+        private string $id,
+        private \Closure $dataProvider
+    ) {
+    }
+
+    public function getDataProvider(): \Closure
+    {
+        return $this->dataProvider;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }

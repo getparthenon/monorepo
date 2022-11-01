@@ -14,10 +14,15 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
-use Parthenon\Export\ExportRequest;
-use Parthenon\Export\ExportResponse;
+use Parthenon\Export\Exporter\ExporterInterface;
+use Parthenon\Export\NormaliserInterface;
+use PHPUnit\Framework\TestCase;
 
-interface EngineInterface
+class DirectDownloadEngineTest extends TestCase
 {
-    public function process(ExportRequest $exportRequest): ExportResponse;
+    public function testCallNormaliserThenExporter()
+    {
+        $exporter = $this->createMock(ExporterInterface::class);
+        $normaliser = $this->createMock(NormaliserInterface::class);
+    }
 }

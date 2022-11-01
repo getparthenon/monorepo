@@ -12,12 +12,13 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\Engine;
+namespace Parthenon\Export;
 
-use Parthenon\Export\ExportRequest;
-use Parthenon\Export\ExportResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-interface EngineInterface
+class ExportResponse
 {
-    public function process(ExportRequest $exportRequest): ExportResponse;
+    public function getSymfonyResponse(): Response
+    {
+    }
 }
