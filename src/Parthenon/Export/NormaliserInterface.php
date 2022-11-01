@@ -16,5 +16,7 @@ namespace Parthenon\Export;
 
 interface NormaliserInterface
 {
+    public function supports(mixed $item): bool;
+
     public function normalise(array $input): array;
 }
