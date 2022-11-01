@@ -16,7 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\ExportRequest;
-use Parthenon\Export\ExportResponse;
+use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\NormaliserInterface;
 
 class DirectDownloadEngine implements EngineInterface
@@ -27,7 +27,7 @@ class DirectDownloadEngine implements EngineInterface
     ) {
     }
 
-    public function process(ExportRequest $exportRequest): ExportResponse
+    public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
         $data = $exportRequest->getDataProvider()->__invoke();
 

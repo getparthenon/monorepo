@@ -16,9 +16,7 @@ namespace Parthenon\Export;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ExportResponse
+interface ExportResponseInterface
 {
-    public function getSymfonyResponse(): Response
-    {
-    }
+    public function getSymfonyResponse(): Response;
 }

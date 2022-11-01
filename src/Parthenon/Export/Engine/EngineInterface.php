@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Parthenon\Export\Engine;
 
 use Parthenon\Export\ExportRequest;
-use Parthenon\Export\ExportResponse;
+use Parthenon\Export\ExportResponseInterface;
 
 interface EngineInterface
 {
-    public function process(ExportRequest $exportRequest): ExportResponse;
+    public function process(ExportRequest $exportRequest): ExportResponseInterface;
 }
