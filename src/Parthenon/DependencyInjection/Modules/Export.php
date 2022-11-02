@@ -21,7 +21,12 @@ class Export implements ModuleConfigurationInterface
 {
     public function addConfig(NodeBuilder $nodeBuilder): void
     {
-        // TODO: Implement addConfig() method.
+        $nodeBuilder
+            ->arrayNode('export')
+                ->children()
+                    ->booleanNode('enabled')->defaultFalse()->end()
+                ->end()
+            ->end();
     }
 
     public function handleDefaultParameters(ContainerBuilder $container): void
