@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
@@ -32,7 +33,9 @@ class DirectDownloadEngineTest extends TestCase
         $normaliserManager = $this->createMock(NormaliserManagerInterface::class);
 
         $data = [0, 1, 2, 3];
-        $dataProvider = function () use ($data) { return $data; };
+        $dataProvider = function () use ($data) {
+            return $data;
+        };
 
         $exportRequest = $this->createMock(ExportRequest::class);
         $exportRequest->method('getDataProvider')->willReturn($dataProvider);
@@ -48,6 +51,37 @@ class DirectDownloadEngineTest extends TestCase
         $exportData = 'Export data';
 
         $exporter->expects($this->once())->method('getOutput')->with($normalisedData)->willReturn($exportData);
+
+        $subject = new DirectDownloadEngine($normaliserManager, $exporterManager);
+        $subject->process($exportRequest);
+    }
+
+    public function testThrowExceptionInvalidDataProvider()
+    {
+        $this->expectException(InvalidDataProviderException::class);
+        $exporter = $this->createMock(ExporterInterface::class);
+        $exporterManager = $this->createMock(ExporterManagerInterface::class);
+
+        $normaliser = $this->createMock(NormaliserInterface::class);
+        $normaliserManager = $this->createMock(NormaliserManagerInterface::class);
+
+        $data = [0, 1, 2, 3];
+        $dataProvider = function () { return null; };
+
+        $exportRequest = $this->createMock(ExportRequest::class);
+        $exportRequest->method('getDataProvider')->willReturn($dataProvider);
+        $exportRequest->method('getId')->willreturn('random-export');
+
+        $exporterManager->method('getExporter')->with($exportRequest)->willReturn($exporter);
+
+        $normaliserManager->method('getNormaliser')->with($data)->willReturn($normaliser);
+
+        $normalisedData = [4, 5, 6, 7];
+        $normaliser->method('normalise')->with($data)->willReturn($normalisedData);
+
+        $exportData = 'Export data';
+
+        $exporter->method('getOutput')->with($normalisedData)->willReturn($exportData);
 
         $subject = new DirectDownloadEngine($normaliserManager, $exporterManager);
         $subject->process($exportRequest);
