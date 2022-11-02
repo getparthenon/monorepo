@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
@@ -33,7 +34,7 @@ class DirectDownloadEngine implements EngineInterface
         $data = $exportRequest->getDataProvider()->__invoke();
 
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('Data provider must return an array');
+            throw new InvalidDataProviderException('Data provider must return an array');
         }
 
         $normaliser = $this->normaliserManager->getNormaliser($data);
