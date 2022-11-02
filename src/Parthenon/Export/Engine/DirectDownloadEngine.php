@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
-use Parthenon\Export\Exporter\ExporterInterface;
+use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\NormaliserManagerInterface;
@@ -24,7 +24,7 @@ class DirectDownloadEngine implements EngineInterface
 {
     public function __construct(
         private NormaliserManagerInterface $normaliserManager,
-        private ExporterInterface $exporter,
+        private ExporterManagerInterface $exporterManager,
     ) {
     }
 
@@ -37,9 +37,11 @@ class DirectDownloadEngine implements EngineInterface
         }
 
         $normaliser = $this->normaliserManager->getNormaliser($data);
+        $exporter = $this->exporterManager->getExporter($exportRequest);
+
         $normalisedData = $normaliser->normalise($data);
-        $exportedContent = $this->exporter->getOutput($normalisedData);
-        $filename = $this->exporter->getFilename($exportRequest->getId());
+        $exportedContent = $exporter->getOutput($normalisedData);
+        $filename = $exporter->getFilename($exportRequest->getId());
 
         return new DownloadResponse($exportedContent, $filename);
     }

@@ -16,6 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\NormaliserInterface;
+use Parthenon\Export\NormaliserManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class DirectDownloadEngineTest extends TestCase
@@ -24,5 +25,6 @@ class DirectDownloadEngineTest extends TestCase
     {
         $exporter = $this->createMock(ExporterInterface::class);
         $normaliser = $this->createMock(NormaliserInterface::class);
+        $normaliserManager = $this->createMock(NormaliserManagerInterface::class);
     }
 }
