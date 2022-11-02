@@ -32,7 +32,7 @@ class DirectDownloadEngine implements EngineInterface
     {
         $data = $exportRequest->getDataProvider()->__invoke();
 
-        if (is_array($data)) {
+        if (!is_array($data)) {
             throw new \InvalidArgumentException('Data provider must return an array');
         }
 
