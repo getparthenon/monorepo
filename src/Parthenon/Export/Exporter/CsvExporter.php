@@ -52,6 +52,11 @@ class CsvExporter implements ExporterInterface
         return stream_get_contents($fp);
     }
 
+    public function getFilename(string $name): string
+    {
+        return sprintf('%s.csv', $name);
+    }
+
     private function populate(array $columns, array $row): array
     {
         foreach ($columns as $columnName => $key) {

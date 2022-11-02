@@ -16,5 +16,5 @@ namespace Parthenon\Export;
 
 interface NormaliserManagerInterface
 {
-    public function getNormaliser(mixed $item): NormaliserInterface;
+    public function getNormaliser(array $item): NormaliserInterface;
 }

@@ -18,5 +18,7 @@ interface ExporterInterface
 {
     public function getMimeType(): string;
 
+    public function getFilename(string $name): string;
+
     public function getOutput(array $input): mixed;
 }

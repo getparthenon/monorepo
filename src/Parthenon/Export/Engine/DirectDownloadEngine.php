@@ -17,12 +17,13 @@ namespace Parthenon\Export\Engine;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
-use Parthenon\Export\NormaliserInterface;
+use Parthenon\Export\NormaliserManagerInterface;
+use Parthenon\Export\Response\DownloadResponse;
 
 class DirectDownloadEngine implements EngineInterface
 {
     public function __construct(
-        private NormaliserInterface $normaliser,
+        private NormaliserManagerInterface $normaliserManager,
         private ExporterInterface $exporter,
     ) {
     }
@@ -35,7 +36,11 @@ class DirectDownloadEngine implements EngineInterface
             throw new \InvalidArgumentException('Data provider must return an array');
         }
 
-        $normalisedData = $this->normaliser->normalise($data);
+        $normaliser = $this->normaliserManager->getNormaliser($data);
+        $normalisedData = $normaliser->normalise($data);
         $exportedContent = $this->exporter->getOutput($normalisedData);
+        $filename = $this->exporter->getFilename($exportRequest->getId());
+
+        return new DownloadResponse($exportedContent, $filename);
     }
 }
