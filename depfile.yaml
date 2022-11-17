@@ -71,4 +71,6 @@ ruleset:
     - Common
   Invoice:
     - Common
+  Export:
+    - Common
   Common:
