@@ -16,6 +16,7 @@
 
 /docker/logs/
 /docker/database/data/
+/docker/timescaledb/data/
 .idea
 .php_cs.cache
 
