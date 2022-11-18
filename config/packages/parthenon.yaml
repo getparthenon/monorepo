@@ -80,9 +80,9 @@ parthenon:
       provider: sendgrid
       sendgrid:
         api_key: '%env(resolve:SENDGRID_API_KEY)%'
-
   athena:
     enabled: true
+    host: '%env(resolve:ATHENA_HOST)%'
   payments:
     enabled: true
     provider: stripe
