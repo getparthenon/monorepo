@@ -10,6 +10,20 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        athena:
+            host: '%env(resolve:ATHENA_HOST)%'
+            stateless: false
+            lazy: true
+            provider: parthenon
+            remember_me:
+                secret: '%kernel.secret%'
+                always_remember_me: true
+            form_login:
+                # "login" is the name of the route created previously
+                login_path: parthenon_athena_login
+                check_path: parthenon_athena_login
+            logout:
+                path: parthenon_user_logout
         main:
             pattern: ^/(api|athena)/
             stateless: false
