@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace Parthenon\DependencyInjection\Modules;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 class Export implements ModuleConfigurationInterface
 {
@@ -36,6 +38,7 @@ class Export implements ModuleConfigurationInterface
 
     public function handleConfiguration(array $config, ContainerBuilder $container): void
     {
-        // TODO: Implement handleConfiguration() method.
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
+        $loader->load('services/export.xml');
     }
 }
