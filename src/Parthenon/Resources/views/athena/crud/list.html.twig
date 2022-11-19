@@ -69,55 +69,62 @@
             </div>
             <div class="card-body pt-1">
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                        <tr>
-
-                            {% for field in listView.fields %}
-                                <th class="border-top-0">
-                                    {% if field.isSortable %}
-                                        {% if currentSortKey == field.name and currentSortType == "ASC" %}
-                                            {% set sortType = "DESC" %}
-                                        {% else %}
-                                            {% set sortType = "ASC" %}
-                                        {% endif %}
-                                        <a href="?sort_key={{ field.name }}&sort_type={{ sortType }}">
-                                            {{ field.headerName|trans }}
-                                        </a>
-                                    {% else %}
-                                        {{ field.headerName|trans }}
-                                    {% endif %}
-                                </th>
-                            {% endfor %}
-                            <th>
-                                Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for name, item in results.results %}
-                            <tr role="row" class="table-item">
-                                {% for name, field in listView.data(item) %}
+                    <form method="post" action="?sort_key={{ currentSortKey }}&sort_type={{ currentSortType }}&last_key={{ results.lastKey }}&step_back_key={{ currentLastKey }}{{ athena_crud_filters_link(listFilters) }}">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="border-top-0"><input type="checkbox" id="export_all" /></th>
+                                    {% for field in listView.fields %}
+                                        <th class="border-top-0">
+                                            {% if field.isSortable %}
+                                                {% if currentSortKey == field.name and currentSortType == "ASC" %}
+                                                    {% set sortType = "DESC" %}
+                                                {% else %}
+                                                    {% set sortType = "ASC" %}
+                                                {% endif %}
+                                                <a href="?sort_key={{ field.name }}&sort_type={{ sortType }}">
+                                                    {{ field.headerName|trans }}
+                                                </a>
+                                            {% else %}
+                                                {{ field.headerName|trans }}
+                                            {% endif %}
+                                        </th>
+                                    {% endfor %}
+                                    <th class="border-top-0">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for name, item in results.results %}
+                                <tr role="row" class="table-item">
+                                    <td><input type="checkbox" name="export[]" value="{{ item.id }}" class="export-item" /></td>
+                                    {% for name, field in listView.data(item) %}
+                                        <td>
+                                            {% if listView.isLink(name) %}
+                                                <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}">{{ field.htmlOutput }}</a>
+                                            {% else %}
+                                                {{ field.htmlOutput }}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
                                     <td>
-                                        {% if listView.isLink(name) %}
-                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}">{{ field.htmlOutput }}</a>
-                                        {% else %}
-                                            {{ field.htmlOutput }}
+                                        {% if settings.isReadEnabled and is_granted(rights.view) %}
+                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}" id="link_{{ item.id }}_read" class="btn-read btn btn-success">{{ "parthenon.backoffice.crud.list.read"|trans }}</a>
+                                        {% endif %}
+                                        {% if settings.isEditEnabled and is_granted(rights.edit) %}
+                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_edit',{'id': item.id}) }}" id="link_{{ item.id }}_edit" class="btn-edit btn btn-success">{{ "parthenon.backoffice.crud.list.edit"|trans }}</a>
                                         {% endif %}
                                     </td>
-                                {% endfor %}
-                                <td>
-                                    {% if settings.isReadEnabled and is_granted(rights.view) %}
-                                        <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}" id="link_{{ item.id }}_read" class="btn-read btn btn-success">{{ "parthenon.backoffice.crud.list.read"|trans }}</a>
-                                    {% endif %}
-                                    {% if settings.isEditEnabled and is_granted(rights.edit) %}
-                                        <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_edit',{'id': item.id}) }}" id="link_{{ item.id }}_edit" class="btn-edit btn btn-success">{{ "parthenon.backoffice.crud.list.edit"|trans }}</a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="mt-2">
+                            <button class="btn btn-primary" name="export_type" value="selected">Export Selected</button>
+                            <button class="btn btn-dark" name="export_type" value="all">Export All Available</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -146,4 +153,17 @@
             {% endif %}
         </ul>
     </div>
+{% endblock %}
+
+
+{% block jquerycontent %}
+<script type="application/javascript">
+    $("#export_all").click(function () {
+        if ($('#export_all').is(':checked')) {
+            $(".export-item").prop('checked', true);
+        } else {
+            $(".export-item").prop('checked', false);
+        }
+    });
+</script>
 {% endblock %}
