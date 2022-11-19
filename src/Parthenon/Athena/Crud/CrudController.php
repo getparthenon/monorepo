@@ -24,6 +24,8 @@ use Parthenon\Athena\ReadView;
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
 use Parthenon\Athena\SectionInterface;
 use Parthenon\Athena\ViewTypeManager;
+use Parthenon\Export\Engine\EngineInterface;
+use Parthenon\Export\ExportRequest;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,6 +40,47 @@ class CrudController
 {
     public function __construct(private SectionInterface $section, private ViewTypeManager $viewTypeManager, private FilterManager $filterManager, private AccessRightsManagerInterface $accessRightsManager, private Security $security)
     {
+    }
+
+    public function export(Request $request, LoggerInterface $logger, EngineInterface $engine)
+    {
+        $rights = $this->accessRightsManager->getAccessRights($this->section);
+
+        if (!$this->security->isGranted($rights['export'])) {
+            $logger->warning('Access denied to export data via Athena CRUD');
+
+            throw new AccessDeniedException();
+        }
+
+        $logger->info('Athena CRUD List export processing');
+
+        $filterData = $request->get('filters', []);
+
+        $repository = $this->section->getRepository();
+        $sortKey = $request->get('sort_key', 'id');
+        $sortType = strtoupper($request->get('sort_type', 'ASC'));
+        $exportType = $request->get('export_type');
+
+        $listFilters = $this->section->buildFilters(new ListFilters($this->filterManager));
+
+        $filters = $listFilters->getFilters($filterData);
+
+        if ('all' === $exportType) {
+            $results = $repository->getList($filters, $sortKey, $sortType, -1);
+        } else {
+            $exportIds = $request->get('export_ids');
+            $results = $repository->getByIds($exportIds);
+        }
+
+        $exportDataProvider = function () use ($results) {
+            return $results->getResults();
+        };
+
+        $exportRequest = new ExportRequest('id', $exportDataProvider);
+
+        $response = $engine->process($exportRequest);
+
+        return $response->getSymfonyResponse();
     }
 
     /**

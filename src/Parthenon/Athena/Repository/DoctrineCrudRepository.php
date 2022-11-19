@@ -43,9 +43,11 @@ class DoctrineCrudRepository extends DoctrineRepository implements CrudRepositor
             throw new GeneralException("Sort key doesn't exist");
         }
 
-        $qb
-            ->orderBy($qb->getRootAliases()[0].'.'.$sortKey, $sortType)
-            ->setMaxResults($limit + 1); // Fetch one more than required for pagination.
+        $qb->orderBy($qb->getRootAliases()[0].'.'.$sortKey, $sortType);
+
+        if ($limit > 0) {
+            $qb->setMaxResults($limit + 1); // Fetch one more than required for pagination.
+        }
 
         if ($lastId) {
             $qb->where($qb->getRootAliases()[0].'.'.$sortKey.' '.$direction.' :lastId');
@@ -105,5 +107,19 @@ class DoctrineCrudRepository extends DoctrineRepository implements CrudRepositor
         }
         $entity->unmarkAsDeleted();
         $this->save($entity);
+    }
+
+    public function getByIds(array $ids): ResultSet
+    {
+        $parts = explode('\\', $this->entityRepository->getClassName());
+        $name = end($parts);
+        $qb = $this->entityRepository->createQueryBuilder($name);
+
+        $qb->where('id in :ids')
+            ->setParameter(':ids', $ids);
+
+        $query = $qb->getQuery();
+
+        return new ResultSet($query->getResult(), 'id', 'asc', count($ids));
     }
 }

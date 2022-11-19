@@ -47,6 +47,7 @@ final class AthenaRouteLoader extends Loader
             $serviceName = $this->getServiceName(get_class($section));
 
             $this->addListRoute($urlTag, $serviceName, $routes);
+            $this->addExportRoute($urlTag, $serviceName, $routes);
             $this->addCreateRoute($urlTag, $serviceName, $routes);
             $this->addEditRoute($urlTag, $serviceName, $routes);
             $this->addReadRoute($urlTag, $serviceName, $routes);
@@ -102,6 +103,18 @@ final class AthenaRouteLoader extends Loader
         $route = $this->getRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_list';
+        $routes->add($routeName, $route);
+    }
+
+    protected function addExportRoute(string $urlTag, string $serviceName, RouteCollection $routes): void
+    {
+        $path = '/athena/'.$urlTag.'/export';
+        $defaults = [
+            '_controller' => 'athena_controller_'.$serviceName.'::export',
+        ];
+        $route = $this->getRoute($path, $defaults);
+        // add the new route to the route collection
+        $routeName = 'parthenon_athena_crud_'.$urlTag.'_export';
         $routes->add($routeName, $route);
     }
 

@@ -69,7 +69,7 @@
             </div>
             <div class="card-body pt-1">
                 <div class="table-responsive">
-                    <form method="post" action="?sort_key={{ currentSortKey }}&sort_type={{ currentSortType }}&last_key={{ results.lastKey }}&step_back_key={{ currentLastKey }}{{ athena_crud_filters_link(listFilters) }}">
+                    <form method="post" action="./export?sort_key={{ currentSortKey }}&sort_type={{ currentSortType }}&last_key={{ results.lastKey }}&step_back_key={{ currentLastKey }}{{ athena_crud_filters_link(listFilters) }}">
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
@@ -98,7 +98,7 @@
                             <tbody>
                             {% for name, item in results.results %}
                                 <tr role="row" class="table-item">
-                                    <td><input type="checkbox" name="export[]" value="{{ item.id }}" class="export-item" /></td>
+                                    <td><input type="checkbox" name="export_ids[]" value="{{ item.id }}" class="export-item" /></td>
                                     {% for name, field in listView.data(item) %}
                                         <td>
                                             {% if listView.isLink(name) %}
