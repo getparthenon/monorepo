@@ -18,7 +18,7 @@ use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
-use Parthenon\Export\NormaliserManagerInterface;
+use Parthenon\Export\Normaliser\NormaliserManagerInterface;
 use Parthenon\Export\Response\DownloadResponse;
 
 class DirectDownloadEngine implements EngineInterface

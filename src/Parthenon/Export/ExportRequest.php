@@ -18,8 +18,14 @@ class ExportRequest
 {
     public function __construct(
         private string $id,
+        private string $exportType,
         private \Closure $dataProvider
     ) {
+    }
+
+    public function getExportType(): string
+    {
+        return $this->exportType;
     }
 
     public function getDataProvider(): \Closure

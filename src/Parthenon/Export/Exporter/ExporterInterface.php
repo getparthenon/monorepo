@@ -16,6 +16,8 @@ namespace Parthenon\Export\Exporter;
 
 interface ExporterInterface
 {
+    public function getType(): string;
+
     public function getMimeType(): string;
 
     public function getFilename(string $name): string;

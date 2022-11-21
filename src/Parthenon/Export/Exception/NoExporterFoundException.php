@@ -12,9 +12,10 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export;
+namespace Parthenon\Export\Exception;
 
-interface NormaliserManagerInterface
+use Parthenon\Common\Exception\GeneralException;
+
+class NoExporterFoundException extends GeneralException
 {
-    public function getNormaliser(array $item): NormaliserInterface;
 }

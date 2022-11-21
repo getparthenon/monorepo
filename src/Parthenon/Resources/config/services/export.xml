@@ -7,5 +7,22 @@
     <services>
         <defaults autoconfigure="true" />
 
+        <service id="Parthenon\Export\Exporter\CsvExporter" class="Parthenon\Export\Exporter\CsvExporter">
+        </service>
+
+        <service id="Parthenon\Export\Exporter\ExporterManager" class="Parthenon\Export\Exporter\ExporterManager">
+        </service>
+        <service id="Parthenon\Export\Exporter\ExporterManagerInterface" alias="Parthenon\Export\Exporter\ExporterManager" />
+
+        <service id="Parthenon\Export\Normaliser\NormaliserManager" class="Parthenon\Export\Normaliser\NormaliserManager">
+        </service>
+        <service id="Parthenon\Export\Normaliser\NormaliserManagerInterface" alias="Parthenon\Export\Normaliser\NormaliserManager" />
+
+        <service id="Parthenon\Export\Engine\DirectDownloadEngine" class="Parthenon\Export\Engine\DirectDownloadEngine">
+            <argument type="service" id="Parthenon\Export\Normaliser\NormaliserManagerInterface" />
+            <argument type="service" id="Parthenon\Export\Exporter\ExporterManagerInterface" />
+        </service>
+        <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\DirectDownloadEngine" />
+
     </services>
 </container>

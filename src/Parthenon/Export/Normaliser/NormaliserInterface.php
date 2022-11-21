@@ -12,13 +12,11 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\Exporter;
+namespace Parthenon\Export\Normaliser;
 
-use Parthenon\Export\ExportRequest;
-
-interface ExporterManagerInterface
+interface NormaliserInterface
 {
-    public function addExporter(ExporterInterface $exporter): void;
+    public function supports(array $items): bool;
 
-    public function getExporter(ExportRequest $exportRequest): ExporterInterface;
+    public function normalise(array $input): array;
 }

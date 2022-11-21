@@ -76,7 +76,7 @@ class CrudController
             return $results->getResults();
         };
 
-        $exportRequest = new ExportRequest('id', $exportDataProvider);
+        $exportRequest = new ExportRequest('id', 'csv', $exportDataProvider);
 
         $response = $engine->process($exportRequest);
 
