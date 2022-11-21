@@ -18,8 +18,8 @@ use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
-use Parthenon\Export\NormaliserInterface;
-use Parthenon\Export\NormaliserManagerInterface;
+use Parthenon\Export\Normaliser\NormaliserInterface;
+use Parthenon\Export\Normaliser\NormaliserManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class DirectDownloadEngineTest extends TestCase
