@@ -31,7 +31,7 @@ class DirectDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $data = $exportRequest->getDataProvider()->__invoke();
+        $data = $exportRequest->getDataProvider()->__invoke($exportRequest);
 
         if (!is_array($data)) {
             throw new InvalidDataProviderException('Data provider must return an array');

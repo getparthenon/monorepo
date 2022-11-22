@@ -65,7 +65,7 @@ class CrudController
 
         $filters = $listFilters->getFilters($filterData);
 
-        if ('all' === $exportType) {
+        if ('all' == $exportType) {
             $results = $repository->getList($filters, $sortKey, $sortType, -1);
         } else {
             $exportIds = $request->get('export_ids');
