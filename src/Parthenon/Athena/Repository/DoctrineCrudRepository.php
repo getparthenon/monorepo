@@ -115,8 +115,8 @@ class DoctrineCrudRepository extends DoctrineRepository implements CrudRepositor
         $name = end($parts);
         $qb = $this->entityRepository->createQueryBuilder($name);
 
-        $qb->where('id in :ids')
-            ->setParameter(':ids', $ids);
+        $qb->where($name.'.id in (:ids)')
+            ->setParameter('ids', $ids);
 
         $query = $qb->getQuery();
 

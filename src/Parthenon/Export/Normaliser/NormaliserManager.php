@@ -21,7 +21,7 @@ class NormaliserManager implements NormaliserManagerInterface
     /**
      * @param NormaliserInterface[] $normalisers
      */
-    public function __construct(private array $normalisers)
+    public function __construct(private array $normalisers = [])
     {
     }
 

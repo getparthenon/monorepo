@@ -72,5 +72,7 @@
 
         <service id="parthenon.athena.default_access_rights" class="Parthenon\Athena\DefaultAccessRights" />
         <service id="Parthenon\Athena\AccessRightsManagerInterface" alias="parthenon.athena.default_access_rights" />
+
+        <service id="Parthenon\Athena\Export\DefaultNormaliser" class="Parthenon\Athena\Export\DefaultNormaliser" />
     </services>
 </container>

@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Parthenon\DependencyInjection\Modules;
 
+use Parthenon\Export\Exporter\ExporterInterface;
+use Parthenon\Export\Normaliser\NormaliserInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,5 +42,8 @@ class Export implements ModuleConfigurationInterface
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
         $loader->load('services/export.xml');
+
+        $container->registerForAutoconfiguration(NormaliserInterface::class)->addTag('parthenon.export.normaliser');
+        $container->registerForAutoconfiguration(ExporterInterface::class)->addTag('parthenon.export.exporter');
     }
 }
