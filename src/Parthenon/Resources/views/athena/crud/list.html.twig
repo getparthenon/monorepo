@@ -69,11 +69,16 @@
             </div>
             <div class="card-body pt-1">
                 <div class="table-responsive">
+
+                    {% if settings.isExportEnabled and is_granted(rights.export) %}
                     <form method="post" action="./export?sort_key={{ currentSortKey }}&sort_type={{ currentSortType }}{{ athena_crud_filters_link(listFilters) }}">
+                    {% endif %}
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
+                                    {% if settings.isExportEnabled and is_granted(rights.export) %}
                                     <th class="border-top-0"><input type="checkbox" id="export_all" /></th>
+                                    {% endif %}
                                     {% for field in listView.fields %}
                                         <th class="border-top-0">
                                             {% if field.isSortable %}
@@ -98,7 +103,9 @@
                             <tbody>
                             {% for name, item in results.results %}
                                 <tr role="row" class="table-item">
+                                    {% if settings.isExportEnabled and is_granted(rights.export) %}
                                     <td><input type="checkbox" name="export_ids[]" value="{{ item.id }}" class="export-item" /></td>
+                                    {% endif %}
                                     {% for name, field in listView.data(item) %}
                                         <td>
                                             {% if listView.isLink(name) %}
@@ -120,11 +127,14 @@
                             {% endfor %}
                             </tbody>
                         </table>
+
+                        {% if settings.isExportEnabled and is_granted(rights.export) %}
                         <div class="mt-2">
                             <button class="btn btn-primary" name="export_type" value="selected">Export Selected</button>
                             <button class="btn btn-dark" name="export_type" value="all">Export All Available</button>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

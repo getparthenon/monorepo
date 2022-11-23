@@ -52,6 +52,11 @@ class CrudController
             throw new AccessDeniedException();
         }
 
+        if (!$this->section->getSettings()->isExportEnabled()) {
+            $logger->warning('Athena CRUD export page called when disabled');
+            throw new BadRequestHttpException();
+        }
+
         $logger->info('Athena CRUD List export processing');
 
         $filterData = $request->get('filters', []);
@@ -76,7 +81,10 @@ class CrudController
             return $results->getResults();
         };
 
-        $exportRequest = new ExportRequest('id', 'csv', $exportDataProvider);
+        $now = new \DateTime();
+        $exportName = sprintf('%s-%s', $this->section->getUrlTag(), $now->format('Y-m-d-hi'));
+
+        $exportRequest = new ExportRequest($exportName, 'csv', $exportDataProvider);
 
         $response = $engine->process($exportRequest);
 
