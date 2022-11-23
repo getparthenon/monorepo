@@ -1,7 +1,7 @@
 {% extends '@Parthenon/athena/base.html.twig' %}
 
 {% block pagetitle %}
-    {{ "parthenon.backoffice.crud.list.title"|trans }}
+    {{ "parthenon.athena.crud.list.title"|trans }}
 {% endblock %}
 
 {% block content %}
@@ -27,7 +27,7 @@
                     {% endif %}
                     {% if settings.isCreateEnabled and is_granted(rights.create) %}
                         <div class="filter dropdown keep_it_open">
-                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ 'parthenon.backoffice.crud.list.links.add'|trans }}</a>
+                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ 'parthenon.athena.crud.list.links.add'|trans }}</a>
                         </div>
                     {% endif %}
                 </div>
@@ -117,10 +117,10 @@
                                     {% endfor %}
                                     <td>
                                         {% if settings.isReadEnabled and is_granted(rights.view) %}
-                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}" id="link_{{ item.id }}_read" class="btn-read btn btn-success">{{ "parthenon.backoffice.crud.list.read"|trans }}</a>
+                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_read',{'id': item.id}) }}" id="link_{{ item.id }}_read" class="btn-read btn btn-success">{{ "parthenon.athena.crud.list.read"|trans }}</a>
                                         {% endif %}
                                         {% if settings.isEditEnabled and is_granted(rights.edit) %}
-                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_edit',{'id': item.id}) }}" id="link_{{ item.id }}_edit" class="btn-edit btn btn-success">{{ "parthenon.backoffice.crud.list.edit"|trans }}</a>
+                                            <a href="{{ path('parthenon_athena_crud_' ~ section.urlTag ~ '_edit',{'id': item.id}) }}" id="link_{{ item.id }}_edit" class="btn-edit btn btn-success">{{ "parthenon.athena.crud.list.edit"|trans }}</a>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -130,8 +130,8 @@
 
                         {% if settings.isExportEnabled and is_granted(rights.export) %}
                         <div class="mt-2">
-                            <button class="btn btn-primary" name="export_type" value="selected">Export Selected</button>
-                            <button class="btn btn-dark" name="export_type" value="all">Export All Available</button>
+                            <button class="btn btn-primary" name="export_type" value="selected">{{ 'parthenon.athena.crud.list.export_selected'|trans }}</button>
+                            <button class="btn btn-dark" name="export_type" value="all">{{ 'parthenon.athena.crud.list.export_all'|trans }}</button>
                         </div>
                     </form>
                     {% endif %}
@@ -147,7 +147,7 @@
                                                aria-controls="dataTable"
                                                data-dt-idx="7"
                                                tabindex="0"
-                                               class="page-link">Previous</a>
+                                               class="page-link">{{ 'parthenon.athena.crud.list.links.previous'|trans }}</a>
                 </li>
             {% endif %}
 
@@ -158,7 +158,7 @@
                        data-dt-idx="7"
                        tabindex="0"
                        id="crud_list_next"
-                       class="page-link">Next</a>
+                       class="page-link">{{ 'parthenon.athena.crud.list.links.next'|trans }}</a>
                 </li>
             {% endif %}
         </ul>
