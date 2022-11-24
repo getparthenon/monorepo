@@ -18,19 +18,14 @@ use Parthenon\Export\ExportRequest;
 
 class AthenaExportRequest extends ExportRequest
 {
-    public function __construct(string $id, string $exportFormat, \Closure $dataProvider, private string $sectionUrlTag, private array $filters, private string $exportType)
+    public function __construct(string $id, string $exportFormat, string $dataProviderServiceService, array $parameters, private string $sectionUrlTag, private string $exportType)
     {
-        parent::__construct($id, $exportFormat, $dataProvider);
+        parent::__construct($id, $exportFormat, $dataProviderServiceService, $parameters);
     }
 
     public function getSectionUrlTag(): string
     {
         return $this->sectionUrlTag;
-    }
-
-    public function getFilters(): array
-    {
-        return $this->filters;
     }
 
     public function getExportType(): string

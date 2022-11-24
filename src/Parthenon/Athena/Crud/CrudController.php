@@ -18,6 +18,7 @@ use Parthenon\Athena\AccessRightsManagerInterface;
 use Parthenon\Athena\Edit\FormBuilder;
 use Parthenon\Athena\EntityForm;
 use Parthenon\Athena\Export\AthenaExportRequest;
+use Parthenon\Athena\Export\DefaultDataProvider;
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\Filters\ListFilters;
 use Parthenon\Athena\ListView;
@@ -26,6 +27,7 @@ use Parthenon\Athena\Repository\CrudRepositoryInterface;
 use Parthenon\Athena\SectionInterface;
 use Parthenon\Athena\ViewTypeManager;
 use Parthenon\Export\Engine\EngineInterface;
+use Parthenon\Export\Exporter\CsvExporter;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -57,10 +59,10 @@ class CrudController
             throw new BadRequestHttpException();
         }
 
-        $logger->info('Athena CRUD List export processing');
+        $logger->info('Athena CRUD export processing');
 
         $filterData = $request->get('filters', []);
-
+        $exportFormat = $request->get('export_format', CsvExporter::EXPORT_FORMAT);
         $exportType = $request->get('export_type');
 
         $listFilters = $this->section->buildFilters(new ListFilters($this->filterManager));
@@ -70,7 +72,13 @@ class CrudController
         $now = new \DateTime();
         $exportName = sprintf('%s-%s', $this->section->getUrlTag(), $now->format('Y-m-d-hi'));
 
-        $exportRequest = new AthenaExportRequest($exportName, 'csv', $exportDataProvider, $this->section->getUrlTag(), $filters, $exportType);
+        if ('all' === $exportType) {
+            $parameters = $filters;
+        } else {
+            $parameters = $request->get('export_ids');
+        }
+
+        $exportRequest = new AthenaExportRequest($exportName, $exportFormat, DefaultDataProvider::class, $parameters, $this->section->getUrlTag(), $exportType);
 
         $response = $engine->process($exportRequest);
 

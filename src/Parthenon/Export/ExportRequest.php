@@ -19,22 +19,28 @@ class ExportRequest
     public function __construct(
         private string $id,
         private string $exportFormat,
-        private \Closure $dataProvider
+        private string $dataProviderService,
+        private array $parameters = [],
     ) {
     }
 
-    public function getExportType(): string
+    public function getExportFormat(): string
     {
         return $this->exportFormat;
     }
 
-    public function getDataProvider(): \Closure
+    public function getDataProviderService(): string
     {
-        return $this->dataProvider;
+        return $this->dataProviderService;
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getParameters(): array
+    {
+        return $this->parameters;
     }
 }

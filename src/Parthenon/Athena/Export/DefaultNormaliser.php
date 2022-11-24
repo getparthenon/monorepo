@@ -23,12 +23,12 @@ final class DefaultNormaliser implements NormaliserInterface
 {
     use FieldAccesorTrait;
 
-    public function supports(array $items): bool
+    public function supports(iterable $items): bool
     {
         return true;
     }
 
-    public function normalise(array $input): array
+    public function normalise(iterable $input): array
     {
         $output = [];
 

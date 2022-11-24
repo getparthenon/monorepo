@@ -16,7 +16,7 @@ namespace Parthenon\Export\Normaliser;
 
 interface NormaliserInterface
 {
-    public function supports(array $items): bool;
+    public function supports(iterable $items): bool;
 
-    public function normalise(array $input): array;
+    public function normalise(iterable $input): array;
 }

@@ -25,7 +25,7 @@ class NormaliserManager implements NormaliserManagerInterface
     {
     }
 
-    public function getNormaliser(array $item): NormaliserInterface
+    public function getNormaliser(iterable $item): NormaliserInterface
     {
         foreach ($this->normalisers as $normaliser) {
             if ($normaliser->supports($item)) {

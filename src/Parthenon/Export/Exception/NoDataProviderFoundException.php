@@ -12,15 +12,10 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\Exporter;
+namespace Parthenon\Export\Exception;
 
-interface ExporterInterface
+use Parthenon\Common\Exception\GeneralException;
+
+class NoDataProviderFoundException extends GeneralException
 {
-    public function getFormat(): string;
-
-    public function getMimeType(): string;
-
-    public function getFilename(string $name): string;
-
-    public function getOutput(array $input): mixed;
 }

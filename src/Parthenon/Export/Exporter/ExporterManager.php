@@ -31,12 +31,12 @@ final class ExporterManager implements ExporterManagerInterface
     public function getExporter(ExportRequest $exportRequest): ExporterInterface
     {
         foreach ($this->exporters as $exporter) {
-            if ($exporter->getType() === $exportRequest->getExportType()) {
+            if ($exporter->getFormat() === $exportRequest->getExportFormat()) {
                 return $exporter;
             }
         }
 
-        throw new NoExporterFoundException(sprintf("No exporter for type '%s'", $exportRequest->getExportType()));
+        throw new NoExporterFoundException(sprintf("No exporter for type '%s'", $exportRequest->getExportFormat()));
     }
 
     public function addExporter(ExporterInterface $exporter): void

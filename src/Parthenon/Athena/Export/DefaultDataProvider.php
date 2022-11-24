@@ -15,9 +15,10 @@ declare(strict_types=1);
 namespace Parthenon\Athena\Export;
 
 use Parthenon\Athena\SectionManager;
+use Parthenon\Export\DataProvider\DataProviderInterface;
 use Parthenon\Export\ExportRequest;
 
-class DefaultDataProvider
+class DefaultDataProvider implements DataProviderInterface
 {
     public function __construct(private SectionManager $sectionManager)
     {
@@ -26,15 +27,17 @@ class DefaultDataProvider
     /**
      * @param AthenaExportRequest $exportRequest
      */
-    public function getData(ExportRequest $exportRequest): array
+    public function getData(ExportRequest $exportRequest): iterable
     {
         $section = $this->sectionManager->getByUrlTag($exportRequest->getSectionUrlTag());
 
         $repository = $section->getRepository();
+        $exportType = $exportRequest->getExportType();
+
         if ('all' == $exportType) {
-            $results = $repository->getList($filters, $sortKey, $sortType, -1);
+            $results = $repository->getList($exportRequest->getParameters(), 'id', 'asc', -1);
         } else {
-            $exportIds = $request->get('export_ids');
+            $exportIds = $exportRequest->getParameters();
             $results = $repository->getByIds($exportIds);
         }
 

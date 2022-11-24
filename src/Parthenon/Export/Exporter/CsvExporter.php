@@ -16,6 +16,8 @@ namespace Parthenon\Export\Exporter;
 
 class CsvExporter implements ExporterInterface
 {
+    public const EXPORT_FORMAT = 'csv';
+
     public function getMimeType(): string
     {
         return 'text/csv';
@@ -57,9 +59,9 @@ class CsvExporter implements ExporterInterface
         return sprintf('%s.csv', $name);
     }
 
-    public function getType(): string
+    public function getFormat(): string
     {
-        return 'csv';
+        return self::EXPORT_FORMAT;
     }
 
     private function populate(array $columns, array $row): array
