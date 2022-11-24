@@ -41,6 +41,7 @@ class DirectDownloadEngine implements EngineInterface
         $normalisedData = [];
 
         foreach ($data as $item) {
+            // Done this way incase it's a generator.
             if (!isset($normaliser)) {
                 $normaliser = $this->normaliserManager->getNormaliser($item);
             }
