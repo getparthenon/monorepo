@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
+use Parthenon\Export\DataProvider\DataProviderInterface;
 use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
@@ -26,64 +28,69 @@ class DirectDownloadEngineTest extends TestCase
 {
     public function testCallNormaliserThenExporter()
     {
+        $exportRequest = $this->createMock(ExportRequest::class);
+        $exportRequest->method('getId')->willreturn('random-export');
+
         $exporter = $this->createMock(ExporterInterface::class);
         $exporterManager = $this->createMock(ExporterManagerInterface::class);
 
         $normaliser = $this->createMock(NormaliserInterface::class);
         $normaliserManager = $this->createMock(NormaliserManagerInterface::class);
 
-        $data = [0, 1, 2, 3];
-        $dataProvider = function () use ($data) {
-            return $data;
-        };
+        $dataProvider = $this->createMock(DataProviderInterface::class);
+        $dataProviderFetcher = $this->createMock(DataProviderFetcherInterface::class);
 
-        $exportRequest = $this->createMock(ExportRequest::class);
-        $exportRequest->method('getDataProvider')->willReturn($dataProvider);
-        $exportRequest->method('getId')->willreturn('random-export');
+        $dataProviderFetcher->method('getDataProvider')->with($exportRequest)->willReturn($dataProvider);
+
+        $data = [[0], [1], [2], [3]];
+        $dataProvider->method('getData')->with($exportRequest)->willReturn($data);
 
         $exporterManager->method('getExporter')->with($exportRequest)->willReturn($exporter);
 
-        $normaliserManager->expects($this->once())->method('getNormaliser')->with($data)->willReturn($normaliser);
+        $normaliserManager->expects($this->once())->method('getNormaliser')->with([0])->willReturn($normaliser);
 
-        $normalisedData = [4, 5, 6, 7];
-        $normaliser->expects($this->once())->method('normalise')->with($data)->willReturn($normalisedData);
+        $normalisedData = [[4], [5], [6], [7]];
+        $normaliser->method('normalise')->with($this->anything())->willReturnOnConsecutiveCalls([4], [5], [6], [7]);
 
         $exportData = 'Export data';
 
         $exporter->expects($this->once())->method('getOutput')->with($normalisedData)->willReturn($exportData);
 
-        $subject = new DirectDownloadEngine($normaliserManager, $exporterManager);
+        $subject = new DirectDownloadEngine($normaliserManager, $exporterManager, $dataProviderFetcher);
         $subject->process($exportRequest);
     }
 
     public function testThrowExceptionInvalidDataProvider()
     {
         $this->expectException(InvalidDataProviderException::class);
+        $exportRequest = $this->createMock(ExportRequest::class);
+        $exportRequest->method('getId')->willreturn('random-export');
+
         $exporter = $this->createMock(ExporterInterface::class);
         $exporterManager = $this->createMock(ExporterManagerInterface::class);
 
         $normaliser = $this->createMock(NormaliserInterface::class);
         $normaliserManager = $this->createMock(NormaliserManagerInterface::class);
+        $dataProvider = $this->createMock(DataProviderInterface::class);
+        $dataProviderFetcher = $this->createMock(DataProviderFetcherInterface::class);
 
-        $data = [0, 1, 2, 3];
-        $dataProvider = function () { return null; };
+        $dataProviderFetcher->method('getDataProvider')->with($exportRequest)->willThrowException(new InvalidDataProviderException());
 
-        $exportRequest = $this->createMock(ExportRequest::class);
-        $exportRequest->method('getDataProvider')->willReturn($dataProvider);
-        $exportRequest->method('getId')->willreturn('random-export');
+        $data = [[0], [1], [2], [3]];
+        $dataProvider->method('getData')->with($exportRequest)->willReturn($data);
 
         $exporterManager->method('getExporter')->with($exportRequest)->willReturn($exporter);
 
-        $normaliserManager->method('getNormaliser')->with($data)->willReturn($normaliser);
+        $normaliserManager->expects($this->never())->method('getNormaliser')->with([0])->willReturn($normaliser);
 
-        $normalisedData = [4, 5, 6, 7];
-        $normaliser->method('normalise')->with($data)->willReturn($normalisedData);
+        $normalisedData = [[4], [5], [6], [7]];
+        $normaliser->expects($this->never())->method('normalise')->with($this->anything())->willReturnOnConsecutiveCalls([4], [5], [6], [7]);
 
         $exportData = 'Export data';
 
         $exporter->method('getOutput')->with($normalisedData)->willReturn($exportData);
 
-        $subject = new DirectDownloadEngine($normaliserManager, $exporterManager);
+        $subject = new DirectDownloadEngine($normaliserManager, $exporterManager, $dataProviderFetcher);
         $subject->process($exportRequest);
     }
 }
