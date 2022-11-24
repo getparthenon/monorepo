@@ -23,23 +23,12 @@ final class DefaultNormaliser implements NormaliserInterface
 {
     use FieldAccesorTrait;
 
-    public function supports(iterable $items): bool
+    public function supports(mixed $item): bool
     {
         return true;
     }
 
-    public function normalise(iterable $input): array
-    {
-        $output = [];
-
-        foreach ($input as $item) {
-            $output[] = $this->normaliseItem($item);
-        }
-
-        return $output;
-    }
-
-    public function normaliseItem($item): array
+    public function normalise(mixed $item): array
     {
         if (!is_object($item)) {
             throw new InvalidDataForNormaliserException();

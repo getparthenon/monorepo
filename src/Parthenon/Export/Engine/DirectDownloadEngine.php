@@ -35,10 +35,19 @@ class DirectDownloadEngine implements EngineInterface
         // Todo catch exceptions
         $data = $this->dataProviderFetcher->getDataProvider($exportRequest)->getData($exportRequest);
 
-        $normaliser = $this->normaliserManager->getNormaliser($data);
         $exporter = $this->exporterManager->getExporter($exportRequest);
 
-        $normalisedData = $normaliser->normalise($data);
+        $normaliser = null;
+        $normalisedData = [];
+
+        foreach ($data as $item) {
+            if (!isset($normaliser)) {
+                $normaliser = $this->normaliserManager->getNormaliser($item);
+            }
+
+            $normalisedData[] = $normaliser->normalise($item);
+        }
+
         $exportedContent = $exporter->getOutput($normalisedData);
         $filename = $exporter->getFilename($exportRequest->getId());
 
