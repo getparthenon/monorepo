@@ -74,7 +74,7 @@
         <service id="Parthenon\Athena\AccessRightsManagerInterface" alias="parthenon.athena.default_access_rights" />
 
         <service id="Parthenon\Athena\Export\DefaultNormaliser" class="Parthenon\Athena\Export\DefaultNormaliser" />
-        <service id="Parthenon\Athena\Export\DefaultDataProvider" class="Parthenon\Athena\Export\DefaultDataProvider" public="true">
+        <service id="Parthenon\Athena\Export\DefaultDataProvider" class="Parthenon\Athena\Export\DefaultDataProvider">
             <argument type="service" id="Parthenon\Athena\SectionManager" />
         </service>
 

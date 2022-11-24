@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\DependencyInjection\Modules;
 
+use Parthenon\Export\DataProvider\DataProviderInterface;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Normaliser\NormaliserInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -45,5 +46,6 @@ class Export implements ModuleConfigurationInterface
 
         $container->registerForAutoconfiguration(NormaliserInterface::class)->addTag('parthenon.export.normaliser');
         $container->registerForAutoconfiguration(ExporterInterface::class)->addTag('parthenon.export.exporter');
+        $container->registerForAutoconfiguration(DataProviderInterface::class)->addTag('parthenon.export.data_provider');
     }
 }

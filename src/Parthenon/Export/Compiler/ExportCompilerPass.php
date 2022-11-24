@@ -25,5 +25,19 @@ class ExportCompilerPass extends AbstractCompilerPass
     {
         $this->handle($container, NormaliserManager::class, 'parthenon.export.normaliser', 'addNormaliser');
         $this->handle($container, ExporterManager::class, 'parthenon.export.exporter', 'addExporter');
+
+        $this->handleDataProviders($container);
+    }
+
+    public function handleDataProviders(ContainerBuilder $container)
+    {
+        $definitions = $container->findTaggedServiceIds('parthenon.export.data_provider');
+
+        foreach ($definitions as $id => $definitionData) {
+            $definition = $container->getDefinition($id);
+            $definition->setPublic(true);
+            // Just to be safe, even though it should be the same object returned by reference, overwrite it.
+            $container->setDefinition($id, $definition);
+        }
     }
 }
