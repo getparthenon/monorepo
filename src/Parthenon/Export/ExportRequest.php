@@ -17,10 +17,10 @@ namespace Parthenon\Export;
 class ExportRequest
 {
     public function __construct(
-        private string $filename,
-        private string $exportFormat,
-        private string $dataProviderService,
-        private array $parameters = [],
+        protected string $filename,
+        protected string $exportFormat,
+        protected string $dataProviderService,
+        protected array $parameters = [],
     ) {
     }
 
