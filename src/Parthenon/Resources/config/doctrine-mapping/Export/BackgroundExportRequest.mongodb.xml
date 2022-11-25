@@ -6,10 +6,10 @@
 
     <document name="Parthenon\Export\Entity\BackgroundExportRequest" collection="parthenon_export_background_export_requests">
         <id field-name="id" />
-        <field field-name="exportedFile" name="exported_file" type="string" length="255" nullable="true" />
-        <field field-name="exportFormat" name="export_format" type="string" length="255" />
-        <field field-name="filename" name="filename" type="string" length="255"  />
-        <field field-name="dataProviderService" name="data_provider_service" type="string" length="255" />
+        <field field-name="exportedFile" name="exported_file" type="string"  nullable="true" />
+        <field field-name="exportFormat" name="export_format" type="string"  />
+        <field field-name="filename" name="filename" type="string"  />
+        <field field-name="dataProviderService" name="data_provider_service" type="string"/>
         <field field-name="parameters" name="parameters" type="array" nullable="true" />
         <field field-name="createdAt" name="created_at" type="date" />
         <field field-name="updatedAt" name="updated_at" type="date" />
