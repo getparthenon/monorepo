@@ -50,7 +50,7 @@ class DirectDownloadEngine implements EngineInterface
         }
 
         $exportedContent = $exporter->getOutput($normalisedData);
-        $filename = $exporter->getFilename($exportRequest->getId());
+        $filename = $exporter->getFilename($exportRequest->getFilename());
 
         return new DownloadResponse($exportedContent, $filename);
     }
