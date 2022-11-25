@@ -29,7 +29,7 @@ class DirectDownloadEngineTest extends TestCase
     public function testCallNormaliserThenExporter()
     {
         $exportRequest = $this->createMock(ExportRequest::class);
-        $exportRequest->method('getId')->willreturn('random-export');
+        $exportRequest->method('getFilename')->willreturn('random-export');
 
         $exporter = $this->createMock(ExporterInterface::class);
         $exporterManager = $this->createMock(ExporterManagerInterface::class);
@@ -64,7 +64,7 @@ class DirectDownloadEngineTest extends TestCase
     {
         $this->expectException(InvalidDataProviderException::class);
         $exportRequest = $this->createMock(ExportRequest::class);
-        $exportRequest->method('getId')->willreturn('random-export');
+        $exportRequest->method('getFilename')->willreturn('random-export');
 
         $exporter = $this->createMock(ExporterInterface::class);
         $exporterManager = $this->createMock(ExporterManagerInterface::class);
