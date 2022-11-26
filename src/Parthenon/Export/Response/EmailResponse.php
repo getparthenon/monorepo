@@ -12,8 +12,15 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export;
+namespace Parthenon\Export\Response;
 
-interface ExportResponseInterface
+use Parthenon\Export\ExportResponseInterface;
+use Symfony\Component\HttpFoundation\Response;
+
+class EmailResponse implements ExportResponseInterface
 {
+    public function getSymfonyResponse(): Response
+    {
+        return new Response("we'll send you an email");
+    }
 }

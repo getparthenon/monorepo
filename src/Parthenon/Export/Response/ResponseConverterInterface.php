@@ -12,8 +12,12 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export;
+namespace Parthenon\Export\Response;
 
-interface ExportResponseInterface
+use Parthenon\Export\ExportResponseInterface;
+use Symfony\Component\HttpFoundation\Response;
+
+interface ResponseConverterInterface
 {
+    public function convert(ExportResponseInterface $exportResponse): Response;
 }

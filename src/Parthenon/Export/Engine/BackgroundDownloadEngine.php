@@ -14,13 +14,24 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Export\Entity\BackgroundExportRequest;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
+use Parthenon\Export\Response\WaitingResponse;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class BackgroundDownloadEngine implements EngineInterface
 {
+    public function __construct(private MessageBusInterface $messengerBus)
+    {
+    }
+
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        // TODO: Implement process() method.
+        $backgroundExportRequest = BackgroundExportRequest::createFromExportRequest($exportRequest);
+
+        $this->messengerBus->dispatch($backgroundExportRequest);
+
+        return new WaitingResponse();
     }
 }

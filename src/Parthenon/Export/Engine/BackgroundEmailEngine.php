@@ -14,13 +14,24 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Export\BackgroundEmailExportRequest;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
+use Parthenon\Export\Response\EmailResponse;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Core\Security;
 
 class BackgroundEmailEngine implements EngineInterface
 {
+    public function __construct(private Security $security, private MessageBusInterface $messengerBus)
+    {
+    }
+
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        // TODO: Implement process() method.
+        $backgroundEmail = BackgroundEmailExportRequest::createFromExportRequest($exportRequest, $this->security->getUser());
+        $this->messengerBus->dispatch($backgroundEmail);
+
+        return new EmailResponse();
     }
 }
