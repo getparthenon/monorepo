@@ -12,6 +12,7 @@
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator" />
         </id>
         <field name="exportedFile" column="exported_file" type="string" length="255" nullable="true" />
+        <field name="exportedFilePath" column="exported_file_path" type="string" length="255" nullable="true" />
         <field name="exportFormat" column="export_format" type="string" length="255" />
         <field name="filename" column="filename" type="string" length="255"  />
         <field name="dataProviderService" column="data_provider_service" type="string" length="255" />

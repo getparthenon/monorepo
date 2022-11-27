@@ -22,6 +22,8 @@ class BackgroundExportRequest extends ExportRequest
 
     private ?string $exportedFile = null;
 
+    private ?string $exportedFilePath = null;
+
     private \DateTimeInterface $createdAt;
 
     private \DateTimeInterface $updatedAt;
@@ -55,6 +57,16 @@ class BackgroundExportRequest extends ExportRequest
     public function getExportedFile(): ?string
     {
         return $this->exportedFile;
+    }
+
+    public function setExportedFilePath(string $exportFilePath): void
+    {
+        $this->exportedFilePath = $exportFilePath;
+    }
+
+    public function getExportedFilePath(): ?string
+    {
+        return $this->exportedFilePath;
     }
 
     public function setExportedFile(?string $exportedFile): void

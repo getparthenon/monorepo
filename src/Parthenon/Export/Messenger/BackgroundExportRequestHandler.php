@@ -40,6 +40,7 @@ class BackgroundExportRequestHandler implements MessageHandlerInterface
     {
         $this->getLogger()->info('Processing background export request');
 
+        /** @var BackgroundExportRequest $backgroundExportRequest */
         $backgroundExportRequest = $this->backgroundExportRequestRepository->findById($message->getId());
 
         $dataProvider = $this->dataProviderFetcher->getDataProvider($backgroundExportRequest);
@@ -60,5 +61,9 @@ class BackgroundExportRequestHandler implements MessageHandlerInterface
 
         $exportedContent = $exporter->getOutput($normalisedData);
         $filename = $exporter->getFilename($backgroundExportRequest->getFilename());
+
+        $file = $this->uploader->uploadString($filename, $exportedContent);
+        $backgroundExportRequest->setExportedFile($file->getPath());
+        $backgroundExportRequest->setUpdatedAt(new \DateTime());
     }
 }
