@@ -75,7 +75,7 @@ issues will be given best effort support.
 
 * Github: You can make an issue on [getparthenon/monorepo](https://github.com/getparthenon/monorepo/issues/new/choose)
 * Email: support@getparthenon.com
-* Slack: [Click here](https://join.slack.com/t/parthenonsupport/shared_invite/zt-1gujl7xsw-OALGFlPs~_Vf1cw6zaEkdg) to signup
+* Slack: [Click here](https://join.slack.com/t/parthenonsupport/shared_invite/zt-1kmmuvul0-Ai1Sp6j3SzlF955Z~CD~~Q) to signup
 
 Issues we will provide support and fixes for:
 
