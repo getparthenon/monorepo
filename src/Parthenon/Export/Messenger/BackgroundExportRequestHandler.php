@@ -51,7 +51,7 @@ class BackgroundExportRequestHandler implements MessageHandlerInterface
         $normalisedData = [];
 
         foreach ($data as $item) {
-            // Done this way incase it's a generator.
+            // Done this way in case it's a generator.
             if (!isset($normaliser)) {
                 $normaliser = $this->normaliserManager->getNormaliser($item);
             }
@@ -63,7 +63,10 @@ class BackgroundExportRequestHandler implements MessageHandlerInterface
         $filename = $exporter->getFilename($backgroundExportRequest->getFilename());
 
         $file = $this->uploader->uploadString($filename, $exportedContent);
-        $backgroundExportRequest->setExportedFile($file->getPath());
+        $backgroundExportRequest->setExportedFilePath($file->getPath());
+        $backgroundExportRequest->setExportedFile($file->getFilename());
         $backgroundExportRequest->setUpdatedAt(new \DateTime());
+
+        $this->backgroundExportRequestRepository->save($backgroundExportRequest);
     }
 }
