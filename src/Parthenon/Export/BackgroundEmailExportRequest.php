@@ -28,6 +28,11 @@ class BackgroundEmailExportRequest extends ExportRequest
         return $self;
     }
 
+    public function setUser(UserInterface $user): void
+    {
+        $this->user = $user;
+    }
+
     public function getUser(): UserInterface
     {
         return $this->user;
