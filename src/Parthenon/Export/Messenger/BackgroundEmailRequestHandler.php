@@ -43,7 +43,7 @@ class BackgroundEmailRequestHandler implements MessageHandlerInterface
 
     public function __invoke(BackgroundEmailExportRequest $message)
     {
-        $this->getLogger()->info('Processing background export request');
+        $this->getLogger()->info('Processing background email export request');
 
         $user = $this->userProvider->refreshUser($message->getUser());
         $message->setUser($user);

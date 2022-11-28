@@ -38,7 +38,7 @@ class BackgroundExportRequestHandler implements MessageHandlerInterface
 
     public function __invoke(BackgroundExportRequest $message)
     {
-        $this->getLogger()->info('Processing background export request');
+        $this->getLogger()->info('Processing background download export request');
 
         /** @var BackgroundExportRequest $backgroundExportRequest */
         $backgroundExportRequest = $this->backgroundExportRequestRepository->findById($message->getId());
