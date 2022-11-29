@@ -18,9 +18,35 @@
         </service>
         <service id="Parthenon\Export\Normaliser\NormaliserManagerInterface" alias="Parthenon\Export\Normaliser\NormaliserManager" />
 
-        <service id="Parthenon\Export\Engine\DirectDownloadEngine" class="Parthenon\Export\Engine\DirectDownloadEngine">
-            <argument type="service" id="Parthenon\Export\Normaliser\NormaliserManagerInterface" />
+        <service id="Parthenon\Export\Messenger\BackgroundDownloadRequestHandler" class="Parthenon\Export\Messenger\BackgroundDownloadRequestHandler">
+            <argument type="service" id="Parthenon\Export\Repository\BackgroundExportRequestRepositoryInterface" />
+            <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcher" />
             <argument type="service" id="Parthenon\Export\Exporter\ExporterManagerInterface" />
+            <argument type="service" id="Parthenon\Export\Normaliser\NormaliserManagerInterface" />
+            <argument type="service" id="Parthenon\Common\Upload\UploaderInterface" />
+        </service>
+
+        <service id="Parthenon\Export\Messenger\BackgroundEmailRequestHandler" class="Parthenon\Export\Messenger\BackgroundEmailRequestHandler">
+            <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcher" />
+            <argument type="service" id="Parthenon\Export\Exporter\ExporterManagerInterface" />
+            <argument type="service" id="Parthenon\Export\Normaliser\NormaliserManagerInterface" />
+            <argument type="service" id="Parthenon\Common\Upload\UploaderInterface" />
+            <argument type="service" id="parthenon.export.user_provider" />
+            <argument type="service" id="Parthenon\Notification\EmailSenderInterface" />
+            <argument type="service" id="Parthenon\Export\Notification\ExportEmailFactoryInterface" />
+        </service>
+        <service id="parthenon.export.user_provider" alias="Symfony\Component\Security\Core\User\UserProviderInterface" />
+
+        <service id="Parthenon\Export\Engine\BackgroundEmailEngine" class="Parthenon\Export\Engine\BackgroundEmailEngine">
+            <argument type="service" id="Symfony\Component\Security\Core\Security" />
+            <argument type="service" id="Symfony\Component\Messenger\MessageBusInterface" />
+        </service>
+        <service id="Parthenon\Export\Engine\BackgroundDownloadEngine" class="Parthenon\Export\Engine\BackgroundDownloadEngine">
+            <argument type="service" id="Symfony\Component\Messenger\MessageBusInterface" />
+            <argument type="service" id="Parthenon\Export\Repository\BackgroundExportRequestRepositoryInterface" />
+        </service>
+
+        <service id="Parthenon\Export\Engine\DirectDownloadEngine" class="Parthenon\Export\Engine\DirectDownloadEngine">
             <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcherInterface" />
         </service>
         <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\DirectDownloadEngine" />
@@ -29,5 +55,8 @@
             <argument type="service" id="service_container" />
         </service>
         <service id="Parthenon\Export\DataProvider\DataProviderFetcherInterface" alias="Parthenon\Export\DataProvider\DataProviderFetcher" />
+
+        <service id="Parthenon\Export\Notification\ExportEmailFactory" class="Parthenon\Export\Notification\ExportEmailFactory" />
+        <service id="Parthenon\Export\Notification\ExportEmailFactoryInterface" alias="Parthenon\Export\Notification\ExportEmailFactory"/>
     </services>
 </container>

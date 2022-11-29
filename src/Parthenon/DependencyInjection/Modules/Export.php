@@ -47,5 +47,30 @@ class Export implements ModuleConfigurationInterface
         $container->registerForAutoconfiguration(NormaliserInterface::class)->addTag('parthenon.export.normaliser');
         $container->registerForAutoconfiguration(ExporterInterface::class)->addTag('parthenon.export.exporter');
         $container->registerForAutoconfiguration(DataProviderInterface::class)->addTag('parthenon.export.data_provider');
+
+        $bundles = $container->getParameter('kernel.bundles');
+
+        $this->configureMongoDb($bundles, $loader);
+        $this->configureDoctrine($bundles, $loader);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function configureDoctrine(float|array|bool|int|string|null $bundles, XmlFileLoader $loader): void
+    {
+        if (isset($bundles['DoctrineBundle'])) {
+            $loader->load('services/orm/export.xml');
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function configureMongoDb(float|int|bool|array|string|null $bundles, XmlFileLoader $loader): void
+    {
+        if (isset($bundles['DoctrineMongoDBBundle'])) {
+            $loader->load('services/odm/export.xml');
+        }
     }
 }
