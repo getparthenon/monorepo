@@ -24,21 +24,20 @@ class DefaultDataProvider implements DataProviderInterface
     {
     }
 
-    /**
-     * @param AthenaExportRequest $exportRequest
-     */
     public function getData(ExportRequest $exportRequest): iterable
     {
-        $section = $this->sectionManager->getByUrlTag($exportRequest->getSectionUrlTag());
+        $parameters = $exportRequest->getParameters();
+        // TODO add sanity checks
+        // TODO catch exceptions
 
+        $section = $this->sectionManager->getByUrlTag($parameters['section_url_tag']);
         $repository = $section->getRepository();
-        $exportType = $exportRequest->getExportType();
+        $exportType = $parameters['export_type'];
 
         if ('all' == $exportType) {
-            $results = $repository->getList($exportRequest->getParameters(), 'id', 'asc', -1);
+            $results = $repository->getList($parameters['search'], 'id', 'asc', -1);
         } else {
-            $exportIds = $exportRequest->getParameters();
-            $results = $repository->getByIds($exportIds);
+            $results = $repository->getByIds($parameters['search']);
         }
 
         return $results->getResults();

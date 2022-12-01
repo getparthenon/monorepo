@@ -30,7 +30,6 @@
             <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcher" />
             <argument type="service" id="Parthenon\Export\Exporter\ExporterManagerInterface" />
             <argument type="service" id="Parthenon\Export\Normaliser\NormaliserManagerInterface" />
-            <argument type="service" id="Parthenon\Common\Upload\UploaderInterface" />
             <argument type="service" id="parthenon.export.user_provider" />
             <argument type="service" id="Parthenon\Notification\EmailSenderInterface" />
             <argument type="service" id="Parthenon\Export\Notification\ExportEmailFactoryInterface" />
@@ -49,7 +48,7 @@
         <service id="Parthenon\Export\Engine\DirectDownloadEngine" class="Parthenon\Export\Engine\DirectDownloadEngine">
             <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcherInterface" />
         </service>
-        <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\DirectDownloadEngine" />
+        <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\BackgroundEmailEngine" />
 
         <service id="Parthenon\Export\DataProvider\DataProviderFetcher" class="Parthenon\Export\DataProvider\DataProviderFetcher">
             <argument type="service" id="service_container" />

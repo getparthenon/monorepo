@@ -17,7 +17,6 @@ namespace Parthenon\Athena\Crud;
 use Parthenon\Athena\AccessRightsManagerInterface;
 use Parthenon\Athena\Edit\FormBuilder;
 use Parthenon\Athena\EntityForm;
-use Parthenon\Athena\Export\AthenaExportRequest;
 use Parthenon\Athena\Export\DefaultDataProvider;
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\Filters\ListFilters;
@@ -28,6 +27,7 @@ use Parthenon\Athena\SectionInterface;
 use Parthenon\Athena\ViewTypeManager;
 use Parthenon\Export\Engine\EngineInterface;
 use Parthenon\Export\Exporter\CsvExporter;
+use Parthenon\Export\ExportRequest;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -72,13 +72,17 @@ class CrudController
         $now = new \DateTime();
         $exportName = sprintf('%s-%s', $this->section->getUrlTag(), $now->format('Y-m-d-hi'));
 
+        $parameters = [];
+        $parameters['export_type'] = $exportType;
+        $parameters['section_url_tag'] = $this->section->getUrlTag();
+
         if ('all' === $exportType) {
-            $parameters = $filters;
+            $parameters['search'] = $filters;
         } else {
-            $parameters = $request->get('export_ids');
+            $parameters['search'] = $request->get('export_ids', []);
         }
 
-        $exportRequest = new AthenaExportRequest($exportName, $exportFormat, DefaultDataProvider::class, $parameters, $this->section->getUrlTag(), $exportType);
+        $exportRequest = new ExportRequest($exportName, $exportFormat, DefaultDataProvider::class, $parameters);
 
         $response = $engine->process($exportRequest);
 
