@@ -35,6 +35,7 @@
         "symfony/framework-bundle": "^6.1.7",
         "symfony/mailer": "6.*",
         "symfony/monolog-bundle": "^3.8",
+        "symfony/redis-messenger": "6.1.*",
         "symfony/security-bundle": "^6.1",
         "symfony/translation": "^6.1",
         "symfony/twig-bundle": "^6.1",
