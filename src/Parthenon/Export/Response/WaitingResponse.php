@@ -15,12 +15,15 @@ declare(strict_types=1);
 namespace Parthenon\Export\Response;
 
 use Parthenon\Export\ExportResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class WaitingResponse implements ExportResponseInterface
 {
-    public function getSymfonyResponse(): Response
+    public function __construct(private string $id)
     {
-        // TODO: Implement getSymfonyResponse() method.
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

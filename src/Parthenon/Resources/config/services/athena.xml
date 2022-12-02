@@ -78,5 +78,8 @@
             <argument type="service" id="Parthenon\Athena\SectionManager" />
         </service>
 
+        <service id="Parthenon\Athena\Export\AthenaResponseConverter" class="Parthenon\Athena\Export\AthenaResponseConverter">
+            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface" />
+        </service>
     </services>
 </container>

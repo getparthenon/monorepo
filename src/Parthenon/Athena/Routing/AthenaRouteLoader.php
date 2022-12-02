@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Parthenon\Athena\Routing;
 
 use Parthenon\Athena\Controller\AthenaController;
+use Parthenon\Athena\Controller\ExportController;
 use Parthenon\Athena\Controller\NotificationController;
 use Parthenon\Athena\SectionManager;
 use Symfony\Component\Config\Loader\Loader;
@@ -69,25 +70,35 @@ final class AthenaRouteLoader extends Loader
 
     protected function addDefaultRoutes(RouteCollection $routes): void
     {
-        $route = $this->getRoute('/athena/index', [
+        $route = $this->createRoute('/athena/index', [
             '_controller' => AthenaController::class.'::index',
         ]);
         $routes->add('parthenon_athena_index', $route);
-        $route = $this->getRoute('/athena/notification/index', [
+        $route = $this->createRoute('/athena/notification/index', [
             '_controller' => NotificationController::class.'::viewAll',
         ]);
         $routes->add('parthenon_athena_notification_list', $route);
-        $route = $this->getRoute('/athena/notification/{id}/read', [
+        $route = $this->createRoute('/athena/notification/{id}/read', [
             '_controller' => NotificationController::class.'::markAsRead',
         ]);
         $routes->add('parthenon_athena_notification_read', $route);
 
+        $route = $this->createRoute('/athena/export/email', [
+            '_controller' => ExportController::class.'::emailWaiting',
+        ]);
+        $routes->add('parthenon_athena_export_email', $route);
+
+        $route = $this->createRoute('/athena/export/download/{id}', [
+            '_controller' => ExportController::class.'::downloadWaiting',
+        ]);
+        $routes->add('parthenon_athena_export_download', $route);
+
         if (!is_null($this->host)) {
-            $route = $this->getRoute('/', [
+            $route = $this->createRoute('/', [
                 '_controller' => AthenaController::class.'::login',
             ]);
             $routes->add('parthenon_athena_landing', $route);
-            $route = $this->getRoute('/login', [
+            $route = $this->createRoute('/login', [
                 '_controller' => AthenaController::class.'::login',
             ]);
             $routes->add('parthenon_athena_login', $route);
@@ -100,7 +111,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::showList',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_list';
         $routes->add($routeName, $route);
@@ -112,7 +123,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::export',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_export';
         $routes->add($routeName, $route);
@@ -124,7 +135,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::showRead',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_read';
         $routes->add($routeName, $route);
@@ -136,7 +147,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::delete',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_delete';
         $routes->add($routeName, $route);
@@ -148,7 +159,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::undelete',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_undelete';
         $routes->add($routeName, $route);
@@ -160,7 +171,7 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::edit',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_edit';
         $routes->add($routeName, $route);
@@ -172,13 +183,13 @@ final class AthenaRouteLoader extends Loader
         $defaults = [
             '_controller' => 'athena_controller_'.$serviceName.'::create',
         ];
-        $route = $this->getRoute($path, $defaults);
+        $route = $this->createRoute($path, $defaults);
         // add the new route to the route collection
         $routeName = 'parthenon_athena_crud_'.$urlTag.'_create';
         $routes->add($routeName, $route);
     }
 
-    protected function getRoute(string $path, array $defaults): Route
+    protected function createRoute(string $path, array $defaults): Route
     {
         $route = new Route($path, $defaults, [], [], $this->host);
 

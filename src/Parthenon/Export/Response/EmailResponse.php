@@ -15,12 +15,7 @@ declare(strict_types=1);
 namespace Parthenon\Export\Response;
 
 use Parthenon\Export\ExportResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class EmailResponse implements ExportResponseInterface
 {
-    public function getSymfonyResponse(): Response
-    {
-        return new Response("we'll send you an email");
-    }
 }

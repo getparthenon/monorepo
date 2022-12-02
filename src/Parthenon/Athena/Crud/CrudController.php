@@ -17,6 +17,7 @@ namespace Parthenon\Athena\Crud;
 use Parthenon\Athena\AccessRightsManagerInterface;
 use Parthenon\Athena\Edit\FormBuilder;
 use Parthenon\Athena\EntityForm;
+use Parthenon\Athena\Export\AthenaResponseConverter;
 use Parthenon\Athena\Export\DefaultDataProvider;
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\Filters\ListFilters;
@@ -44,7 +45,7 @@ class CrudController
     {
     }
 
-    public function export(Request $request, LoggerInterface $logger, EngineInterface $engine)
+    public function export(Request $request, LoggerInterface $logger, EngineInterface $engine, AthenaResponseConverter $athenaResponseConverter)
     {
         $rights = $this->accessRightsManager->getAccessRights($this->section);
 
@@ -86,7 +87,7 @@ class CrudController
 
         $response = $engine->process($exportRequest);
 
-        return $response->getSymfonyResponse();
+        return $athenaResponseConverter->convert($response);
     }
 
     /**
