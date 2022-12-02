@@ -76,6 +76,7 @@
         <service id="Parthenon\Athena\Export\DefaultNormaliser" class="Parthenon\Athena\Export\DefaultNormaliser" />
         <service id="Parthenon\Athena\Export\DefaultDataProvider" class="Parthenon\Athena\Export\DefaultDataProvider">
             <argument type="service" id="Parthenon\Athena\SectionManager" />
+            <argument type="service" id="Parthenon\Athena\Filters\FilterManager" />
         </service>
 
         <service id="Parthenon\Athena\Export\AthenaResponseConverter" class="Parthenon\Athena\Export\AthenaResponseConverter">

@@ -42,7 +42,7 @@ class ExportController
         /** @var BackgroundExportRequest $backgroundExportRequest */
         $backgroundExportRequest = $backgroundExportRequestRepository->findById($id);
 
-        $downloadUrl = $backgroundExportRequest->getExportedFile();
+        $downloadUrl = $backgroundExportRequest->getExportedFilePath();
 
         if ($downloadUrl) {
             return new RedirectResponse($downloadUrl);

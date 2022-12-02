@@ -14,14 +14,18 @@ declare(strict_types=1);
 
 namespace Parthenon\Athena\Export;
 
+use Parthenon\Athena\Filters\FilterManager;
+use Parthenon\Athena\Filters\ListFilters;
 use Parthenon\Athena\SectionManager;
 use Parthenon\Export\DataProvider\DataProviderInterface;
 use Parthenon\Export\ExportRequest;
 
 class DefaultDataProvider implements DataProviderInterface
 {
-    public function __construct(private SectionManager $sectionManager)
-    {
+    public function __construct(
+        private SectionManager $sectionManager,
+        private FilterManager $filterManager
+    ) {
     }
 
     public function getData(ExportRequest $exportRequest): iterable
@@ -35,7 +39,10 @@ class DefaultDataProvider implements DataProviderInterface
         $exportType = $parameters['export_type'];
 
         if ('all' == $exportType) {
-            $results = $repository->getList($parameters['search'], 'id', 'asc', -1);
+            $listFilters = $section->buildFilters(new ListFilters($this->filterManager));
+
+            $filters = $listFilters->getFilters($parameters['search']);
+            $results = $repository->getList($filters, 'id', 'asc', -1);
         } else {
             $results = $repository->getByIds($parameters['search']);
         }

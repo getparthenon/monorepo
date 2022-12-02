@@ -66,10 +66,6 @@ class CrudController
         $exportFormat = $request->get('export_format', CsvExporter::EXPORT_FORMAT);
         $exportType = $request->get('export_type');
 
-        $listFilters = $this->section->buildFilters(new ListFilters($this->filterManager));
-
-        $filters = $listFilters->getFilters($filterData);
-
         $now = new \DateTime();
         $exportName = sprintf('%s-%s', $this->section->getUrlTag(), $now->format('Y-m-d-hi'));
 
@@ -78,7 +74,7 @@ class CrudController
         $parameters['section_url_tag'] = $this->section->getUrlTag();
 
         if ('all' === $exportType) {
-            $parameters['search'] = $filters;
+            $parameters['search'] = $filterData;
         } else {
             $parameters['search'] = $request->get('export_ids', []);
         }

@@ -34,6 +34,6 @@ class BackgroundDownloadEngine implements EngineInterface
         $this->backgroundExportRequestRepository->save($backgroundExportRequest);
         $this->messengerBus->dispatch($backgroundExportRequest);
 
-        return new WaitingResponse();
+        return new WaitingResponse((string) $backgroundExportRequest->getId());
     }
 }
