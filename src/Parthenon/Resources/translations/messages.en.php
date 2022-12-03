@@ -81,6 +81,8 @@ return [
     'parthenon.athena.crud.list.links.previous' => 'Previous',
     'parthenon.athena.crud.list.export_selected' => 'Export Selected',
     'parthenon.athena.crud.list.export_all' => 'Export All Available',
+    'parthenon.athena.crud.export.title' => 'Data Export',
+    'parthenon.athena.crud.export.processing' => 'The system is processing your data export request. Please wait.',
 
     'parthenon.backoffice.crud.read.title' => 'View Entity',
     'parthenon.backoffice.crud.view.edit' => 'Edit',
