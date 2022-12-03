@@ -16,7 +16,7 @@ namespace Parthenon\Export\Messenger;
 
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\BackgroundEmailExportRequest;
-use Parthenon\Export\DataProvider\DataProviderFetcher;
+use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\Normaliser\NormaliserManagerInterface;
 use Parthenon\Export\Notification\ExportEmailFactoryInterface;
@@ -30,7 +30,7 @@ class BackgroundEmailRequestHandler implements MessageHandlerInterface
     use LoggerAwareTrait;
 
     public function __construct(
-        private DataProviderFetcher $dataProviderFetcher,
+        private DataProviderFetcherInterface $dataProviderFetcher,
         private ExporterManagerInterface $exporterManager,
         private NormaliserManagerInterface $normaliserManager,
         private UserProviderInterface $userProvider,

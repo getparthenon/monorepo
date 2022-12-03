@@ -18,5 +18,5 @@ interface NormaliserManagerInterface
 {
     public function addNormaliser(NormaliserInterface $normaliser): void;
 
-    public function getNormaliser(iterable $item): NormaliserInterface;
+    public function getNormaliser(mixed $item): NormaliserInterface;
 }
