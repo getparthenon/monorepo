@@ -27,9 +27,7 @@ class DoctrineCrudRepository extends DoctrineRepository implements CrudRepositor
     {
         $sortKey = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $sortKey))));
 
-        $parts = explode('\\', $this->entityRepository->getClassName());
-        $name = end($parts);
-        $qb = $this->entityRepository->createQueryBuilder($name);
+        $qb = $this->createQueryBuilder();
 
         $direction = 'DESC' === $sortType ? '<' : '>';
         $sortKey = preg_replace('/[^A-Za-z0-9_]+/', '', $sortKey);
@@ -111,11 +109,9 @@ class DoctrineCrudRepository extends DoctrineRepository implements CrudRepositor
 
     public function getByIds(array $ids): ResultSet
     {
-        $parts = explode('\\', $this->entityRepository->getClassName());
-        $name = end($parts);
-        $qb = $this->entityRepository->createQueryBuilder($name);
+        $qb = $this->createQueryBuilder();
 
-        $qb->where($name.'.id in (:ids)')
+        $qb->where($qb->getRootAliases()[0].'.id in (:ids)')
             ->setParameter('ids', $ids);
 
         $query = $qb->getQuery();
