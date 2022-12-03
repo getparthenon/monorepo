@@ -21,8 +21,10 @@ use Parthenon\Export\Response\EmailResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Security;
 
-class BackgroundEmailEngine implements EngineInterface
+final class BackgroundEmailEngine implements EngineInterface
 {
+    public const NAME = 'background_email';
+
     public function __construct(private Security $security, private MessageBusInterface $messengerBus)
     {
     }

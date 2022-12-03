@@ -23,6 +23,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class BackgroundDownloadEngine implements EngineInterface
 {
+    public const NAME = 'background_download';
+
     public function __construct(private MessageBusInterface $messengerBus, private BackgroundExportRequestRepositoryInterface $backgroundExportRequestRepository)
     {
     }

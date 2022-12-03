@@ -15,6 +15,10 @@ declare(strict_types=1);
 namespace Parthenon\DependencyInjection\Modules;
 
 use Parthenon\Export\DataProvider\DataProviderInterface;
+use Parthenon\Export\Engine\BackgroundDownloadEngine;
+use Parthenon\Export\Engine\BackgroundEmailEngine;
+use Parthenon\Export\Engine\DirectDownloadEngine;
+use Parthenon\Export\Engine\EngineInterface;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Normaliser\NormaliserInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -30,6 +34,7 @@ class Export implements ModuleConfigurationInterface
             ->arrayNode('export')
                 ->children()
                     ->booleanNode('enabled')->defaultFalse()->end()
+                    ->booleanNode('default_engine')->end()
                 ->end()
             ->end();
     }
@@ -41,6 +46,10 @@ class Export implements ModuleConfigurationInterface
 
     public function handleConfiguration(array $config, ContainerBuilder $container): void
     {
+        if (!isset($config['export']) || !isset($config['export']['enabled']) || false == $config['export']['enabled']) {
+            return;
+        }
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
         $loader->load('services/export.xml');
 
@@ -52,6 +61,18 @@ class Export implements ModuleConfigurationInterface
 
         $this->configureMongoDb($bundles, $loader);
         $this->configureDoctrine($bundles, $loader);
+
+        if (isset($config['export']['default_engine'])) {
+            $defaultEngine = $config['export']['default_engine'];
+
+            if (DirectDownloadEngine::NAME === $defaultEngine) {
+                $container->setAlias(EngineInterface::class, DirectDownloadEngine::class);
+            } elseif (BackgroundEmailEngine::class === $defaultEngine) {
+                $container->setAlias(EngineInterface::class, BackgroundEmailEngine::class);
+            } elseif (BackgroundDownloadEngine::NAME === $defaultEngine) {
+                $container->setAlias(EngineInterface::class, BackgroundDownloadEngine::class);
+            }
+        }
     }
 
     /**

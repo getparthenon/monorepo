@@ -48,7 +48,7 @@
         <service id="Parthenon\Export\Engine\DirectDownloadEngine" class="Parthenon\Export\Engine\DirectDownloadEngine">
             <argument type="service" id="Parthenon\Export\DataProvider\DataProviderFetcherInterface" />
         </service>
-        <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\BackgroundDownloadEngine" />
+        <service id="Parthenon\Export\Engine\EngineInterface" alias="Parthenon\Export\Engine\DirectDownloadEngine" />
 
         <service id="Parthenon\Export\DataProvider\DataProviderFetcher" class="Parthenon\Export\DataProvider\DataProviderFetcher">
             <argument type="service" id="service_container" />

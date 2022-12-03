@@ -21,8 +21,10 @@ use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\Normaliser\NormaliserManagerInterface;
 use Parthenon\Export\Response\DownloadResponse;
 
-class DirectDownloadEngine implements EngineInterface
+final class DirectDownloadEngine implements EngineInterface
 {
+    public const NAME = 'direct_download';
+
     public function __construct(
         private NormaliserManagerInterface $normaliserManager,
         private ExporterManagerInterface $exporterManager,
