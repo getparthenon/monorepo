@@ -21,7 +21,7 @@ use Parthenon\Export\Repository\BackgroundExportRequestRepositoryInterface;
 use Parthenon\Export\Response\WaitingResponse;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class BackgroundDownloadEngine implements EngineInterface
+final class BackgroundDownloadEngine implements EngineInterface
 {
     public const NAME = 'background_download';
 
