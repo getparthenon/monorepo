@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\DependencyInjection\Modules;
 
+use Parthenon\Common\Exception\MissingDependencyException;
 use Parthenon\Export\DataProvider\DataProviderInterface;
 use Parthenon\Export\Engine\BackgroundDownloadEngine;
 use Parthenon\Export\Engine\BackgroundEmailEngine;
@@ -35,6 +36,7 @@ class Export implements ModuleConfigurationInterface
                 ->children()
                     ->booleanNode('enabled')->defaultFalse()->end()
                     ->booleanNode('default_engine')->end()
+                    ->booleanNode('user_provider')->end()
                 ->end()
             ->end();
     }
@@ -72,6 +74,13 @@ class Export implements ModuleConfigurationInterface
             } elseif (BackgroundDownloadEngine::NAME === $defaultEngine) {
                 $container->setAlias(EngineInterface::class, BackgroundDownloadEngine::class);
             }
+        }
+
+        if (isset($config['export']['user_provider'])) {
+            if (!$container->hasDefinition($config['export']['user_provider'])) {
+                throw new MissingDependencyException(sprintf("The service '%s' for user provider for the export system", $config['export']['user_provider']));
+            }
+            $container->setAlias('parthenon.export.user_provider', $config['export']['user_provider']);
         }
     }
 
