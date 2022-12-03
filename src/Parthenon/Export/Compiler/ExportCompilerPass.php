@@ -19,7 +19,7 @@ use Parthenon\Export\Exporter\ExporterManager;
 use Parthenon\Export\Normaliser\NormaliserManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class ExportCompilerPass extends AbstractCompilerPass
+final class ExportCompilerPass extends AbstractCompilerPass
 {
     public function process(ContainerBuilder $container)
     {

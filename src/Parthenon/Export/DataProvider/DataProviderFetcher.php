@@ -20,7 +20,7 @@ use Parthenon\Export\ExportRequest;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
-class DataProviderFetcher implements DataProviderFetcherInterface
+final class DataProviderFetcher implements DataProviderFetcherInterface
 {
     public function __construct(private ContainerInterface $container)
     {
