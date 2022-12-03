@@ -12,16 +12,10 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\Response;
+namespace Parthenon\Export\Exception;
 
-use Parthenon\Export\Exception\UnsupportedResponseTypeException;
-use Parthenon\Export\ExportResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
+use Parthenon\Common\Exception\GeneralException;
 
-interface ResponseConverterInterface
+final class UnsupportedResponseTypeException extends GeneralException
 {
-    /**
-     * @throws UnsupportedResponseTypeException
-     */
-    public function convert(ExportResponseInterface $exportResponse): Response;
 }
