@@ -20,7 +20,7 @@ class ExportRequest
         protected string $filename,
         protected string $exportFormat,
         protected string $dataProviderService,
-        protected array $parameters = [],
+        protected array $dataProviderParameters = [],
     ) {
     }
 
@@ -39,8 +39,8 @@ class ExportRequest
         return $this->filename;
     }
 
-    public function getParameters(): array
+    public function getDataProviderParameters(): array
     {
-        return $this->parameters;
+        return $this->dataProviderParameters;
     }
 }

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Parthenon\Athena\Export;
 
-use Parthenon\Common\Exception\GeneralException;
 use Parthenon\Export\Exception\UnsupportedResponseTypeException;
 use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\Response\DownloadResponse;
@@ -41,6 +40,6 @@ final class AthenaResponseConverter implements ResponseConverterInterface
             return new RedirectResponse($this->urlGenerator->generate('parthenon_athena_export_download', ['id' => $exportResponse->getId()]));
         }
 
-        throw new UnsupportedResponseTypeException(sprintf("The response type '%s' is not supported", get_class($exportResponse));
+        throw new UnsupportedResponseTypeException(sprintf("The response type '%s' is not supported", get_class($exportResponse)));
     }
 }

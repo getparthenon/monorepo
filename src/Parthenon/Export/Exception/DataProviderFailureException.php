@@ -12,17 +12,10 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Export\DataProvider;
+namespace Parthenon\Export\Exception;
 
-use Parthenon\Export\Exception\DataProviderFailureException;
-use Parthenon\Export\Exception\InvalidDataProviderParameterException;
-use Parthenon\Export\ExportRequest;
+use Parthenon\Common\Exception\GeneralException;
 
-interface DataProviderInterface
+final class DataProviderFailureException extends GeneralException
 {
-    /**
-     * @throws InvalidDataProviderParameterException
-     * @throws DataProviderFailureException
-     */
-    public function getData(ExportRequest $exportRequest): iterable;
 }

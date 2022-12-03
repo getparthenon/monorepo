@@ -30,7 +30,7 @@ class BackgroundExportRequest extends ExportRequest
 
     public static function createFromExportRequest(ExportRequest $request)
     {
-        $self = new static($request->getFilename(), $request->getExportFormat(), $request->getDataProviderService(), $request->getParameters());
+        $self = new static($request->getFilename(), $request->getExportFormat(), $request->getDataProviderService(), $request->getDataProviderParameters());
         $now = new \DateTime();
         $self->createdAt = $now;
         $self->updatedAt = $now;

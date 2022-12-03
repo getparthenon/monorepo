@@ -16,37 +16,53 @@ namespace Parthenon\Athena\Export;
 
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\Filters\ListFilters;
-use Parthenon\Athena\SectionManager;
+use Parthenon\Athena\SectionManagerInterface;
 use Parthenon\Export\DataProvider\DataProviderInterface;
+use Parthenon\Export\Exception\DataProviderFailureException;
+use Parthenon\Export\Exception\InvalidDataProviderParameterException;
 use Parthenon\Export\ExportRequest;
 
-class DefaultDataProvider implements DataProviderInterface
+final class DefaultDataProvider implements DataProviderInterface
 {
     public function __construct(
-        private SectionManager $sectionManager,
+        private SectionManagerInterface $sectionManager,
         private FilterManager $filterManager
     ) {
     }
 
     public function getData(ExportRequest $exportRequest): iterable
     {
-        $parameters = $exportRequest->getParameters();
-        // TODO add sanity checks
-        // TODO catch exceptions
-
-        $section = $this->sectionManager->getByUrlTag($parameters['section_url_tag']);
-        $repository = $section->getRepository();
-        $exportType = $parameters['export_type'];
-
-        if ('all' == $exportType) {
-            $listFilters = $section->buildFilters(new ListFilters($this->filterManager));
-
-            $filters = $listFilters->getFilters($parameters['search']);
-            $results = $repository->getList($filters, 'id', 'asc', -1);
-        } else {
-            $results = $repository->getByIds($parameters['search']);
+        $parameters = $exportRequest->getDataProviderParameters();
+        if (!isset($parameters['export_type'])) {
+            throw new InvalidDataProviderParameterException("The parameter 'export_type' is missing");
+        }
+        if (!isset($parameters['section_url_tag'])) {
+            throw new InvalidDataProviderParameterException("The parameter 'section_url_tag' is missing");
+        }
+        if (!isset($parameters['search'])) {
+            throw new InvalidDataProviderParameterException("The parameter 'search' is missing");
+        }
+        if (!is_array($parameters['search'])) {
+            throw new InvalidDataProviderParameterException("The parameter 'search' must be an array");
         }
 
-        return $results->getResults();
+        try {
+            $section = $this->sectionManager->getByUrlTag($parameters['section_url_tag']);
+            $repository = $section->getRepository();
+            $exportType = $parameters['export_type'];
+
+            if ('all' == $exportType) {
+                $listFilters = $section->buildFilters(new ListFilters($this->filterManager));
+
+                $filters = $listFilters->getFilters($parameters['search']);
+                $results = $repository->getList($filters, 'id', 'asc', -1);
+            } else {
+                $results = $repository->getByIds($parameters['search']);
+            }
+
+            return $results->getResults();
+        } catch (\Throwable $exception) {
+            throw new DataProviderFailureException($exception->getMessage(), $exception->getCode(), $exception);
+        }
     }
 }

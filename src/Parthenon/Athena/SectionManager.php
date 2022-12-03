@@ -17,7 +17,7 @@ namespace Parthenon\Athena;
 use Parthenon\Athena\Controller\AthenaControllerInterface;
 use Parthenon\Athena\Exception\NoSectionFoundException;
 
-final class SectionManager
+final class SectionManager implements SectionManagerInterface
 {
     /**
      * @var SectionInterface[]
