@@ -16,7 +16,7 @@ namespace Parthenon\Export\Normaliser;
 
 use Parthenon\Export\Exception\NoNormaliserFoundException;
 
-class NormaliserManager implements NormaliserManagerInterface
+final class NormaliserManager implements NormaliserManagerInterface
 {
     /**
      * @param NormaliserInterface[] $normalisers

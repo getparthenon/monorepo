@@ -25,7 +25,7 @@ use Parthenon\Notification\EmailSenderInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class BackgroundEmailRequestHandler implements MessageHandlerInterface
+final class BackgroundEmailRequestHandler implements MessageHandlerInterface
 {
     use LoggerAwareTrait;
 
