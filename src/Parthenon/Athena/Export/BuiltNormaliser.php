@@ -21,6 +21,11 @@ class BuiltNormaliser implements NormaliserInterface
 {
     use FieldAccesorTrait;
 
+    /**
+     * BuiltNormaliser constructor.
+     *
+     * @param NormalisedField[] $fields
+     */
     public function __construct(private string $className, private array $fields)
     {
     }
@@ -33,8 +38,14 @@ class BuiltNormaliser implements NormaliserInterface
     public function normalise(mixed $item): array
     {
         $output = [];
-        foreach ($this->fields as $columnName => $fieldName) {
-            $output[$columnName] = $this->getFieldData($item, $fieldName);
+        foreach ($this->fields as $field) {
+            $fieldName = $field->getFieldName();
+            $columnName = $field->getColumnName();
+            $normaliserMethod = $field->getNormaliserMethod();
+
+            $value = $this->getFieldData($item, $fieldName);
+
+            $output[$columnName] = $normaliserMethod($value);
         }
 
         return $output;

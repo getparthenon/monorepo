@@ -22,9 +22,15 @@ final class NormaliserBuilder implements NormaliserBuilderInterface
     {
     }
 
-    public function addField(string $fieldName, string $columnName)
+    public function addField(string $fieldName, string $columnName, \Closure $fieldNormaliser = null)
     {
-        $this->fields[$fieldName] = $columnName;
+        if (null === $fieldNormaliser) {
+            $fieldNormaliser = function ($value) {
+                return $value;
+            };
+        }
+
+        $this->fields[] = new NormalisedField($fieldName, $columnName, $fieldNormaliser);
     }
 
     public function getNormaliser(): NormaliserInterface
