@@ -16,7 +16,7 @@ namespace Parthenon\Export\Messenger;
 
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Common\Upload\UploaderInterface;
-use Parthenon\Export\DataProvider\DataProviderFetcher;
+use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
 use Parthenon\Export\Entity\BackgroundExportRequest;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\Normaliser\NormaliserManagerInterface;
@@ -29,7 +29,7 @@ class BackgroundDownloadRequestHandler implements MessageHandlerInterface
 
     public function __construct(
         private BackgroundExportRequestRepositoryInterface $backgroundExportRequestRepository,
-        private DataProviderFetcher $dataProviderFetcher,
+        private DataProviderFetcherInterface $dataProviderFetcher,
         private ExporterManagerInterface $exporterManager,
         private NormaliserManagerInterface $normaliserManager,
         private UploaderInterface $uploader,
