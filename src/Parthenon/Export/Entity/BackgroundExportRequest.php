@@ -16,7 +16,7 @@ namespace Parthenon\Export\Entity;
 
 use Parthenon\Export\ExportRequest;
 
-final class BackgroundExportRequest extends ExportRequest
+class BackgroundExportRequest extends ExportRequest
 {
     private $id;
 
