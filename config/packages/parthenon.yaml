@@ -145,3 +145,5 @@ parthenon:
             team_invite:
               limit: 5
               description: "Number of users"
+  export:
+    enabled: true

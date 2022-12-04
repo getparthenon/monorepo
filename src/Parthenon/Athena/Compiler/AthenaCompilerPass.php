@@ -18,6 +18,7 @@ use Parthenon\Athena\AccessRightsManagerInterface;
 use Parthenon\Athena\Crud\CrudController;
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\ViewTypeManager;
+use Parthenon\Export\Normaliser\NormaliserInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -37,6 +38,10 @@ final class AthenaCompilerPass implements CompilerPassInterface
         $this->handleController($container);
         $this->handleFilters($container);
         $this->handleViewTypes($container);
+    }
+
+    public function handleSectionNormalisers(ContainerBuilder $containerBuilder): void
+    {
     }
 
     private function handleViewTypes(ContainerBuilder $container): void
@@ -150,6 +155,13 @@ final class AthenaCompilerPass implements CompilerPassInterface
             $controllerDefinition->setAutowired(true);
 
             $container->setDefinition('athena_controller_'.$servicePart, $controllerDefinition);
+
+            $normaliserDefinition = new Definition();
+            $normaliserDefinition->setClass(NormaliserInterface::class);
+            $normaliserDefinition->setFactory([new Reference($name), 'getNormaliser']);
+            $normaliserDefinition->addTag('parthenon.export.normaliser');
+
+            $container->setDefinition('athena_export_normaliser_'.$servicePart, $normaliserDefinition);
         }
     }
 

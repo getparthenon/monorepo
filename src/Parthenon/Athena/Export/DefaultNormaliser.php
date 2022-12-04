@@ -23,9 +23,13 @@ final class DefaultNormaliser implements NormaliserInterface
 {
     use FieldAccesorTrait;
 
+    public function __construct(private string $className)
+    {
+    }
+
     public function supports(mixed $item): bool
     {
-        return true;
+        return is_a($this->className, $item);
     }
 
     public function normalise(mixed $item): array

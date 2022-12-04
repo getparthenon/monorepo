@@ -17,6 +17,7 @@ namespace Parthenon\Athena;
 use Parthenon\Athena\Filters\ListFilters;
 use Parthenon\Athena\Filters\ListFiltersInterface;
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
+use Parthenon\Export\Normaliser\NormaliserInterface;
 
 interface SectionInterface
 {
@@ -49,4 +50,6 @@ interface SectionInterface
     public function preSave($entity): void;
 
     public function postSave($entity): void;
+
+    public function getNormaliser(): NormaliserInterface;
 }
