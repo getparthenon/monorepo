@@ -23,7 +23,7 @@ use Parthenon\Export\Normaliser\NormaliserManagerInterface;
 use Parthenon\Export\Repository\BackgroundExportRequestRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class BackgroundDownloadRequestHandler implements MessageHandlerInterface
+final class BackgroundDownloadRequestHandler implements MessageHandlerInterface
 {
     use LoggerAwareTrait;
 
