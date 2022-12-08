@@ -21,7 +21,7 @@ final class NormaliserFactory implements NormaliserFactoryInterface
 {
     public function build(SectionInterface $section): NormaliserInterface
     {
-        $builder = new NormaliserBuilder($section->getEntity());
+        $builder = new NormaliserBuilder(get_class($section->getEntity()));
 
         $section->buildNormalsier($builder);
 

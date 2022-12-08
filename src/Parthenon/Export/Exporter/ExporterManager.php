@@ -43,4 +43,15 @@ final class ExporterManager implements ExporterManagerInterface
     {
         $this->exporters[] = $exporter;
     }
+
+    public function getFormats(): array
+    {
+        $output = [];
+
+        foreach ($this->exporters as $exporter) {
+            $output[] = $exporter->getFormat();
+        }
+
+        return $output;
+    }
 }

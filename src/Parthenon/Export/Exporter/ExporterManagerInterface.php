@@ -21,4 +21,6 @@ interface ExporterManagerInterface
     public function addExporter(ExporterInterface $exporter): void;
 
     public function getExporter(ExportRequest $exportRequest): ExporterInterface;
+
+    public function getFormats(): array;
 }

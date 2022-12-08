@@ -22,7 +22,7 @@ final class NormaliserBuilder implements NormaliserBuilderInterface
     {
     }
 
-    public function addField(string $fieldName, string $columnName, \Closure $fieldNormaliser = null)
+    public function addField(string $fieldName, string $columnName, \Closure $fieldNormaliser = null): self
     {
         if (null === $fieldNormaliser) {
             $fieldNormaliser = function ($value) {
@@ -38,7 +38,7 @@ final class NormaliserBuilder implements NormaliserBuilderInterface
     public function getNormaliser(): NormaliserInterface
     {
         if (empty($this->fields)) {
-            return new DefaultNormaliser(get_class($this->entity));
+            return new DefaultNormaliser($this->entity);
         }
 
         return new BuiltNormaliser($this->entity, $this->fields);

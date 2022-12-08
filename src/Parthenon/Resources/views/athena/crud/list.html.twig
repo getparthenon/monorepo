@@ -129,7 +129,17 @@
                         </table>
 
                         {% if settings.isExportEnabled and is_granted(rights.export) %}
-                        <div class="mt-2">
+                        <div class="mt-2 mb-2" >
+                            <div class="row pb-2">
+                                <div class="col-1">{{ 'parthenon.athena.crud.list.export_formats'|trans }}</div>
+                                <div class="col-4">
+                                    <select class="export_format">
+                                        {% for format in export_formats %}
+                                        <option value="{{ format }}">{{ format }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                             <button class="btn btn-primary" name="export_type" value="selected">{{ 'parthenon.athena.crud.list.export_selected'|trans }}</button>
                             <button class="btn btn-dark" name="export_type" value="all">{{ 'parthenon.athena.crud.list.export_all'|trans }}</button>
                         </div>

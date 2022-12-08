@@ -29,7 +29,7 @@ final class DefaultNormaliser implements NormaliserInterface
 
     public function supports(mixed $item): bool
     {
-        return is_a($this->className, $item);
+        return is_a($item, $this->className);
     }
 
     public function normalise(mixed $item): array

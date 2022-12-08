@@ -28,6 +28,7 @@ use Parthenon\Athena\SectionInterface;
 use Parthenon\Athena\ViewTypeManager;
 use Parthenon\Export\Engine\EngineInterface;
 use Parthenon\Export\Exporter\CsvExporter;
+use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -89,7 +90,7 @@ class CrudController
     /**
      * @Template("@Parthenon/athena/crud/list.html.twig")
      */
-    public function showList(Request $request, LoggerInterface $logger, Session $session)
+    public function showList(Request $request, LoggerInterface $logger, Session $session, ExporterManagerInterface $exporterManager)
     {
         $rights = $this->accessRightsManager->getAccessRights($this->section);
 
@@ -139,6 +140,7 @@ class CrudController
             'buttons' => $this->section->getButtons(),
             'entityType' => get_class($this->section->getEntity()),
             'rights' => $rights,
+            'export_formats' => $exporterManager->getFormats(),
         ];
     }
 
