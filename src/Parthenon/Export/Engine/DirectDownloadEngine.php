@@ -37,7 +37,7 @@ final class DirectDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Starting a direct download export', ['filename' => $exportRequest->getFilename()]);
+        $this->getLogger()->info('Starting a direct download export', ['export_filename' => $exportRequest->getFilename()]);
 
         // Todo catch exceptions
         $data = $this->dataProviderFetcher->getDataProvider($exportRequest)->getData($exportRequest);
@@ -59,7 +59,7 @@ final class DirectDownloadEngine implements EngineInterface
         $exportedContent = $exporter->getOutput($normalisedData);
         $filename = $exporter->getFilename($exportRequest->getFilename());
 
-        $this->getLogger()->info('Finishing a direct download export', ['filename' => $exportRequest->getFilename()]);
+        $this->getLogger()->info('Finishing a direct download export', ['export_filename' => $exportRequest->getFilename()]);
 
         return new DownloadResponse($exportedContent, $filename);
     }

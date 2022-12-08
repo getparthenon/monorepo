@@ -41,7 +41,7 @@ final class BackgroundEmailRequestHandler implements MessageHandlerInterface
 
     public function __invoke(BackgroundEmailExportRequest $message)
     {
-        $this->getLogger()->info('Processing background email export request');
+        $this->getLogger()->info('Processing background email export request', ['export_filename' => $message->getFilename()]);
 
         $user = $this->userProvider->refreshUser($message->getUser());
         $message->setUser($user);
@@ -71,5 +71,7 @@ final class BackgroundEmailRequestHandler implements MessageHandlerInterface
         $email->addAttachment($attachment);
 
         $this->emailSender->send($email);
+
+        $this->getLogger()->info('Finished processing background email export request', ['export_filename' => $message->getFilename()]);
     }
 }

@@ -38,7 +38,7 @@ final class BackgroundDownloadRequestHandler implements MessageHandlerInterface
 
     public function __invoke(BackgroundExportRequest $message)
     {
-        $this->getLogger()->info('Processing background download export request');
+        $this->getLogger()->info('Processing background download export request', ['export_filename' => $message->getFilename()]);
 
         /** @var BackgroundExportRequest $backgroundExportRequest */
         $backgroundExportRequest = $this->backgroundExportRequestRepository->findById($message->getId());
@@ -68,5 +68,6 @@ final class BackgroundDownloadRequestHandler implements MessageHandlerInterface
         $backgroundExportRequest->setUpdatedAt(new \DateTime());
 
         $this->backgroundExportRequestRepository->save($backgroundExportRequest);
+        $this->getLogger()->info('Finished processing background download export request', ['export_filename' => $message->getFilename()]);
     }
 }

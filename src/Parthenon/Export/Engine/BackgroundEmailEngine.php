@@ -34,7 +34,7 @@ final class BackgroundEmailEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Queuing a background email export', ['filename' => $exportRequest->getFilename()]);
+        $this->getLogger()->info('Queuing a background email export', ['export_filename' => $exportRequest->getFilename()]);
 
         $backgroundEmail = BackgroundEmailExportRequest::createFromExportRequest($exportRequest, $this->security->getUser());
         $this->messengerBus->dispatch($backgroundEmail);

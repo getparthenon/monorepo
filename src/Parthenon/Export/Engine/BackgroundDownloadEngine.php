@@ -34,7 +34,7 @@ final class BackgroundDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Queuing a background download export', ['filename' => $exportRequest->getFilename()]);
+        $this->getLogger()->info('Queuing a background download export', ['export_filename' => $exportRequest->getFilename()]);
 
         $backgroundExportRequest = BackgroundExportRequest::createFromExportRequest($exportRequest);
 
