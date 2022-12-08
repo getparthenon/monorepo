@@ -16,6 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
 use Parthenon\Export\DataProvider\DataProviderInterface;
+use Parthenon\Export\Exception\ExportFailedException;
 use Parthenon\Export\Exception\InvalidDataProviderException;
 use Parthenon\Export\Exporter\ExporterInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
@@ -62,7 +63,7 @@ class DirectDownloadEngineTest extends TestCase
 
     public function testThrowExceptionInvalidDataProvider()
     {
-        $this->expectException(InvalidDataProviderException::class);
+        $this->expectException(ExportFailedException::class);
         $exportRequest = $this->createMock(ExportRequest::class);
         $exportRequest->method('getFilename')->willreturn('random-export');
 
