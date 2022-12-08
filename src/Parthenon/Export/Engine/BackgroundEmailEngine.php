@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\BackgroundEmailExportRequest;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
@@ -23,6 +24,8 @@ use Symfony\Component\Security\Core\Security;
 
 final class BackgroundEmailEngine implements EngineInterface
 {
+    use LoggerAwareTrait;
+
     public const NAME = 'background_email';
 
     public function __construct(private Security $security, private MessageBusInterface $messengerBus)
@@ -31,6 +34,8 @@ final class BackgroundEmailEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
+        $this->getLogger()->info('Queuing a background email export', ['filename' => $exportRequest->getFilename()]);
+
         $backgroundEmail = BackgroundEmailExportRequest::createFromExportRequest($exportRequest, $this->security->getUser());
         $this->messengerBus->dispatch($backgroundEmail);
 

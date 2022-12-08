@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\Entity\BackgroundExportRequest;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
@@ -23,6 +24,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class BackgroundDownloadEngine implements EngineInterface
 {
+    use LoggerAwareTrait;
+
     public const NAME = 'background_download';
 
     public function __construct(private MessageBusInterface $messengerBus, private BackgroundExportRequestRepositoryInterface $backgroundExportRequestRepository)
@@ -31,6 +34,8 @@ final class BackgroundDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
+        $this->getLogger()->info('Queuing a background download export', ['filename' => $exportRequest->getFilename()]);
+
         $backgroundExportRequest = BackgroundExportRequest::createFromExportRequest($exportRequest);
 
         $this->backgroundExportRequestRepository->save($backgroundExportRequest);

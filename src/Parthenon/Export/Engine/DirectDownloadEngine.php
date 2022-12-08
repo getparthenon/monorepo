@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Export\Engine;
 
+use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
@@ -23,6 +24,8 @@ use Parthenon\Export\Response\DownloadResponse;
 
 final class DirectDownloadEngine implements EngineInterface
 {
+    use LoggerAwareTrait;
+
     public const NAME = 'direct_download';
 
     public function __construct(
@@ -34,6 +37,8 @@ final class DirectDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
+        $this->getLogger()->info('Starting a direct download export', ['filename' => $exportRequest->getFilename()]);
+
         // Todo catch exceptions
         $data = $this->dataProviderFetcher->getDataProvider($exportRequest)->getData($exportRequest);
 
@@ -53,6 +58,8 @@ final class DirectDownloadEngine implements EngineInterface
 
         $exportedContent = $exporter->getOutput($normalisedData);
         $filename = $exporter->getFilename($exportRequest->getFilename());
+
+        $this->getLogger()->info('Finishing a direct download export', ['filename' => $exportRequest->getFilename()]);
 
         return new DownloadResponse($exportedContent, $filename);
     }
