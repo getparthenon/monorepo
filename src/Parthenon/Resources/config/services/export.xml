@@ -9,6 +9,8 @@
 
         <service id="Parthenon\Export\Exporter\CsvExporter" class="Parthenon\Export\Exporter\CsvExporter">
         </service>
+        <service id="Parthenon\Export\Exporter\XslExporter" class="Parthenon\Export\Exporter\XslExporter">
+        </service>
 
         <service id="Parthenon\Export\Exporter\ExporterManager" class="Parthenon\Export\Exporter\ExporterManager">
         </service>

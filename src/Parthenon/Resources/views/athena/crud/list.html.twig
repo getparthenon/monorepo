@@ -133,7 +133,7 @@
                             <div class="row pb-2">
                                 <div class="col-1">{{ 'parthenon.athena.crud.list.export_formats'|trans }}</div>
                                 <div class="col-4">
-                                    <select class="export_format">
+                                    <select name="export_format">
                                         {% for format in export_formats %}
                                         <option value="{{ format }}">{{ format }}</option>
                                         {% endfor %}

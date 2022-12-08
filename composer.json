@@ -18,6 +18,7 @@
         "monolog/monolog": "^2.8",
         "nyholm/psr7": "^1.5",
         "parthenon/transaction-cloud": "^0.1.0",
+        "phpoffice/phpspreadsheet": "^1.25",
         "psr/http-client": "^1.0",
         "psr/http-message": "^1.0",
         "ramsey/uuid": "^4.5.1",
