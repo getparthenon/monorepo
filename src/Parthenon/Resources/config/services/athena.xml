@@ -81,5 +81,8 @@
         <service id="Parthenon\Athena\Export\AthenaResponseConverter" class="Parthenon\Athena\Export\AthenaResponseConverter">
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface" />
         </service>
+
+        <service id="Parthenon\Athena\Export\NormaliserFactory" class="Parthenon\Athena\Export\NormaliserFactory" />
+        <service id="Parthenon\Athena\Export\NormaliserFactoryInterface" alias="Parthenon\Athena\Export\NormaliserFactory" />
     </services>
 </container>

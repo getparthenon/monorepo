@@ -16,6 +16,7 @@ namespace Parthenon\Athena\Compiler;
 
 use Parthenon\Athena\AccessRightsManagerInterface;
 use Parthenon\Athena\Crud\CrudController;
+use Parthenon\Athena\Export\NormaliserFactoryInterface;
 use Parthenon\Athena\Filters\FilterManager;
 use Parthenon\Athena\ViewTypeManager;
 use Parthenon\Export\Normaliser\NormaliserInterface;
@@ -158,7 +159,8 @@ final class AthenaCompilerPass implements CompilerPassInterface
 
             $normaliserDefinition = new Definition();
             $normaliserDefinition->setClass(NormaliserInterface::class);
-            $normaliserDefinition->setFactory([new Reference($name), 'getNormaliser']);
+            $normaliserDefinition->setFactory([new Reference(NormaliserFactoryInterface::class), 'build']);
+            $normaliserDefinition->setArgument('$section', new Reference($name));
             $normaliserDefinition->addTag('parthenon.export.normaliser');
 
             $container->setDefinition('athena_export_normaliser_'.$servicePart, $normaliserDefinition);

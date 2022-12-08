@@ -14,9 +14,8 @@ declare(strict_types=1);
 
 namespace Parthenon\Athena;
 
-use Parthenon\Athena\Export\DefaultNormaliser;
+use Parthenon\Athena\Export\NormaliserBuilderInterface;
 use Parthenon\Athena\Filters\ListFilters;
-use Parthenon\Export\Normaliser\NormaliserInterface;
 
 abstract class AbstractSection implements SectionInterface
 {
@@ -85,8 +84,8 @@ abstract class AbstractSection implements SectionInterface
         return [];
     }
 
-    public function getNormaliser(): NormaliserInterface
+    public function buildNormalsier(NormaliserBuilderInterface $builder): NormaliserBuilderInterface
     {
-        return new DefaultNormaliser(get_class($this->getEntity()));
+        return $builder;
     }
 }

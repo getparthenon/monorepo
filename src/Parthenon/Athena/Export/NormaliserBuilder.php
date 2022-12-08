@@ -35,6 +35,10 @@ final class NormaliserBuilder implements NormaliserBuilderInterface
 
     public function getNormaliser(): NormaliserInterface
     {
+        if (empty($this->fields)) {
+            return new DefaultNormaliser(get_class($this->entity));
+        }
+
         return new BuiltNormaliser($this->entity, $this->fields);
     }
 }

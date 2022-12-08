@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Parthenon\Athena;
 
+use Parthenon\Athena\Export\NormaliserBuilderInterface;
 use Parthenon\Athena\Filters\ListFilters;
 use Parthenon\Athena\Filters\ListFiltersInterface;
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
-use Parthenon\Export\Normaliser\NormaliserInterface;
 
 interface SectionInterface
 {
@@ -51,5 +51,5 @@ interface SectionInterface
 
     public function postSave($entity): void;
 
-    public function getNormaliser(): NormaliserInterface;
+    public function buildNormalsier(NormaliserBuilderInterface $normaliserBuilder): NormaliserBuilderInterface;
 }
