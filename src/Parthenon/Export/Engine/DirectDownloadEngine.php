@@ -16,6 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\DataProvider\DataProviderFetcherInterface;
+use Parthenon\Export\Exception\ExportFailedException;
 use Parthenon\Export\Exporter\ExporterManagerInterface;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
@@ -37,30 +38,33 @@ final class DirectDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Starting a direct download export', ['export_filename' => $exportRequest->getFilename()]);
+        try {
+            $this->getLogger()->info('Starting a direct download export', ['export_filename' => $exportRequest->getFilename()]);
 
-        // Todo catch exceptions
-        $data = $this->dataProviderFetcher->getDataProvider($exportRequest)->getData($exportRequest);
+            $data = $this->dataProviderFetcher->getDataProvider($exportRequest)->getData($exportRequest);
 
-        $exporter = $this->exporterManager->getExporter($exportRequest);
+            $exporter = $this->exporterManager->getExporter($exportRequest);
 
-        $normaliser = null;
-        $normalisedData = [];
+            $normaliser = null;
+            $normalisedData = [];
 
-        foreach ($data as $item) {
-            // Done this way incase it's a generator.
-            if (!isset($normaliser)) {
-                $normaliser = $this->normaliserManager->getNormaliser($item);
+            foreach ($data as $item) {
+                // Done this way incase it's a generator.
+                if (!isset($normaliser)) {
+                    $normaliser = $this->normaliserManager->getNormaliser($item);
+                }
+
+                $normalisedData[] = $normaliser->normalise($item);
             }
 
-            $normalisedData[] = $normaliser->normalise($item);
+            $exportedContent = $exporter->getOutput($normalisedData);
+            $filename = $exporter->getFilename($exportRequest->getFilename());
+
+            $this->getLogger()->info('Finishing a direct download export', ['export_filename' => $exportRequest->getFilename()]);
+
+            return new DownloadResponse($exportedContent, $filename);
+        } catch (\Throwable $e) {
+            throw new ExportFailedException($e->getMessage(), $e->getCode(), $e);
         }
-
-        $exportedContent = $exporter->getOutput($normalisedData);
-        $filename = $exporter->getFilename($exportRequest->getFilename());
-
-        $this->getLogger()->info('Finishing a direct download export', ['export_filename' => $exportRequest->getFilename()]);
-
-        return new DownloadResponse($exportedContent, $filename);
     }
 }

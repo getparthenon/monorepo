@@ -16,6 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\BackgroundEmailExportRequest;
+use Parthenon\Export\Exception\ExportFailedException;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\Response\EmailResponse;
@@ -34,11 +35,15 @@ final class BackgroundEmailEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Queuing a background email export', ['export_filename' => $exportRequest->getFilename()]);
+        try {
+            $this->getLogger()->info('Queuing a background email export', ['export_filename' => $exportRequest->getFilename()]);
 
-        $backgroundEmail = BackgroundEmailExportRequest::createFromExportRequest($exportRequest, $this->security->getUser());
-        $this->messengerBus->dispatch($backgroundEmail);
+            $backgroundEmail = BackgroundEmailExportRequest::createFromExportRequest($exportRequest, $this->security->getUser());
+            $this->messengerBus->dispatch($backgroundEmail);
 
-        return new EmailResponse();
+            return new EmailResponse();
+        } catch (\Throwable $e) {
+            throw new ExportFailedException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

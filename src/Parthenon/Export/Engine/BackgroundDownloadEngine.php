@@ -16,6 +16,7 @@ namespace Parthenon\Export\Engine;
 
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\Export\Entity\BackgroundExportRequest;
+use Parthenon\Export\Exception\ExportFailedException;
 use Parthenon\Export\ExportRequest;
 use Parthenon\Export\ExportResponseInterface;
 use Parthenon\Export\Repository\BackgroundExportRequestRepositoryInterface;
@@ -34,13 +35,17 @@ final class BackgroundDownloadEngine implements EngineInterface
 
     public function process(ExportRequest $exportRequest): ExportResponseInterface
     {
-        $this->getLogger()->info('Queuing a background download export', ['export_filename' => $exportRequest->getFilename()]);
+        try {
+            $this->getLogger()->info('Queuing a background download export', ['export_filename' => $exportRequest->getFilename()]);
 
-        $backgroundExportRequest = BackgroundExportRequest::createFromExportRequest($exportRequest);
+            $backgroundExportRequest = BackgroundExportRequest::createFromExportRequest($exportRequest);
 
-        $this->backgroundExportRequestRepository->save($backgroundExportRequest);
-        $this->messengerBus->dispatch($backgroundExportRequest);
+            $this->backgroundExportRequestRepository->save($backgroundExportRequest);
+            $this->messengerBus->dispatch($backgroundExportRequest);
 
-        return new WaitingResponse((string) $backgroundExportRequest->getId());
+            return new WaitingResponse((string) $backgroundExportRequest->getId());
+        } catch (\Throwable $e) {
+            throw new ExportFailedException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
