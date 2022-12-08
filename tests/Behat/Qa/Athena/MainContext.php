@@ -16,6 +16,7 @@ namespace App\Tests\Behat\Qa\Athena;
 
 use Behat\Behat\Context\Context;
 use Behat\Mink\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 class MainContext implements Context
 {
@@ -30,5 +31,40 @@ class MainContext implements Context
     public function iGoToTheAthenaMainPage()
     {
         $this->session->visit('/athena/index');
+    }
+
+    /**
+     * @When I click export all users
+     */
+    public function iClickExportAllUsers()
+    {
+        $this->session->getPage()->pressButton('export_all');
+    }
+
+    /**
+     * @Then I should have a csv download
+     */
+    public function iShouldHaveACsvDownloadve()
+    {
+        $client = $this->session->getDriver()->getClient();
+
+        /** @var Response $response */
+        $response = $client->getResponse();
+
+        $header = $response->headers->get('content-disposition');
+
+        if (0 !== strpos($header, 'attachment')) {
+            throw new \Exception('Attachment header non-existant');
+        }
+
+        $content = $response->getContent();
+
+        $fp = fopen('php://memory', 'w+');
+        fwrite($fp, $content);
+        fseek($fp, 0);
+        $validData = fgetcsv($fp);
+        if (false === $validData) {
+            throw new \Exception('Not a single valid row');
+        }
     }
 }

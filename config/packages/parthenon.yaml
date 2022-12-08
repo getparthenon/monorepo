@@ -55,6 +55,18 @@ parthenon:
       orm_entity_manager: tenant
       default_database: '%env(resolve:TENANT_DEFAULT_DATABASE)%'
   common:
+    uploader:
+      default:
+        provider: s3
+        naming_strategy: random_time
+        url: '%env(resolve:UPLOAD_ACCESS_URL)%'
+        s3:
+          key: '%env(resolve:AWS_S3_KEY)%'
+          secret: '%env(resolve:AWS_S3_SECRET)%'
+          region: '%env(resolve:AWS_S3_REGION)%'
+          endpoint: '%env(resolve:AWS_S3_ENDPOINT)%'
+          bucket_name: '%env(resolve:AWS_S3_BUCKET)%'
+          visibility: public
     elasticsearch:
       connection_type: 'normal'
       hosts: ['%env(resolve:ELASTICSEARCH_HOST)%']
@@ -80,7 +92,6 @@ parthenon:
       provider: sendgrid
       sendgrid:
         api_key: '%env(resolve:SENDGRID_API_KEY)%'
-
   athena:
     enabled: true
   payments:
@@ -134,3 +145,5 @@ parthenon:
             team_invite:
               limit: 5
               description: "Number of users"
+  export:
+    enabled: true

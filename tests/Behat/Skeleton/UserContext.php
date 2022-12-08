@@ -405,7 +405,9 @@ class UserContext implements Context
         $users = $table->getColumnsHash();
 
         foreach ($users as $user) {
-            $this->createUser($user['Email'], $user['Password'], 'ddd', true, $user['Name'], false, true);
+            $userEnt = $this->createUser($user['Email'], $user['Password'], 'ddd', true, $user['Name'], false, true);
+
+            $this->createTeam($userEnt, $user['Name']);
         }
 
         $this->repository->getEntityManager()->flush();

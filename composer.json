@@ -18,6 +18,7 @@
         "monolog/monolog": "^2.8",
         "nyholm/psr7": "^1.5",
         "parthenon/transaction-cloud": "^0.1.0",
+        "phpoffice/phpspreadsheet": "^1.25",
         "psr/http-client": "^1.0",
         "psr/http-message": "^1.0",
         "ramsey/uuid": "^4.5.1",
@@ -32,9 +33,10 @@
         "symfony/expression-language": "^6.1",
         "symfony/flex": "^1.19",
         "symfony/form": "^6.1",
-        "symfony/framework-bundle": "^6.1",
+        "symfony/framework-bundle": "^6.1.7",
         "symfony/mailer": "6.*",
         "symfony/monolog-bundle": "^3.8",
+        "symfony/redis-messenger": "6.1.*",
         "symfony/security-bundle": "^6.1",
         "symfony/translation": "^6.1",
         "symfony/twig-bundle": "^6.1",
@@ -72,7 +74,8 @@
         "symfony/messenger": "^6.1",
         "symfony/phpunit-bridge": "^6.1",
         "toin0u/digitalocean-v2": "^4.5",
-        "wildbit/postmark-php": "^4.0"
+        "wildbit/postmark-php": "^4.0",
+        "symfony/web-profiler-bundle": "^6.1.6"
     },
     "config": {
         "optimize-autoloader": true,
@@ -122,7 +125,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.*"
+            "require": "6.1.*"
         }
     }
 }

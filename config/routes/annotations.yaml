@@ -1,3 +1,7 @@
+app_backoffice:
+    resource: .
+    type: athena
+
 controllers:
     resource: ../../src/Controller/
     type: annotation
