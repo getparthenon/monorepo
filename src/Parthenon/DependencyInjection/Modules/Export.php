@@ -43,7 +43,6 @@ class Export implements ModuleConfigurationInterface
 
     public function handleDefaultParameters(ContainerBuilder $container): void
     {
-        // TODO: Implement handleDefaultParameters() method.
     }
 
     public function handleConfiguration(array $config, ContainerBuilder $container): void
