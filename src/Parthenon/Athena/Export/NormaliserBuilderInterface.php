@@ -18,7 +18,7 @@ use Parthenon\Export\Normaliser\NormaliserInterface;
 
 interface NormaliserBuilderInterface
 {
-    public function addField(string $fieldName, string $columnName);
+    public function addField(string $fieldName, string $columnName): self;
 
     public function getNormaliser(): NormaliserInterface;
 }

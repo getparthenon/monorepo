@@ -31,6 +31,8 @@ final class NormaliserBuilder implements NormaliserBuilderInterface
         }
 
         $this->fields[] = new NormalisedField($fieldName, $columnName, $fieldNormaliser);
+
+        return $this;
     }
 
     public function getNormaliser(): NormaliserInterface
