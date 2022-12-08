@@ -17,6 +17,7 @@ default:
                 - App\Tests\Behat\Qa\Athena\MainContext
 
                 # User
+                - App\Tests\Behat\Qa\User\MainContext
                 - App\Tests\Behat\Qa\User\AthenaContext
 
                 # Subscriptions
