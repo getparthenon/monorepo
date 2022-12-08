@@ -14,11 +14,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat\Qa\User;
 
+use App\Tests\Behat\Skeleton\SendRequestTrait;
 use App\Tests\TestKernel;
 use Behat\Behat\Context\Context;
+use Behat\Mink\Session;
 
 class MainContext implements Context
 {
+    use SendRequestTrait;
+
+    public function __construct(private Session $session)
+    {
+    }
+
     /**
      * @Given email confirmation is enabled for new users
      */
@@ -33,5 +41,45 @@ class MainContext implements Context
     public function emailConfirmationIsDisabledForNewUsers()
     {
         TestKernel::setParameter('parthenon_user_email_confirmation', false);
+    }
+
+    /**
+     * @Given logged in after sign up is enabled
+     */
+    public function loggedInAfterSignUpIsEnabled()
+    {
+        TestKernel::setParameter('parthenon_user_signed_in_after_signup', true);
+    }
+
+    /**
+     * @Then the payload will contain the user data
+     */
+    public function thePayloadWillContainTheUserData()
+    {
+        $data = $this->getJsonContent();
+
+        if (!isset($data['user'])) {
+            throw new \Exception('User data is not set');
+        }
+    }
+
+    /**
+     * @Given logged in after sign up is not enabled
+     */
+    public function loggedInAfterSignUpIsNotEnabled()
+    {
+        TestKernel::setParameter('parthenon_user_signed_in_after_signup', false);
+    }
+
+    /**
+     * @Then the payload will not contain the user data
+     */
+    public function thePayloadWillNotContainTheUserData()
+    {
+        $data = $this->getJsonContent();
+
+        if (isset($data['user'])) {
+            throw new \Exception('User data is set');
+        }
     }
 }
