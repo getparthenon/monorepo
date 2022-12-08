@@ -31,6 +31,7 @@ cp src/Parthenon/ParthenonBundle.php ../public-edition/src/ParthenonBundle.php
 
 echo "[x] Update Core"
 cp -R src/Parthenon/Resources/translations ../public-edition/src/Resources/translations
+cp LICENSE ../public-edition/
 
 echo "[x] Update AB Testing"
 cp -R src/Parthenon/AbTesting ../public-edition/src/
