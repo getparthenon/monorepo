@@ -84,6 +84,7 @@ parthenon:
     teams_enabled: true
     login_route: "parthenon_user_login"
     teams_invites_enabled: true
+    signed_in_after_signup: false
   notification:
     enabled: true
     email:
