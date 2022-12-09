@@ -8,10 +8,11 @@ rm -Rf ../export-bundle/src/Export/*
 rm -Rf ../export-bundle/src/Notification/*
 rm -Rf ../export-bundle/src/DependencyInjection/*
 rm -Rf ../export-bundle/src/Resources/config/services/*
-mkdir ../export-bundle/src/Resources/config/services/orm/
-mkdir ../export-bundle/src/Resources/config/services/odm/
-mkdir ../export-bundle/src/Resources/config/services/
+mkdir -p ../export-bundle/src/Resources/config/services/orm/
+mkdir -p ../export-bundle/src/Resources/config/services/odm/
+mkdir -p ../export-bundle/src/Resources/config/services/
 mkdir -p ../export-bundle/tests/Parthenon
+mkdir -p ../export-bundle/src/DependencyInjection/Modules
 
 
 echo "[x] Update Common"
