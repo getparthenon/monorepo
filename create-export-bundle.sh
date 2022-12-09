@@ -19,7 +19,7 @@ cp src/Parthenon/DependencyInjection/Modules/Common.php ../export-bundle/src/Dep
 cp -R src/Parthenon/Resources/config/doctrine-mapping/Common ../export-bundle/src/Resources/config/doctrine-mapping/
 cp -R src/Parthenon/Resources/config/services/common/pdf ../export-bundle/src/Resources/config/services/common/pdf
 cp -R src/Parthenon/Resources/config/services/common.xml ../export-bundle/src/Resources/config/services/common.xml
-cp -R src/Parthenon/DependencyInjection/Modules/Commongc.php ../export-bundle/src/DependencyInjection/Modules/Common.php
+cp -R src/Parthenon/DependencyInjection/Modules/Common.php ../export-bundle/src/DependencyInjection/Modules/Common.php
 cp -R tests/Parthenon/Common ../export-bundle/tests/Parthenon/
 
 echo "[x] Update Export"
