@@ -9,11 +9,8 @@ rm -Rf ../export-bundle/src/DependencyInjection/*
 rm -Rf ../export-bundle/src/Resources/config/services/*
 mkdir ../export-bundle/src/Resources/config/services/orm/
 mkdir ../export-bundle/src/Resources/config/services/odm/
-mkdir ../export-bundle/src/Resources/config/services/common/
+mkdir ../export-bundle/src/Resources/config/services/
 mkdir -p ../export-bundle/tests/Parthenon
-
-cp -R src/Parthenon/DependencyInjection ../export-bundle/src
-cp src/Parthenon/ParthenonBundle.php ../export-bundle/src/ParthenonBundle.php
 
 
 echo "[x] Update Common"
@@ -22,6 +19,7 @@ cp src/Parthenon/DependencyInjection/Modules/Common.php ../export-bundle/src/Dep
 cp -R src/Parthenon/Resources/config/doctrine-mapping/Common ../export-bundle/src/Resources/config/doctrine-mapping/
 cp -R src/Parthenon/Resources/config/services/common/pdf ../export-bundle/src/Resources/config/services/common/pdf
 cp -R src/Parthenon/Resources/config/services/common.xml ../export-bundle/src/Resources/config/services/common.xml
+cp -R src/Parthenon/DependencyInjection/Modules/Commongc.php ../export-bundle/src/DependencyInjection/Modules/Common.php
 cp -R tests/Parthenon/Common ../export-bundle/tests/Parthenon/
 
 echo "[x] Update Export"
@@ -31,6 +29,7 @@ cp -R src/Parthenon/Resources/config/doctrine-mapping/Export ../export-bundle/sr
 cp -R src/Parthenon/Resources/config/services/orm/export.xml ../export-bundle/src/Resources/config/services/orm/export.xml
 cp -R src/Parthenon/Resources/config/services/odm/export.xml ../export-bundle/src/Resources/config/services/odm/export.xml
 cp -R src/Parthenon/Resources/config/services/export.xml ../export-bundle/src/Resources/config/services/export.xml
+cp -R src/Parthenon/DependencyInjection/Modules/Export.php ../export-bundle/src/DependencyInjection/Modules/Export.php
 cp -R tests/Parthenon/Export ../export-bundle/tests/Parthenon/
 
 cd ../export-bundle
