@@ -196,13 +196,14 @@ jobs:
       - name: Test
         run: echo $BRANCH
 
-      - name: Clone funded
+      - name: Clone export bundle
         run: git clone git@github.com:getparthenon/export-bundle.git ../export-bundle
 
       - name: Checkout branch
         run: |
           cd ../export-bundle
           git checkout $BRANCH || git checkout -b $BRANCH
+          composer install
           cd $LOCATION
           sh create-export-bundle.sh
 

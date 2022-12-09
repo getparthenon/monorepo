@@ -39,6 +39,7 @@ cp -R src/Parthenon/Resources/config/services/notification.xml ../export-bundle/
 cp -R tests/Parthenon/Notification ../export-bundle/tests/Parthenon/
 
 cd ../export-bundle
+vendor/bin/php-cs-fixer
 git add -A
 if [ -z "$(git status --porcelain)" ]; then
   echo "No changes found"
