@@ -5,6 +5,7 @@ echo "Starting creation of export bundle"
 echo "[x] Removing old files"
 rm -Rf ../export-bundle/src/Common/*
 rm -Rf ../export-bundle/src/Export/*
+rm -Rf ../export-bundle/src/Notification/*
 rm -Rf ../export-bundle/src/DependencyInjection/*
 rm -Rf ../export-bundle/src/Resources/config/services/*
 mkdir ../export-bundle/src/Resources/config/services/orm/
@@ -31,6 +32,12 @@ cp -R src/Parthenon/Resources/config/services/odm/export.xml ../export-bundle/sr
 cp -R src/Parthenon/Resources/config/services/export.xml ../export-bundle/src/Resources/config/services/export.xml
 cp -R src/Parthenon/DependencyInjection/Modules/Export.php ../export-bundle/src/DependencyInjection/Modules/Export.php
 cp -R tests/Parthenon/Export ../export-bundle/tests/Parthenon/
+
+echo "[x] Update Notification"
+cp -R src/Parthenon/Notification ../export-bundle/src/
+cp src/Parthenon/DependencyInjection/Modules/Notification.php ../export-bundle/src/DependencyInjection/Modules/Notification.php
+cp -R src/Parthenon/Resources/config/services/notification.xml ../export-bundle/src/Resources/config/services/notification.xml
+cp -R tests/Parthenon/Notification ../export-bundle/tests/Parthenon/
 
 cd ../export-bundle
 git add -A
