@@ -17,7 +17,7 @@ namespace Parthenon\Export;
 class ExportRequest
 {
     public function __construct(
-        protected string $filename,
+        protected string $name,
         protected string $exportFormat,
         protected string $dataProviderService,
         protected array $dataProviderParameters = [],
@@ -34,9 +34,9 @@ class ExportRequest
         return $this->dataProviderService;
     }
 
-    public function getFilename(): string
+    public function getName(): string
     {
-        return $this->filename;
+        return $this->name;
     }
 
     public function getDataProviderParameters(): array

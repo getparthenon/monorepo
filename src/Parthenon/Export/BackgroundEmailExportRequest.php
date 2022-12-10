@@ -22,7 +22,7 @@ class BackgroundEmailExportRequest extends ExportRequest
 
     public static function createFromExportRequest(ExportRequest $exportRequest, UserInterface $user): static
     {
-        $self = new static($exportRequest->getFilename(), $exportRequest->getExportFormat(), $exportRequest->getDataProviderService(), $exportRequest->getDataProviderParameters());
+        $self = new static($exportRequest->getName(), $exportRequest->getExportFormat(), $exportRequest->getDataProviderService(), $exportRequest->getDataProviderParameters());
         $self->user = $user;
 
         return $self;
