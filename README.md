@@ -30,6 +30,7 @@
 * [getparthenon/skeleton](https://github.com/getparthenon/skeleton) is the repository for the skeleton application.
 * [getparthenon/parthenon](https://github.com/getparthenon/parthenon) is the repository mirror for the Parthenon bundle
 * [getparthenon/vue-menu](https://github.com/getparthenon/vue-menu) is the repository mirror for the vue-menu library.
+* [getparthenon/export-bundle](https://github.com/getparthenon/export-bundle) is the repository for the Export Bundle.
 
 ## Features
 
@@ -61,7 +62,7 @@ You can check out the skeleton application docs at https://getparthenon.com/docs
 
 ## Documentation
 
-The documentation can be found on the Parthenon website https://getparthenon.com/docs/getting-started/.
+The documentation can be found on the Parthenon website https://getparthenon.com/docs/.
 
 If you wish to contribute to the documentation. Or just look at the raw files. They can be found at https://github.com/getparthenon/parthenon-docs.
 
