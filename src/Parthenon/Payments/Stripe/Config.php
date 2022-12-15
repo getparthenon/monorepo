@@ -14,8 +14,12 @@ declare(strict_types=1);
 
 namespace Parthenon\Payments\Stripe;
 
-class Config
+use Parthenon\Payments\ConfigInterface;
+
+class Config implements ConfigInterface
 {
+    public const PROVIDER_NAME = 'stripe';
+
     public function __construct(private string $publicApiKey, private string $privateApiKey, private string $successUrl, private string $cancelUrl, private string $returnUrl)
     {
     }
@@ -43,5 +47,13 @@ class Config
     public function getReturnUrl(): string
     {
         return $this->returnUrl;
+    }
+
+    public function getConfigPublicPayload(): array
+    {
+        return [
+            'provider' => self::PROVIDER_NAME,
+            'api_key' => $this->publicApiKey,
+        ];
     }
 }

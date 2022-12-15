@@ -97,13 +97,17 @@ parthenon:
     enabled: true
   payments:
     enabled: true
-    provider: stripe
-    stripe:
-      private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
-      public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
-      success_url: "%env(resolve:APPLICATION_URL)%/api/payments/success/{CHECKOUT_SESSION_ID}"
-      cancel_url: "%env(resolve:APPLICATION_URL)%/app/plan/select"
-      return_url: "%env(resolve:APPLICATION_URL)%/app/home"
+    provider: transaction_cloud
+    transaction_cloud:
+      api_key: '%env(resolve:TRANSACTION_CLOUD_API_KEY)%'
+      api_key_password: '%env(resolve:TRANSACTION_CLOUD_API_KEY_PASSWORD)%'
+      sandbox: true
+ #   stripe:
+ #     private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
+ #     public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
+ #     success_url: "%env(resolve:APPLICATION_URL)%/api/payments/success/{CHECKOUT_SESSION_ID}"
+ #     cancel_url: "%env(resolve:APPLICATION_URL)%/app/plan/select"
+ #     return_url: "%env(resolve:APPLICATION_URL)%/app/home"
     price:
       Basic:
         monthly:
