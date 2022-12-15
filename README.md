@@ -70,8 +70,8 @@ If you wish to contribute to the documentation. Or just look at the raw files. T
 
 Support is provided via GitHub, Slack, and Email.
 
-If you have a commercial license you will be able to list the GitHub accounts that you want to link to the license. This 
-means when an issue is created by an account linked to a commercial license they will get priority support. All other 
+If you have a commercial license you will be able to list the GitHub accounts that you want to link to the license. This
+means when an issue is created by an account linked to a commercial license they will get priority support. All other
 issues will be given best effort support.
 
 * Github: You can make an issue on [getparthenon/monorepo](https://github.com/getparthenon/monorepo/issues/new/choose)
