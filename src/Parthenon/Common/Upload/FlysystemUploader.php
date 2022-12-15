@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
@@ -40,7 +40,37 @@ final class FlysystemUploader implements UploaderInterface
             $filename = $this->namingStrategy->getName($file->getClientOriginalName());
             $this->filesystem->write($filename, $content);
 
-            return new File(rtrim($this->url, '/').'/'.$filename);
+            return new File(rtrim($this->url, '/').'/'.$filename, $filename);
+        } catch (\Exception $e) {
+            throw new GeneralException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function deleteFile(File $file): void
+    {
+        try {
+            $this->filesystem->delete($file->getFilename());
+        } catch (\Exception $e) {
+            throw new GeneralException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function readFile(File $file)
+    {
+        try {
+            return $this->filesystem->readStream($file->getFilename());
+        } catch (\Exception $e) {
+            throw new GeneralException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function uploadString(string $filename, string $contents): File
+    {
+        try {
+            $filename = $this->namingStrategy->getName($filename);
+            $this->filesystem->write($filename, $contents);
+
+            return new File(rtrim($this->url, '/').'/'.$filename, $filename);
         } catch (\Exception $e) {
             throw new GeneralException($e->getMessage(), $e->getCode(), $e);
         }

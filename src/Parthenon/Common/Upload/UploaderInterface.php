@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
@@ -22,5 +22,14 @@ interface UploaderInterface
 
     public const PROVIDER_LOCAL = 'local';
 
+    public function uploadString(string $filename, string $contents): File;
+
     public function uploadUploadedFile(UploadedFile $file): File;
+
+    public function deleteFile(File $file): void;
+
+    /**
+     * @return resource
+     */
+    public function readFile(File $file);
 }

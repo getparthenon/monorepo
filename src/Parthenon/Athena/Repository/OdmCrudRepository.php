@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
@@ -50,12 +50,12 @@ class OdmCrudRepository extends OdmRepository implements CrudRepositoryInterface
         }
 
         foreach ($filters as $filter) {
+            /** @var DoctrineFilterInterface $filter */
             if ($filter instanceof OdmFilterInterface && $filter->hasData()) {
                 $filter->modifiyOdmQueryBuilder($qb);
             }
         }
 
-        /** @var DoctrineFilterInterface $filter */
         $query = $qb->getQuery();
 
         return new ResultSet($query->toArray(), $sortKey, $sortType, $limit);
@@ -88,5 +88,14 @@ class OdmCrudRepository extends OdmRepository implements CrudRepositoryInterface
         }
         $entity->unmarkAsDeleted();
         $this->save($entity);
+    }
+
+    public function getByIds(array $ids): ResultSet
+    {
+        $qb = $this->documentRepository->createQueryBuilder();
+        $qb->find('id')->in($ids);
+        $query = $qb->getQuery();
+
+        return new ResultSet($query->toArray(), 'id', 'asc', count($ids));
     }
 }

@@ -30,6 +30,7 @@
 * [getparthenon/skeleton](https://github.com/getparthenon/skeleton) is the repository for the skeleton application.
 * [getparthenon/parthenon](https://github.com/getparthenon/parthenon) is the repository mirror for the Parthenon bundle
 * [getparthenon/vue-menu](https://github.com/getparthenon/vue-menu) is the repository mirror for the vue-menu library.
+* [getparthenon/export-bundle](https://github.com/getparthenon/export-bundle) is the repository for the Export Bundle.
 
 ## Features
 
@@ -61,7 +62,7 @@ You can check out the skeleton application docs at https://getparthenon.com/docs
 
 ## Documentation
 
-The documentation can be found on the Parthenon website https://getparthenon.com/docs/getting-started/.
+The documentation can be found on the Parthenon website https://getparthenon.com/docs/.
 
 If you wish to contribute to the documentation. Or just look at the raw files. They can be found at https://github.com/getparthenon/parthenon-docs.
 
@@ -69,13 +70,13 @@ If you wish to contribute to the documentation. Or just look at the raw files. T
 
 Support is provided via GitHub, Slack, and Email.
 
-If you have a commercial license you will be able to list the GitHub accounts that you want to link to the license. This 
-means when an issue is created by an account linked to a commercial license they will get priority support. All other 
+If you have a commercial license you will be able to list the GitHub accounts that you want to link to the license. This
+means when an issue is created by an account linked to a commercial license they will get priority support. All other
 issues will be given best effort support.
 
 * Github: You can make an issue on [getparthenon/monorepo](https://github.com/getparthenon/monorepo/issues/new/choose)
 * Email: support@getparthenon.com
-* Slack: [Click here](https://join.slack.com/t/parthenonsupport/shared_invite/zt-1gujl7xsw-OALGFlPs~_Vf1cw6zaEkdg) to signup
+* Slack: [Click here](https://join.slack.com/t/parthenonsupport/shared_invite/zt-1kmmuvul0-Ai1Sp6j3SzlF955Z~CD~~Q) to signup
 
 Issues we will provide support and fixes for:
 

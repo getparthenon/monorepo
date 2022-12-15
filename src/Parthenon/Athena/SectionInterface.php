@@ -3,18 +3,20 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
 namespace Parthenon\Athena;
 
+use Parthenon\Athena\Export\NormaliserBuilderInterface;
 use Parthenon\Athena\Filters\ListFilters;
+use Parthenon\Athena\Filters\ListFiltersInterface;
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
 
 interface SectionInterface
@@ -25,7 +27,7 @@ interface SectionInterface
 
     public function buildListView(ListView $listView): ListView;
 
-    public function buildFilters(ListFilters $listFilters): ListFilters;
+    public function buildFilters(ListFilters $listFilters): ListFiltersInterface;
 
     public function buildReadView(ReadView $readView): ReadView;
 
@@ -48,4 +50,6 @@ interface SectionInterface
     public function preSave($entity): void;
 
     public function postSave($entity): void;
+
+    public function buildNormalsier(NormaliserBuilderInterface $normaliserBuilder): NormaliserBuilderInterface;
 }

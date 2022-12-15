@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
@@ -24,7 +24,7 @@ class DefaultAccessRightsTest extends TestCase
         $section = $this->createMock(SectionInterface::class);
         $section->method('getAccessRights')->willReturn([]);
 
-        $expected = ['create' => User::DEFAULT_ROLE, 'view' => User::DEFAULT_ROLE, 'delete' => User::DEFAULT_ROLE, 'edit' => User::DEFAULT_ROLE];
+        $expected = ['create' => User::DEFAULT_ROLE, 'view' => User::DEFAULT_ROLE, 'delete' => User::DEFAULT_ROLE, 'edit' => User::DEFAULT_ROLE, 'export' => User::DEFAULT_ROLE];
 
         $subject = new DefaultAccessRights();
         $this->assertEquals($expected, $subject->getAccessRights($section));
@@ -35,7 +35,7 @@ class DefaultAccessRightsTest extends TestCase
         $section = $this->createMock(SectionInterface::class);
         $section->method('getAccessRights')->willReturn(['view' => 'ROLE_ADMIN']);
 
-        $expected = ['create' => User::DEFAULT_ROLE, 'view' => 'ROLE_ADMIN', 'delete' => User::DEFAULT_ROLE, 'edit' => User::DEFAULT_ROLE];
+        $expected = ['create' => User::DEFAULT_ROLE, 'view' => 'ROLE_ADMIN', 'delete' => User::DEFAULT_ROLE, 'edit' => User::DEFAULT_ROLE, 'export' => User::DEFAULT_ROLE];
 
         $subject = new DefaultAccessRights();
         $this->assertEquals($expected, $subject->getAccessRights($section));

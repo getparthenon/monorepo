@@ -7,6 +7,7 @@ rm -Rf ../public-edition/src/AbTesting/*
 rm -Rf ../public-edition/src/Athena/*
 rm -Rf ../public-edition/src/Common/*
 rm -Rf ../public-edition/src/Funnel/*
+rm -Rf ../public-edition/src/Export/*
 rm -Rf ../public-edition/src/Health/*
 rm -Rf ../public-edition/src/Invoice/*
 rm -Rf ../public-edition/src/Notification/*
@@ -30,6 +31,7 @@ cp src/Parthenon/ParthenonBundle.php ../public-edition/src/ParthenonBundle.php
 
 echo "[x] Update Core"
 cp -R src/Parthenon/Resources/translations ../public-edition/src/Resources/translations
+cp LICENSE ../public-edition/
 
 echo "[x] Update AB Testing"
 cp -R src/Parthenon/AbTesting ../public-edition/src/
@@ -59,6 +61,15 @@ echo "[x] Update Cloud"
 cp -R src/Parthenon/Cloud ../public-edition/src/
 cp src/Parthenon/DependencyInjection/Modules/Cloud.php ../public-edition/src/DependencyInjection/Modules/Cloud.php
 cp -R src/Parthenon/Resources/config/services/cloud.xml ../public-edition/src/Resources/config/services/cloud.xml
+
+echo "[x] Update Export"
+cp -R src/Parthenon/Export ../public-edition/src/
+cp src/Parthenon/DependencyInjection/Modules/Export.php ../public-edition/src/DependencyInjection/Modules/Export.php
+cp -R src/Parthenon/Resources/config/doctrine-mapping/Export ../public-edition/src/Resources/config/doctrine-mapping/Export
+cp -R src/Parthenon/Resources/config/services/orm/export.xml ../public-edition/src/Resources/config/services/orm/export.xml
+cp -R src/Parthenon/Resources/config/services/odm/export.xml ../public-edition/src/Resources/config/services/odm/export.xml
+cp -R src/Parthenon/Resources/config/services/export.xml ../public-edition/src/Resources/config/services/export.xml
+cp -R tests/Parthenon/Export ../public-edition/tests/Parthenon/
 
 echo "[x] Update Funnel"
 cp -R src/Parthenon/Funnel ../public-edition/src/

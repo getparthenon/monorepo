@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /*
- * Copyright Humbly Arrogant Ltd 2020-2022.
+ * Copyright Iain Cambridge 2020-2022.
  *
  * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
  *
- * Change Date: TBD ( 3 years after 2.1.0 release )
+ * Change Date: 16.12.2025
  *
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
@@ -71,12 +71,19 @@ return [
     'parthenon.abtesting.experiment.view.variant.stats.converted' => 'Converted',
     'parthenon.abtesting.experiment.view.variant.stats.conversion_percentage' => 'Conversion Percentage',
 
-    'parthenon.backoffice.index.title' => 'Underpin Dashboard',
-    'parthenon.backoffice.crud.list.title' => 'List',
-    'parthenon.backoffice.crud.list.subtitle' => 'Items',
-    'parthenon.backoffice.crud.list.edit' => 'Edit',
-    'parthenon.backoffice.crud.list.read' => 'Read',
-    'parthenon.backoffice.crud.list.links.add' => 'Add New',
+    'parthenon.athena.index.title' => 'Athena Dashboard',
+    'parthenon.athena.crud.list.title' => 'List',
+    'parthenon.athena.crud.list.subtitle' => 'Items',
+    'parthenon.athena.crud.list.edit' => 'Edit',
+    'parthenon.athena.crud.list.read' => 'Read',
+    'parthenon.athena.crud.list.links.add' => 'Add New',
+    'parthenon.athena.crud.list.links.next' => 'Next',
+    'parthenon.athena.crud.list.links.previous' => 'Previous',
+    'parthenon.athena.crud.list.export_selected' => 'Export Selected',
+    'parthenon.athena.crud.list.export_all' => 'Export All Available',
+    'parthenon.athena.crud.list.export_formats' => 'Format',
+    'parthenon.athena.crud.export.title' => 'Data Export',
+    'parthenon.athena.crud.export.processing' => 'The system is processing your data export request. Please wait.',
 
     'parthenon.backoffice.crud.read.title' => 'View Entity',
     'parthenon.backoffice.crud.view.edit' => 'Edit',

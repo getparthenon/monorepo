@@ -43,7 +43,7 @@ services:
       - parthenon
 
   redis:
-    image: redis:4-alpine
+    image: redis:5-alpine
     networks:
       - parthenon
     ports:
