@@ -89,12 +89,14 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Parthenon\\": "src/Parthenon/"
+            "Parthenon\\": "src/Parthenon/",
+            "Obol\\": "src/Obol/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Obol\\Tests\\": "tests/Obol"
         }
     },
     "replace": {
