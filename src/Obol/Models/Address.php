@@ -20,7 +20,7 @@ class Address
     protected string $streetLineTwo;
     protected string $city;
     protected string $state;
-    protected string $country;
+    protected string $countryCode;
     protected string $postalCode;
 
     public function getStreetLineOne(): string
@@ -28,9 +28,11 @@ class Address
         return $this->streetLineOne;
     }
 
-    public function setStreetLineOne(string $streetLineOne): void
+    public function setStreetLineOne(string $streetLineOne): self
     {
         $this->streetLineOne = $streetLineOne;
+
+        return $this;
     }
 
     public function getStreetLineTwo(): string
@@ -38,9 +40,11 @@ class Address
         return $this->streetLineTwo;
     }
 
-    public function setStreetLineTwo(string $streetLineTwo): void
+    public function setStreetLineTwo(string $streetLineTwo): self
     {
         $this->streetLineTwo = $streetLineTwo;
+
+        return $this;
     }
 
     public function getCity(): string
@@ -48,9 +52,11 @@ class Address
         return $this->city;
     }
 
-    public function setCity(string $city): void
+    public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
     }
 
     public function getState(): string
@@ -58,19 +64,23 @@ class Address
         return $this->state;
     }
 
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
     }
 
-    public function getCountry(): string
+    public function getCountryCode(): string
     {
-        return $this->country;
+        return $this->countryCode;
     }
 
-    public function setCountry(string $country): void
+    public function setCountryCode(string $countryCode): self
     {
-        $this->country = $country;
+        $this->countryCode = $countryCode;
+
+        return $this;
     }
 
     public function getPostalCode(): string
@@ -78,8 +88,10 @@ class Address
         return $this->postalCode;
     }
 
-    public function setPostalCode(string $postalCode): void
+    public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
+
+        return $this;
     }
 }
