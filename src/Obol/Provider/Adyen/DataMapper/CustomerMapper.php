@@ -27,11 +27,18 @@ class CustomerMapper
             return $this->mapIndividual($customer);
         }
 
-        return [
-        ];
+        if (CustomerType::ORGANISATION === $customer->getType()) {
+            return $this->mapOrganisation($customer);
+        }
+
+        if (CustomerType::SOLE_TRADER === $customer->getType()) {
+            return $this->mapSoleProprietorship($customer);
+        }
+
+        throw new MappingException('Invalid customer type');
     }
 
-    protected function mapIndividual(Customer $customer)
+    protected function mapIndividual(Customer $customer): array
     {
         [$firstName, $lastName] = explode(' ', $customer->getName(), 2);
 
@@ -46,6 +53,32 @@ class CustomerMapper
                 'email' => $customer->getEmail(),
                 'phone' => $customer->getPhone(),
                 'description' => $customer->getDescription(),
+            ],
+        ];
+    }
+
+    protected function mapOrganisation(Customer $customer): array
+    {
+        return [
+            'type' => 'organization',
+            'organization' => [
+                'registeredAddress' => $this->mapAddress($customer->getAddress()),
+                'email' => $customer->getEmail(),
+                'phone' => $customer->getPhone(),
+                'description' => $customer->getDescription(),
+                'legalName' => $customer->getName(),
+            ],
+        ];
+    }
+
+    protected function mapSoleProprietorship(Customer $customer): array
+    {
+        return [
+            'type' => 'soleProprietorship',
+            'soleProprietorship' => [
+                'registeredAddress' => $this->mapAddress($customer->getAddress()),
+                'name' => $customer->getName(),
+                'countryOfGoverningLaw' => $customer->getAddress()->getCountryCode(),
             ],
         ];
     }

@@ -61,6 +61,7 @@ class CustomerMapperTest extends TestCase
         $this->assertEquals('Iain', $result['individual']['name']['firstName']);
         $this->assertEquals('Cambridge', $result['individual']['name']['lastName']);
         $this->assertEquals(self::EMAIL, $result['individual']['email']);
+        $this->assertEquals(self::PHONE, $result['individual']['phone']);
         $this->assertEquals('A test customer', $result['individual']['description']);
         $this->assertEquals(self::STREETLINEONE, $result['individual']['residentialAddress']['street']);
         $this->assertEquals(self::STREETLINETWO, $result['individual']['residentialAddress']['street2']);
@@ -68,5 +69,79 @@ class CustomerMapperTest extends TestCase
         $this->assertEquals(self::STATE, $result['individual']['residentialAddress']['stateOrProvince']);
         $this->assertEquals(self::COUNTRY, $result['individual']['residentialAddress']['country']);
         $this->assertEquals(self::POSTALCODE, $result['individual']['residentialAddress']['postalCode']);
+    }
+
+    public function testCompanyMapping()
+    {
+        $address = new Address();
+        $address->setStreetLineOne(self::STREETLINEONE)
+            ->setStreetLineTwo(self::STREETLINETWO)
+            ->setCity(self::CITY)
+            ->setState(self::STATE)
+            ->setCountryCode(self::COUNTRY)
+            ->setPostalCode(self::POSTALCODE);
+
+        $customer = new Customer();
+
+        $customer
+            ->setName(self::NAME)
+            ->setEmail(self::EMAIL)
+            ->setType(CustomerType::ORGANISATION)
+            ->setPhone(self::PHONE)
+            ->setAddress($address)
+            ->setDescription('A test customer');
+
+        $subject = new CustomerMapper();
+
+        $result = $subject->mapCustomer($customer);
+
+        $this->assertArrayHasKey('organization', $result);
+        $this->assertEquals('organization', $result['type']);
+        $this->assertEquals(self::EMAIL, $result['organization']['email']);
+        $this->assertEquals(self::PHONE, $result['organization']['phone']);
+        $this->assertEquals(self::NAME, $result['organization']['legalName']);
+        $this->assertEquals('A test customer', $result['organization']['description']);
+        $this->assertEquals(self::STREETLINEONE, $result['organization']['registeredAddress']['street']);
+        $this->assertEquals(self::STREETLINETWO, $result['organization']['registeredAddress']['street2']);
+        $this->assertEquals(self::CITY, $result['organization']['registeredAddress']['city']);
+        $this->assertEquals(self::STATE, $result['organization']['registeredAddress']['stateOrProvince']);
+        $this->assertEquals(self::COUNTRY, $result['organization']['registeredAddress']['country']);
+        $this->assertEquals(self::POSTALCODE, $result['organization']['registeredAddress']['postalCode']);
+    }
+
+    public function testSoleTrader()
+    {
+        $address = new Address();
+        $address->setStreetLineOne(self::STREETLINEONE)
+            ->setStreetLineTwo(self::STREETLINETWO)
+            ->setCity(self::CITY)
+            ->setState(self::STATE)
+            ->setCountryCode(self::COUNTRY)
+            ->setPostalCode(self::POSTALCODE);
+
+        $customer = new Customer();
+
+        $customer
+            ->setName(self::NAME)
+            ->setEmail(self::EMAIL)
+            ->setType(CustomerType::SOLE_TRADER)
+            ->setPhone(self::PHONE)
+            ->setAddress($address)
+            ->setDescription('A test customer');
+
+        $subject = new CustomerMapper();
+
+        $result = $subject->mapCustomer($customer);
+
+        $this->assertArrayHasKey('soleProprietorship', $result);
+        $this->assertEquals('soleProprietorship', $result['type']);
+        $this->assertEquals(self::NAME, $result['soleProprietorship']['name']);
+        $this->assertEquals(self::STREETLINEONE, $result['soleProprietorship']['registeredAddress']['street']);
+        $this->assertEquals(self::STREETLINETWO, $result['soleProprietorship']['registeredAddress']['street2']);
+        $this->assertEquals(self::CITY, $result['soleProprietorship']['registeredAddress']['city']);
+        $this->assertEquals(self::STATE, $result['soleProprietorship']['registeredAddress']['stateOrProvince']);
+        $this->assertEquals(self::COUNTRY, $result['soleProprietorship']['registeredAddress']['country']);
+        $this->assertEquals(self::COUNTRY, $result['soleProprietorship']['countryOfGoverningLaw']);
+        $this->assertEquals(self::POSTALCODE, $result['soleProprietorship']['registeredAddress']['postalCode']);
     }
 }
