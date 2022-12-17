@@ -16,10 +16,70 @@ namespace Obol\Models;
 
 class Address
 {
-    public string $streetLineOne;
-    public string $streetLineTwo;
-    public string $city;
-    public string $state;
-    public string $country;
-    public string $postalCode;
+    protected string $streetLineOne;
+    protected string $streetLineTwo;
+    protected string $city;
+    protected string $state;
+    protected string $country;
+    protected string $postalCode;
+
+    public function getStreetLineOne(): string
+    {
+        return $this->streetLineOne;
+    }
+
+    public function setStreetLineOne(string $streetLineOne): void
+    {
+        $this->streetLineOne = $streetLineOne;
+    }
+
+    public function getStreetLineTwo(): string
+    {
+        return $this->streetLineTwo;
+    }
+
+    public function setStreetLineTwo(string $streetLineTwo): void
+    {
+        $this->streetLineTwo = $streetLineTwo;
+    }
+
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): void
+    {
+        $this->country = $country;
+    }
+
+    public function getPostalCode(): string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(string $postalCode): void
+    {
+        $this->postalCode = $postalCode;
+    }
 }
