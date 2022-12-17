@@ -20,4 +20,6 @@ use Obol\Models\CustomerCreationResponse;
 interface CustomerServiceInterface
 {
     public function createCustomer(Customer $customer): CustomerCreationResponse;
+
+    public function fetchCustomer(string|int $id): Customer;
 }

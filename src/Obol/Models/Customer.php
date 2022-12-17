@@ -14,6 +14,15 @@ declare(strict_types=1);
 
 namespace Obol\Models;
 
+use Obol\Models\Enum\CustomerType;
+
 class Customer
 {
+    public string|int|null $id = null;
+    public string $name;
+    public CustomerType $type;
+    public Address $address;
+    public string $email;
+    public string $phone;
+    public string $description;
 }

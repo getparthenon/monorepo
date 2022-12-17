@@ -12,8 +12,11 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol;
+namespace Obol\Models\Enum;
 
-interface PaymentServiceInterface
+enum CustomerType: string
 {
+    case ORGANISATION = 'ORGANISATION';
+    case INDIVIDUAL = 'INDIVIDUAL';
+    case SOLE_TRADER = 'SOLE_TRADER';
 }

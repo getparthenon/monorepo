@@ -16,4 +16,10 @@ namespace Obol\Models;
 
 class Address
 {
+    public string $streetLineOne;
+    public string $streetLineTwo;
+    public string $city;
+    public string $state;
+    public string $country;
+    public string $postalCode;
 }

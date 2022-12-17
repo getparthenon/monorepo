@@ -14,6 +14,16 @@ declare(strict_types=1);
 
 namespace Obol;
 
-interface PaymentServiceInterface
+use Obol\Exception\UnsupportedFunctionalityException;
+
+interface ObolInterface
 {
+    public function supportsHostedCheckout(): bool;
+
+    public function supportsCustomerCreation(): bool;
+
+    /**
+     * @throws UnsupportedFunctionalityException
+     */
+    public function getCustomerService(): CustomerServiceInterface;
 }
