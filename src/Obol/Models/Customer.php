@@ -19,12 +19,17 @@ use Obol\Models\Enum\CustomerType;
 class Customer
 {
     protected string|int|null $id = null;
-    protected string $name;
+    protected ?string $name;
     protected CustomerType $type;
     protected Address $address;
-    protected string $email;
-    protected string $phone;
-    protected string $description;
+    protected ?string $email = null;
+    protected ?string $phone = null;
+    protected ?string $description = null;
+
+    public function __construct(Address $address = null)
+    {
+        $this->address = new Address();
+    }
 
     public function getId(): int|string|null
     {
@@ -38,7 +43,7 @@ class Customer
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -74,7 +79,7 @@ class Customer
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -86,7 +91,7 @@ class Customer
         return $this;
     }
 
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
@@ -98,7 +103,7 @@ class Customer
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }

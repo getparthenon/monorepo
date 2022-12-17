@@ -16,14 +16,14 @@ namespace Obol\Models;
 
 class Address
 {
-    protected string $streetLineOne;
-    protected string $streetLineTwo;
-    protected string $city;
-    protected string $state;
-    protected string $countryCode;
-    protected string $postalCode;
+    protected ?string $streetLineOne = null;
+    protected ?string $streetLineTwo = null;
+    protected ?string $city = null;
+    protected ?string $state = null;
+    protected ?string $countryCode = null;
+    protected ?string $postalCode = null;
 
-    public function getStreetLineOne(): string
+    public function getStreetLineOne(): ?string
     {
         return $this->streetLineOne;
     }
@@ -35,7 +35,7 @@ class Address
         return $this;
     }
 
-    public function getStreetLineTwo(): string
+    public function getStreetLineTwo(): ?string
     {
         return $this->streetLineTwo;
     }
@@ -47,7 +47,7 @@ class Address
         return $this;
     }
 
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -59,7 +59,7 @@ class Address
         return $this;
     }
 
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
@@ -71,7 +71,7 @@ class Address
         return $this;
     }
 
-    public function getCountryCode(): string
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
@@ -83,7 +83,12 @@ class Address
         return $this;
     }
 
-    public function getPostalCode(): string
+    public function hasCountryCode(): bool
+    {
+        return null !== $this->countryCode;
+    }
+
+    public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }

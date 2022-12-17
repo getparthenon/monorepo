@@ -12,26 +12,21 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Provider\Adyen\DataMapper;
+namespace Obol\Provider\Stripe\DataMapper;
 
-use Obol\Exception\MappingException;
 use Obol\Models\Address;
 
 trait AddressTrait
 {
     public function mapAddress(Address $address): array
     {
-        if (!$address->hasCountryCode()) {
-            throw new MappingException('Adyen addresses require a country code');
-        }
-
         return [
             'city' => $address->getCity(),
             'country' => $address->getCountryCode(),
-            'postalCode' => $address->getPostalCode(),
-            'stateOrProvince' => $address->getState(),
-            'street' => $address->getStreetLineOne(),
-            'street2' => $address->getStreetLineTwo(),
+            'line1' => $address->getStreetLineOne(),
+            'line2' => $address->getStreetLineTwo(),
+            'postal_code' => $address->getPostalCode(),
+            'state' => $address->getState(),
         ];
     }
 }
