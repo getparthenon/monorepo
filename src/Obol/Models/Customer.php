@@ -19,7 +19,7 @@ use Obol\Models\Enum\CustomerType;
 class Customer
 {
     protected string|int|null $id = null;
-    protected ?string $name;
+    protected ?string $name = null;
     protected CustomerType $type;
     protected Address $address;
     protected ?string $email = null;
@@ -41,6 +41,11 @@ class Customer
         $this->id = $id;
 
         return $this;
+    }
+
+    public function hasName(): bool
+    {
+        return null !== $this->name;
     }
 
     public function getName(): ?string

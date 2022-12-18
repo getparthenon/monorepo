@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Tests\Obol\Providers\Adyen\DataMapper;
 
-use Obol\Exception\MappingException;
+use Obol\Exception\ValidationFailureException;
 use Obol\Models\Address;
 use Obol\Models\Customer;
 use Obol\Models\Enum\CustomerType;
@@ -146,10 +146,9 @@ class CustomerMapperTest extends TestCase
         $this->assertEquals(self::POSTALCODE, $result['soleProprietorship']['registeredAddress']['postalCode']);
     }
 
-
     public function testSoleTraderMissingCountryCode()
     {
-        $this->expectException(MappingException::class);
+        $this->expectException(ValidationFailureException::class);
 
         $address = new Address();
         $address->setStreetLineOne(self::STREETLINEONE)
@@ -171,6 +170,31 @@ class CustomerMapperTest extends TestCase
         $subject = new CustomerMapper();
 
         $result = $subject->mapCustomer($customer);
+    }
 
+    public function testSoleTraderName()
+    {
+        $this->expectException(ValidationFailureException::class);
+
+        $address = new Address();
+        $address->setStreetLineOne(self::STREETLINEONE)
+            ->setStreetLineTwo(self::STREETLINETWO)
+            ->setCity(self::CITY)
+            ->setState(self::STATE)
+            ->setCountryCode(self::COUNTRY)
+            ->setPostalCode(self::POSTALCODE);
+
+        $customer = new Customer();
+
+        $customer
+            ->setEmail(self::EMAIL)
+            ->setType(CustomerType::SOLE_TRADER)
+            ->setPhone(self::PHONE)
+            ->setAddress($address)
+            ->setDescription('A test customer');
+
+        $subject = new CustomerMapper();
+
+        $result = $subject->mapCustomer($customer);
     }
 }

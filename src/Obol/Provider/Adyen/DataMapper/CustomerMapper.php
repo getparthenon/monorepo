@@ -14,15 +14,35 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen\DataMapper;
 
+use Obol\Exception\ValidationFailureException;
 use Obol\Models\Customer;
 use Obol\Models\Enum\CustomerType;
+use Obol\Models\ValidationError;
 
 class CustomerMapper
 {
     use AddressTrait;
 
+    /**
+     * @throws ValidationFailureException
+     * @throws MappingException
+     */
     public function mapCustomer(Customer $customer): array
     {
+        $validationErrors = [];
+
+        if (!$customer->hasName()) {
+            $validationErrors[] = new ValidationError('name', 'Adyen requires the name for a customer');
+        }
+
+        if (!$customer->getAddress()->hasCountryCode()) {
+            $validationErrors[] = new ValidationError('address.country_code', 'Adyen requires a country code in the address for a customer');
+        }
+
+        if (!empty($validationErrors)) {
+            throw ValidationFailureException::createWithErrors($validationErrors);
+        }
+
         if (CustomerType::INDIVIDUAL === $customer->getType()) {
             return $this->mapIndividual($customer);
         }
