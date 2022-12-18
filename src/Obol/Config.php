@@ -12,19 +12,19 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Models;
+namespace Obol;
 
-class CustomerCreationResponse
+class Config
 {
-    protected string|int $id;
+    private bool $testMode = true;
 
-    public function getId(): int|string
+    public function isTestMode(): bool
     {
-        return $this->id;
+        return $this->testMode;
     }
 
-    public function setId(int|string $id): void
+    public function setTestMode(bool $testMode): void
     {
-        $this->id = $id;
+        $this->testMode = $testMode;
     }
 }

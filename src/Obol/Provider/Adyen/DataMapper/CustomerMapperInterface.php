@@ -14,19 +14,13 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen\DataMapper;
 
-use Obol\Models\Address;
+use Obol\Exception\ValidationFailureException;
+use Obol\Models\Customer;
 
-trait AddressTrait
+interface CustomerMapperInterface
 {
-    public function mapAddress(Address $address): array
-    {
-        return [
-            'city' => $address->getCity(),
-            'country' => $address->getCountryCode(),
-            'postalCode' => $address->getPostalCode(),
-            'stateOrProvince' => $address->getState(),
-            'street' => $address->getStreetLineOne(),
-            'street2' => $address->getStreetLineTwo(),
-        ];
-    }
+    /**
+     * @throws ValidationFailureException
+     */
+    public function mapCustomer(Customer $customer): array;
 }

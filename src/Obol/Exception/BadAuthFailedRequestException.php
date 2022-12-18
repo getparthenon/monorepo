@@ -12,19 +12,8 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Models;
+namespace Obol\Exception;
 
-class CustomerCreationResponse
+class BadAuthFailedRequestException extends FailedRequestException
 {
-    protected string|int $id;
-
-    public function getId(): int|string
-    {
-        return $this->id;
-    }
-
-    public function setId(int|string $id): void
-    {
-        $this->id = $id;
-    }
 }

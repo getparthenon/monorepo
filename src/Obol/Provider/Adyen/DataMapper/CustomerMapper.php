@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen\DataMapper;
 
+use Obol\Exception\MappingException;
 use Obol\Exception\ValidationFailureException;
 use Obol\Models\Customer;
 use Obol\Models\Enum\CustomerType;
 use Obol\Models\ValidationError;
 
-class CustomerMapper
+class CustomerMapper implements CustomerMapperInterface
 {
     use AddressTrait;
 

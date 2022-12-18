@@ -12,19 +12,8 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Models;
+namespace Obol;
 
-class CustomerCreationResponse
+class Obol implements ObolInterface
 {
-    protected string|int $id;
-
-    public function getId(): int|string
-    {
-        return $this->id;
-    }
-
-    public function setId(int|string $id): void
-    {
-        $this->id = $id;
-    }
 }

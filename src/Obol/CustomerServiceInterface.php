@@ -14,11 +14,19 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\FailedRequestException;
+use Obol\Exception\MappingException;
+use Obol\Exception\ValidationFailureException;
 use Obol\Models\Customer;
 use Obol\Models\CustomerCreationResponse;
 
 interface CustomerServiceInterface
 {
+    /**
+     * @throws ValidationFailureException
+     * @throws MappingException
+     * @throws FailedRequestException
+     */
     public function createCustomer(Customer $customer): CustomerCreationResponse;
 
     public function fetchCustomer(string|int $id): Customer;
