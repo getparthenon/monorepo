@@ -14,13 +14,28 @@ declare(strict_types=1);
 
 namespace Obol\Provider\AuthorizeNet\DataMapper;
 
+use Obol\Exception\ValidationFailureException;
 use Obol\Models\Customer;
 use Obol\Models\Enum\CustomerType;
+use Obol\Models\ValidationError;
 
 class CustomerMapper
 {
     public function mapCustomer(Customer $customer): array
     {
+        $validationErrors = [];
+
+        if (!$customer->hasName()) {
+            $validationErrors[] = new ValidationError('name', 'Authorize.Net requires name');
+        }
+        if (!$customer->hasEmail()) {
+            $validationErrors[] = new ValidationError('email', 'Authorize.Net requires email');
+        }
+
+        if (!empty($validationErrors)) {
+            throw ValidationFailureException::createWithErrors($validationErrors);
+        }
+
         $billTo = [
             'address' => $customer->getAddress()->getStreetLineOne(),
             'city' => $customer->getAddress()->getCity(),

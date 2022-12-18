@@ -84,6 +84,11 @@ class Customer
         return $this;
     }
 
+    public function hasEmail(): bool
+    {
+        return null !== $this->email;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
