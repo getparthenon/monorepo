@@ -16,7 +16,10 @@ namespace Obol\Models;
 
 class CustomerCreationResponse
 {
-    protected string|int $id;
+    public function __construct(protected int|string $id)
+    {
+        $this->id = $id;
+    }
 
     public function getId(): int|string
     {

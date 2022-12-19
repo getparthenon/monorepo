@@ -16,7 +16,6 @@ namespace Obol\Provider\Adyen;
 
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
-use Obol\Config;
 use Obol\CustomerServiceInterface;
 use Obol\Exception\BadAuthFailedRequestException;
 use Obol\Exception\FailedRequestException;
@@ -47,21 +46,18 @@ final class CustomerService implements CustomerServiceInterface
 
     public function createCustomer(Customer $customer): CustomerCreationResponse
     {
-        $payload = $this->customerMapper->mapCustomer($customer);
+        $payload = $this->customerMapper->mapFromCustomer($customer);
 
         $request = $this->requestFactory->createRequest('POST', $this->baseUrl);
+        $request->withAddedHeader('x-API-key', $this->config->getApiKey());
         $stream = $this->streamFactory->createStream(json_encode($payload));
         $request->withBody($stream);
 
         $response = $this->client->sendRequest($request);
 
-        $customerCreation = new CustomerCreationResponse();
-
         $jsonData = json_decode($response->getBody()->getContents(), true);
         if (200 === $response->getStatusCode()) {
-            $customerCreation->setId($jsonData['id']);
-
-            return $customerCreation;
+            return new CustomerCreationResponse($jsonData['id']);
         }
 
         if (422 === $response->getStatusCode()) {
@@ -77,6 +73,21 @@ final class CustomerService implements CustomerServiceInterface
 
     public function fetchCustomer(int|string $id): Customer
     {
-        // TODO: Implement fetchCustomer() method.
+        $request = $this->requestFactory->createRequest('POST', $this->baseUrl);
+        $request->withAddedHeader('x-API-key', $this->config->getApiKey());
+
+        $response = $this->client->sendRequest($request);
+
+        $jsonData = json_decode($response->getBody()->getContents(), true);
+
+        if (200 === $response->getStatusCode()) {
+            return $this->customerMapper->mapToCustomer($jsonData);
+        }
+
+        if (401 === $response->getStatusCode() || 403 === $response->getStatusCode()) {
+            throw new BadAuthFailedRequestException($request);
+        }
+        // All other responses are a failure
+        throw new FailedRequestException($request);
     }
 }

@@ -29,4 +29,30 @@ trait AddressTrait
             'street2' => $address->getStreetLineTwo(),
         ];
     }
+
+    public function mapToAddress(array $data): Address
+    {
+        $address = new Address();
+
+        if (isset($data['city'])) {
+            $address->setCity($data['city']);
+        }
+        if (isset($data['country'])) {
+            $address->setCountryCode($data['country']);
+        }
+        if (isset($data['postalCode'])) {
+            $address->setPostalCode($data['postalCode']);
+        }
+        if (isset($data['stateOrProvince'])) {
+            $address->setState($data['stateOrProvince']);
+        }
+        if (isset($data['street'])) {
+            $address->setStreetLineOne($data['street']);
+        }
+        if (isset($data['street2'])) {
+            $address->setStreetLineTwo($data['street2']);
+        }
+
+        return $address;
+    }
 }

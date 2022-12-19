@@ -12,28 +12,31 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol;
+namespace Obol\Provider\Adyen;
 
-use Obol\Provider\ProviderInterface;
-
-class Obol implements ObolInterface
+class Config
 {
-    public function __construct(private ProviderInterface $provider)
+    protected bool $testMode;
+
+    protected string $apiKey;
+
+    public function isTestMode(): bool
     {
+        return $this->testMode;
     }
 
-    public function supportsHostedCheckout(): bool
+    public function setTestMode(bool $testMode): void
     {
-        // TODO: Implement supportsHostedCheckout() method.
+        $this->testMode = $testMode;
     }
 
-    public function supportsCustomerCreation(): bool
+    public function getApiKey(): string
     {
-        // TODO: Implement supportsCustomerCreation() method.
+        return $this->apiKey;
     }
 
-    public function getCustomerService(): CustomerServiceInterface
+    public function setApiKey(string $apiKey): void
     {
-        // TODO: Implement getCustomerService() method.
+        $this->apiKey = $apiKey;
     }
 }

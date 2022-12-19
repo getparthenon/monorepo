@@ -55,7 +55,7 @@ class CustomerMapperTest extends TestCase
 
         $subject = new CustomerMapper();
 
-        $result = $subject->mapCustomer($customer);
+        $result = $subject->mapFromCustomer($customer);
 
         $this->assertArrayHasKey('individual', $result);
         $this->assertEquals('individual', $result['type']);
@@ -94,7 +94,7 @@ class CustomerMapperTest extends TestCase
 
         $subject = new CustomerMapper();
 
-        $result = $subject->mapCustomer($customer);
+        $result = $subject->mapFromCustomer($customer);
 
         $this->assertArrayHasKey('organization', $result);
         $this->assertEquals('organization', $result['type']);
@@ -132,7 +132,7 @@ class CustomerMapperTest extends TestCase
 
         $subject = new CustomerMapper();
 
-        $result = $subject->mapCustomer($customer);
+        $result = $subject->mapFromCustomer($customer);
 
         $this->assertArrayHasKey('soleProprietorship', $result);
         $this->assertEquals('soleProprietorship', $result['type']);
@@ -169,7 +169,7 @@ class CustomerMapperTest extends TestCase
 
         $subject = new CustomerMapper();
 
-        $result = $subject->mapCustomer($customer);
+        $result = $subject->mapFromCustomer($customer);
     }
 
     public function testSoleTraderName()
@@ -195,6 +195,6 @@ class CustomerMapperTest extends TestCase
 
         $subject = new CustomerMapper();
 
-        $result = $subject->mapCustomer($customer);
+        $result = $subject->mapFromCustomer($customer);
     }
 }

@@ -12,17 +12,8 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Provider\Adyen\DataMapper;
+namespace Obol\Provider;
 
-use Obol\Exception\ValidationFailureException;
-use Obol\Models\Customer;
-
-interface CustomerMapperInterface
+interface ProviderInterface
 {
-    /**
-     * @throws ValidationFailureException
-     */
-    public function mapFromCustomer(Customer $customer): array;
-
-    public function mapToCustomer(array $data): Customer;
 }

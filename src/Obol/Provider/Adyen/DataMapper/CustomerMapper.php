@@ -28,7 +28,7 @@ class CustomerMapper implements CustomerMapperInterface
      * @throws ValidationFailureException
      * @throws MappingException
      */
-    public function mapCustomer(Customer $customer): array
+    public function mapFromCustomer(Customer $customer): array
     {
         $validationErrors = [];
 
@@ -57,6 +57,29 @@ class CustomerMapper implements CustomerMapperInterface
         }
 
         throw new MappingException('Invalid customer type');
+    }
+
+    public function mapToCustomer(array $data): Customer
+    {
+        $customer = new Customer();
+
+        if ('individual' === $data['type']) {
+            $customer->setType(CustomerType::INDIVIDUAL);
+            $customer->setAddress($this->mapToAddress($data['individual']['residentialAddress']));
+            $customer->setName($data['individual']['firstName'].' '.$data['individual']['lastName']);
+            $this->handlePersonalData($customer, $data['individual']);
+        } elseif ('organization' === $data['type']) {
+            $customer->setType(CustomerType::ORGANISATION);
+            $customer->setAddress($this->mapToAddress($data['organization']['residentialAddress']));
+            $customer->setName($data['organization']['legalName']);
+            $this->handlePersonalData($customer, $data['organization']);
+        } elseif ('soleProprietorship' === $data['type']) {
+            $customer->setType(CustomerType::SOLE_TRADER);
+            $customer->setAddress($this->mapToAddress($data['soleProprietorship']['residentialAddress']));
+            $customer->setName($data['organization']['name']);
+        }
+
+        return $customer;
     }
 
     protected function mapIndividual(Customer $customer): array
@@ -102,5 +125,18 @@ class CustomerMapper implements CustomerMapperInterface
                 'countryOfGoverningLaw' => $customer->getAddress()->getCountryCode(),
             ],
         ];
+    }
+
+    protected function handlePersonalData(Customer $customer, array $data): void
+    {
+        if (isset($data['email'])) {
+            $customer->setEmail($data['email']);
+        }
+        if (isset($data['phone'])) {
+            $customer->setPhone($data['phone']);
+        }
+        if (isset($data['description'])) {
+            $customer->setDescription($data['description']);
+        }
     }
 }
