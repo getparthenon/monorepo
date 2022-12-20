@@ -23,7 +23,7 @@ class FailedRequestException extends \Exception
     /**
      * @param array $fields
      */
-    public function __construct(RequestInterface $request, string $message = null, int $code = null, \Throwable|null $exception = null)
+    public function __construct(RequestInterface $request, string $message = '', int $code = 0, \Throwable|null $exception = null)
     {
         $this->request = $request;
         parent::__construct($message, $code, $exception);

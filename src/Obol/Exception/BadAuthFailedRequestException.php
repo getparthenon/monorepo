@@ -14,6 +14,12 @@ declare(strict_types=1);
 
 namespace Obol\Exception;
 
+use Psr\Http\Message\RequestInterface;
+
 class BadAuthFailedRequestException extends FailedRequestException
 {
+    public function __construct(RequestInterface $request, string $message = 'Bad auth', int $code = 0, ?\Throwable $exception = null)
+    {
+        parent::__construct($request, $message, $code, $exception);
+    }
 }

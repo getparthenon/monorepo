@@ -31,9 +31,4 @@ class Obol implements ObolInterface
     {
         // TODO: Implement supportsCustomerCreation() method.
     }
-
-    public function getCustomerService(): CustomerServiceInterface
-    {
-        // TODO: Implement getCustomerService() method.
-    }
 }
