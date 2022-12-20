@@ -22,6 +22,7 @@ use Obol\Exception\FailedRequestException;
 use Obol\Exception\InvalidFieldsFailedRequestException;
 use Obol\Models\Customer;
 use Obol\Models\CustomerCreationResponse;
+use Obol\Provider\Adyen\DataMapper\CustomerMapper;
 use Obol\Provider\Adyen\DataMapper\CustomerMapperInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -34,10 +35,17 @@ final class CustomerService implements CustomerServiceInterface
     private ClientInterface $client;
     private RequestFactoryInterface $requestFactory;
     private StreamFactoryInterface $streamFactory;
+    private CustomerMapperInterface $customerMapper;
     private string $baseUrl;
 
-    public function __construct(private Config $config, private CustomerMapperInterface $customerMapper, ?ClientInterface $client, ?RequestFactoryInterface $requestFactory, ?StreamFactoryInterface $streamFactory)
-    {
+    public function __construct(
+        private Config $config,
+        ?CustomerMapperInterface $customerMapper = null,
+        ?ClientInterface $client = null,
+        ?RequestFactoryInterface $requestFactory = null,
+        ?StreamFactoryInterface $streamFactory = null,
+    ) {
+        $this->customerMapper = $customerMapper ?? new CustomerMapper();
         $this->client = $client ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
