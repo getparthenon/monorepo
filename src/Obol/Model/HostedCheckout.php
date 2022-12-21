@@ -12,27 +12,9 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Models;
+namespace Obol\Model;
 
-class ValidationError
+class HostedCheckout
 {
-    private string $field;
-
-    private string $reason;
-
-    public function __construct(string $field, string $reason)
-    {
-        $this->field = $field;
-        $this->reason = $reason;
-    }
-
-    public function getField(): string
-    {
-        return $this->field;
-    }
-
-    public function getReason(): string
-    {
-        return $this->reason;
-    }
+    public string $url;
 }
