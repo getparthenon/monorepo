@@ -28,8 +28,6 @@ class PaymentDetailsMapper
     {
         // No Mandate because it needs an end date.
 
-        $paymentMethod = [];
-
         if ($subscription->getBillingDetails()->usePrestoredCard()) {
             $paymentMethod = [
                 'storedPaymentMethodId' => $subscription->getBillingDetails()->getPaymentReference(),
