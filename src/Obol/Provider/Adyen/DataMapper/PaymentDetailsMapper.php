@@ -37,12 +37,23 @@ class PaymentDetailsMapper
         } else {
             $paymentMethod = [
                 'type' => 'scheme', // ??
-                'number' => $subscription->getBillingDetails()->getCardDetails()->getNumber(),
-                'expiryMonth' => $subscription->getBillingDetails()->getCardDetails()->getExpireDate(),
-                'expiryYear' => $subscription->getBillingDetails()->getCardDetails()->getExpireYear(),
                 'holderName' => $subscription->getBillingDetails()->getCardDetails()->getName(),
-                'cvc' => $subscription->getBillingDetails()->getCardDetails()->getSecurityCode(),
             ];
+            if ($config->isPciMode()) {
+                $paymentMethod = array_merge($paymentMethod, [
+                    'number' => $subscription->getBillingDetails()->getCardDetails()->getNumber(),
+                    'expiryMonth' => $subscription->getBillingDetails()->getCardDetails()->getExpireDate(),
+                    'expiryYear' => $subscription->getBillingDetails()->getCardDetails()->getExpireYear(),
+                    'cvc' => $subscription->getBillingDetails()->getCardDetails()->getSecurityCode(),
+                ]);
+            } else {
+                $paymentMethod = array_merge($paymentMethod, [
+                    'encryptedCardNumber' => $subscription->getBillingDetails()->getCardDetails()->getNumber(),
+                    'encryptedExpiryMonth' => $subscription->getBillingDetails()->getCardDetails()->getExpireDate(),
+                    'encryptedExpiryYear' => $subscription->getBillingDetails()->getCardDetails()->getExpireYear(),
+                    'encryptedSecurityCode' => $subscription->getBillingDetails()->getCardDetails()->getSecurityCode(),
+                ]);
+            }
         }
 
         return [

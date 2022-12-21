@@ -22,6 +22,8 @@ class Config
 
     protected bool $testMode;
 
+    protected bool $pciMode;
+
     protected string $returnUrl;
 
     public function getApiKey(): string
@@ -68,6 +70,18 @@ class Config
     public function setReturnUrl(string $returnUrl): static
     {
         $this->returnUrl = $returnUrl;
+
+        return $this;
+    }
+
+    public function isPciMode(): bool
+    {
+        return $this->pciMode;
+    }
+
+    public function setPciMode(bool $pciMode): static
+    {
+        $this->pciMode = $pciMode;
 
         return $this;
     }
