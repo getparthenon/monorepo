@@ -27,9 +27,11 @@ class CardDetails
         return $this->number;
     }
 
-    public function setNumber(string $number): void
+    public function setNumber(string $number): static
     {
         $this->number = $number;
+
+        return $this;
     }
 
     public function getExpireDate(): string
@@ -37,9 +39,11 @@ class CardDetails
         return $this->expireDate;
     }
 
-    public function setExpireDate(string $expireDate): void
+    public function setExpireDate(string $expireDate): static
     {
         $this->expireDate = $expireDate;
+
+        return $this;
     }
 
     public function getExpireYear(): string
@@ -47,9 +51,11 @@ class CardDetails
         return $this->expireYear;
     }
 
-    public function setExpireYear(string $expireYear): void
+    public function setExpireYear(string $expireYear): static
     {
         $this->expireYear = $expireYear;
+
+        return $this;
     }
 
     public function getSecurityCode(): string
@@ -57,9 +63,11 @@ class CardDetails
         return $this->securityCode;
     }
 
-    public function setSecurityCode(string $securityCode): void
+    public function setSecurityCode(string $securityCode): static
     {
         $this->securityCode = $securityCode;
+
+        return $this;
     }
 
     public function getName(): string
@@ -67,8 +75,10 @@ class CardDetails
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
     }
 }

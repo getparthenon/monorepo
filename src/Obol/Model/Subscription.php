@@ -27,9 +27,11 @@ class Subscription
         return $this->billingDetails;
     }
 
-    public function setBillingDetails(BillingDetails $billingDetails): void
+    public function setBillingDetails(BillingDetails $billingDetails): static
     {
         $this->billingDetails = $billingDetails;
+
+        return $this;
     }
 
     public function getName(): string
@@ -37,9 +39,11 @@ class Subscription
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
     }
 
     public function getSeats(): int
@@ -47,8 +51,10 @@ class Subscription
         return $this->seats;
     }
 
-    public function setSeats(int $seats): void
+    public function setSeats(int $seats): static
     {
         $this->seats = $seats;
+
+        return $this;
     }
 }

@@ -16,13 +16,15 @@ namespace Obol\Provider\Adyen\DataMapper;
 
 use _PHPStan_b8e553790\Nette\Neon\Exception;
 use Obol\Model\BillingDetails;
+use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
+use Obol\Provider\Adyen\Config;
 
 class PaymentDetailsMapper
 {
     use AddressTrait;
 
-    public function mapSubscription(Subscription $subscription): array
+    public function mapSubscription(Subscription $subscription, Config $config): array
     {
         // No Mandate because it needs an end date.
 
@@ -44,14 +46,14 @@ class PaymentDetailsMapper
         }
 
         return [
-            'lineItems' => [
+            'lineItems' => [[
                 'description' => $subscription->getName(),
                 'quantity' => $subscription->getSeats(), // number of seats
-            ],
+            ]],
             'billingAddress' => $this->mapAddress($subscription->getBillingDetails()->getAddress()),
             'amount' => [
-                'currency' => 'usd',
-                'value' => 1000, // Check if dollars or cents.
+                'currency' => 'USdD',
+                'value' => 1000, // Check if dollars or cents. CHANGE
             ],
             'reference' => $subscription->getBillingDetails()->getCustomerReference().' '.$subscription->getName(),
             'paymentMethod' => $paymentMethod,
@@ -59,12 +61,12 @@ class PaymentDetailsMapper
             'storePaymentMethod' => true,
             'shopperInteraction' => 'Ecommerce',
             'recurringProcessingModel' => 'UnscheduledCardOnFile',
-            'returnUrl' => null, // Config
-            'merchantAccount' => null, // config
+            'returnUrl' => 'http://www.getparthenon.com', // Config
+            'merchantAccount' => $config->getMerchantAccount(), // config
         ];
     }
 
-    public function mapBillingDetails(BillingDetails $billingDetails): array
+    public function mapBillingDetails(BillingDetails $billingDetails, Config $config): array
     {
         // No Mandate because it needs an end date.
 
@@ -94,8 +96,17 @@ class PaymentDetailsMapper
             'storePaymentMethod' => true,
             'shopperInteraction' => 'Ecommerce',
             'recurringProcessingModel' => 'UnscheduledCardOnFile',
-            'returnUrl' => null, // Config
-            'merchantAccount' => null, // config
+            'returnUrl' => 'http://www.getparthenon.com', // Config
+            'merchantAccount' => $config->getMerchantAccount(), // config
         ];
+    }
+
+    public function buildPaymentDetails(array $response): PaymentDetails
+    {
+        $paymentDetails = new PaymentDetails();
+        $paymentDetails->setCustomerReference($response['additionalData']['recurring.recurringDetailReference'])
+            ->setPaymentReference($response['additionalData']['recurring.shopperReference']);
+
+        return $paymentDetails;
     }
 }

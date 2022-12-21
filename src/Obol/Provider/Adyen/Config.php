@@ -18,7 +18,11 @@ class Config
 {
     protected string $apiKey;
 
+    protected string $merchantAccount;
+
     protected bool $testMode;
+
+    protected string $returnUrl;
 
     public function getApiKey(): string
     {
@@ -40,6 +44,30 @@ class Config
     public function setTestMode(bool $testMode): static
     {
         $this->testMode = $testMode;
+
+        return $this;
+    }
+
+    public function getMerchantAccount(): string
+    {
+        return $this->merchantAccount;
+    }
+
+    public function setMerchantAccount(string $merchantAccount): static
+    {
+        $this->merchantAccount = $merchantAccount;
+
+        return $this;
+    }
+
+    public function getReturnUrl(): string
+    {
+        return $this->returnUrl;
+    }
+
+    public function setReturnUrl(string $returnUrl): static
+    {
+        $this->returnUrl = $returnUrl;
 
         return $this;
     }

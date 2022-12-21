@@ -26,7 +26,7 @@ trait AddressTrait
             'postalCode' => $address->getPostalCode(),
             'stateOrProvince' => $address->getState(),
             'street' => $address->getStreetLineOne(),
-            'street2' => $address->getStreetLineTwo(),
+     //       'street2' => $address->getStreetLineTwo(),
         ];
     }
 

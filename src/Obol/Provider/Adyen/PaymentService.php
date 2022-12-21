@@ -28,12 +28,13 @@ use Obol\PaymentServiceInterface;
 use Obol\Provider\Adyen\DataMapper\PaymentDetailsMapper;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 class PaymentService implements PaymentServiceInterface
 {
-    private const TEST_BASE_URL = 'https://kyc-test.adyen.com/lem/v2/legalEntities';
-    private const LIVE_BASE_URL = 'https://kyc-live.adyen.com/lem/v2/legalEntities';
+    private const TEST_BASE_URL = 'https://checkout-test.adyen.com/v69/payments';
+    private const LIVE_BASE_URL = 'https://checkout-live.adyen.com/v69/payments';
     private ClientInterface $client;
     private RequestFactoryInterface $requestFactory;
     private StreamFactoryInterface $streamFactory;
@@ -60,7 +61,28 @@ class PaymentService implements PaymentServiceInterface
             $this->setCustomerReference($subscription->getBillingDetails());
         }
 
-        // TODO: Implement startSubscription() method.
+        $payload = $this->paymentDetailsMapper->mapSubscription($subscription, $this->config);
+
+        $request = $this->createApiRequest('POST', $this->baseUrl);
+        $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
+        echo json_encode($payload).PHP_EOL;
+        $response = $this->client->sendRequest($request);
+        echo $response->getBody()->getContents();
+        exit;
+        $jsonData = json_decode($request->getBody()->getContents());
+
+        if (200 === $response->getStatusCode()) {
+            $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
+
+            $subscriptionCreationResponse = new SubscriptionCreationResponse();
+            $subscriptionCreationResponse->setPaymentDetails($paymentDetails)
+                ->setSubscriptionId($jsonData['pspReference']);
+
+            return $subscriptionCreationResponse;
+        }
+
+        var_dump($response);
+        exit;
     }
 
     public function stopSubscription(): SubscriptionStoppedResponse
@@ -87,6 +109,13 @@ class PaymentService implements PaymentServiceInterface
     public function chargeCardOnFile(Charge $charge): ChargeCardResponse
     {
         // TODO: Implement chargeCardOnFile() method.
+    }
+
+    protected function createApiRequest(string $method, string $url): RequestInterface
+    {
+        $request = $this->requestFactory->createRequest($method, $url);
+
+        return $request->withAddedHeader('x-API-key', $this->config->getApiKey());
     }
 
     protected function setCustomerReference(BillingDetails $billingDetails): void

@@ -25,8 +25,22 @@ class SubscriptionCreationResponse
         return $this->paymentDetails;
     }
 
-    public function setPaymentDetails(PaymentDetails $paymentDetails): void
+    public function setPaymentDetails(PaymentDetails $paymentDetails): static
     {
         $this->paymentDetails = $paymentDetails;
+
+        return $this;
+    }
+
+    public function getSubscriptionId(): string
+    {
+        return $this->subscriptionId;
+    }
+
+    public function setSubscriptionId(string $subscriptionId): static
+    {
+        $this->subscriptionId = $subscriptionId;
+
+        return $this;
     }
 }
