@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Obol;
 
-use Obol\Model\CardDetails;
-use Obol\Model\CardFile;
+use Obol\Model\BillingDetails;
 use Obol\Model\CardFileDeletedResponse;
 use Obol\Model\CardOnFileResponse;
+use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
@@ -29,9 +29,9 @@ interface PaymentServiceInterface
 
     public function stopSubscription(): SubscriptionStoppedResponse;
 
-    public function createCardOnFile(CardDetails $cardDetails): CardOnFileResponse;
+    public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse;
 
-    public function deleteCardFile(CardFile $cardFile): CardFileDeletedResponse;
+    public function deleteCardFile(BillingDetails $cardFile): CardFileDeletedResponse;
 
-    public function chargeCardOnFile(CardFile $cardFile): ChargeCardResponse;
+    public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse;
 }

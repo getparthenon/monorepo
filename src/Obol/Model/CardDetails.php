@@ -16,4 +16,59 @@ namespace Obol\Model;
 
 class CardDetails
 {
+    protected string $number;
+    protected string $expireDate;
+    protected string $expireYear;
+    protected string $securityCode;
+    protected string $name;
+
+    public function getNumber(): string
+    {
+        return $this->number;
+    }
+
+    public function setNumber(string $number): void
+    {
+        $this->number = $number;
+    }
+
+    public function getExpireDate(): string
+    {
+        return $this->expireDate;
+    }
+
+    public function setExpireDate(string $expireDate): void
+    {
+        $this->expireDate = $expireDate;
+    }
+
+    public function getExpireYear(): string
+    {
+        return $this->expireYear;
+    }
+
+    public function setExpireYear(string $expireYear): void
+    {
+        $this->expireYear = $expireYear;
+    }
+
+    public function getSecurityCode(): string
+    {
+        return $this->securityCode;
+    }
+
+    public function setSecurityCode(string $securityCode): void
+    {
+        $this->securityCode = $securityCode;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }

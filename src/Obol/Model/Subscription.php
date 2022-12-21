@@ -17,4 +17,38 @@ namespace Obol\Model;
 class Subscription
 {
     protected BillingDetails $billingDetails;
+
+    protected string $name;
+
+    protected int $seats = 1;
+
+    public function getBillingDetails(): BillingDetails
+    {
+        return $this->billingDetails;
+    }
+
+    public function setBillingDetails(BillingDetails $billingDetails): void
+    {
+        $this->billingDetails = $billingDetails;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getSeats(): int
+    {
+        return $this->seats;
+    }
+
+    public function setSeats(int $seats): void
+    {
+        $this->seats = $seats;
+    }
 }
