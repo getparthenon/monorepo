@@ -64,12 +64,12 @@ class PaymentService implements PaymentServiceInterface
         $payload = $this->paymentDetailsMapper->mapSubscription($subscription, $this->config);
 
         $request = $this->createApiRequest('POST', $this->baseUrl);
+
         $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
-        echo json_encode($payload).PHP_EOL;
+
         $response = $this->client->sendRequest($request);
-        echo $response->getBody()->getContents();
-        exit;
-        $jsonData = json_decode($request->getBody()->getContents());
+
+        $jsonData = json_decode($response->getBody()->getContents(), true);
 
         if (200 === $response->getStatusCode()) {
             $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
@@ -80,9 +80,6 @@ class PaymentService implements PaymentServiceInterface
 
             return $subscriptionCreationResponse;
         }
-
-        var_dump($response);
-        exit;
     }
 
     public function stopSubscription(): SubscriptionStoppedResponse
@@ -115,7 +112,7 @@ class PaymentService implements PaymentServiceInterface
     {
         $request = $this->requestFactory->createRequest($method, $url);
 
-        return $request->withAddedHeader('x-API-key', $this->config->getApiKey());
+        return $request->withAddedHeader('x-API-key', $this->config->getApiKey())->withAddedHeader('Content-Type', 'application/json');
     }
 
     protected function setCustomerReference(BillingDetails $billingDetails): void

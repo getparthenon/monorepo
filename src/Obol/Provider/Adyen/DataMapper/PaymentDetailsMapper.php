@@ -61,7 +61,7 @@ class PaymentDetailsMapper
             ]],
             'billingAddress' => $this->mapAddress($subscription->getBillingDetails()->getAddress()),
             'amount' => [
-                'currency' => 'USdD',
+                'currency' => 'USD',
                 'value' => 1000, // Check if dollars or cents. CHANGE
             ],
             'reference' => $subscription->getBillingDetails()->getCustomerReference().' '.$subscription->getName(),

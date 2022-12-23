@@ -17,6 +17,7 @@ require_once '../../vendor/autoload.php';
 $config = new \Obol\Provider\Adyen\Config();
 $config->setTestMode(true)
     ->setMerchantAccount(getenv('ADYEN_MERCHANT'))
+    ->setPciMode(true)
     ->setApiKey(getenv('ADYEN_API_KEY'));
 
 $paymentSystem = new \Obol\Provider\Adyen\PaymentService($config);
