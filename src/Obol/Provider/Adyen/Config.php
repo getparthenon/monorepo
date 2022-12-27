@@ -26,6 +26,8 @@ class Config
 
     protected string $returnUrl;
 
+    protected string $prefix;
+
     public function getApiKey(): string
     {
         return $this->apiKey;
@@ -84,5 +86,15 @@ class Config
         $this->pciMode = $pciMode;
 
         return $this;
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix(string $prefix): void
+    {
+        $this->prefix = $prefix;
     }
 }

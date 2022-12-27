@@ -111,6 +111,15 @@ class PaymentDetailsMapper
         ];
     }
 
+    public function createDeletePayment(BillingDetails $billingDetails, Config $config): array
+    {
+        return [
+            'shopperReference' => $billingDetails->getCustomerReference(),
+            'recuringDetailReference' => $billingDetails->getPaymentReference(),
+            'merchantAccount' => $config->getMerchantAccount(),
+        ];
+    }
+
     public function buildPaymentDetails(array $response): PaymentDetails
     {
         $paymentDetails = new PaymentDetails();

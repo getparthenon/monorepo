@@ -18,13 +18,11 @@ use Brick\Money\Money;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Obol\Model\BillingDetails;
-use Obol\Model\CardFileDeletedResponse;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
-use Obol\Model\SubscriptionStoppedResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\Adyen\DataMapper\PaymentDetailsMapper;
 use Psr\Http\Client\ClientInterface;
@@ -35,12 +33,16 @@ use Psr\Http\Message\StreamFactoryInterface;
 class PaymentService implements PaymentServiceInterface
 {
     private const TEST_BASE_URL = 'https://checkout-test.adyen.com/v69/payments';
-    private const LIVE_BASE_URL = 'https://checkout-live.adyen.com/v69/payments';
+    private const LIVE_BASE_URL = 'https://%s-checkout-live.adyenpayments.com/checkout/v69/payments';
+
+    private const TEST_DISABLE_URL = 'https://pal-test.adyen.com/pal/servlet/Recurring/v68/disable';
+    private const LIVE_DISABLE_URL = 'https://%s-pal-live.adyenpayments.com/pal/servlet/Recurring/v68/disable';
     private ClientInterface $client;
     private RequestFactoryInterface $requestFactory;
     private StreamFactoryInterface $streamFactory;
     private PaymentDetailsMapper $paymentDetailsMapper;
     private string $baseUrl;
+    private string $disableUrl;
 
     public function __construct(
         private Config $config,
@@ -53,7 +55,8 @@ class PaymentService implements PaymentServiceInterface
         $this->client = $client ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
-        $this->baseUrl = $this->config->isTestMode() ? self::TEST_BASE_URL : self::LIVE_BASE_URL;
+        $this->baseUrl = $this->config->isTestMode() ? self::TEST_BASE_URL : sprintf(self::LIVE_BASE_URL, $this->config->getPrefix());
+        $this->disableUrl = $this->config->isTestMode() ? self::TEST_DISABLE_URL : sprintf(self::LIVE_DISABLE_URL, $this->config->getPrefix());
     }
 
     public function startSubscription(Subscription $subscription): SubscriptionCreationResponse
@@ -93,9 +96,9 @@ class PaymentService implements PaymentServiceInterface
         throw new \Exception('Unable to make request');
     }
 
-    public function stopSubscription(): SubscriptionStoppedResponse
+    public function stopSubscription(Subscription $subscription): void
     {
-        // TODO: Implement stopSubscription() method.
+        $this->deleteCardFile($subscription->getBillingDetails());
     }
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse
@@ -133,13 +136,34 @@ class PaymentService implements PaymentServiceInterface
         throw new \Exception('Unable to make request');
     }
 
-    public function deleteCardFile(BillingDetails $cardFile): CardFileDeletedResponse
+    public function deleteCardFile(BillingDetails $billingDetails): void
     {
-        if (!$cardFile->usePrestoredCard()) {
+        if (!$billingDetails->usePrestoredCard()) {
             throw new \Exception('No card data to delete');
         }
 
-        // TODO: Implement deleteCardFile() method.
+        $payload = $this->paymentDetailsMapper->addCardToFilePayload($billingDetails, $this->config);
+
+        $request = $this->createApiRequest('POST', $this->baseUrl);
+        $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
+
+        $response = $this->client->sendRequest($request);
+
+        $jsonData = json_decode($response->getBody()->getContents(), true);
+
+        if (200 === $response->getStatusCode()) {
+            return;
+        }
+
+        if (401 === $response->getStatusCode()) {
+            throw new \Exception('Unauthorized request - most likely an invalid API key');
+        }
+
+        if (403 === $response->getStatusCode()) {
+            throw new \Exception('Forbidden - most likely invalid roles. Check if you have PCI rights');
+        }
+
+        throw new \Exception('Unable to make request');
     }
 
     public function chargeCardOnFile(Charge $charge): ChargeCardResponse
@@ -166,8 +190,6 @@ class PaymentService implements PaymentServiceInterface
 
             return $cardOnFile;
         }
-
-        var_dump($jsonData);
 
         throw new \Exception('Unable to make request');
     }

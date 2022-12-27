@@ -15,23 +15,21 @@ declare(strict_types=1);
 namespace Obol;
 
 use Obol\Model\BillingDetails;
-use Obol\Model\CardFileDeletedResponse;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
-use Obol\Model\SubscriptionStoppedResponse;
 
 interface PaymentServiceInterface
 {
     public function startSubscription(Subscription $subscription): SubscriptionCreationResponse;
 
-    public function stopSubscription(): SubscriptionStoppedResponse;
+    public function stopSubscription(Subscription $subscription): void;
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse;
 
-    public function deleteCardFile(BillingDetails $cardFile): CardFileDeletedResponse;
+    public function deleteCardFile(BillingDetails $cardFile): void;
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse;
 }
