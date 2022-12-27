@@ -72,6 +72,7 @@ class PaymentService implements PaymentServiceInterface
 
         if (200 === $response->getStatusCode()) {
             $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
+            $paymentDetails->setAmount($subscription->getTotalCost());
 
             $subscriptionCreationResponse = new SubscriptionCreationResponse();
             $subscriptionCreationResponse->setPaymentDetails($paymentDetails)
@@ -79,7 +80,15 @@ class PaymentService implements PaymentServiceInterface
 
             return $subscriptionCreationResponse;
         }
-        var_dump($jsonData);
+
+        if (401 === $response->getStatusCode()) {
+            throw new \Exception('Unauthorized request - most likely an invalid API key');
+        }
+
+        if (403 === $response->getStatusCode()) {
+            throw new \Exception('Forbidden - most likely invalid roles. Check if you have PCI rights');
+        }
+
         throw new \Exception('Unable to make request');
     }
 
@@ -93,6 +102,34 @@ class PaymentService implements PaymentServiceInterface
         if (!$billingDetails->hasCustomerReference()) {
             $this->setCustomerReference($billingDetails);
         }
+
+        $payload = $this->paymentDetailsMapper->addCardToFilePayload($billingDetails, $this->config);
+
+        $request = $this->createApiRequest('POST', $this->baseUrl);
+        $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
+
+        $response = $this->client->sendRequest($request);
+
+        $jsonData = json_decode($response->getBody()->getContents(), true);
+
+        if (200 === $response->getStatusCode()) {
+            $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
+
+            $cardOnFile = new CardOnFileResponse();
+            $cardOnFile->setPaymentDetails($paymentDetails);
+
+            return $cardOnFile;
+        }
+
+        if (401 === $response->getStatusCode()) {
+            throw new \Exception('Unauthorized request - most likely an invalid API key');
+        }
+
+        if (403 === $response->getStatusCode()) {
+            throw new \Exception('Forbidden - most likely invalid roles. Check if you have PCI rights');
+        }
+
+        throw new \Exception('Unable to make request');
     }
 
     public function deleteCardFile(BillingDetails $cardFile): CardFileDeletedResponse

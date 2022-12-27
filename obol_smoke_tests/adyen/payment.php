@@ -50,3 +50,7 @@ $subscription->setName('Test')
 $creation = $paymentSystem->startSubscription($subscription);
 
 var_dump($creation);
+
+$cardOnFile = $paymentSystem->createCardOnFile($billingDetails);
+
+var_dump($cardOnFile);
