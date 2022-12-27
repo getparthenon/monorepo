@@ -58,6 +58,34 @@ class PaymentDetailsMapper
         ];
     }
 
+    public function chargeCardPayload(Charge $charge, Config $config): array
+    {
+        // No Mandate because it needs an end date.
+
+        if ($charge->getBillingDetails()->usePrestoredCard()) {
+            $paymentMethod = [
+                'storedPaymentMethodId' => $charge->getBillingDetails()->getPaymentReference(),
+            ];
+        } else {
+            $paymentMethod = $this->getPaymentMethod($charge->getBillingDetails(), $config);
+        }
+
+        return [
+            'billingAddress' => $this->mapAddress($charge->getBillingDetails()->getAddress()),
+            'amount' => [
+                'currency' => $charge->getAmount()->getCurrency()->getCurrencyCode(),
+                'value' => $charge->getAmount()->getMinorAmount()->toInt(),
+            ],
+            'reference' => $charge->getBillingDetails()->getCustomerReference().' '.$charge->getName(),
+            'paymentMethod' => $paymentMethod,
+            'shopperReference' => $charge->getBillingDetails()->getCustomerReference(),
+            'shopperInteraction' => 'ContAuth',
+            'recurringProcessingModel' => 'UnscheduledCardOnFile',
+            'returnUrl' => $config->getReturnUrl(), // Config
+            'merchantAccount' => $config->getMerchantAccount(), // config
+        ];
+    }
+
     public function addCardToFilePayload(BillingDetails $billingDetails, Config $config): array
     {
         if ($billingDetails->usePrestoredCard()) {
@@ -83,39 +111,11 @@ class PaymentDetailsMapper
         ];
     }
 
-    public function chargePayload(Charge $charge, Config $config): array
-    {
-        $billingDetails = $charge->getBillingDetails();
-
-        if ($billingDetails->usePrestoredCard()) {
-            $paymentMethod = [
-                'storedPaymentMethodId' => $billingDetails->getPaymentReference(),
-            ];
-        } else {
-            $paymentMethod = $this->getPaymentMethod($billingDetails, $config);
-        }
-
-        return [
-            'billingAddress' => $this->mapAddress($billingDetails->getAddress()),
-            'amount' => [
-                'currency' => $charge->getAmount()->getCurrency()->getCurrencyCode(),
-                'value' => $charge->getAmount()->getMinorAmount()->toInt(),
-            ],
-            'reference' => $billingDetails->getCustomerReference(),
-            'paymentMethod' => $paymentMethod,
-            'shopperReference' => $billingDetails->getCustomerReference(),
-            'storePaymentMethod' => false,
-            'shopperInteraction' => 'Ecommerce',
-            'returnUrl' => $config->getReturnUrl(), // Config
-            'merchantAccount' => $config->getMerchantAccount(), // config
-        ];
-    }
-
     public function buildPaymentDetails(array $response): PaymentDetails
     {
         $paymentDetails = new PaymentDetails();
-        $paymentDetails->setCustomerReference($response['additionalData']['recurring.recurringDetailReference'])
-            ->setPaymentReference($response['additionalData']['recurring.shopperReference']);
+        $paymentDetails->setCustomerReference($response['additionalData']['recurring.shopperReference'])
+            ->setPaymentReference($response['additionalData']['recurring.recurringDetailReference']);
 
         return $paymentDetails;
     }

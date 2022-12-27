@@ -18,6 +18,8 @@ use Brick\Money\Money;
 
 class Charge
 {
+    protected string $name;
+
     protected Money $amount;
 
     protected BillingDetails $billingDetails;
@@ -40,5 +42,15 @@ class Charge
     public function setBillingDetails(BillingDetails $billingDetails): void
     {
         $this->billingDetails = $billingDetails;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 }

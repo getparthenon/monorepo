@@ -52,5 +52,14 @@ $creation = $paymentSystem->startSubscription($subscription);
 var_dump($creation);
 
 $cardOnFile = $paymentSystem->createCardOnFile($billingDetails);
-
+$billingDetails->setPaymentReference($cardOnFile->getPaymentDetails()->getPaymentReference());
 var_dump($cardOnFile);
+
+$charge = new \Obol\Model\Charge();
+$charge->setName('Smoke Test');
+$charge->setBillingDetails($billingDetails);
+$charge->setAmount(\Brick\Money\Money::of('19.99', 'USD'));
+
+$cardOnFileCharged = $paymentSystem->chargeCardOnFile($charge);
+
+var_dump($cardOnFileCharged);

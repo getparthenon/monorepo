@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen;
 
+use Brick\Money\Money;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Obol\Model\BillingDetails;
@@ -114,7 +115,7 @@ class PaymentService implements PaymentServiceInterface
 
         if (200 === $response->getStatusCode()) {
             $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
-
+            $paymentDetails->setAmount(Money::of(0, 'USD'));
             $cardOnFile = new CardOnFileResponse();
             $cardOnFile->setPaymentDetails($paymentDetails);
 
@@ -143,7 +144,32 @@ class PaymentService implements PaymentServiceInterface
 
     public function chargeCardOnFile(Charge $charge): ChargeCardResponse
     {
-        // TODO: Implement chargeCardOnFile() method.
+        if (!$charge->getBillingDetails()->usePrestoredCard()) {
+            throw new \Exception('No card data to delete');
+        }
+
+        $payload = $this->paymentDetailsMapper->chargeCardPayload($charge, $this->config);
+
+        $request = $this->createApiRequest('POST', $this->baseUrl);
+        $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
+
+        $response = $this->client->sendRequest($request);
+
+        $jsonData = json_decode($response->getBody()->getContents(), true);
+
+        if (200 === $response->getStatusCode()) {
+            $paymentDetails = $this->paymentDetailsMapper->buildPaymentDetails($jsonData);
+            $paymentDetails->setAmount($charge->getAmount());
+
+            $cardOnFile = new ChargeCardResponse();
+            $cardOnFile->setPaymentDetails($paymentDetails);
+
+            return $cardOnFile;
+        }
+
+        var_dump($jsonData);
+
+        throw new \Exception('Unable to make request');
     }
 
     protected function createApiRequest(string $method, string $url): RequestInterface
