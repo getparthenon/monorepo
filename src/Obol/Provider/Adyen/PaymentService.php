@@ -64,7 +64,6 @@ class PaymentService implements PaymentServiceInterface
         $payload = $this->paymentDetailsMapper->mapSubscription($subscription, $this->config);
 
         $request = $this->createApiRequest('POST', $this->baseUrl);
-
         $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
 
         $response = $this->client->sendRequest($request);
@@ -80,6 +79,8 @@ class PaymentService implements PaymentServiceInterface
 
             return $subscriptionCreationResponse;
         }
+        var_dump($jsonData);
+        throw new \Exception('Unable to make request');
     }
 
     public function stopSubscription(): SubscriptionStoppedResponse

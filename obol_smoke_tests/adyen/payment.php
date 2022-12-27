@@ -18,7 +18,8 @@ $config = new \Obol\Provider\Adyen\Config();
 $config->setTestMode(true)
     ->setMerchantAccount(getenv('ADYEN_MERCHANT'))
     ->setPciMode(true)
-    ->setApiKey(getenv('ADYEN_API_KEY'));
+    ->setApiKey(getenv('ADYEN_API_KEY'))
+    ->setReturnUrl('http://localhost');
 
 $paymentSystem = new \Obol\Provider\Adyen\PaymentService($config);
 
@@ -43,7 +44,8 @@ $billingDetails->setCardDetails($cardDetails);
 
 $subscription->setName('Test')
     ->setSeats(10)
-    ->setBillingDetails($billingDetails);
+    ->setBillingDetails($billingDetails)
+    ->setCostPerSeat(Brick\Money\Money::of(10, 'USD'));
 
 $creation = $paymentSystem->startSubscription($subscription);
 

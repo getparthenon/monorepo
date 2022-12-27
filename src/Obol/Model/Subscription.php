@@ -14,9 +14,13 @@ declare(strict_types=1);
 
 namespace Obol\Model;
 
+use Brick\Money\Money;
+
 class Subscription
 {
     protected BillingDetails $billingDetails;
+
+    protected Money $costPerSeat;
 
     protected string $name;
 
@@ -56,5 +60,20 @@ class Subscription
         $this->seats = $seats;
 
         return $this;
+    }
+
+    public function getCostPerSeat(): Money
+    {
+        return $this->costPerSeat;
+    }
+
+    public function setCostPerSeat(Money $costPerSeat): void
+    {
+        $this->costPerSeat = $costPerSeat;
+    }
+
+    public function getTotalCost(): Money
+    {
+        return $this->costPerSeat->multipliedBy($this->seats);
     }
 }

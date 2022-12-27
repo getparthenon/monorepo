@@ -14,33 +14,31 @@ declare(strict_types=1);
 
 namespace Obol\Model;
 
+use Brick\Money\Money;
+
 class Charge
 {
-    protected PaymentDetails $paymentsDetail;
+    protected Money $amount;
 
-    protected string $amount;
+    protected BillingDetails $billingDetails;
 
-    public function getPaymentsDetail(): PaymentDetails
-    {
-        return $this->paymentsDetail;
-    }
-
-    public function setPaymentsDetail(PaymentDetails $paymentsDetail): static
-    {
-        $this->paymentsDetail = $paymentsDetail;
-
-        return $this;
-    }
-
-    public function getAmount(): string
+    public function getAmount(): Money
     {
         return $this->amount;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(Money $amount): void
     {
         $this->amount = $amount;
+    }
 
-        return $this;
+    public function getBillingDetails(): BillingDetails
+    {
+        return $this->billingDetails;
+    }
+
+    public function setBillingDetails(BillingDetails $billingDetails): void
+    {
+        $this->billingDetails = $billingDetails;
     }
 }

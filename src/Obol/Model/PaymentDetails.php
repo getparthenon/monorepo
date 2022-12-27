@@ -14,11 +14,17 @@ declare(strict_types=1);
 
 namespace Obol\Model;
 
+use Brick\Money\Money;
+
 class PaymentDetails
 {
     protected string $customerReference;
 
     protected string $paymentReference;
+
+    protected string $paymentDetailsReference;
+
+    protected Money $amount;
 
     public function getCustomerReference(): string
     {
@@ -42,5 +48,25 @@ class PaymentDetails
         $this->paymentReference = $paymentReference;
 
         return $this;
+    }
+
+    public function getPaymentDetailsReference(): string
+    {
+        return $this->paymentDetailsReference;
+    }
+
+    public function setPaymentDetailsReference(string $paymentDetailsReference): void
+    {
+        $this->paymentDetailsReference = $paymentDetailsReference;
+    }
+
+    public function getAmount(): Money
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(Money $amount): void
+    {
+        $this->amount = $amount;
     }
 }

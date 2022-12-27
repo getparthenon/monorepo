@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Adyen\DataMapper;
 
 use _PHPStan_b8e553790\Nette\Neon\Exception;
-use Obol\Model\BillingDetails;
+use Obol\Model\Charge;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
 use Obol\Provider\Adyen\Config;
@@ -61,8 +61,8 @@ class PaymentDetailsMapper
             ]],
             'billingAddress' => $this->mapAddress($subscription->getBillingDetails()->getAddress()),
             'amount' => [
-                'currency' => 'USD',
-                'value' => 1000, // Check if dollars or cents. CHANGE
+                'currency' => $subscription->getCostPerSeat()->getCurrency()->getCurrencyCode(),
+                'value' => $subscription->getTotalCost()->getMinorAmount()->toInt(),
             ],
             'reference' => $subscription->getBillingDetails()->getCustomerReference().' '.$subscription->getName(),
             'paymentMethod' => $paymentMethod,
@@ -70,14 +70,14 @@ class PaymentDetailsMapper
             'storePaymentMethod' => true,
             'shopperInteraction' => 'Ecommerce',
             'recurringProcessingModel' => 'UnscheduledCardOnFile',
-            'returnUrl' => 'http://www.getparthenon.com', // Config
+            'returnUrl' => $config->getReturnUrl(), // Config
             'merchantAccount' => $config->getMerchantAccount(), // config
         ];
     }
 
-    public function mapBillingDetails(BillingDetails $billingDetails, Config $config): array
+    public function chargePayload(Charge $charge, Config $config): array
     {
-        // No Mandate because it needs an end date.
+        $billingDetails = $charge->getBillingDetails();
 
         $paymentMethod = [];
         if ($billingDetails->usePrestoredCard()) {
@@ -96,8 +96,8 @@ class PaymentDetailsMapper
         return [
             'billingAddress' => $this->mapAddress($billingDetails->getAddress()),
             'amount' => [
-                'currency' => 'usd',
-                'value' => 0, // Check if dollars or cents.
+                'currency' => $charge->getAmount()->getCurrency()->getCurrencyCode(),
+                'value' => $charge->getAmount()->getMinorAmount()->toInt(),
             ],
             'reference' => $billingDetails->getCustomerReference(),
             'paymentMethod' => $paymentMethod,
@@ -105,7 +105,7 @@ class PaymentDetailsMapper
             'storePaymentMethod' => true,
             'shopperInteraction' => 'Ecommerce',
             'recurringProcessingModel' => 'UnscheduledCardOnFile',
-            'returnUrl' => 'http://www.getparthenon.com', // Config
+            'returnUrl' => $config->getReturnUrl(), // Config
             'merchantAccount' => $config->getMerchantAccount(), // config
         ];
     }
