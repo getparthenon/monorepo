@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Adyen\DataMapper;
 
 use _PHPStan_b8e553790\Nette\Neon\Exception;
+use Obol\Model\BillingDetails;
 use Obol\Model\Charge;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
@@ -33,25 +34,7 @@ class PaymentDetailsMapper
                 'storedPaymentMethodId' => $subscription->getBillingDetails()->getPaymentReference(),
             ];
         } else {
-            $paymentMethod = [
-                'type' => 'scheme', // ??
-                'holderName' => $subscription->getBillingDetails()->getCardDetails()->getName(),
-            ];
-            if ($config->isPciMode()) {
-                $paymentMethod = array_merge($paymentMethod, [
-                    'number' => $subscription->getBillingDetails()->getCardDetails()->getNumber(),
-                    'expiryMonth' => $subscription->getBillingDetails()->getCardDetails()->getExpireDate(),
-                    'expiryYear' => $subscription->getBillingDetails()->getCardDetails()->getExpireYear(),
-                    'cvc' => $subscription->getBillingDetails()->getCardDetails()->getSecurityCode(),
-                ]);
-            } else {
-                $paymentMethod = array_merge($paymentMethod, [
-                    'encryptedCardNumber' => $subscription->getBillingDetails()->getCardDetails()->getNumber(),
-                    'encryptedExpiryMonth' => $subscription->getBillingDetails()->getCardDetails()->getExpireDate(),
-                    'encryptedExpiryYear' => $subscription->getBillingDetails()->getCardDetails()->getExpireYear(),
-                    'encryptedSecurityCode' => $subscription->getBillingDetails()->getCardDetails()->getSecurityCode(),
-                ]);
-            }
+            $paymentMethod = $this->getPaymentMethod($subscription->getBillingDetails(), $config);
         }
 
         return [
@@ -75,40 +58,19 @@ class PaymentDetailsMapper
         ];
     }
 
-    public function chargePayload(Charge $charge, Config $config): array
+    public function addCardToFilePayload(BillingDetails $billingDetails, Config $config): array
     {
-        $billingDetails = $charge->getBillingDetails();
-
-        $paymentMethod = [];
         if ($billingDetails->usePrestoredCard()) {
             throw new Exception('Has prestored card data for payload for generating card on file');
         }
 
-        $paymentMethod = [
-            'type' => 'scheme', // ??
-            'holderName' => $charge->getBillingDetails()->getCardDetails()->getName(),
-        ];
-        if ($config->isPciMode()) {
-            $paymentMethod = array_merge($paymentMethod, [
-                'number' => $charge->getBillingDetails()->getCardDetails()->getNumber(),
-                'expiryMonth' => $charge->getBillingDetails()->getCardDetails()->getExpireDate(),
-                'expiryYear' => $charge->getBillingDetails()->getCardDetails()->getExpireYear(),
-                'cvc' => $charge->getBillingDetails()->getCardDetails()->getSecurityCode(),
-            ]);
-        } else {
-            $paymentMethod = array_merge($paymentMethod, [
-                'encryptedCardNumber' => $charge->getBillingDetails()->getCardDetails()->getNumber(),
-                'encryptedExpiryMonth' => $charge->getBillingDetails()->getCardDetails()->getExpireDate(),
-                'encryptedExpiryYear' => $charge->getBillingDetails()->getCardDetails()->getExpireYear(),
-                'encryptedSecurityCode' => $charge->getBillingDetails()->getCardDetails()->getSecurityCode(),
-            ]);
-        }
+        $paymentMethod = $this->getPaymentMethod($billingDetails, $config);
 
         return [
             'billingAddress' => $this->mapAddress($billingDetails->getAddress()),
             'amount' => [
-                'currency' => $charge->getAmount()->getCurrency()->getCurrencyCode(),
-                'value' => $charge->getAmount()->getMinorAmount()->toInt(),
+                'currency' => 'USD',
+                'value' => 0,
             ],
             'reference' => $billingDetails->getCustomerReference(),
             'paymentMethod' => $paymentMethod,
@@ -121,6 +83,34 @@ class PaymentDetailsMapper
         ];
     }
 
+    public function chargePayload(Charge $charge, Config $config): array
+    {
+        $billingDetails = $charge->getBillingDetails();
+
+        if ($billingDetails->usePrestoredCard()) {
+            $paymentMethod = [
+                'storedPaymentMethodId' => $billingDetails->getPaymentReference(),
+            ];
+        } else {
+            $paymentMethod = $this->getPaymentMethod($billingDetails, $config);
+        }
+
+        return [
+            'billingAddress' => $this->mapAddress($billingDetails->getAddress()),
+            'amount' => [
+                'currency' => $charge->getAmount()->getCurrency()->getCurrencyCode(),
+                'value' => $charge->getAmount()->getMinorAmount()->toInt(),
+            ],
+            'reference' => $billingDetails->getCustomerReference(),
+            'paymentMethod' => $paymentMethod,
+            'shopperReference' => $billingDetails->getCustomerReference(),
+            'storePaymentMethod' => false,
+            'shopperInteraction' => 'Ecommerce',
+            'returnUrl' => $config->getReturnUrl(), // Config
+            'merchantAccount' => $config->getMerchantAccount(), // config
+        ];
+    }
+
     public function buildPaymentDetails(array $response): PaymentDetails
     {
         $paymentDetails = new PaymentDetails();
@@ -128,5 +118,35 @@ class PaymentDetailsMapper
             ->setPaymentReference($response['additionalData']['recurring.shopperReference']);
 
         return $paymentDetails;
+    }
+
+    /**
+     * @return array|string[]
+     *
+     * @throws \Exception
+     */
+    private function getPaymentMethod(BillingDetails $billingDetails, Config $config): array
+    {
+        $paymentMethod = [
+            'type' => 'scheme', // ??
+            'holderName' => $billingDetails->getCardDetails()->getName(),
+        ];
+        if ($config->isPciMode()) {
+            $paymentMethod = array_merge($paymentMethod, [
+                'number' => $billingDetails->getCardDetails()->getNumber(),
+                'expiryMonth' => $billingDetails->getCardDetails()->getExpireDate(),
+                'expiryYear' => $billingDetails->getCardDetails()->getExpireYear(),
+                'cvc' => $billingDetails->getCardDetails()->getSecurityCode(),
+            ]);
+        } else {
+            $paymentMethod = array_merge($paymentMethod, [
+                'encryptedCardNumber' => $billingDetails->getCardDetails()->getNumber(),
+                'encryptedExpiryMonth' => $billingDetails->getCardDetails()->getExpireDate(),
+                'encryptedExpiryYear' => $billingDetails->getCardDetails()->getExpireYear(),
+                'encryptedSecurityCode' => $billingDetails->getCardDetails()->getSecurityCode(),
+            ]);
+        }
+
+        return $paymentMethod;
     }
 }
