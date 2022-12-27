@@ -86,12 +86,23 @@ class PaymentDetailsMapper
 
         $paymentMethod = [
             'type' => 'scheme', // ??
-            'number' => $billingDetails->getCardDetails()->getNumber(),
-            'expiryMonth' => $billingDetails->getCardDetails()->getExpireDate(),
-            'expiryYear' => $billingDetails->getCardDetails()->getExpireYear(),
-            'holderName' => $billingDetails->getCardDetails()->getName(),
-            'cvc' => $billingDetails->getCardDetails()->getSecurityCode(),
+            'holderName' => $charge->getBillingDetails()->getCardDetails()->getName(),
         ];
+        if ($config->isPciMode()) {
+            $paymentMethod = array_merge($paymentMethod, [
+                'number' => $charge->getBillingDetails()->getCardDetails()->getNumber(),
+                'expiryMonth' => $charge->getBillingDetails()->getCardDetails()->getExpireDate(),
+                'expiryYear' => $charge->getBillingDetails()->getCardDetails()->getExpireYear(),
+                'cvc' => $charge->getBillingDetails()->getCardDetails()->getSecurityCode(),
+            ]);
+        } else {
+            $paymentMethod = array_merge($paymentMethod, [
+                'encryptedCardNumber' => $charge->getBillingDetails()->getCardDetails()->getNumber(),
+                'encryptedExpiryMonth' => $charge->getBillingDetails()->getCardDetails()->getExpireDate(),
+                'encryptedExpiryYear' => $charge->getBillingDetails()->getCardDetails()->getExpireYear(),
+                'encryptedSecurityCode' => $charge->getBillingDetails()->getCardDetails()->getSecurityCode(),
+            ]);
+        }
 
         return [
             'billingAddress' => $this->mapAddress($billingDetails->getAddress()),
