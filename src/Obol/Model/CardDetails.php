@@ -21,6 +21,7 @@ class CardDetails
     protected string $expireYear;
     protected string $securityCode;
     protected string $name;
+    protected string $token;
 
     public function getNumber(): string
     {
@@ -80,5 +81,20 @@ class CardDetails
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function hasToken(): bool
+    {
+        return isset($this->token);
     }
 }

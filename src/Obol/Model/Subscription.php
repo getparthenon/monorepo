@@ -18,6 +18,8 @@ use Brick\Money\Money;
 
 class Subscription
 {
+    protected string $id;
+
     protected BillingDetails $billingDetails;
 
     protected Money $costPerSeat;
@@ -25,6 +27,8 @@ class Subscription
     protected string $name;
 
     protected int $seats = 1;
+
+    protected string $priceId;
 
     public function getBillingDetails(): BillingDetails
     {
@@ -67,13 +71,44 @@ class Subscription
         return $this->costPerSeat;
     }
 
-    public function setCostPerSeat(Money $costPerSeat): void
+    public function setCostPerSeat(Money $costPerSeat): static
     {
         $this->costPerSeat = $costPerSeat;
+
+        return $this;
     }
 
     public function getTotalCost(): Money
     {
         return $this->costPerSeat->multipliedBy($this->seats);
+    }
+
+    public function getPriceId(): string
+    {
+        return $this->priceId;
+    }
+
+    public function setPriceId(string $priceId): static
+    {
+        $this->priceId = $priceId;
+
+        return $this;
+    }
+
+    public function hasPriceId(): bool
+    {
+        return isset($this->priceId);
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }
