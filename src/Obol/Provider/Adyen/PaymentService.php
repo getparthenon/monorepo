@@ -65,7 +65,7 @@ class PaymentService implements PaymentServiceInterface
             $this->setCustomerReference($subscription->getBillingDetails());
         }
 
-        $payload = $this->paymentDetailsMapper->mapSubscription($subscription, $this->config);
+        $payload = $this->paymentDetailsMapper->subscriptionPayload($subscription, $this->config);
 
         $request = $this->createApiRequest('POST', $this->baseUrl);
         $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));

@@ -25,10 +25,8 @@ class PaymentDetailsMapper
 {
     use AddressTrait;
 
-    public function mapSubscription(Subscription $subscription, Config $config): array
+    public function subscriptionPayload(Subscription $subscription, Config $config): array
     {
-        // No Mandate because it needs an end date.
-
         if ($subscription->getBillingDetails()->usePrestoredCard()) {
             $paymentMethod = [
                 'storedPaymentMethodId' => $subscription->getBillingDetails()->getPaymentReference(),
@@ -111,7 +109,7 @@ class PaymentDetailsMapper
         ];
     }
 
-    public function createDeletePayment(BillingDetails $billingDetails, Config $config): array
+    public function deletePaymentPayload(BillingDetails $billingDetails, Config $config): array
     {
         return [
             'shopperReference' => $billingDetails->getCustomerReference(),
