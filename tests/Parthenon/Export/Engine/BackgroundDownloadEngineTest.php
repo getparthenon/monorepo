@@ -28,7 +28,7 @@ class BackgroundDownloadEngineTest extends TestCase
         $requestRepository = $this->createMock(BackgroundExportRequestRepositoryInterface::class);
         $exportRequest = $this->createMock(ExportRequest::class);
 
-        $exportRequest->method('getFilename')->willReturn('filename');
+        $exportRequest->method('getName')->willReturn('filename');
         $exportRequest->method('getExportFormat')->willReturn('filename');
         $exportRequest->method('getDataProviderService')->willReturn('filename');
         $exportRequest->method('getDataProviderParameters')->willReturn(['parameters']);

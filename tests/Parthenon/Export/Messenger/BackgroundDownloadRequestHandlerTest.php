@@ -61,7 +61,7 @@ class BackgroundDownloadRequestHandlerTest extends TestCase
         $file->method('getFilename')->willReturn($fileFilename);
 
         $backgroundExport->method('getId')->willReturn($id);
-        $backgroundExport->method('getFilename')->willReturn($filename);
+        $backgroundExport->method('getName')->willReturn($filename);
         $backgroundExport->method('setExportedFile')->with($fileFilename);
         $backgroundExport->method('setExportedFilePath')->with($fileFilepath);
 
