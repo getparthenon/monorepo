@@ -12,21 +12,19 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Provider;
+namespace Obol\Provider\TransactionCloud;
 
-use Obol\Exception\UnsupportedFunctionalityException;
-use Obol\HostedCheckoutService;
-use Obol\PaymentServiceInterface;
-
-interface ProviderInterface
+class Config
 {
-    /**
-     * @throws UnsupportedFunctionalityException
-     */
-    public function payments(): PaymentServiceInterface;
+    protected string $defaultUrl;
 
-    /**
-     * @throws UnsupportedFunctionalityException
-     */
-    public function hostedCheckouts(): HostedCheckoutService;
+    public function getDefaultUrl(): string
+    {
+        return $this->defaultUrl;
+    }
+
+    public function setDefaultUrl(string $defaultUrl): void
+    {
+        $this->defaultUrl = $defaultUrl;
+    }
 }

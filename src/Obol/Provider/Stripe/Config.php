@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\MissingConfigFieldException;
+
 class Config
 {
     protected array $payments = ['card'];
-    private bool $pciMode;
+    private bool $pciMode = false;
 
     private string $apiKey;
 
@@ -51,6 +53,10 @@ class Config
 
     public function getSuccessUrl(): string
     {
+        if (isset($this->successUrl)) {
+            throw new MissingConfigFieldException('success_url needs to be configured');
+        }
+
         return $this->successUrl;
     }
 
@@ -63,6 +69,10 @@ class Config
 
     public function getCancelUrl(): string
     {
+        if (isset($this->cancelUrl)) {
+            throw new MissingConfigFieldException('cancel_url needs to be configured');
+        }
+
         return $this->cancelUrl;
     }
 

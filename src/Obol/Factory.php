@@ -14,7 +14,11 @@ declare(strict_types=1);
 
 namespace Obol;
 
-interface ObolInterface
+use Obol\Provider\ProviderInterface;
+
+class Factory
 {
-    public function supportsHostedCheckout(): bool;
+    public static function create(array $config): ProviderInterface
+    {
+    }
 }

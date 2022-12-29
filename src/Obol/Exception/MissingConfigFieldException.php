@@ -12,21 +12,8 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Provider;
+namespace Obol\Exception;
 
-use Obol\Exception\UnsupportedFunctionalityException;
-use Obol\HostedCheckoutService;
-use Obol\PaymentServiceInterface;
-
-interface ProviderInterface
+class MissingConfigFieldException extends \Exception
 {
-    /**
-     * @throws UnsupportedFunctionalityException
-     */
-    public function payments(): PaymentServiceInterface;
-
-    /**
-     * @throws UnsupportedFunctionalityException
-     */
-    public function hostedCheckouts(): HostedCheckoutService;
 }

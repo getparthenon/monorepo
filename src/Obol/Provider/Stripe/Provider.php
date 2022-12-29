@@ -12,23 +12,27 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol;
+namespace Obol\Provider\Stripe;
 
+use Obol\HostedCheckoutService;
+use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
 
-class Obol implements ObolInterface
+class Provider implements ProviderInterface
 {
-    public function __construct(private ProviderInterface $provider)
-    {
+    public function __construct(
+        private PaymentServiceInterface $paymentService,
+        private HostedCheckoutService $hostedCheckoutService,
+    ) {
     }
 
-    public function supportsHostedCheckout(): bool
+    public function payments(): PaymentServiceInterface
     {
-        // TODO: Implement supportsHostedCheckout() method.
+        return $this->paymentService;
     }
 
-    public function supportsCustomerCreation(): bool
+    public function hostedCheckouts(): HostedCheckoutService
     {
-        // TODO: Implement supportsCustomerCreation() method.
+        return $this->hostedCheckoutService;
     }
 }
