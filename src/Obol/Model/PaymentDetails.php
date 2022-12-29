@@ -20,9 +20,9 @@ class PaymentDetails
 {
     protected string $customerReference;
 
-    protected ?string $paymentReference = null;
+    protected ?string $storedPaymentReference = null;
 
-    protected ?string $paymentDetailsReference = null;
+    protected ?string $paymentReference = null;
 
     protected Money $amount;
 
@@ -38,6 +38,18 @@ class PaymentDetails
         return $this;
     }
 
+    public function getStoredPaymentReference(): ?string
+    {
+        return $this->storedPaymentReference;
+    }
+
+    public function setStoredPaymentReference(?string $storedPaymentReference): static
+    {
+        $this->storedPaymentReference = $storedPaymentReference;
+
+        return $this;
+    }
+
     public function getPaymentReference(): ?string
     {
         return $this->paymentReference;
@@ -46,18 +58,6 @@ class PaymentDetails
     public function setPaymentReference(?string $paymentReference): static
     {
         $this->paymentReference = $paymentReference;
-
-        return $this;
-    }
-
-    public function getPaymentDetailsReference(): ?string
-    {
-        return $this->paymentDetailsReference;
-    }
-
-    public function setPaymentDetailsReference(?string $paymentDetailsReference): static
-    {
-        $this->paymentDetailsReference = $paymentDetailsReference;
 
         return $this;
     }

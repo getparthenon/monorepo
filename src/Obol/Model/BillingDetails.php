@@ -28,7 +28,7 @@ class BillingDetails
 
     protected string $customerReference;
 
-    protected string $paymentReference;
+    protected string $storedPaymentReference;
 
     public function __construct()
     {
@@ -98,14 +98,14 @@ class BillingDetails
         $this->cardDetails = $cardDetails;
     }
 
-    public function getPaymentReference(): string
+    public function getStoredPaymentReference(): string
     {
-        return $this->paymentReference;
+        return $this->storedPaymentReference;
     }
 
-    public function setPaymentReference(string $paymentReference): void
+    public function setStoredPaymentReference(string $storedPaymentReference): void
     {
-        $this->paymentReference = $paymentReference;
+        $this->storedPaymentReference = $storedPaymentReference;
     }
 
     public function getCustomerReference(): string
@@ -131,6 +131,6 @@ class BillingDetails
 
     public function usePrestoredCard(): bool
     {
-        return isset($this->paymentReference);
+        return isset($this->storedPaymentReference);
     }
 }

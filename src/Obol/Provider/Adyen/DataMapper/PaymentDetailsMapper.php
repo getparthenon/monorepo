@@ -29,7 +29,7 @@ class PaymentDetailsMapper
     {
         if ($subscription->getBillingDetails()->usePrestoredCard()) {
             $paymentMethod = [
-                'storedPaymentMethodId' => $subscription->getBillingDetails()->getPaymentReference(),
+                'storedPaymentMethodId' => $subscription->getBillingDetails()->getStoredPaymentReference(),
             ];
         } else {
             $paymentMethod = $this->getPaymentMethod($subscription->getBillingDetails(), $config);
@@ -62,7 +62,7 @@ class PaymentDetailsMapper
 
         if ($charge->getBillingDetails()->usePrestoredCard()) {
             $paymentMethod = [
-                'storedPaymentMethodId' => $charge->getBillingDetails()->getPaymentReference(),
+                'storedPaymentMethodId' => $charge->getBillingDetails()->getStoredPaymentReference(),
             ];
         } else {
             $paymentMethod = $this->getPaymentMethod($charge->getBillingDetails(), $config);
@@ -113,7 +113,7 @@ class PaymentDetailsMapper
     {
         return [
             'shopperReference' => $billingDetails->getCustomerReference(),
-            'recuringDetailReference' => $billingDetails->getPaymentReference(),
+            'recuringDetailReference' => $billingDetails->getStoredPaymentReference(),
             'merchantAccount' => $config->getMerchantAccount(),
         ];
     }
@@ -122,7 +122,7 @@ class PaymentDetailsMapper
     {
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setCustomerReference($response['additionalData']['recurring.shopperReference'])
-            ->setPaymentReference($response['additionalData']['recurring.recurringDetailReference']);
+            ->setStoredPaymentReference($response['additionalData']['recurring.recurringDetailReference']);
 
         return $paymentDetails;
     }

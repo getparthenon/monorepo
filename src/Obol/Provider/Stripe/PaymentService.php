@@ -104,8 +104,8 @@ class PaymentService implements PaymentServiceInterface
 
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setCustomerReference($billingDetails->getCustomerReference())
-            ->setPaymentReference($cardData->id)
-            ->setPaymentDetailsReference($cardData->payment)->setAmount(Money::of(0, 'USD'));
+            ->setStoredPaymentReference($cardData->id)
+            ->setPaymentReference($cardData->payment)->setAmount(Money::of(0, 'USD'));
 
         $cardOnFile = new CardOnFileResponse();
         $cardOnFile->setPaymentDetails($paymentDetails);
@@ -115,7 +115,7 @@ class PaymentService implements PaymentServiceInterface
 
     public function deleteCardFile(BillingDetails $cardFile): void
     {
-        $this->stripe->paymentMethods->detach($cardFile->getPaymentReference());
+        $this->stripe->paymentMethods->detach($cardFile->getStoredPaymentReference());
     }
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse
@@ -126,15 +126,15 @@ class PaymentService implements PaymentServiceInterface
                 'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
                 'amount' => $cardFile->getAmount()->getMinorAmount()->toInt(),
                 'currency' => $cardFile->getAmount()->getCurrency()->getCurrencyCode(),
-                'source' => $cardFile->getBillingDetails()->getPaymentReference(),
+                'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
                 'description' => $cardFile->getName(),
             ]
         );
 
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setAmount($cardFile->getAmount());
-        $paymentDetails->setPaymentReference($cardFile->getBillingDetails()->getPaymentReference());
-        $paymentDetails->setPaymentDetailsReference($chargeData->id);
+        $paymentDetails->setStoredPaymentReference($cardFile->getBillingDetails()->getStoredPaymentReference());
+        $paymentDetails->setPaymentReference($chargeData->id);
         $paymentDetails->setCustomerReference($cardFile->getBillingDetails()->getCustomerReference());
 
         $chargeCardResponse = new ChargeCardResponse();
