@@ -14,11 +14,27 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\InvalidProviderException;
 use Obol\Provider\ProviderInterface;
+use Obol\Provider\Stripe\Factory as StripeFactory;
 
 class Factory
 {
+    /**
+     * @throws Exception\InvalidConfigException
+     * @throws InvalidProviderException
+     */
     public static function create(array $config): ProviderInterface
     {
+        if (!isset($config['provider']) || empty($config['provider']) || !is_string($config['provider'])) {
+            throw new InvalidProviderException('No provider given');
+        }
+
+        $provider = $config['provider'];
+
+        if ('stripe' === $provider) {
+            return StripeFactory::create($config);
+        }
+        throw new InvalidProviderException(sprintf('Invalid Provider - %s', $config['provider']));
     }
 }
