@@ -28,6 +28,12 @@ class FactoryTest extends TestCase
         $actual = Factory::create(['provider' => '', 'api_key' => 'test']);
     }
 
+    public function testInvalidProvider()
+    {
+        $this->expectException(InvalidProviderException::class);
+        $actual = Factory::create(['provider' => 'Invalid', 'api_key' => 'test']);
+    }
+
     public function testStripeClient()
     {
         $actual = Factory::create(['provider' => 'stripe', 'api_key' => 'test']);

@@ -20,6 +20,8 @@ use Obol\Provider\ProviderInterface;
 
 class Provider implements ProviderInterface
 {
+    public const NAME = 'stripe';
+
     public function __construct(
         private PaymentServiceInterface $paymentService,
         private HostedCheckoutService $hostedCheckoutService,

@@ -22,7 +22,7 @@ class Factory
 {
     public static function create(array $configData): ProviderInterface
     {
-        if (!isset($configData['provider']) || 'stripe' !== strtolower($configData['provider'])) {
+        if (!isset($configData['provider']) || Provider::NAME !== strtolower($configData['provider'])) {
             throw new InvalidConfigException('Provider is not defined as stripe');
         }
 
