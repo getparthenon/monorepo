@@ -32,6 +32,8 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class PaymentService implements PaymentServiceInterface
 {
+    use CustomerReferenceTrait;
+
     private const TEST_BASE_URL = 'https://checkout-test.adyen.com/v69/payments';
     private const LIVE_BASE_URL = 'https://%s-checkout-live.adyenpayments.com/checkout/v69/payments';
 
@@ -144,7 +146,7 @@ class PaymentService implements PaymentServiceInterface
 
         $payload = $this->paymentDetailsMapper->addCardToFilePayload($billingDetails, $this->config);
 
-        $request = $this->createApiRequest('POST', $this->baseUrl);
+        $request = $this->createApiRequest('POST', $this->disableUrl);
         $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
 
         $response = $this->client->sendRequest($request);
@@ -199,16 +201,5 @@ class PaymentService implements PaymentServiceInterface
         $request = $this->requestFactory->createRequest($method, $url);
 
         return $request->withAddedHeader('x-API-key', $this->config->getApiKey())->withAddedHeader('Content-Type', 'application/json');
-    }
-
-    protected function setCustomerReference(BillingDetails $billingDetails): void
-    {
-        if ($billingDetails->hasCustomerReference()) {
-            return;
-        }
-
-        $bytes = random_bytes(16);
-        $customerReference = bin2hex($bytes);
-        $billingDetails->setCustomerReference($customerReference);
     }
 }

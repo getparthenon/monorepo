@@ -56,6 +56,28 @@ class PaymentDetailsMapper
         ];
     }
 
+    public function subscriptionCheckoutPayload(Subscription $subscription, Config $config): array
+    {
+        return [
+            'lineItems' => [[
+                'description' => $subscription->getName(),
+                'quantity' => $subscription->getSeats(), // number of seats
+            ]],
+            'billingAddress' => $this->mapAddress($subscription->getBillingDetails()->getAddress()),
+            'amount' => [
+                'currency' => $subscription->getCostPerSeat()->getCurrency()->getCurrencyCode(),
+                'value' => $subscription->getTotalCost()->getMinorAmount()->toInt(),
+            ],
+            'reference' => $subscription->getBillingDetails()->getCustomerReference().' '.$subscription->getName(),
+            'shopperReference' => $subscription->getBillingDetails()->getCustomerReference(),
+            'storePaymentMethod' => true,
+            'shopperInteraction' => 'Ecommerce',
+            'recurringProcessingModel' => 'UnscheduledCardOnFile',
+            'returnUrl' => $config->getReturnUrl(), // Config
+            'merchantAccount' => $config->getMerchantAccount(), // config
+        ];
+    }
+
     public function chargeCardPayload(Charge $charge, Config $config): array
     {
         // No Mandate because it needs an end date.

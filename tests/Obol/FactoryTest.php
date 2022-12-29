@@ -16,6 +16,7 @@ namespace Obol\Tests;
 
 use Obol\Exception\InvalidProviderException;
 use Obol\Factory;
+use Obol\Provider\Adyen\Provider as AdyenProvider;
 use Obol\Provider\ProviderInterface;
 use Obol\Provider\Stripe\Provider as StripeProvider;
 use PHPUnit\Framework\TestCase;
@@ -40,5 +41,13 @@ class FactoryTest extends TestCase
 
         $this->assertInstanceOf(ProviderInterface::class, $actual);
         $this->assertInstanceOf(StripeProvider::class, $actual);
+    }
+
+    public function testAdyenClient()
+    {
+        $actual = Factory::create(['provider' => AdyenProvider::NAME, 'api_key' => 'asdt0', 'merchant_account' => 'test', 'return_url' => 'test']);
+
+        $this->assertInstanceOf(AdyenProvider::class, $actual);
+        $this->assertInstanceOf(ProviderInterface::class, $actual);
     }
 }

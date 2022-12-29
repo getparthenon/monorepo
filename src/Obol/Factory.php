@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol;
 
 use Obol\Exception\InvalidProviderException;
+use Obol\Provider\Adyen\Factory as AdyenFactory;
 use Obol\Provider\ProviderInterface;
 use Obol\Provider\Stripe\Factory as StripeFactory;
 
@@ -35,6 +36,11 @@ class Factory
         if ('stripe' === $provider) {
             return StripeFactory::create($config);
         }
+
+        if ('adyen' === $provider) {
+            return AdyenFactory::create($config);
+        }
+
         throw new InvalidProviderException(sprintf('Invalid Provider - %s', $config['provider']));
     }
 }

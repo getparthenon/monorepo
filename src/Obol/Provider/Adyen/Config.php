@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen;
 
+use Obol\Exception\MissingConfigFieldException;
+
 class Config
 {
     protected string $apiKey;
@@ -90,6 +92,10 @@ class Config
 
     public function getPrefix(): string
     {
+        if (!isset($this->prefix)) {
+            throw new MissingConfigFieldException('prefix must be set');
+        }
+
         return $this->prefix;
     }
 
