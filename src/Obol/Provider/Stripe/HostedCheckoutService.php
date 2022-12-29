@@ -39,7 +39,12 @@ class HostedCheckoutService implements \Obol\HostedCheckoutService
             'mode' => 'subscription',
             'success_url' => $this->config->getSuccessUrl(),
             'cancel_url' => $this->config->getCancelUrl(),
-            'line_items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
+            'line_items' => [
+                [
+                    'price' => $subscription->getPriceId(),
+                    'quantity' => $subscription->getSeats(),
+                ],
+            ],
             'payment_method_types' => $this->config->getPayments(),
         ]);
 
