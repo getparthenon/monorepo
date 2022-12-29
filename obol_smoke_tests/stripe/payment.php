@@ -43,7 +43,7 @@ $subscription->setName('Test')
     ->setSeats(10)
     ->setBillingDetails($billingDetails)
     ->setCostPerSeat(Brick\Money\Money::of(10, 'USD'))
-    ->setPriceId('price_1L46c5IfxpuZtqIzs5lM6dGE');
+    ->setPriceId(getenv('STRIPE_PRICE_ID'));
 
 $creation = $paymentSystem->startSubscription($subscription);
 
