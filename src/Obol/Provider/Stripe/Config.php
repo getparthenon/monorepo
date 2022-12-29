@@ -16,9 +16,14 @@ namespace Obol\Provider\Stripe;
 
 class Config
 {
+    protected array $payments = ['card'];
     private bool $pciMode;
 
     private string $apiKey;
+
+    private string $successUrl;
+
+    private string $cancelUrl;
 
     public function isPciMode(): bool
     {
@@ -40,6 +45,45 @@ class Config
     public function setApiKey(string $apiKey): static
     {
         $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    public function getSuccessUrl(): string
+    {
+        return $this->successUrl;
+    }
+
+    public function setSuccessUrl(string $successUrl): static
+    {
+        $this->successUrl = $successUrl;
+
+        return $this;
+    }
+
+    public function getCancelUrl(): string
+    {
+        return $this->cancelUrl;
+    }
+
+    public function setCancelUrl(string $cancelUrl): static
+    {
+        $this->cancelUrl = $cancelUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return []string
+     */
+    public function getPayments(): array
+    {
+        return $this->payments;
+    }
+
+    public function setPayments(array $payments): static
+    {
+        $this->payments = $payments;
 
         return $this;
     }
