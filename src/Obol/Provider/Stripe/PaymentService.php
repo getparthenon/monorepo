@@ -55,7 +55,7 @@ class PaymentService implements PaymentServiceInterface
         $stripeSubscription = $this->stripe->subscriptions->create(
             [
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
-                'items' => [['price' => $subscription->getPriceId()]],
+                'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
             ]
         );
 
