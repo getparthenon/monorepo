@@ -28,8 +28,8 @@ class HostedCheckoutService implements \Obol\HostedCheckoutService
 {
     use CustomerReferenceTrait;
 
-    private const TEST_BASE_URL = 'https://checkout-test.adyen.com/v69/payments';
-    private const LIVE_BASE_URL = 'https://%s-checkout-live.adyenpayments.com/checkout/v69/payments';
+    private const TEST_BASE_URL = 'https://checkout-test.adyen.com/v69/paymentLinks';
+    private const LIVE_BASE_URL = 'https://%s-checkout-live.adyenpayments.com/checkout/v69/paymentLinks';
 
     private ClientInterface $client;
     private RequestFactoryInterface $requestFactory;
@@ -57,7 +57,7 @@ class HostedCheckoutService implements \Obol\HostedCheckoutService
             $this->setCustomerReference($subscription->getBillingDetails());
         }
 
-        $payload = $this->paymentDetailsMapper->subscriptionPayload($subscription, $this->config);
+        $payload = $this->paymentDetailsMapper->subscriptionCheckoutPayload($subscription, $this->config);
 
         $request = $this->createApiRequest('POST', $this->baseUrl);
         $request = $request->withBody($this->streamFactory->createStream(json_encode($payload)));
