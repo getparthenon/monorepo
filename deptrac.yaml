@@ -1,77 +1,78 @@
-paths:
-  - ./src/Parthenon
-exclude_files:
-  - .*test.*
-layers:
-  - name: Athena
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Athena/*
-  - name: Notification
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Notification/*
-  - name: Common
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Common/*
-  - name: Export
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Export/*
-  - name: User
-    collectors:
-      - type: directory
-        regex: src/Parthenon/User/*
-  - name: Funnel
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Funnel/*
-  - name: Health
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Health/*
-  - name: Invoice
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Invoice/*
-  - name: Payments
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Payments/*
-  - name: Subscriptions
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Subscriptions/*
-  - name: Plan
-    collectors:
-      - type: directory
-        regex: src/Parthenon/Plan/*
-ruleset:
-  Payments:
-    - Common
-    - User
-    - Athena
-  Plan:
-    - Common
-    - User
-    - Athena
-  Athena:
-    - Common
-    - Export
-  User:
-    - Common
-    - Notification
-    - Athena
-  Notification:
-    - Common
-  Funnel:
-    - Common
-  Health:
-    - Common
-  Invoice:
-    - Common
-  Export:
-    - Common
-    - Notification
-  Common:
+deptrac:
+  paths:
+    - ./src/Parthenon
+  exclude_files:
+    - .*test.*
+  layers:
+    - name: Athena
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Athena/*
+    - name: Notification
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Notification/*
+    - name: Common
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Common/*
+    - name: Export
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Export/*
+    - name: User
+      collectors:
+        - type: directory
+          regex: src/Parthenon/User/*
+    - name: Funnel
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Funnel/*
+    - name: Health
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Health/*
+    - name: Invoice
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Invoice/*
+    - name: Payments
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Payments/*
+    - name: Subscriptions
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Subscriptions/*
+    - name: Plan
+      collectors:
+        - type: directory
+          regex: src/Parthenon/Plan/*
+  ruleset:
+    Payments:
+      - Common
+      - User
+      - Athena
+    Plan:
+      - Common
+      - User
+      - Athena
+    Athena:
+      - Common
+      - Export
+    User:
+      - Common
+      - Notification
+      - Athena
+    Notification:
+      - Common
+    Funnel:
+      - Common
+    Health:
+      - Common
+    Invoice:
+      - Common
+    Export:
+      - Common
+      - Notification
+    Common:
