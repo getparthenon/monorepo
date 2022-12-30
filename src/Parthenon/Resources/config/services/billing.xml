@@ -7,5 +7,9 @@
     <services>
         <defaults autoconfigure="true" />
 
+        <service id="Obol\Provider\ProviderInterface" class="Obol\Provider\ProviderInterface">
+            <factory class="Obol\Factory" method="create" />
+            <argument>%parthenon_billing_payments_obol_config%</argument>
+        </service>
     </services>
 </container>
