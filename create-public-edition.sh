@@ -122,6 +122,7 @@ cp -R src/Parthenon/Resources/config/doctrine-mapping/User ../public-edition/src
 cp -R src/Parthenon/Resources/config/services/orm/user.xml ../public-edition/src/Resources/config/services/orm/user.xml
 cp -R src/Parthenon/Resources/config/services/odm/user.xml ../public-edition/src/Resources/config/services/odm/user.xml
 cp -R src/Parthenon/Resources/config/services/user.xml ../public-edition/src/Resources/config/services/user.xml
+cp -R src/Parthenon/Resources/config/services/user_monolog_v2.xml ../public-edition/src/Resources/config/services/user_monolog_v2.xml
 cp -R src/Parthenon/Resources/views/user ../public-edition/src/Resources/views/
 cp -R tests/Parthenon/User ../public-edition/tests/Parthenon/
 
