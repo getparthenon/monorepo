@@ -49,6 +49,12 @@ cp -R src/Parthenon/Resources/config/services/athena.xml ../public-edition/src/R
 cp -R src/Parthenon/Resources/views/athena ../public-edition/src/Resources/views/
 cp -R tests/Parthenon/Athena ../public-edition/tests/Parthenon/
 
+echo "[x] Update Billing"
+cp -R src/Parthenon/Billing ../public-edition/src/
+cp src/Parthenon/DependencyInjection/Modules/Billing.php ../public-edition/src/DependencyInjection/Modules/Billing.php
+cp -R src/Parthenon/Resources/config/services/athena.xml ../public-edition/src/Resources/config/services/billing.xml
+cp -R tests/Parthenon/Billing ../public-edition/tests/Parthenon/
+
 echo "[x] Update Common"
 cp -R src/Parthenon/Common ../public-edition/src/
 cp src/Parthenon/DependencyInjection/Modules/Common.php ../public-edition/src/DependencyInjection/Modules/Common.php
