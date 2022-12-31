@@ -53,6 +53,10 @@ deptrac:
       - Common
       - User
       - Athena
+    Billing:
+      - Common
+      - User
+      - Athena
     Plan:
       - Common
       - User
