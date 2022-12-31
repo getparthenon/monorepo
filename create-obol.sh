@@ -16,7 +16,7 @@ cp -R tests/Obol/* ../obol/tests/Obol/
 
 
 cd ../obol
-# vendor/bin/php-cs-fixer fix .
+vendor/bin/php-cs-fixer fix .
 git add -A
 if [ -z "$(git status --porcelain)" ]; then
   echo "No changes found"
