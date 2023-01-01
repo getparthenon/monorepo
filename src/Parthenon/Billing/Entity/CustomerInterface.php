@@ -20,6 +20,8 @@ interface CustomerInterface
 {
     public function hasSubscription(): bool;
 
+    public function hasActiveSubscription(): bool;
+
     /**
      * @throw NoSubscriptionException
      */

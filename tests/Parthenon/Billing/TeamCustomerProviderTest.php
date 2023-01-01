@@ -25,7 +25,7 @@ use Parthenon\User\Entity\Team;
 use Parthenon\User\Entity\TeamInterface;
 use Parthenon\User\Repository\TeamRepositoryInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class TeamCustomerProviderTest extends TestCase
@@ -133,6 +133,11 @@ class TeamCustomerProviderTest extends TestCase
             public function hasBillingAddress(): bool
             {
                 // TODO: Implement hasBillingAddress() method.
+            }
+
+            public function hasActiveSubscription(): bool
+            {
+                // TODO: Implement hasActiveSubscription() method.
             }
         };
 

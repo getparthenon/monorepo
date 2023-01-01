@@ -19,7 +19,7 @@ use Parthenon\Billing\Entity\Subscription;
 use Parthenon\Billing\Exception\NoCustomerException;
 use Parthenon\Common\Address;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserCustomerProviderTest extends TestCase
@@ -106,6 +106,11 @@ class UserCustomerProviderTest extends TestCase
             public function hasBillingAddress(): bool
             {
                 // TODO: Implement hasBillingAddress() method.
+            }
+
+            public function hasActiveSubscription(): bool
+            {
+                // TODO: Implement hasActiveSubscription() method.
             }
         });
         $userCustomerProvider = new UserCustomerProvider($security);

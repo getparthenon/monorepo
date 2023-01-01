@@ -24,5 +24,47 @@
             <argument type="service" id="Symfony\Component\Security\Core\Security" />
             <argument type="service" id="Parthenon\User\Repository\TeamRepositoryInterface" />
         </service>
+
+        <!-- Plans -->
+
+        <service id="Parthenon\Billing\Plan\PlanManager" class="Parthenon\Billing\Plan\PlanManager">
+            <argument>%parthenon_billing_plan_plans%</argument>
+            <argument type="service" id="Parthenon\Billing\Repository\CustomerRepositoryInterface" />
+        </service>
+        <service id="Parthenon\Billing\Plan\PlanManagerInterface" alias="Parthenon\Billing\Plan\PlanManager" />
+
+        <service id="parthenon.payments.plan.counter_manager" class="Parthenon\Billing\Plan\CounterManager">
+        </service>
+        <service id="Parthenon\Billing\Plan\CounterManager" alias="parthenon.payments.plan.counter_manager" />
+
+        <service id="parthenon.plan.security.voter.plan_feature" class="Parthenon\Billing\Plan\Security\Voter\PlanFeatureVoter">
+            <argument type="service" id="Parthenon\Billing\Plan\CounterManager" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+            <tag name="security.voter" priority="20"/>
+        </service>
+
+        <service id="parthenon.plan.security.voter.plan" class="Parthenon\Billing\Plan\Security\Voter\PlanVoter">
+            <argument type="service" id="Parthenon\Billing\Plan\CounterManager" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+            <argument type="service" id="Parthenon\Billing\CustomerProviderInterface" />
+            <tag name="security.voter" priority="20"/>
+        </service>
+        <service id="Parthenon\Billing\Plan\Security\Voter\PlanVoter" alias="parthenon.plan.security.voter.plan" />
+
+        <service id="parthenon.plan.security.voter.invite" class="Parthenon\Billing\Plan\Security\Voter\InviteVoter">
+            <argument type="service" id="Parthenon\Billing\Plan\Counter\TeamInviteCounterInterface" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+            <argument type="service" id="Parthenon\Billing\CustomerProviderInterface" />
+            <tag name="security.voter" priority="20"/>
+        </service>
+        <service id="Parthenon\Billing\Plan\Security\Voter\InviteVoter" alias="parthenon.plan.security.voter.invite" />
+
+        <service id="Parthenon\Billing\Plan\Counter\TeamInviteCounter" class="Parthenon\Billing\Plan\Counter\TeamInviteCounter">
+            <argument type="service" id="Parthenon\User\Repository\TeamInviteCodeRepositoryInterface" />
+            <argument type="service" id="Parthenon\User\Repository\ActiveMembersRepositoryInterface" />
+            <argument type="service" id="Parthenon\User\Repository\TeamRepositoryInterface" />
+        </service>
+        <service id="Parthenon\Billing\Plan\Counter\TeamInviteCounterInterface" alias="Parthenon\Billing\Plan\Counter\TeamInviteCounter" />
+
     </services>
 </container>

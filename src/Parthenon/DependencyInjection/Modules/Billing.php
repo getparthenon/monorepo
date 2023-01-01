@@ -62,9 +62,9 @@ class Billing implements ModuleConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->end()
                 ->fixXmlConfig('plans')
                 ->append($this->getPlansNode())
-                ->end()
             ?->end();
     }
 
