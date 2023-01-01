@@ -21,7 +21,10 @@ use Parthenon\Billing\UserCustomerProvider;
 use Parthenon\Common\Exception\ParameterNotSetException;
 use Parthenon\User\Repository\TeamRepositoryInterface;
 use Parthenon\User\Repository\UserRepositoryInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -59,6 +62,9 @@ class Billing implements ModuleConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->fixXmlConfig('plans')
+                ->append($this->getPlansNode())
+                ->end()
             ?->end();
     }
 
@@ -66,6 +72,7 @@ class Billing implements ModuleConfigurationInterface
     {
         $container->setParameter('parthenon_billing_payments_obol_config', []);
         $container->setParameter('parthenon_billing_customer_type', 'team');
+        $container->setParameter('parthenon_billing_plan_plans', []);
     }
 
     public function handleConfiguration(array $config, ContainerBuilder $container): void
@@ -177,5 +184,39 @@ class Billing implements ModuleConfigurationInterface
         }
 
         return $config;
+    }
+
+    private function getPlansNode(): NodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('plan');
+        $node = $treeBuilder->getRootNode();
+
+        /** @var ArrayNodeDefinition $planNode */
+        $planNode = $node
+            ->requiresAtLeastOneElement()
+            ->useAttributeAsKey('name')
+            ->prototype('array');
+
+        $planNode
+            ->fixXmlConfig('limits')
+                ->children()
+                    ->booleanNode('is_free')->defaultFalse()->end()
+                    ->booleanNode('is_per_seat')->defaultFalse()->end()
+                    ->scalarNode('user_count')->end()
+                    ->arrayNode('features')
+                        ->scalarPrototype()->end()
+                    ->end()
+                    ->arrayNode('limit')
+                        ->useAttributeAsKey('name')
+                        ->prototype('array')
+                        ->children()
+                            ->integerNode('limit')->end()
+                            ->scalarNode('description')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
+        return $node;
     }
 }
