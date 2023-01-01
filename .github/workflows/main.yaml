@@ -249,6 +249,7 @@ jobs:
         run: |
           cd ../obol
           git checkout $BRANCH || git checkout -b $BRANCH
+          composer install
           cd $LOCATION
           sh create-obol.sh        
 
