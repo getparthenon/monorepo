@@ -14,11 +14,22 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Entity;
 
+use Parthenon\Common\Address;
+
 interface CustomerInterface
 {
     public function hasSubscription(): bool;
 
-    public function getSubscription(): ?Subscription;
+    /**
+     * @throw NoSubscriptionException
+     */
+    public function getSubscription(): Subscription;
 
-    public function setSubscription(?Subscription $subscription);
+    public function setSubscription(Subscription $subscription);
+
+    public function setBillingAddress(Address $address);
+
+    public function getBillingAddress(): Address;
+
+    public function hasBillingAddress(): bool;
 }

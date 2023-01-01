@@ -5,15 +5,15 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            ##async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
-            #sync: 'sync://'
+            sync: 'sync://'
 
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-            'Parthenon\Export\BackgroundEmailExportRequest': async
-            'Parthenon\Export\Entity\BackgroundExportRequest': async
+            'Parthenon\Export\BackgroundEmailExportRequest': sync
+            'Parthenon\Export\Entity\BackgroundExportRequest': sync
 
 when@test:
     framework:

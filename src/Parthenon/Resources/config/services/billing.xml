@@ -7,9 +7,22 @@
     <services>
         <defaults autoconfigure="true" />
 
+        <prototype namespace="Parthenon\Billing\Controller\" resource="../../Billing/Controller/*">
+            <tag name="controller.service_arguments"/>
+        </prototype>
+
         <service id="Obol\Provider\ProviderInterface" class="Obol\Provider\ProviderInterface">
             <factory class="Obol\Factory" method="create" />
             <argument>%parthenon_billing_payments_obol_config%</argument>
+        </service>
+
+        <service id="Parthenon\Billing\UserCustomerProvider" class="Parthenon\Billing\UserCustomerProvider">
+            <argument type="service" id="Symfony\Bundle\SecurityBundle\Security" />
+        </service>
+
+        <service id="Parthenon\Billing\TeamCustomerProvider" class="Parthenon\Billing\TeamCustomerProvider">
+            <argument type="service" id="Symfony\Bundle\SecurityBundle\Security" />
+            <argument type="service" id="Parthenon\User\Repository\TeamRepositoryInterface" />
         </service>
     </services>
 </container>

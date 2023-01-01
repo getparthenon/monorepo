@@ -12,11 +12,17 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace App\Repository;
+namespace Parthenon\Billing;
 
-use Parthenon\Billing\Repository\CustomerRepositoryInterface;
-use Parthenon\Payments\Repository\SubscriberRepositoryInterface;
+use Parthenon\Billing\Entity\CustomerInterface;
+use Parthenon\Billing\Exception\NoCustomerException;
 
-interface TeamRepositoryInterface extends \Parthenon\User\Repository\TeamRepositoryInterface, SubscriberRepositoryInterface, CustomerRepositoryInterface
+interface CustomerProviderInterface
 {
+    /**
+     * Returns the customer for the current logged in user.
+     *
+     * @throws NoCustomerException
+     */
+    public function getCurrentCustomer(): CustomerInterface;
 }

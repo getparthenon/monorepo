@@ -14,7 +14,13 @@ declare(strict_types=1);
 
 namespace Parthenon\DependencyInjection\Modules;
 
+use Parthenon\Billing\CustomerProviderInterface;
+use Parthenon\Billing\Repository\CustomerRepositoryInterface;
+use Parthenon\Billing\TeamCustomerProvider;
+use Parthenon\Billing\UserCustomerProvider;
 use Parthenon\Common\Exception\ParameterNotSetException;
+use Parthenon\User\Repository\TeamRepositoryInterface;
+use Parthenon\User\Repository\UserRepositoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -64,13 +70,20 @@ class Billing implements ModuleConfigurationInterface
 
     public function handleConfiguration(array $config, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
-
         if (!isset($config['billing']) || !isset($config['billing']['enabled']) || false === $config['billing']['enabled']) {
             return;
         }
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
+        $loader->load('services/billing.xml');
+
         $billingConfig = $config['billing'];
         $paymentsConfig = $billingConfig['payments'];
+
+        if ('team' === strtolower($billingConfig['customer_type'])) {
+            $this->handleTeamCustomer($config, $container);
+        } elseif ('user' === strtolower($billingConfig['customer_type'])) {
+            $this->handleUserCustomer($config, $container);
+        }
 
         $obolConfig = match ($paymentsConfig['provider']) {
             'stripe' => $this->buildStripeObolConfig($paymentsConfig),
@@ -80,6 +93,18 @@ class Billing implements ModuleConfigurationInterface
         };
 
         $container->setParameter('parthenon_billing_payments_obol_config', $obolConfig);
+    }
+
+    protected function handleTeamCustomer(array $config, ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->setAlias(CustomerProviderInterface::class, TeamCustomerProvider::class);
+        $containerBuilder->setAlias(CustomerRepositoryInterface::class, TeamRepositoryInterface::class);
+    }
+
+    protected function handleUserCustomer(array $config, ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder->setAlias(CustomerProviderInterface::class, UserCustomerProvider::class);
+        $containerBuilder->setAlias(CustomerRepositoryInterface::class, UserRepositoryInterface::class);
     }
 
     protected function buildStripeObolConfig(array $paymentsConfig): array

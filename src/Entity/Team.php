@@ -16,15 +16,16 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Payments\Entity\Subscription;
-use Parthenon\Payments\Subscriber\SubscriberInterface;
+use Parthenon\Billing\Entity\CustomerInterface;
+use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Common\Address;
 use Parthenon\User\Entity\UserInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="teams")
  */
-class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
+class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="team")
@@ -32,8 +33,14 @@ class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
      * @var UserInterface[]|Collection
      */
     protected Collection $members;
+
     /**
-     * @ORM\Embedded(class="Parthenon\Payments\Entity\Subscription")
+     * @ORM\Embedded(class="Parthenon\Common\Address")
+     */
+    protected Address $billingAddress;
+
+    /**
+     * @ORM\Embedded(class="Parthenon\Billing\Entity\Subscription")
      */
     private ?Subscription $subscription;
 
@@ -42,7 +49,7 @@ class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
         $this->subscription = $subscription;
     }
 
-    public function getSubscription(): ?Subscription
+    public function getSubscription(): Subscription
     {
         return $this->subscription;
     }
@@ -59,5 +66,25 @@ class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
     public function getIdentifier(): string
     {
         return (string) $this->getName();
+    }
+
+    public function hasSubscription(): bool
+    {
+        return isset($this->subscription);
+    }
+
+    public function setBillingAddress(Address $address)
+    {
+        $this->billingAddress = $address;
+    }
+
+    public function getBillingAddress(): Address
+    {
+        return $this->billingAddress;
+    }
+
+    public function hasBillingAddress(): bool
+    {
+        return isset($this->billingAddress);
     }
 }

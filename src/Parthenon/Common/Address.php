@@ -16,44 +16,28 @@ namespace Parthenon\Common;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Embeddable
- */
+#[ORM\Embeddable]
 class Address
 {
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $companyName = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $streetLineOne = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $streetLineTwo = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $city = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $region = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $country = '';
 
-    /**
-     * @ORM\Column(nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private string $postcode = '';
 
     public function getCompanyName(): string

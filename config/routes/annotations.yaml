@@ -19,6 +19,11 @@ parthenon_user_controllers:
     resource: ../../src/Parthenon/User/Controller/
     type: annotation
 
+parthenon_billing_controllers:
+    prefix: /api
+    resource: ../../src/Parthenon/Billing/Controller/
+    type: annotation
+
 parthenon_payments_controllers:
     prefix: /api
     resource: ../../src/Parthenon/Payments/Controller/

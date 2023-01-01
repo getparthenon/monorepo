@@ -16,6 +16,10 @@ default:
                 # Athena
                 - App\Tests\Behat\Qa\Athena\MainContext
 
+                # Billing
+                - App\Tests\Behat\Qa\Billing\MainContext
+
+
                 # User
                 - App\Tests\Behat\Qa\User\MainContext
                 - App\Tests\Behat\Qa\User\AthenaContext

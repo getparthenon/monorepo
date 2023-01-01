@@ -15,10 +15,14 @@ declare(strict_types=1);
 namespace Parthenon\User\Repository;
 
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
+use Parthenon\Common\Exception\NoEntityFoundException;
 use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\TeamInterface;
 
 interface TeamRepositoryInterface extends CrudRepositoryInterface
 {
+    /**
+     * @throws NoEntityFoundException
+     */
     public function getByMember(MemberInterface $member): TeamInterface;
 }

@@ -95,6 +95,13 @@ parthenon:
         api_key: '%env(resolve:SENDGRID_API_KEY)%'
   athena:
     enabled: true
+  billing:
+    enabled: true
+    payments:
+      provider: stripe
+      stripe:
+        private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
+        # public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
   payments:
     enabled: true
     provider: transaction_cloud

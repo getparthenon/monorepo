@@ -12,11 +12,10 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace App\Repository;
+namespace Parthenon\Billing\Repository;
 
-use Parthenon\Billing\Repository\CustomerRepositoryInterface;
-use Parthenon\Payments\Repository\SubscriberRepositoryInterface;
+use Parthenon\Common\Repository\RepositoryInterface;
 
-interface TeamRepositoryInterface extends \Parthenon\User\Repository\TeamRepositoryInterface, SubscriberRepositoryInterface, CustomerRepositoryInterface
+interface CustomerRepositoryInterface extends RepositoryInterface
 {
 }
