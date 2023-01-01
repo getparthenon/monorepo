@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Plan;
 
 use Parthenon\Billing\Exception\NoPlanFoundException;
-use Parthenon\Billing\Repository\SubscriberRepositoryInterface;
+use Parthenon\Billing\Repository\CustomerRepositoryInterface;
 
 final class PlanManager implements PlanManagerInterface
 {
@@ -24,7 +24,7 @@ final class PlanManager implements PlanManagerInterface
      */
     private array $plans = [];
 
-    public function __construct(array $plans, private SubscriberRepositoryInterface $subscriberRepository)
+    public function __construct(array $plans, private CustomerRepositoryInterface $customerRepository)
     {
         foreach ($plans as $planName => $planInfo) {
             $plan = new Plan(
@@ -51,7 +51,7 @@ final class PlanManager implements PlanManagerInterface
 
     public function getPlanForUser(LimitedUserInterface $limitedUser): Plan
     {
-        $subscription = $this->subscriberRepository->getSubscriptionForUser($limitedUser);
+        $subscription = $this->customerRepository->getSubscriptionForUser($limitedUser);
         foreach ($this->plans as $plan) {
             if ($plan->getName() === $subscription->getPlanName()) {
                 return $plan;
