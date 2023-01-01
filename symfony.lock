@@ -157,6 +157,9 @@
     "ezimuel/ringphp": {
         "version": "1.2.0"
     },
+    "ezyang/htmlpurifier": {
+        "version": "v4.15.0"
+    },
     "friends-of-behat/mink": {
         "version": "v1.8.0"
     },
@@ -238,6 +241,9 @@
     "league/oauth2-client": {
         "version": "2.6.1"
     },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
     "mailgun/mailgun-php": {
         "version": "3.5",
         "recipe": {
@@ -249,6 +255,12 @@
         "files": [
             "config/packages/mailgun.yaml"
         ]
+    },
+    "markbaker/complex": {
+        "version": "3.0.0"
+    },
+    "markbaker/matrix": {
+        "version": "3.0.0"
     },
     "mongodb/mongodb": {
         "version": "1.11.0"
@@ -264,6 +276,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.11.0"
+    },
+    "myclabs/php-enum": {
+        "version": "1.5.0"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -331,6 +346,9 @@
     "phploc/phploc": {
         "version": "7.0.2"
     },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.25.0"
+    },
     "phpseclib/phpseclib": {
         "version": "3.0.14"
     },
@@ -339,6 +357,9 @@
     },
     "phpspec/prophecy-phpunit": {
         "version": "v2.0.1"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "1.15.0"
     },
     "phpstan/phpstan": {
         "version": "0.12.99"
@@ -392,6 +413,9 @@
     },
     "psr/log": {
         "version": "1.1.3"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.0"
     },
     "qossmic/deptrac-shim": {
         "version": "0.17",
@@ -750,6 +774,9 @@
     },
     "symfony/security-http": {
         "version": "v5.1.8"
+    },
+    "symfony/serializer": {
+        "version": "v6.1.0"
     },
     "symfony/service-contracts": {
         "version": "v2.2.0"
