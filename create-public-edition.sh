@@ -53,6 +53,7 @@ echo "[x] Update Billing"
 cp -R src/Parthenon/Billing ../public-edition/src/
 cp src/Parthenon/DependencyInjection/Modules/Billing.php ../public-edition/src/DependencyInjection/Modules/Billing.php
 cp -R src/Parthenon/Resources/config/services/athena.xml ../public-edition/src/Resources/config/services/billing.xml
+cp -R src/Parthenon/Resources/config/doctrine-mapping/Billing ../public-edition/src/Resources/config/doctrine-mapping/
 cp -R tests/Parthenon/Billing ../public-edition/tests/Parthenon/
 
 echo "[x] Update Common"
