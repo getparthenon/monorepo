@@ -82,7 +82,6 @@ class TeamContext implements Context
     public function iShouldSeeAsAnInvitedUser($email)
     {
         $jsonData = json_decode($this->session->getPage()->getContent(), true);
-
         foreach ($jsonData['sent_invites'] as $invite) {
             if ($invite['email'] == $email) {
                 return;

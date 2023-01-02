@@ -91,6 +91,7 @@ class Billing implements ModuleConfigurationInterface
         } elseif ('user' === strtolower($billingConfig['customer_type'])) {
             $this->handleUserCustomer($config, $container);
         }
+        $container->setParameter('parthenon_billing_plan_plans', $config['billing']['plan']);
 
         $obolConfig = match ($paymentsConfig['provider']) {
             'stripe' => $this->buildStripeObolConfig($paymentsConfig),
@@ -100,6 +101,7 @@ class Billing implements ModuleConfigurationInterface
         };
 
         $container->setParameter('parthenon_billing_payments_obol_config', $obolConfig);
+        $container->setParameter('parthenon_billing_plan_plans', $config['billing']['plan']);
     }
 
     protected function handleTeamCustomer(array $config, ContainerBuilder $containerBuilder): void

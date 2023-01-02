@@ -52,6 +52,7 @@ final class PlanManager implements PlanManagerInterface
     public function getPlanForUser(LimitedUserInterface $limitedUser): Plan
     {
         $subscription = $this->customerRepository->getSubscriptionForUser($limitedUser);
+
         foreach ($this->plans as $plan) {
             if ($plan->getName() === $subscription->getPlanName()) {
                 return $plan;
