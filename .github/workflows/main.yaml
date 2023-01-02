@@ -127,7 +127,7 @@ jobs:
         run: echo "LOCATION=$(pwd)" >> $GITHUB_ENV
 
       - name: Set commit env
-        run: echo "COMMIT_MESSAGE=$(git log --format=%S -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
+        run: echo "COMMIT_MESSAGE=$(git log --format=%s -n 1 $GITHUB_SHA)" >> $GITHUB_ENV
 
       - name: Set branch env
         run: echo "BRANCH=$(echo $GITHUB_REF | rev | cut -d\/ -f1 | rev)" >> $GITHUB_ENV
