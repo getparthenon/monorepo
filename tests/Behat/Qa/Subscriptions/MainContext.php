@@ -33,7 +33,7 @@ class MainContext implements Context
     public function thePlanDoesNotHaveTheFeature($arg1, $arg2)
     {
         $parameters = TestKernel::getParameters();
-        TestKernel::setParameter('parthenon_subscriptions_plan_plans', [$arg1 => ['limit' => [], 'features' => []]]);
+        TestKernel::setParameter('parthenon_billing_plan_plans', [$arg1 => ['limit' => [], 'features' => []]]);
     }
 
     /**
@@ -61,7 +61,7 @@ class MainContext implements Context
      */
     public function thePlanDoesHaveTheFeature($arg1, $arg2)
     {
-        TestKernel::setParameter('parthenon_payments_plan_plans', [$arg1 => ['limit' => [], 'features' => [$arg2]]]);
+        TestKernel::setParameter('parthenon_billing_plan_plans', [$arg1 => ['limit' => [], 'features' => [$arg2]]]);
     }
 
     /**
