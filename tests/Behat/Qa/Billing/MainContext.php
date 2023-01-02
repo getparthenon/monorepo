@@ -59,7 +59,7 @@ class MainContext implements Context
     {
         $team = $this->getTeamByName($teamName);
 
-        if ($team->getBillingAddress()->getStreetLineOne() === $streetLine) {
+        if ($team->getBillingAddress()->getStreetLineOne() !== $streetLine) {
             throw new \Exception("Street line doesn't match");
         }
     }

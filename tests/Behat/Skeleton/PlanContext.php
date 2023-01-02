@@ -31,7 +31,7 @@ class PlanContext implements Context
      */
     public function iViewThePlans()
     {
-        $this->sendJsonRequest('GET', '/api/plans');
+        $this->sendJsonRequest('GET', '/api/billing/plans');
     }
 
     /**
