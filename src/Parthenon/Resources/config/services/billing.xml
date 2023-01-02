@@ -25,6 +25,17 @@
             <argument type="service" id="Parthenon\User\Repository\TeamRepositoryInterface" />
         </service>
 
+
+        <service id="Parthenon\Billing\Athena\CustomerUserSection" class="Parthenon\Billing\Athena\CustomerUserSection">
+            <argument type="service"  id="Parthenon\Billing\Repository\CustomerRepositoryInterface" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+        </service>
+        <service id="Parthenon\Billing\Athena\CustomerTeamSection" class="Parthenon\Billing\Athena\CustomerTeamSection">
+            <argument type="service"  id="Parthenon\Billing\Repository\CustomerRepositoryInterface" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+        </service>
+
+
         <!-- Plans -->
 
         <service id="Parthenon\Billing\Plan\PlanManager" class="Parthenon\Billing\Plan\PlanManager">

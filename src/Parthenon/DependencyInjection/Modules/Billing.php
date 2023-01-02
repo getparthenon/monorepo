@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Parthenon\DependencyInjection\Modules;
 
+use Parthenon\Billing\Athena\CustomerTeamSection;
+use Parthenon\Billing\Athena\CustomerUserSection;
 use Parthenon\Billing\CustomerProviderInterface;
 use Parthenon\Billing\Repository\CustomerRepositoryInterface;
 use Parthenon\Billing\TeamCustomerProvider;
@@ -108,12 +110,14 @@ class Billing implements ModuleConfigurationInterface
     {
         $containerBuilder->setAlias(CustomerProviderInterface::class, TeamCustomerProvider::class);
         $containerBuilder->setAlias(CustomerRepositoryInterface::class, TeamRepositoryInterface::class);
+        $containerBuilder->removeDefinition(CustomerUserSection::class);
     }
 
     protected function handleUserCustomer(array $config, ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->setAlias(CustomerProviderInterface::class, UserCustomerProvider::class);
         $containerBuilder->setAlias(CustomerRepositoryInterface::class, UserRepositoryInterface::class);
+        $containerBuilder->removeDefinition(CustomerTeamSection::class);
     }
 
     protected function buildStripeObolConfig(array $paymentsConfig): array
