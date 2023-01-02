@@ -15,17 +15,14 @@ declare(strict_types=1);
 namespace Parthenon\Common\Command;
 
 use phpseclib3\Crypt\RSA;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-#[AsCommand(name: 'parthenon:common:generate-ansible-config', description: 'Command to help you generate your ansible config')]
 class GenerateAnsibleConfigCommand extends Command
 {
-
     public function __construct(private KernelInterface $kernel)
     {
         parent::__construct(null);
