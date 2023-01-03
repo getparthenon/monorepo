@@ -102,7 +102,7 @@
 }
 
 .submenu {
-    @apply inline-block rounded-xl p-3 text-black font-bold no-underline w-full  hover:text-slate-800 hover:no-underline hover:bg-blue-50 hover:text-slate-600;
+    @apply inline-block rounded-xl p-2 text-black font-bold no-underline w-full  hover:text-slate-800 hover:no-underline hover:bg-blue-50 hover:text-slate-600;
 }
 
 
