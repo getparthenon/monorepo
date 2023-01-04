@@ -77,5 +77,8 @@
         </service>
         <service id="Parthenon\Billing\Plan\Counter\TeamInviteCounterInterface" alias="Parthenon\Billing\Plan\Counter\TeamInviteCounter" />
 
+        <service id="Parthenon\Billing\Obol\CustomerConverter" class="Parthenon\Billing\Obol\CustomerConverter">
+        </service>
+        <service id="Parthenon\Billing\Obol\CustomerConverterInterface" alias="Parthenon\Billing\Obol\CustomerConverter" />
     </services>
 </container>
