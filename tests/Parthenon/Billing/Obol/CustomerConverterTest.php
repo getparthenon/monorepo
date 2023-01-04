@@ -39,5 +39,7 @@ class CustomerConverterTest extends TestCase
         $subject = new CustomerConverter();
         $actual = $subject->convertToBillingDetails($customer);
         $this->assertInstanceOf(BillingDetails::class, $actual);
+
+        $this->assertEquals('iain.cambridge@example.org', $actual->getEmail());
     }
 }
