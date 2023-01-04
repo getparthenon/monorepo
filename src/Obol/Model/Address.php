@@ -28,7 +28,7 @@ class Address
         return $this->streetLineOne;
     }
 
-    public function setStreetLineOne(string $streetLineOne): self
+    public function setStreetLineOne(?string $streetLineOne): self
     {
         $this->streetLineOne = $streetLineOne;
 
@@ -40,7 +40,7 @@ class Address
         return $this->streetLineTwo;
     }
 
-    public function setStreetLineTwo(string $streetLineTwo): self
+    public function setStreetLineTwo(?string $streetLineTwo): self
     {
         $this->streetLineTwo = $streetLineTwo;
 
@@ -52,7 +52,7 @@ class Address
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -64,7 +64,7 @@ class Address
         return $this->state;
     }
 
-    public function setState(string $state): self
+    public function setState(?string $state): self
     {
         $this->state = $state;
 
@@ -76,7 +76,7 @@ class Address
         return $this->countryCode;
     }
 
-    public function setCountryCode(string $countryCode): self
+    public function setCountryCode(?string $countryCode): self
     {
         $this->countryCode = $countryCode;
 
@@ -93,7 +93,7 @@ class Address
         return $this->postalCode;
     }
 
-    public function setPostalCode(string $postalCode): self
+    public function setPostalCode(?string $postalCode): self
     {
         $this->postalCode = $postalCode;
 

@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\Subscription;
 use Parthenon\Common\Address;
+use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\UserInterface;
 
 /**
@@ -101,5 +102,13 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     public function getExternalCustomerReference()
     {
         return $this->externalCustomerReference;
+    }
+
+    public function getBillingEmail()
+    {
+        /** @var MemberInterface $member */
+        $member = $this->members->first();
+
+        return $member->getEmail();
     }
 }

@@ -38,4 +38,6 @@ interface CustomerInterface
     public function setExternalCustomerReference($customerReference);
 
     public function getExternalCustomerReference();
+
+    public function getBillingEmail();
 }

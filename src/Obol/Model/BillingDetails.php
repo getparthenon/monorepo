@@ -26,7 +26,7 @@ class BillingDetails
 
     protected ?CardDetails $cardDetails;
 
-    protected string $customerReference;
+    protected ?string $customerReference;
 
     protected string $storedPaymentReference;
 
@@ -117,7 +117,7 @@ class BillingDetails
         return $this->customerReference;
     }
 
-    public function setCustomerReference(string $customerReference): static
+    public function setCustomerReference(?string $customerReference): static
     {
         $this->customerReference = $customerReference;
 
