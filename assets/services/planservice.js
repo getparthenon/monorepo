@@ -18,18 +18,18 @@ function fetchPlanInfo() {
 }
 
 function createCheckout(planName, paymentSchedule) {
-    return axios.post(`/api/payments/billing/checkout/` + planName + '/' + paymentSchedule, {}, {
+    return axios.post(`/api/billing/plans/checkout/` + planName + '/' + paymentSchedule, {}, {
         headers: {'Content-Type': 'application/json'},
     }).then(handleResponse);
 }
 
 function createPerSeatCheckout(planName, paymentSchedule, seats) {
-    return axios.post(`/api/payments/billing/checkout/` + planName + '/' + paymentSchedule, {seats})
+    return axios.post(`/api/billing/plans/checkout/` + planName + '/' + paymentSchedule, {seats})
         .then(handleResponse);
 }
 
 function changePlan(planName, paymentSchedule) {
-    return axios.post(`/api/payments/billing/change/` + planName + '/' + paymentSchedule, {
+    return axios.post(`/api/billing/plans/change/` + planName + '/' + paymentSchedule, {
         headers: {'Content-Type': 'application/json'},
         data: {}
     }).then(handleResponse);
