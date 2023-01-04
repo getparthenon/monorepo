@@ -17,10 +17,12 @@ namespace Obol\Provider\Adyen;
 use Brick\Money\Money;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
+use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\Model\BillingDetails;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
+use Obol\Model\FrontendCardProcess;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
@@ -194,6 +196,11 @@ class PaymentService implements PaymentServiceInterface
         }
 
         throw new \Exception('Unable to make request');
+    }
+
+    public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess
+    {
+        throw new UnsupportedFunctionalityException();
     }
 
     protected function createApiRequest(string $method, string $url): RequestInterface

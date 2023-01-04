@@ -45,7 +45,7 @@ class HostedCheckoutService implements \Obol\HostedCheckoutService
                     'quantity' => $subscription->getSeats(),
                 ],
             ],
-            'payment_method_types' => $this->config->getPayments(),
+            'payment_method_types' => $this->config->getPaymentMethods(),
         ]);
 
         $checkoutCreation = new CheckoutCreation();

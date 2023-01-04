@@ -57,7 +57,7 @@ class Factory
         $config->setApiKey($configData['api_key'])
             ->setPciMode($pciMode);
         if (isset($configData['payment_methods']) && !empty($configData['payment_methods'])) {
-            $config->setPayments($configData['payment_methods']);
+            $config->setPaymentMethods($configData['payment_methods']);
         }
         if (isset($configData['success_url']) && !empty($configData['success_url'])) {
             $config->setSuccessUrl($configData['success_url']);

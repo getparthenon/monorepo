@@ -19,6 +19,7 @@ use Obol\Model\BillingDetails;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
+use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
@@ -141,6 +142,19 @@ class PaymentService implements PaymentServiceInterface
         $chargeCardResponse->setPaymentDetails($paymentDetails);
 
         return $chargeCardResponse;
+    }
+
+    public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess
+    {
+        if (!$billingDetails->hasCustomerReference()) {
+            $this->setCustomerReference($billingDetails);
+        }
+        $intentData = $this->stripe->setupIntents->create(['payment_method_types' => $this->config->getPaymentMethods(), 'customer' => $billingDetails->getCustomerReference()]);
+
+        $process = new FrontendCardProcess();
+        $process->setToken($intentData->client_secret);
+
+        return $process;
     }
 
     private function setCustomerReference(BillingDetails $billingDetails)

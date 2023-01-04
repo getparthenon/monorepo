@@ -18,6 +18,7 @@ use Obol\Model\BillingDetails;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
+use Obol\Model\FrontendCardProcess;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
 
@@ -32,4 +33,6 @@ interface PaymentServiceInterface
     public function deleteCardFile(BillingDetails $cardFile): void;
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse;
+
+    public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess;
 }

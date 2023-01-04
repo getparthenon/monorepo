@@ -18,7 +18,7 @@ use Obol\Exception\MissingConfigFieldException;
 
 class Config
 {
-    protected array $payments = ['card'];
+    protected array $paymentMethods = ['card'];
     private bool $pciMode = false;
 
     private string $apiKey;
@@ -86,14 +86,14 @@ class Config
     /**
      * @return []string
      */
-    public function getPayments(): array
+    public function getPaymentMethods(): array
     {
-        return $this->payments;
+        return $this->paymentMethods;
     }
 
-    public function setPayments(array $payments): static
+    public function setPaymentMethods(array $paymentMethods): static
     {
-        $this->payments = $payments;
+        $this->paymentMethods = $paymentMethods;
 
         return $this;
     }
