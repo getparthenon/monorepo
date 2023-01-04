@@ -52,7 +52,7 @@ $creation = $paymentSystem->startSubscription($subscription);
 var_dump($creation);
 
 $cardOnFile = $paymentSystem->createCardOnFile($billingDetails);
-$billingDetails->setStoredPaymentReference($cardOnFile->getPaymentDetails()->getStoredPaymentReference());
+$billingDetails->setStoredPaymentReference($cardOnFile->getCardFile()->getStoredPaymentReference());
 var_dump($cardOnFile);
 
 $charge = new \Obol\Model\Charge();

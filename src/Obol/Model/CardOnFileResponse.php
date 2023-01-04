@@ -16,15 +16,15 @@ namespace Obol\Model;
 
 class CardOnFileResponse
 {
-    protected PaymentDetails $paymentDetails;
+    protected CardFile $cardFile;
 
-    public function getPaymentDetails(): PaymentDetails
+    public function getCardFile(): CardFile
     {
-        return $this->paymentDetails;
+        return $this->cardFile;
     }
 
-    public function setPaymentDetails(PaymentDetails $paymentDetails): void
+    public function setCardFile(CardFile $cardFile): void
     {
-        $this->paymentDetails = $paymentDetails;
+        $this->cardFile = $cardFile;
     }
 }

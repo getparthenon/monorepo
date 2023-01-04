@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
-use Brick\Money\Money;
 use Obol\Model\BillingDetails;
+use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
@@ -103,13 +103,16 @@ class PaymentService implements PaymentServiceInterface
             $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
         }
 
-        $paymentDetails = new PaymentDetails();
-        $paymentDetails->setCustomerReference($billingDetails->getCustomerReference())
+        $cardFile = new CardFile();
+        $cardFile->setCustomerReference($billingDetails->getCustomerReference())
             ->setStoredPaymentReference($cardData->id)
-            ->setPaymentReference($cardData->payment)->setAmount(Money::of(0, 'USD'));
+            ->setBrand($cardData->brand)
+            ->setLastFour($cardData->last4)
+            ->setExpiryMonth($cardData->exp_month)
+            ->setExpiryYear($cardData->exp_year);
 
         $cardOnFile = new CardOnFileResponse();
-        $cardOnFile->setPaymentDetails($paymentDetails);
+        $cardOnFile->setCardFile($cardFile);
 
         return $cardOnFile;
     }
