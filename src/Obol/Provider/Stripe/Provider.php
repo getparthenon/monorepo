@@ -37,4 +37,9 @@ class Provider implements ProviderInterface
     {
         return $this->hostedCheckoutService;
     }
+
+    public function getName(): string
+    {
+        return static::NAME;
+    }
 }

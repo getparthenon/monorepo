@@ -16,9 +16,9 @@ namespace Obol\Model;
 
 class BillingDetails
 {
-    protected string $name;
+    protected string $name = '';
 
-    protected string $email;
+    protected string $email = '';
 
     protected ?string $taxNumber = null;
 

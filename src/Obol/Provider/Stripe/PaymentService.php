@@ -153,11 +153,12 @@ class PaymentService implements PaymentServiceInterface
 
         $process = new FrontendCardProcess();
         $process->setToken($intentData->client_secret);
+        $process->setCustomerReference($billingDetails->getCustomerReference());
 
         return $process;
     }
 
-    private function setCustomerReference(BillingDetails $billingDetails)
+    private function setCustomerReference(BillingDetails $billingDetails): void
     {
         $customerData = $this->stripe->customers->create(
             [

@@ -29,4 +29,6 @@ interface ProviderInterface
      * @throws UnsupportedFunctionalityException
      */
     public function hostedCheckouts(): HostedCheckoutService;
+
+    public function getName(): string;
 }

@@ -19,6 +19,8 @@ class FrontendCardProcess
 {
     protected string $token;
 
+    protected string $customerReference;
+
     public function getToken(): string
     {
         return $this->token;
@@ -27,5 +29,15 @@ class FrontendCardProcess
     public function setToken(string $token): void
     {
         $this->token = $token;
+    }
+
+    public function getCustomerReference(): string
+    {
+        return $this->customerReference;
+    }
+
+    public function setCustomerReference(string $customerReference): void
+    {
+        $this->customerReference = $customerReference;
     }
 }
