@@ -40,6 +40,11 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     protected Address $billingAddress;
 
     /**
+     * @ORM\Column(name="external_customer_reference", nullable=true)
+     */
+    protected ?string $externalCustomerReference;
+
+    /**
      * @ORM\Embedded(class="Parthenon\Billing\Entity\Subscription")
      */
     private ?Subscription $subscription;
@@ -86,5 +91,15 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     public function hasBillingAddress(): bool
     {
         return isset($this->billingAddress);
+    }
+
+    public function setExternalCustomerReference($customerReference)
+    {
+        $this->externalCustomerReference = $customerReference;
+    }
+
+    public function getExternalCustomerReference()
+    {
+        return $this->externalCustomerReference;
     }
 }

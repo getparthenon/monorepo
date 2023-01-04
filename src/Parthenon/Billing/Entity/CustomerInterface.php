@@ -34,4 +34,8 @@ interface CustomerInterface
     public function getBillingAddress(): Address;
 
     public function hasBillingAddress(): bool;
+
+    public function setExternalCustomerReference($customerReference);
+
+    public function getExternalCustomerReference();
 }
