@@ -7,7 +7,7 @@
     <services>
         <service id="Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface" alias="parthenon.billing.repository.payment_details_repository" />
         <service id="parthenon.billing.repository.payment_details_repository" class="Parthenon\Billing\Repository\Orm\PaymentDetailsRepository">
-            <argument type="service" id="parthenon.export.repository.orm.background_export_request_repository_doctrine" />
+            <argument type="service" id="parthenon.billing.repository.orm.payment_details_repository_doctrine" />
         </service>
 
         <service id="parthenon.billing.repository.orm.payment_details_repository_doctrine" class="Parthenon\Billing\Repository\Orm\PaymentDetailsServiceRepository">
@@ -17,7 +17,7 @@
 
         <service id="Parthenon\Billing\Repository\PaymentRepositoryInterface" alias="parthenon.billing.repository.payment_repository" />
         <service id="parthenon.billing.repository.payment_repository" class="Parthenon\Billing\Repository\Orm\PaymentDetailsRepository">
-            <argument type="service" id="parthenon.export.repository.orm.background_export_request_repository_doctrine" />
+            <argument type="service" id="parthenon.billing.repository.orm.payment_repository_doctrine" />
         </service>
 
         <service id="parthenon.billing.repository.orm.payment_repository_doctrine" class="Parthenon\Billing\Repository\Orm\PaymentServiceRepository">
