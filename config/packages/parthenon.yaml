@@ -101,7 +101,7 @@ parthenon:
       provider: stripe
       stripe:
         private_api_key: '%env(resolve:STRIPE_PRIVATE_API_KEY)%'
-        # public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
+        public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
     plan:
       Free:
         is_free: true

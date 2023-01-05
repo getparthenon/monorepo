@@ -80,5 +80,9 @@
         <service id="Parthenon\Billing\Obol\CustomerConverter" class="Parthenon\Billing\Obol\CustomerConverter">
         </service>
         <service id="Parthenon\Billing\Obol\CustomerConverterInterface" alias="Parthenon\Billing\Obol\CustomerConverter" />
+
+        <service id="Parthenon\Billing\Config\FrontendConfig" class="Parthenon\Billing\Config\FrontendConfig">
+            <argument>%parthenon_billing_config_frontend_info%</argument>
+        </service>
     </services>
 </container>

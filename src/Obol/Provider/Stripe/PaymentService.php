@@ -107,9 +107,9 @@ class PaymentService implements PaymentServiceInterface
         $cardFile->setCustomerReference($billingDetails->getCustomerReference())
             ->setStoredPaymentReference($cardData->id)
             ->setBrand($cardData->brand)
-            ->setLastFour($cardData->last4)
-            ->setExpiryMonth($cardData->exp_month)
-            ->setExpiryYear($cardData->exp_year);
+            ->setLastFour((string) $cardData->last4)
+            ->setExpiryMonth((string) $cardData->exp_month)
+            ->setExpiryYear((string) $cardData->exp_year);
 
         $cardOnFile = new CardOnFileResponse();
         $cardOnFile->setCardFile($cardFile);
