@@ -21,6 +21,11 @@ Feature:
 
   Scenario:
     Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
+    When I delete the payment method with the last four 4344
+    Then the payment method with the last four 4344 will be marked as deleted
+
+  Scenario:
+    Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
+    And I delete the payment method with the last four "4344"
     When I fetch the payment methods
-    Then there will be 3 payment methods
-    And there will be a payment method with the last four "4344"
+    Then I should not see the payment method for "4344"

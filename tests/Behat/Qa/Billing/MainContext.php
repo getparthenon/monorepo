@@ -126,4 +126,49 @@ class MainContext implements Context
         }
         throw new \Exception('Card not found');
     }
+
+    /**
+     * @When I delete the payment method with the last four :arg1
+     */
+    public function iDeleteThePaymentMethodWithTheLastFour($lastFour)
+    {
+        $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
+
+        $this->sendJsonRequest('DELETE', '/api/billing/card/'.(string) $paymentDetails->getId());
+    }
+
+    /**
+     * @Then the payment method with the last four :arg1 will be marked as deleted
+     */
+    public function thePaymentMethodWithTheLastFourWillBeMarkedAsDeleted($lastFour)
+    {
+        $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
+
+        if (!$paymentDetails->isDeleted()) {
+            throw new \Exception('Payment method not deleted');
+        }
+    }
+
+    /**
+     * @Then I should not see the payment method for :arg1
+     */
+    public function iShouldNotSeeThePaymentMethodFor($lastFour)
+    {
+        $data = $this->getJsonContent();
+
+        foreach ($data['payment_details'] as $paymentDetail) {
+            if ($paymentDetail['last_four'] == $lastFour) {
+                throw new \Exception('Card found');
+            }
+        }
+    }
+
+    protected function getPaymentDetailsFromLastFour(string $lastFour): PaymentDetails
+    {
+        $paymentDetails = $this->paymentDetailsServiceRepository->findOneBy(['lastFour' => $lastFour]);
+
+        $this->paymentDetailsServiceRepository->getEntityManager()->refresh($paymentDetails);
+
+        return $paymentDetails;
+    }
 }
