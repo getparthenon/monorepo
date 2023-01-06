@@ -782,6 +782,9 @@ class UserContext implements Context
         $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
         $team->getSubscription()->setActive(true);
 
+        $externalReference = bin2hex(random_bytes(40));
+        $team->setExternalCustomerReference($externalReference);
+
         $this->teamRepository->getEntityManager()->persist($team);
 
         $this->teamRepository->getEntityManager()->flush();

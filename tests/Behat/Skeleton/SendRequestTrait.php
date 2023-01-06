@@ -41,6 +41,7 @@ trait SendRequestTrait
     {
         $content = $this->session->getPage()->getContent();
         $json = json_decode($content, true);
+
         if (!$json) {
             throw new \Exception('No valid JSON found');
         }
