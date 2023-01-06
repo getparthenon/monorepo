@@ -49,7 +49,7 @@ class MainContext implements Context
             $sendData[$key] = $value;
         }
 
-        $this->sendJsonRequest('POST', '/api/billing/address', $sendData);
+        $this->sendJsonRequest('POST', '/api/billing/details', $sendData);
     }
 
     /**
