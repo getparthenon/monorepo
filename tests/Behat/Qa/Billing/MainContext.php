@@ -75,6 +75,12 @@ class MainContext implements Context
         foreach ($table->getColumnsHash() as $row) {
             $team = $this->getTeamByName($row['Team']);
 
+            if (isset($row['Default'])) {
+                $default = ('true' === strtolower($row['Default']));
+            } else {
+                $default = false;
+            }
+
             $paymentDetails = new PaymentDetails();
             $paymentDetails->setCustomer($team);
             $paymentDetails->setBrand($row['Brand']);
@@ -84,7 +90,7 @@ class MainContext implements Context
             $paymentDetails->setStoredCustomerReference($team->getExternalCustomerReference());
             $paymentDetails->setStoredPaymentReference(bin2hex(random_bytes(32)));
             $paymentDetails->setCreatedAt(new \DateTime());
-            $paymentDetails->setDefaultPaymentOption(false);
+            $paymentDetails->setDefaultPaymentOption($default);
             $paymentDetails->setDeleted(false);
 
             $this->paymentDetailsServiceRepository->getEntityManager()->persist($paymentDetails);
@@ -160,6 +166,40 @@ class MainContext implements Context
             if ($paymentDetail['last_four'] == $lastFour) {
                 throw new \Exception('Card found');
             }
+        }
+    }
+
+    /**
+     * @When I mark the payment method with the last four :arg1 as default
+     */
+    public function iMarkThePaymentMethodWithTheLastFourAsDefault($lastFour)
+    {
+        $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
+
+        $this->sendJsonRequest('POST', '/api/billing/card/'.(string) $paymentDetails->getId().'/default');
+    }
+
+    /**
+     * @Then the payment method with the last four :arg1 will be marked as default
+     */
+    public function thePaymentMethodWithTheLastFourWillBeMarkedAsDefault($lastFour)
+    {
+        $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
+
+        if (!$paymentDetails->isDefaultPaymentOption()) {
+            throw new \Exception('Is not default method');
+        }
+    }
+
+    /**
+     * @Then the payment method with the last four :arg1 will not be marked as default
+     */
+    public function thePaymentMethodWithTheLastFourWillNotBeMarkedAsDefault($lastFour)
+    {
+        $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
+
+        if ($paymentDetails->isDefaultPaymentOption()) {
+            throw new \Exception('Is default method');
         }
     }
 
