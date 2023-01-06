@@ -84,5 +84,8 @@
         <service id="Parthenon\Billing\Config\FrontendConfig" class="Parthenon\Billing\Config\FrontendConfig">
             <argument>%parthenon_billing_config_frontend_info%</argument>
         </service>
+
+        <service id="Parthenon\Billing\Factory\PaymentDetailsFactory" class="Parthenon\Billing\Factory\PaymentDetailsFactory" />
+        <service id="Parthenon\Billing\Factory\PaymentDetailsFactoryInterface" alias="Parthenon\Billing\Factory\PaymentDetailsFactory" />
     </services>
 </container>
