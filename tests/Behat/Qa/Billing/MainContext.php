@@ -140,7 +140,7 @@ class MainContext implements Context
     {
         $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
 
-        $this->sendJsonRequest('DELETE', '/api/billing/card/'.(string) $paymentDetails->getId());
+        $this->sendJsonRequest('DELETE', '/api/billing/payment-details/'.(string) $paymentDetails->getId());
     }
 
     /**
@@ -176,7 +176,7 @@ class MainContext implements Context
     {
         $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
 
-        $this->sendJsonRequest('POST', '/api/billing/card/'.(string) $paymentDetails->getId().'/default');
+        $this->sendJsonRequest('POST', '/api/billing/payment-details/'.(string) $paymentDetails->getId().'/default');
     }
 
     /**
