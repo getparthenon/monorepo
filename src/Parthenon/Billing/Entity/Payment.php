@@ -157,7 +157,7 @@ class Payment
         $this->customer = $customer;
     }
 
-    public function getMoneyAmount() : Money
+    public function getMoneyAmount(): Money
     {
         return Money::ofMinor($this->amount, Currency::of($this->currency));
     }

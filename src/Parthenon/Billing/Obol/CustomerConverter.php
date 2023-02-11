@@ -25,6 +25,20 @@ final class CustomerConverter implements CustomerConverterInterface
         $billingDetails = new BillingDetails();
         $billingDetails->setCustomerReference($customer->getExternalCustomerReference());
 
+        $address = $this->buildAddresss($customer);
+
+        $billingDetails->setAddress($address);
+        $billingDetails->setEmail($customer->getBillingEmail());
+
+        return $billingDetails;
+    }
+
+    /**
+     * @param CustomerInterface $customer
+     * @return ObolAddress
+     */
+    public function buildAddresss(CustomerInterface $customer): ObolAddress
+    {
         $address = new ObolAddress();
         $address->setStreetLineOne($customer->getBillingAddress()->getStreetLineOne());
         $address->setStreetLineTwo($customer->getBillingAddress()->getStreetLineTwo());
@@ -32,10 +46,6 @@ final class CustomerConverter implements CustomerConverterInterface
         $address->setState($customer->getBillingAddress()->getRegion());
         $address->setCountryCode($customer->getBillingAddress()->getCountry());
         $address->setPostalCode($customer->getBillingAddress()->getPostcode());
-
-        $billingDetails->setAddress($address);
-        $billingDetails->setEmail($customer->getBillingEmail());
-
-        return $billingDetails;
+        return $address;
     }
 }

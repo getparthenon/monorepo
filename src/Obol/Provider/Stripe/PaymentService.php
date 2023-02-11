@@ -60,9 +60,22 @@ class PaymentService implements PaymentServiceInterface
             ]
         );
 
+        $charges = $this->stripe->charges->all([
+            'customer' => $subscription->getBillingDetails()->getCustomerReference(),
+            'limit' => 1,
+        ]);
+        /** @var \Stripe\Charge $charge */
+        $charge = $charges->first();
+
+        $paymentDetails = new PaymentDetails();
+        $paymentDetails->setAmount($subscription->getTotalCost());
+        $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
+        $paymentDetails->setPaymentReference($charge->id);
+        $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
+
         $subscriptionCreation = new SubscriptionCreationResponse();
         $subscriptionCreation->setSubscriptionId($stripeSubscription->id)
-            ->setPaymentDetails($cardOnFile->getPaymentDetails());
+            ->setPaymentDetails($paymentDetails);
 
         return $subscriptionCreation;
     }
