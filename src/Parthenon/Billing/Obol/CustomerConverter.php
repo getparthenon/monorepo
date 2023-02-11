@@ -33,10 +33,6 @@ final class CustomerConverter implements CustomerConverterInterface
         return $billingDetails;
     }
 
-    /**
-     * @param CustomerInterface $customer
-     * @return ObolAddress
-     */
     public function buildAddresss(CustomerInterface $customer): ObolAddress
     {
         $address = new ObolAddress();
@@ -46,6 +42,7 @@ final class CustomerConverter implements CustomerConverterInterface
         $address->setState($customer->getBillingAddress()->getRegion());
         $address->setCountryCode($customer->getBillingAddress()->getCountry());
         $address->setPostalCode($customer->getBillingAddress()->getPostcode());
+
         return $address;
     }
 }

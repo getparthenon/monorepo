@@ -26,13 +26,11 @@ class BillingDetailsFactory
         CustomerInterface $customer,
         PaymentDetails $paymentDetails
     ): BillingDetails {
-
         $address = $this->buildAddresss($customer);
         $billingDetails = new BillingDetails();
         $billingDetails->setCustomerReference($customer->getExternalCustomerReference());
         $billingDetails->setStoredPaymentReference($paymentDetails->getStoredPaymentReference());
         $billingDetails->setAddress($address);
-
 
         return $billingDetails;
     }
