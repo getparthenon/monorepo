@@ -26,6 +26,8 @@ class Payment
 
     private string $currency;
 
+    private CustomerInterface $customer;
+
     private \DateTimeInterface $createdAt;
 
     private \DateTimeInterface $updatedAt;
@@ -146,5 +148,21 @@ class Payment
     public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return CustomerInterface
+     */
+    public function getCustomer(): CustomerInterface
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param CustomerInterface $customer
+     */
+    public function setCustomer(CustomerInterface $customer): void
+    {
+        $this->customer = $customer;
     }
 }
