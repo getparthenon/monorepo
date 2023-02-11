@@ -107,7 +107,7 @@ class Payment
     public function isRefunded(): bool
     {
         return $this->refunded;
-    } 
+    }
 
     public function setRefunded(bool $refunded): void
     {
@@ -134,33 +134,21 @@ class Payment
         $this->chargedBack = $chargedBack;
     }
 
-    /**
-     * @return \DateTimeInterface
-     */
     public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param \DateTimeInterface $updatedAt
-     */
     public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @return CustomerInterface
-     */
     public function getCustomer(): CustomerInterface
     {
         return $this->customer;
     }
 
-    /**
-     * @param CustomerInterface $customer
-     */
     public function setCustomer(CustomerInterface $customer): void
     {
         $this->customer = $customer;
