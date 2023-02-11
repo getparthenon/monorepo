@@ -28,6 +28,8 @@ class Payment
 
     private \DateTimeInterface $createdAt;
 
+    private \DateTimeInterface $updatedAt;
+
     private bool $refunded = false;
 
     private bool $completed = false;
@@ -103,7 +105,7 @@ class Payment
     public function isRefunded(): bool
     {
         return $this->refunded;
-    }
+    } 
 
     public function setRefunded(bool $refunded): void
     {
@@ -128,5 +130,21 @@ class Payment
     public function setChargedBack(bool $chargedBack): void
     {
         $this->chargedBack = $chargedBack;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface $updatedAt
+     */
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
