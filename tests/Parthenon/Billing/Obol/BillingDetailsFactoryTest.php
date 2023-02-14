@@ -19,7 +19,7 @@ use Parthenon\Billing\Entity\PaymentDetails;
 use Parthenon\Common\Address;
 use PHPUnit\Framework\TestCase;
 
-class BillingDetailsFactory extends TestCase
+class BillingDetailsFactoryTest extends TestCase
 {
     public const EMAIL = 'iain.cambridge@example.org';
     public const CUSTOMER_REFERENCE = 'a-reference';
@@ -48,7 +48,7 @@ class BillingDetailsFactory extends TestCase
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setStoredPaymentReference(self::PAYMENT_REFERENCE);
 
-        $subject = new BillingDetailsFactory();
+        $subject = new BillingDetailsFactoryTest();
         $actual = $subject->createFromCustomerAndPaymentDetails($customer, $paymentDetails);
         $this->assertEquals(self::PAYMENT_REFERENCE, $actual->getStoredPaymentReference());
         $this->assertEquals(self::CUSTOMER_REFERENCE, $actual->getCustomerReference());
