@@ -19,12 +19,13 @@ use Obol\Provider\ProviderInterface;
 use Parthenon\Billing\CustomerProviderInterface;
 use Parthenon\Billing\Dto\StartSubscriptionDto;
 use Parthenon\Billing\Obol\BillingDetailsFactoryInterface;
+use Parthenon\Billing\Obol\PaymentFactoryInterface;
 use Parthenon\Billing\Plan\PlanManagerInterface;
 use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
+use Parthenon\Billing\Repository\PaymentRepositoryInterface;
 use Parthenon\Common\Exception\NoEntityFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\Transport\Serialization\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class SubscriptionController
@@ -34,6 +35,8 @@ class SubscriptionController
         CustomerProviderInterface $customerProvider,
         PaymentDetailsRepositoryInterface $paymentDetailsRepository,
         BillingDetailsFactoryInterface $billingDetailsFactory,
+        PaymentFactoryInterface $paymentFactory,
+        PaymentRepositoryInterface $paymentRepository,
         PlanManagerInterface $planManager,
         SerializerInterface $serializer,
         ProviderInterface $provider,
@@ -52,9 +55,13 @@ class SubscriptionController
             $subscription = new Subscription();
             $subscription->setBillingDetails($billingDetails);
             $subscription->setSeats($subscriptionDto->getSeatNumbers());
-            // TODO add price to $plan
+            $subscription->setCostPerSeat($plan->getPrice());
 
-            $provider->payments()->startSubscription($subscription);
+            $subscriptionCreationResponse = $provider->payments()->startSubscription($subscription);
+            $payment = $paymentFactory->fromSubscriptionCreation($subscriptionCreationResponse);
+            $paymentRepository->save($payment);
+            
+
         } catch (NoEntityFoundException $exception) {
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         }

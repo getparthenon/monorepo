@@ -20,5 +20,5 @@ use Parthenon\Billing\Entity\Payment;
 
 interface PaymentFactoryInterface
 {
-    public function fromSubscriptionConfirm(CustomerInterface $customer, SubscriptionCreationResponse $subscriptionCreationResponse): Payment;
+    public function fromSubscriptionCreation(SubscriptionCreationResponse $subscriptionCreationResponse): Payment;
 }

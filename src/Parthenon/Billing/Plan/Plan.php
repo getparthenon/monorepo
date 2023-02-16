@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Plan;
 
+use Brick\Money\Money;
 use Parthenon\Common\Exception\GeneralException;
 use Parthenon\Common\Exception\ParameterNotSetException;
 
@@ -32,6 +33,7 @@ final class Plan
         private bool $isFree,
         private bool $isPerSeat,
         private int $userCount,
+        private Money $price,
     ) {
     }
 
@@ -118,5 +120,13 @@ final class Plan
     public function getUserCount(): int
     {
         return $this->userCount;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getPrice(): Money
+    {
+        return $this->price;
     }
 }

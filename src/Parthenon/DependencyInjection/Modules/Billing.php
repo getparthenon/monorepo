@@ -218,6 +218,8 @@ class Billing implements ModuleConfigurationInterface
                     ->booleanNode('is_free')->defaultFalse()->end()
                     ->booleanNode('is_per_seat')->defaultFalse()->end()
                     ->scalarNode('user_count')->end()
+                    ->scalarNode('price_value')->end()
+                    ->scalarNode('price_currency')->end()
                     ->arrayNode('features')
                         ->scalarPrototype()->end()
                     ->end()

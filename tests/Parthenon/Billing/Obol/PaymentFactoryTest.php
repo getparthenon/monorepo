@@ -40,7 +40,7 @@ class PaymentFactoryTest extends TestCase
 
         $subject = new PaymentFactory();
 
-        $actual = $subject->fromSubscriptionConfirm($customer, $subscriptionCreation);
+        $actual = $subject->fromSubscriptionCreation($customer, $subscriptionCreation);
         $this->assertTrue($amount->isEqualTo($actual->getMoneyAmount()));
         $this->assertEquals('payment-reference', $actual->getPaymentReference());
         $this->assertSame($customer, $actual->getCustomer());
