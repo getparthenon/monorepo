@@ -25,15 +25,15 @@ final class Plan
     public const CHECK_FEATURE = 'feature';
 
     public function __construct(
-        private string $name,
-        private array $limits,
-        private array $features,
-        private string $yearlyPriceId,
-        private string $monthlyPriceId,
-        private bool $isFree,
-        private bool $isPerSeat,
-        private int $userCount,
-        private Money $price,
+        private string  $name,
+        private array   $limits,
+        private array   $features,
+        private ?string $priceId,
+        private string  $paymentSchedule,
+        private bool    $isFree,
+        private bool    $isPerSeat,
+        private int     $userCount,
+        private Money   $price,
     ) {
     }
 
@@ -67,24 +67,24 @@ final class Plan
         return $this->limits;
     }
 
-    public function getYearlyPriceId(): string
+    public function getPriceId(): ?string
     {
-        return $this->yearlyPriceId;
+        return $this->priceId;
     }
 
-    public function setYearlyPriceId(string $yearlyPriceId): void
+    public function setPriceId(string $priceId): void
     {
-        $this->yearlyPriceId = $yearlyPriceId;
+        $this->priceId = $priceId;
     }
 
-    public function getMonthlyPriceId(): string
+    public function getPaymentSchedule(): string
     {
-        return $this->monthlyPriceId;
+        return $this->paymentSchedule;
     }
 
-    public function setMonthlyPriceId(string $monthlyPriceId): void
+    public function setPaymentSchedule(string $paymentSchedule): void
     {
-        $this->monthlyPriceId = $monthlyPriceId;
+        $this->paymentSchedule = $paymentSchedule;
     }
 
     /**
@@ -94,9 +94,9 @@ final class Plan
     {
         switch ($term) {
             case static::PAY_YEARLY:
-                return $this->yearlyPriceId;
+                return $this->priceId;
             case static::PAY_MONTHLY:
-                return $this->monthlyPriceId;
+                return $this->paymentSchedule;
             default:
                 throw new GeneralException('Only yearly or monthly are currently supported');
         }

@@ -6,7 +6,7 @@ class StartSubscriptionDto
 {
     private string $planName;
 
-    private int $seatNumbers;
+    private int $seatNumbers = 1;
 
     public function getPlanName(): string
     {

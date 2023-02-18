@@ -33,12 +33,12 @@ final class PlanManager implements PlanManagerInterface
                 $planName,
                 $planInfo['limit'],
                 $planInfo['features'] ?? [],
-                $planInfo['yearly_price_id'] ?? '',
-                $planInfo['monthly_price_id'] ?? '',
+                $planInfo['price']['id'] ?? null,
+                $planInfo['payment_schedule'] ?? '',
                 $planInfo['is_free'] ?? false,
                 $planInfo['is_per_seat'] ?? false,
                 $planInfo['user_count'] ?? 1,
-                Money::of($planInfo['price_value'] ?? '0', Currency::of($planInfo['price_currency'] ?? 'USD')),
+                Money::of($planInfo['price']['amount'] ?? '0', Currency::of($planInfo['price']['currency'] ?? 'USD')),
             );
             $this->plans[] = $plan;
         }
