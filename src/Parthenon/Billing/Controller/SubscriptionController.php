@@ -76,7 +76,6 @@ class SubscriptionController
             $subscription->setStatus(\Parthenon\Billing\Entity\Subscription::STATUS_ACTIVE);
 
             $customerRepository->save($customer);
-
         } catch (NoEntityFoundException $exception) {
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         }

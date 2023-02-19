@@ -25,15 +25,15 @@ final class Plan
     public const CHECK_FEATURE = 'feature';
 
     public function __construct(
-        private string  $name,
-        private array   $limits,
-        private array   $features,
+        private string $name,
+        private array $limits,
+        private array $features,
         private ?string $priceId,
-        private string  $paymentSchedule,
-        private bool    $isFree,
-        private bool    $isPerSeat,
-        private int     $userCount,
-        private Money   $price,
+        private string $paymentSchedule,
+        private bool $isFree,
+        private bool $isPerSeat,
+        private int $userCount,
+        private Money $price,
     ) {
     }
 
@@ -122,9 +122,6 @@ final class Plan
         return $this->userCount;
     }
 
-    /**
-     * @return Money
-     */
     public function getPrice(): Money
     {
         return $this->price;

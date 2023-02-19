@@ -165,33 +165,21 @@ class Subscription
         $this->seats = $seats;
     }
 
-    /**
-     * @return int
-     */
     public function getAmount(): int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
     public function setAmount(int $amount): void
     {
         $this->amount = $amount;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    /**
-     * @param string $currency
-     */
     public function setCurrency(string $currency): void
     {
         $this->currency = $currency;

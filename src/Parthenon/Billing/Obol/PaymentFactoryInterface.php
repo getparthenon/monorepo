@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Obol;
 
 use Obol\Model\SubscriptionCreationResponse;
-use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\Payment;
 
 interface PaymentFactoryInterface
