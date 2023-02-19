@@ -58,12 +58,15 @@ class SubscriptionController
             $billingDetails = $billingDetailsFactory->createFromCustomerAndPaymentDetails($customer, $paymentDetails);
 
             $plan = $planManager->getPlanByName($subscriptionDto->getPlanName());
+            $planPrice = $plan->getPriceForPaymentSchedule($subscriptionDto->getSchedule());
 
             $obolSubscription = new Subscription();
             $obolSubscription->setBillingDetails($billingDetails);
             $obolSubscription->setSeats($subscriptionDto->getSeatNumbers());
             $obolSubscription->setCostPerSeat($plan->getPrice());
-
+            if ($planPrice->hasPriceId()) {
+                $obolSubscription->setPriceId($planPrice->getPriceId());
+            }
             $subscriptionCreationResponse = $provider->payments()->startSubscription($obolSubscription);
             $payment = $paymentFactory->fromSubscriptionCreation($subscriptionCreationResponse);
             $paymentRepository->save($payment);
@@ -72,7 +75,7 @@ class SubscriptionController
             $subscription->setPlanName($plan->getName());
             $subscription->setPaymentSchedule($plan->getPaymentSchedule());
             $subscription->setActive(true);
-            $subscription->setMoneyAmount($plan->getPrice());
+            $subscription->setMoneyAmount($planPrice->getPriceAsMoney());
             $subscription->setStatus(\Parthenon\Billing\Entity\Subscription::STATUS_ACTIVE);
 
             $customerRepository->save($customer);

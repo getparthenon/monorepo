@@ -21,6 +21,9 @@ class StartSubscriptionDto
     #[SerializedName('plan_name')]
     private string $planName;
 
+    #[SerializedName('schedule')]
+    private string $schedule;
+
     #[SerializedName('seat_numbers')]
     private int $seatNumbers = 1;
 
@@ -42,5 +45,15 @@ class StartSubscriptionDto
     public function setSeatNumbers(int $seatNumbers): void
     {
         $this->seatNumbers = $seatNumbers;
+    }
+
+    public function getSchedule(): string
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(string $schedule): void
+    {
+        $this->schedule = $schedule;
     }
 }

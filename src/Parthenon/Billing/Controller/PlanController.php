@@ -31,6 +31,12 @@ class PlanController
             $output[$plan->getName()] = [
                 'name' => $plan->getName(),
                 'limits' => $plan->getLimits(),
+                'features' => $plan->getFeatures(),
+                'schedule' => $plan->getPaymentSchedule(),
+                'price' => [
+                    'amount' => (string) $plan->getPrice()->getAmount(),
+                    'currency' => (string) $plan->getPrice()->getCurrency()->getCurrencyCode(),
+                ],
             ];
         }
 

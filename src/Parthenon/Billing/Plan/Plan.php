@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Plan;
 
 use Brick\Money\Money;
-use Parthenon\Common\Exception\GeneralException;
 use Parthenon\Common\Exception\ParameterNotSetException;
 
 final class Plan
@@ -28,12 +27,11 @@ final class Plan
         private string $name,
         private array $limits,
         private array $features,
-        private ?string $priceId,
+        private array $prices,
         private string $paymentSchedule,
         private bool $isFree,
         private bool $isPerSeat,
         private int $userCount,
-        private Money $price,
     ) {
     }
 
@@ -90,16 +88,13 @@ final class Plan
     /**
      * @throws \InvalidArgumentException
      */
-    public function getPriceIdForPaymentSchedule(string $term): string
+    public function getPriceForPaymentSchedule(string $term): PlanPrice
     {
-        switch ($term) {
-            case static::PAY_YEARLY:
-                return $this->priceId;
-            case static::PAY_MONTHLY:
-                return $this->paymentSchedule;
-            default:
-                throw new GeneralException('Only yearly or monthly are currently supported');
+        if (!isset($this->prices[$term])) {
+            throw new \InvalidArgumentException(sprintf("No such '%s' term found", $term));
         }
+
+        return new PlanPrice($this->prices[$term]['amount'], $this->prices[$term]['currency'], $this->prices[$term]['price_id'] ?? null);
     }
 
     public function getFeatures(): array

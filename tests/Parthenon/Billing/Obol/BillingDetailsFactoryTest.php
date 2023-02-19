@@ -48,7 +48,7 @@ class BillingDetailsFactoryTest extends TestCase
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setStoredPaymentReference(self::PAYMENT_REFERENCE);
 
-        $subject = new BillingDetailsFactoryTest();
+        $subject = new BillingDetailsFactory();
         $actual = $subject->createFromCustomerAndPaymentDetails($customer, $paymentDetails);
         $this->assertEquals(self::PAYMENT_REFERENCE, $actual->getStoredPaymentReference());
         $this->assertEquals(self::CUSTOMER_REFERENCE, $actual->getCustomerReference());
