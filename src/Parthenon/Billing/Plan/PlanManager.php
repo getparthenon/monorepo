@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Plan;
 
-use Brick\Money\Currency;
-use Brick\Money\Money;
 use Parthenon\Billing\Exception\NoPlanFoundException;
 use Parthenon\Billing\Repository\CustomerRepositoryInterface;
 
@@ -26,19 +24,17 @@ final class PlanManager implements PlanManagerInterface
      */
     private array $plans = [];
 
-    public function __construct(array $plans, private CustomerRepositoryInterface $customerRepository)
+    public function __construct(array $rawPlans, private CustomerRepositoryInterface $customerRepository)
     {
-        foreach ($plans as $planName => $planInfo) {
+        foreach ($rawPlans as $planName => $planInfo) {
             $plan = new Plan(
                 $planName,
                 $planInfo['limit'],
                 $planInfo['features'] ?? [],
                 $planInfo['prices'] ?? [],
-                $planInfo['payment_schedule'] ?? '',
                 $planInfo['is_free'] ?? false,
                 $planInfo['is_per_seat'] ?? false,
-                $planInfo['user_count'] ?? 1,
-                Money::of($planInfo['price']['amount'] ?? '0', Currency::of($planInfo['price']['currency'] ?? 'USD')),
+                $planInfo['user_count'] ?? 1
             );
             $this->plans[] = $plan;
         }

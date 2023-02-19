@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Controller;
 
+use Parthenon\Billing\Plan\Plan;
 use Parthenon\Billing\Plan\PlanManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,14 +33,25 @@ class PlanController
                 'name' => $plan->getName(),
                 'limits' => $plan->getLimits(),
                 'features' => $plan->getFeatures(),
-                'schedule' => $plan->getPaymentSchedule(),
-                'price' => [
-                    'amount' => (string) $plan->getPrice()->getAmount(),
-                    'currency' => (string) $plan->getPrice()->getCurrency()->getCurrencyCode(),
-                ],
+                'prices' => $this->generateSchedules($plan),
             ];
         }
 
         return new JsonResponse(['plans' => $output]);
+    }
+
+    private function generateSchedules(Plan $plan): array
+    {
+        $output = [];
+
+        foreach ($plan->getPrices() as $schedule => $data) {
+            $output[] = [
+                'schedule' => $schedule,
+                'amount' => $data['amount'],
+                'currency' => $data['currency'],
+            ];
+        }
+
+        return $output;
     }
 }

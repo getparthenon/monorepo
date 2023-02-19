@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Plan;
 
-use Brick\Money\Money;
 use Parthenon\Common\Exception\ParameterNotSetException;
 
 final class Plan
@@ -28,7 +27,6 @@ final class Plan
         private array $limits,
         private array $features,
         private array $prices,
-        private string $paymentSchedule,
         private bool $isFree,
         private bool $isPerSeat,
         private int $userCount,
@@ -75,11 +73,6 @@ final class Plan
         $this->priceId = $priceId;
     }
 
-    public function getPaymentSchedule(): string
-    {
-        return $this->paymentSchedule;
-    }
-
     public function setPaymentSchedule(string $paymentSchedule): void
     {
         $this->paymentSchedule = $paymentSchedule;
@@ -117,8 +110,13 @@ final class Plan
         return $this->userCount;
     }
 
-    public function getPrice(): Money
+    public function getPrices(): array
     {
-        return $this->price;
+        return $this->prices;
+    }
+
+    public function setPrices(array $prices): void
+    {
+        $this->prices = $prices;
     }
 }
