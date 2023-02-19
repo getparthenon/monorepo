@@ -2,10 +2,14 @@
 
 namespace Parthenon\Billing\Dto;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class StartSubscriptionDto
 {
+    #[SerializedName('plan_name')]
     private string $planName;
 
+    #[SerializedName('seat_numbers')]
     private int $seatNumbers = 1;
 
     public function getPlanName(): string
