@@ -113,6 +113,10 @@ parthenon:
             limit: 1
             description: "Number of users"
       Basic:
+        prices:
+          yearly:
+            amount: 100
+            currency: usd
         user_count: 1
         features:
           - send_pdf
@@ -122,6 +126,10 @@ parthenon:
             description: "Number of users"
       Standard:
         user_count: 5
+        prices:
+          yearly:
+            amount: 100
+            currency: usd
         limit:
           team_invite:
             limit: 5

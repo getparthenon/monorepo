@@ -33,7 +33,7 @@ final class PlanManager implements PlanManagerInterface
                 $planName,
                 $planInfo['limit'],
                 $planInfo['features'] ?? [],
-                $planInfo['price']['id'] ?? null,
+                $planInfo['prices'] ?? [],
                 $planInfo['payment_schedule'] ?? '',
                 $planInfo['is_free'] ?? false,
                 $planInfo['is_per_seat'] ?? false,
