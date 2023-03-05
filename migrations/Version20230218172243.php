@@ -20,8 +20,8 @@ final class Version20230218172243 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE teams ADD subscription_amount INT NOT NULL');
-        $this->addSql('ALTER TABLE teams ADD subscription_currency VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE teams ADD subscription_amount INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE teams ADD subscription_currency VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
