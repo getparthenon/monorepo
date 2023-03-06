@@ -44,7 +44,7 @@ class PlanController
     {
         $output = [];
 
-        foreach ($plan->getPrices() as  $data) {
+        foreach ($plan->getPrices() as $data) {
             $output[] = [
                 'schedule' => $data->getSchedule(),
                 'amount' => $data->getPriceAsMoney()->getAmount(),

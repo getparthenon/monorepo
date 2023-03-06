@@ -20,16 +20,13 @@ use Brick\Money\Money;
 class PlanPrice
 {
     public function __construct(
-        private string  $schedule,
-        private string|int  $amount,
-        private string  $currency,
+        private string $schedule,
+        private string|int $amount,
+        private string $currency,
         private ?string $priceId = null,
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getSchedule(): string
     {
         return $this->schedule;

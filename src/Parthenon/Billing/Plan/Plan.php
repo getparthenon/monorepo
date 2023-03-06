@@ -93,7 +93,8 @@ final class Plan
     /**
      * @return PlanPrice[]
      */
-    public function getPrices() {
+    public function getPrices()
+    {
         $output = [];
 
         foreach ($this->prices as $term => $data) {

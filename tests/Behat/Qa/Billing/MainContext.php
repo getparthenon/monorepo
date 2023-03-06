@@ -203,6 +203,14 @@ class MainContext implements Context
         }
     }
 
+    /**
+     * @When I view the billing plans
+     */
+    public function iViewTheBillingPlans()
+    {
+        $this->sendJsonRequest('GET', '/api/billing/plans');
+    }
+
     protected function getPaymentDetailsFromLastFour(string $lastFour): PaymentDetails
     {
         $paymentDetails = $this->paymentDetailsServiceRepository->findOneBy(['lastFour' => $lastFour]);
@@ -210,13 +218,5 @@ class MainContext implements Context
         $this->paymentDetailsServiceRepository->getEntityManager()->refresh($paymentDetails);
 
         return $paymentDetails;
-    }
-
-    /**
-     * @When I view the billing plans
-     */
-    public function iViewTheBillingPlans()
-    {
-        $this->sendJsonRequest('GET', '/api/billing/plans');
     }
 }
