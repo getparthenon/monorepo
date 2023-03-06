@@ -211,4 +211,12 @@ class MainContext implements Context
 
         return $paymentDetails;
     }
+
+    /**
+     * @When I view the billing plans
+     */
+    public function iViewTheBillingPlans()
+    {
+        $this->sendJsonRequest('GET', '/api/billing/plans');
+    }
 }
