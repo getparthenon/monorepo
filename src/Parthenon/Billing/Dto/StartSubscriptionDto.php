@@ -27,6 +27,9 @@ class StartSubscriptionDto
     #[SerializedName('seat_numbers')]
     private int $seatNumbers = 1;
 
+    #[SerializedName('currency')]
+    private string $currency = 'usd';
+
     public function getPlanName(): string
     {
         return $this->planName;
@@ -55,5 +58,21 @@ class StartSubscriptionDto
     public function setSchedule(string $schedule): void
     {
         $this->schedule = $schedule;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param string $currency
+     */
+    public function setCurrency(string $currency): void
+    {
+        $this->currency = $currency;
     }
 }

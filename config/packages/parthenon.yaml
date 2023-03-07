@@ -117,6 +117,11 @@ parthenon:
           yearly:
             usd:
               amount: 100
+              price_id: price_1LIrP2IfxpuZtqIzh46OvQ3J
+          monthly:
+            usd:
+              amount: 100
+              price_id: price_1LIrP2IfxpuZtqIzT3zJRvXS
         user_count: 1
         features:
           - send_pdf
@@ -127,9 +132,14 @@ parthenon:
       Standard:
         user_count: 5
         prices:
+          monthly:
+            usd:
+              amount: 25
+              price_id: price_1LIrYJIfxpuZtqIz8Fm3qARE
           yearly:
             usd:
-              amount: 100
+              amount: 250
+              price_id: price_1LIrYJIfxpuZtqIz8Fm3qARE
         limit:
           team_invite:
             limit: 5

@@ -87,5 +87,18 @@
 
         <service id="Parthenon\Billing\Factory\PaymentDetailsFactory" class="Parthenon\Billing\Factory\PaymentDetailsFactory" />
         <service id="Parthenon\Billing\Factory\PaymentDetailsFactoryInterface" alias="Parthenon\Billing\Factory\PaymentDetailsFactory" />
+
+        <!-- OBOL -->
+        <service id="Parthenon\Billing\Obol\BillingDetailsFactory" class="Parthenon\Billing\Obol\BillingDetailsFactory" />
+        <service id="Parthenon\Billing\Obol\BillingDetailsFactoryInterface" alias="Parthenon\Billing\Obol\BillingDetailsFactory" />
+
+        <service id="Parthenon\Billing\Obol\CustomerConverter" class="Parthenon\Billing\Obol\CustomerConverter" />
+        <service id="Parthenon\Billing\Obol\CustomerConverterInterface" alias="Parthenon\Billing\Obol\CustomerConverter" />
+
+        <service id="Parthenon\Billing\Obol\PaymentFactory" class="Parthenon\Billing\Obol\PaymentFactory">
+            <argument type="service" id="Parthenon\Billing\CustomerProviderInterface" />
+        </service>
+        <service id="Parthenon\Billing\Obol\PaymentFactoryInterface" alias="Parthenon\Billing\Obol\PaymentFactory" />
+
     </services>
 </container>

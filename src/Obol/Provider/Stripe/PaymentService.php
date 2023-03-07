@@ -51,7 +51,9 @@ class PaymentService implements PaymentServiceInterface
             $this->setCustomerReference($subscription->getBillingDetails());
         }
 
-        $cardOnFile = $this->createCardOnFile($subscription->getBillingDetails());
+        if (!$subscription->getBillingDetails()->hasStoredPaymentReference()) {
+            $this->createCardOnFile($subscription->getBillingDetails());
+        }
 
         $stripeSubscription = $this->stripe->subscriptions->create(
             [

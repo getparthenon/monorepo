@@ -98,6 +98,11 @@ class BillingDetails
         $this->cardDetails = $cardDetails;
     }
 
+    public function hasStoredPaymentReference(): bool
+    {
+        return isset($this->storedPaymentReference);
+    }
+
     public function getStoredPaymentReference(): string
     {
         return $this->storedPaymentReference;

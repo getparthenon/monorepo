@@ -16,7 +16,7 @@
         <service alias="parthenon.billing.repository.orm.payment_details_repository_doctrine" id="Parthenon\Billing\Repository\Orm\PaymentDetailsServiceRepository" />
 
         <service id="Parthenon\Billing\Repository\PaymentRepositoryInterface" alias="parthenon.billing.repository.payment_repository" />
-        <service id="parthenon.billing.repository.payment_repository" class="Parthenon\Billing\Repository\Orm\PaymentDetailsRepository">
+        <service id="parthenon.billing.repository.payment_repository" class="Parthenon\Billing\Repository\Orm\PaymentRepository">
             <argument type="service" id="parthenon.billing.repository.orm.payment_repository_doctrine" />
         </service>
 
