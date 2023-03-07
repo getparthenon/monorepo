@@ -14,19 +14,40 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Controller;
 
+use Parthenon\Billing\CustomerProviderInterface;
+use Parthenon\Billing\Exception\NoCustomerException;
+use Parthenon\Billing\Exception\NoPlanFoundException;
 use Parthenon\Billing\Plan\Plan;
 use Parthenon\Billing\Plan\PlanManager;
+use Parthenon\Billing\Plan\PlanManagerInterface;
+use Parthenon\Common\LoggerAwareTrait;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PlanController
 {
+    use LoggerAwareTrait;
+
     #[Route('/billing/plans', name: 'parthenon_billing_plan_list')]
-    public function listAction(PlanManager $planManager)
+    public function listAction(PlanManagerInterface $planManager, CustomerProviderInterface $customerProvider)
     {
+        $this->getLogger()->info("Getting plans info");
         $plans = $planManager->getPlans();
 
         $output = [];
+        $currentPlanOutput = [];
+        try {
+            $currentPlanOutput =
+                [
+                    'name' =>  $customerProvider->getCurrentCustomer()->getSubscription()->getPlanName(),
+                    'status' => $customerProvider->getCurrentCustomer()->getSubscription()->getStatus(),
+                ];
+
+        } catch (NoCustomerException $exception) {
+            $this->getLogger()->error("No customer found");
+            return new JsonResponse([], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         foreach ($plans as $plan) {
             $output[$plan->getName()] = [
@@ -37,7 +58,9 @@ class PlanController
             ];
         }
 
-        return new JsonResponse(['plans' => $output]);
+        return new JsonResponse(['plans' => $output,
+            'current_plan' => $currentPlanOutput,
+            ]);
     }
 
     private function generateSchedules(Plan $plan): array
