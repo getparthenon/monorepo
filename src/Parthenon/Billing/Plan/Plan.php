@@ -74,7 +74,6 @@ final class Plan
         $this->priceId = $priceId;
     }
 
-
     /**
      * @throws NoPlanPriceFoundException
      */

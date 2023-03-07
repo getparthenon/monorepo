@@ -111,6 +111,28 @@ class Billing implements ModuleConfigurationInterface
         $container->setParameter('parthenon_billing_plan_plans', $config['billing']['plan']);
     }
 
+    public function buildPricesNode()
+    {
+        $treeBuilder = new TreeBuilder('prices');
+        $node = $treeBuilder->getRootNode();
+
+        $priceNode = $node->requiresAtLeastOneElement()
+            ->useAttributeAsKey('payment_schedule')
+            ->prototype('array');
+        assert($priceNode instanceof ArrayNodeDefinition);
+
+        $priceNode
+            ->arrayPrototype()
+            ->children()
+            ->scalarNode('amount')->end()
+            ->scalarNode('id')->end()
+            ->end()
+            ->end()
+            ->end();
+
+        return $node;
+    }
+
     protected function handleTeamCustomer(array $config, ContainerBuilder $containerBuilder): void
     {
         $containerBuilder->setAlias(CustomerProviderInterface::class, TeamCustomerProvider::class);
@@ -232,29 +254,6 @@ class Billing implements ModuleConfigurationInterface
                     ->end()
                 ->end()
             ->append($this->buildPricesNode())
-            ->end();
-
-        return $node;
-    }
-
-    public function buildPricesNode()
-    {
-
-        $treeBuilder = new TreeBuilder('prices');
-        $node = $treeBuilder->getRootNode();
-
-        $priceNode = $node->requiresAtLeastOneElement()
-            ->useAttributeAsKey('payment_schedule')
-            ->prototype('array');
-        assert($priceNode instanceof ArrayNodeDefinition);
-
-        $priceNode
-            ->arrayPrototype()
-            ->children()
-            ->scalarNode('amount')->end()
-            ->scalarNode('id')->end()
-            ->end()
-            ->end()
             ->end();
 
         return $node;
