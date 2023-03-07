@@ -115,8 +115,8 @@ parthenon:
       Basic:
         prices:
           yearly:
-            amount: 100
-            currency: usd
+            usd:
+              amount: 100
         user_count: 1
         features:
           - send_pdf
@@ -128,8 +128,8 @@ parthenon:
         user_count: 5
         prices:
           yearly:
-            amount: 100
-            currency: usd
+            usd:
+              amount: 100
         limit:
           team_invite:
             limit: 5
