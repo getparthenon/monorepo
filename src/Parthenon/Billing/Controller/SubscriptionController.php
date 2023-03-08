@@ -34,6 +34,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SubscriptionController
 {
@@ -51,6 +52,7 @@ class SubscriptionController
         SerializerInterface $serializer,
         ProviderInterface $provider,
         CustomerRepositoryInterface $customerRepository,
+        ValidatorInterface $validator,
     ) {
         $this->getLogger()->info('Starting the subscription');
 
@@ -64,6 +66,12 @@ class SubscriptionController
         try {
             /** @var StartSubscriptionDto $subscriptionDto */
             $subscriptionDto = $serializer->deserialize($request->getContent(), StartSubscriptionDto::class, 'json');
+
+            $errors = $validator->validate($subscriptionDto);
+
+            if (count($errors) > 0) {
+                return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
+            }
 
             $paymentDetails = $paymentDetailsRepository->getDefaultPaymentDetailsForCustomer($customer);
             $billingDetails = $billingDetailsFactory->createFromCustomerAndPaymentDetails($customer, $paymentDetails);
