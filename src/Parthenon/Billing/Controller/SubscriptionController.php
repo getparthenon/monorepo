@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Controller;
 
 use Obol\Exception\UnsupportedFunctionalityException;
-use Obol\Model\Subscription;
 use Obol\Provider\ProviderInterface;
 use Parthenon\Billing\CustomerProviderInterface;
 use Parthenon\Billing\Dto\StartSubscriptionDto;
@@ -61,7 +60,8 @@ class SubscriptionController
         try {
             $customer = $customerProvider->getCurrentCustomer();
         } catch (NoCustomerException $exception) {
-            $this->getLogger()->error("No customer found when starting subscription with payment details - probable misconfigured firewall.");
+            $this->getLogger()->error('No customer found when starting subscription with payment details - probable misconfigured firewall.');
+
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -99,12 +99,15 @@ class SubscriptionController
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         } catch (NoPlanPriceFoundException $exception) {
             $this->getLogger()->warning('No price plan found');
+
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         } catch (NoPlanFoundException $exception) {
             $this->getLogger()->warning('No plan found');
+
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         } catch (UnsupportedFunctionalityException $exception) {
             $this->getLogger()->error('Payment provider does not support payment details');
+
             return new JsonResponse(['success' => false], JsonResponse::HTTP_BAD_REQUEST);
         }
 

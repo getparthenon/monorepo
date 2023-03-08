@@ -63,17 +63,11 @@ class StartSubscriptionDto
         $this->schedule = $schedule;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->currency;
     }
 
-    /**
-     * @param string $currency
-     */
     public function setCurrency(string $currency): void
     {
         $this->currency = $currency;

@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Obol;
 
 use Obol\Model\BillingDetails;
-use Obol\Model\CardDetails;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\PaymentDetails;
 
