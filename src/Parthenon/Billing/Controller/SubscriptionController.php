@@ -24,6 +24,7 @@ use Parthenon\Billing\Exception\NoPlanFoundException;
 use Parthenon\Billing\Exception\NoPlanPriceFoundException;
 use Parthenon\Billing\Obol\BillingDetailsFactoryInterface;
 use Parthenon\Billing\Obol\PaymentFactoryInterface;
+use Parthenon\Billing\Obol\SubscriptionFactoryInterface;
 use Parthenon\Billing\Plan\PlanManagerInterface;
 use Parthenon\Billing\Repository\CustomerRepositoryInterface;
 use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
@@ -53,6 +54,7 @@ class SubscriptionController
         ProviderInterface $provider,
         CustomerRepositoryInterface $customerRepository,
         ValidatorInterface $validator,
+        SubscriptionFactoryInterface $subscriptionFactory,
     ) {
         $this->getLogger()->info('Starting the subscription');
 
@@ -79,13 +81,8 @@ class SubscriptionController
             $plan = $planManager->getPlanByName($subscriptionDto->getPlanName());
             $planPrice = $plan->getPriceForPaymentSchedule($subscriptionDto->getSchedule(), $subscriptionDto->getCurrency());
 
-            $obolSubscription = new Subscription();
-            $obolSubscription->setBillingDetails($billingDetails);
-            $obolSubscription->setSeats($subscriptionDto->getSeatNumbers());
-            $obolSubscription->setCostPerSeat($planPrice->getPriceAsMoney());
-            if ($planPrice->hasPriceId()) {
-                $obolSubscription->setPriceId($planPrice->getPriceId());
-            }
+            $obolSubscription = $subscriptionFactory->createSubscription($billingDetails, $planPrice, $subscriptionDto->getSeatNumbers());
+
             $subscriptionCreationResponse = $provider->payments()->startSubscription($obolSubscription);
             $payment = $paymentFactory->fromSubscriptionCreation($subscriptionCreationResponse);
             $paymentRepository->save($payment);

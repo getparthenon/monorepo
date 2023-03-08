@@ -100,5 +100,8 @@
         </service>
         <service id="Parthenon\Billing\Obol\PaymentFactoryInterface" alias="Parthenon\Billing\Obol\PaymentFactory" />
 
+        <service id="Parthenon\Billing\Obol\SubscriptionFactory" class="Parthenon\Billing\Obol\SubscriptionFactory" />
+        <service id="Parthenon\Billing\Obol\SubscriptionFactoryInterface" alias="Parthenon\Billing\Obol\SubscriptionFactory" />
+
     </services>
 </container>
