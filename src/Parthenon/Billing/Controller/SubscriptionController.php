@@ -56,7 +56,7 @@ class SubscriptionController
         CustomerRepositoryInterface $customerRepository,
         ValidatorInterface $validator,
         SubscriptionFactoryInterface $subscriptionFactory,
-    ) : Response {
+    ): Response {
         $this->getLogger()->info('Starting the subscription');
 
         try {

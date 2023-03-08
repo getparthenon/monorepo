@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Response;
 
 use Parthenon\Billing\Entity\Subscription;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class StartSubscriptionResponse
 {
@@ -25,49 +26,55 @@ class StartSubscriptionResponse
     public const CODE_PLAN_PRICE_NOT_FOUND = '320004';
     public const CODE_GENERAL_ERROR = '320005';
 
-    public static function createGeneralError() : array {
+    public static function createGeneralError(): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_GENERAL_ERROR,
         ];
     }
 
-    public static function createInvalidRequestResponse(array $errors) : array {
+    public static function createInvalidRequestResponse(ConstraintViolationListInterface $errors): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_REQUEST_INVALID,
         ];
     }
 
-    public static function createNoBillingDetails() : array {
+    public static function createNoBillingDetails(): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_NO_BILLING_DETAILS,
         ];
     }
 
-    public static function createUnsupportedPaymentProvider() : array {
+    public static function createUnsupportedPaymentProvider(): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_UNSUPPORTED_PAYMENT_PROVIDER,
         ];
     }
 
-    public static function createPlanNotFound() : array {
+    public static function createPlanNotFound(): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_PLAN_NOT_FOUND,
         ];
     }
 
-    public static function createPlanPriceNotFound(): array {
+    public static function createPlanPriceNotFound(): array
+    {
         return [
             'success' => false,
             'code' => static::CODE_PLAN_PRICE_NOT_FOUND,
         ];
     }
 
-    public static function createSuccessResponse(Subscription $subscription) : array
+    public static function createSuccessResponse(Subscription $subscription): array
     {
         return [
             'success' => true,
