@@ -120,7 +120,7 @@ parthenon:
               price_id: price_1LIrP2IfxpuZtqIzh46OvQ3J
           monthly:
             usd:
-              amount: 100
+              amount: 10
               price_id: price_1LIrP2IfxpuZtqIzT3zJRvXS
         user_count: 1
         features:

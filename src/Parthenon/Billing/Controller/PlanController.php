@@ -40,8 +40,9 @@ class PlanController
         try {
             $currentPlanOutput =
                 [
-                    'name' =>  $customerProvider->getCurrentCustomer()->getSubscription()->getPlanName(),
+                    'plan_name' =>  $customerProvider->getCurrentCustomer()->getSubscription()->getPlanName(),
                     'status' => $customerProvider->getCurrentCustomer()->getSubscription()->getStatus(),
+                    'payment_schedule' => $customerProvider->getCurrentCustomer()->getSubscription()->getPaymentSchedule(),
                 ];
 
         } catch (NoCustomerException $exception) {
@@ -58,7 +59,8 @@ class PlanController
             ];
         }
 
-        return new JsonResponse(['plans' => $output,
+        return new JsonResponse([
+            'plans' => $output,
             'current_plan' => $currentPlanOutput,
             ]);
     }
