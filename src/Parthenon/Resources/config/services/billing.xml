@@ -97,6 +97,7 @@
 
         <service id="Parthenon\Billing\Obol\PaymentFactory" class="Parthenon\Billing\Obol\PaymentFactory">
             <argument type="service" id="Parthenon\Billing\CustomerProviderInterface" />
+            <argument type="service" id="Obol\Provider\ProviderInterface" />
         </service>
         <service id="Parthenon\Billing\Obol\PaymentFactoryInterface" alias="Parthenon\Billing\Obol\PaymentFactory" />
 
