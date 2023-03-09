@@ -56,7 +56,7 @@ class PaymentSection extends AbstractSection
         $listView
             ->addField('customer.id', 'text')
             ->addField('provider', 'text')
-            ->addField('amount', 'text');
+            ->addField('moneyAmount', 'text');
 
         return $listView;
     }
