@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Repository;
 
+use Parthenon\Athena\Repository\CrudRepositoryInterface;
 use Parthenon\Common\Repository\RepositoryInterface;
 
-interface PaymentRepositoryInterface extends RepositoryInterface
+interface PaymentRepositoryInterface extends CrudRepositoryInterface
 {
 }

@@ -104,5 +104,9 @@
         <service id="Parthenon\Billing\Obol\SubscriptionFactory" class="Parthenon\Billing\Obol\SubscriptionFactory" />
         <service id="Parthenon\Billing\Obol\SubscriptionFactoryInterface" alias="Parthenon\Billing\Obol\SubscriptionFactory" />
 
+        <!-- Athena -->
+        <service id="Parthenon\Billing\Athena\PaymentSection" class="Parthenon\Billing\Athena\PaymentSection">
+            <argument type="service" id="Parthenon\Billing\Repository\PaymentRepositoryInterface" />
+        </service>
     </services>
 </container>
