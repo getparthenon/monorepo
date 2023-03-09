@@ -111,4 +111,9 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
 
         return $member->getEmail();
     }
+
+    public function getDisplayName(): string
+    {
+        return $this->getBillingEmail();
+    }
 }
