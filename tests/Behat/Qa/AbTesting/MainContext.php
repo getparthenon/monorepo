@@ -275,14 +275,6 @@ CREATE TABLE IF NOT EXISTS "pageloads" (
 	"utc_time" timestamp
 );
 select create_hypertable(\'pageloads\', \'utc_time\');
-CREATE TABLE IF NOT EXISTS "ab_sessions" (
-	"id" uuid,
-	"user_id" uuid DEFAULT NULL,
-	"user_agent" varchar(255),
-	"ip_address" varchar(255),
-	"created_at" timestamp
-);
-select create_hypertable(\'ab_sessions\', \'created_at\');
 CREATE TABLE IF NOT EXISTS "ab_experiment_log" (
 	"id" uuid,
 	"session_id" uuid,
@@ -298,7 +290,15 @@ CREATE TABLE IF NOT EXISTS "ab_result_log" (
 	"result_string_id" text,
 	"created_at" timestamp
 );
-select create_hypertable(\'ab_result_log\', \'created_at\');');
+select create_hypertable(\'ab_result_log\', \'created_at\');
+CREATE TABLE IF NOT EXISTS "ab_sessions" (
+	"id" uuid,
+	"user_id" uuid DEFAULT NULL,
+	"user_agent" varchar(255),
+	"ip_address" varchar(255),
+	"created_at" timestamp
+);
+select create_hypertable(\'ab_sessions\', \'created_at\');');
         } catch (\Throwable $e) {
             $this->connection->executeStatement('TRUNCATE orders');
             $this->connection->executeStatement('TRUNCATE order_items');

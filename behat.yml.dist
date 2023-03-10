@@ -18,6 +18,7 @@ default:
 
                 # Billing
                 - App\Tests\Behat\Qa\Billing\MainContext
+                - App\Tests\Behat\Qa\Billing\PaymentsContext
 
 
                 # User
