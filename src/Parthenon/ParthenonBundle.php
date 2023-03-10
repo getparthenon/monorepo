@@ -61,6 +61,10 @@ class ParthenonBundle extends Bundle
             realpath(__DIR__.'/Resources/config/doctrine-mapping/User') => 'Parthenon\User\Entity',
         ];
 
+        $userTeamMappings = [
+            realpath(__DIR__.'/Resources/config/doctrine-mapping/UserTeam') => 'Parthenon\User\Entity',
+        ];
+
         $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['DoctrineBundle'])) {
@@ -70,6 +74,7 @@ class ParthenonBundle extends Bundle
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($multiTenacyMappings, ['parthenon.multi_tenancy.orm'], enabledParameter: 'parthenon_multi_tenancy_enabled'));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($paymentMappings, ['parthenon.payments.orm'], enabledParameter: 'parthenon_payments_enabled'));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($userMappings, ['parthenon.user.orm'], enabledParameter: 'parthenon_user_enabled'));
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($userTeamMappings, ['parthenon.user.orm'], enabledParameter: 'parthenon_user_teams_enabled_flag'));
 
             Type::overrideType('datetime', UtcDateTimeType::class);
             Type::overrideType('datetimetz', UtcDateTimeType::class);
@@ -82,6 +87,7 @@ class ParthenonBundle extends Bundle
             $container->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($multiTenacyMappings, ['parthenon.multi_tenancy.mongodb'], enabledParameter: 'parthenon_multi_tenancy_enabled'));
             $container->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($paymentMappings, ['parthenon.payments.mongodb'], enabledParameter: 'parthenon_payments_enabled'));
             $container->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($userMappings, ['parthenon.user.mongodb'], enabledParameter: 'parthenon_user_enabled'));
+            $container->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($userTeamMappings, ['parthenon.user.mongodb'], enabledParameter: 'parthenon_user_teams_enabled_flag'));
         }
 
         $container->addCompilerPass(new AbTestingCompilerPass());
