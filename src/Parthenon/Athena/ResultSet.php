@@ -64,7 +64,7 @@ final class ResultSet
     {
         $results = $this->getResults();
         $lastItem = end($results);
-        if ($lastItem === false) {
+        if (false === $lastItem) {
             return null;
         }
 
