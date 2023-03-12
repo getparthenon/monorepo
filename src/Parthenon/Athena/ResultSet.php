@@ -64,6 +64,9 @@ final class ResultSet
     {
         $results = $this->getResults();
         $lastItem = end($results);
+        if ($lastItem === false) {
+            return null;
+        }
 
         return $this->getFieldData($lastItem, $this->sortKey);
     }
