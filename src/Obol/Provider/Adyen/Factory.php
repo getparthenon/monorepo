@@ -28,7 +28,7 @@ class Factory
 
         $provider = new Provider(
             new PaymentService($config),
-            new HostedCheckoutService($config),
+            new HostedCheckoutServiceInterface($config),
         );
 
         return $provider;

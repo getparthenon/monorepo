@@ -18,7 +18,7 @@ use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
 use Stripe\StripeClient;
 
-class HostedCheckoutService implements \Obol\HostedCheckoutService
+class HostedCheckoutServiceInterface implements \Obol\HostedCheckoutServiceInterface
 {
     protected StripeClient $stripe;
 

@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Adyen;
 
-use Obol\HostedCheckoutService;
+use Obol\CustomerServiceInterface;
+use Obol\Exception\UnsupportedFunctionalityException;
+use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
 
@@ -22,7 +24,7 @@ class Provider implements ProviderInterface
 {
     public const NAME = 'adyen';
 
-    public function __construct(private PaymentServiceInterface $paymentService, private HostedCheckoutService $hostedCheckoutService)
+    public function __construct(private PaymentServiceInterface $paymentService, private HostedCheckoutServiceInterface $hostedCheckoutService)
     {
     }
 
@@ -31,7 +33,7 @@ class Provider implements ProviderInterface
         return $this->paymentService;
     }
 
-    public function hostedCheckouts(): HostedCheckoutService
+    public function hostedCheckouts(): HostedCheckoutServiceInterface
     {
         return $this->hostedCheckoutService;
     }
@@ -39,5 +41,10 @@ class Provider implements ProviderInterface
     public function getName(): string
     {
         return static::NAME;
+    }
+
+    public function customers(): CustomerServiceInterface
+    {
+        throw new UnsupportedFunctionalityException();
     }
 }

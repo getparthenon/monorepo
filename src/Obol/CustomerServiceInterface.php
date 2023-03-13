@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Obol;
 
-use Obol\Model\CheckoutCreation;
-use Obol\Model\Subscription;
+use Obol\Model\Customer;
+use Obol\Model\CustomerCreation;
 
-interface HostedCheckoutService
+interface CustomerServiceInterface
 {
-    public function createCheckoutForSubscription(Subscription $subscription): CheckoutCreation;
+    public function create(Customer $customer): CustomerCreation;
 }

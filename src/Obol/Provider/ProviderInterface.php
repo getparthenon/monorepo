@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace Obol\Provider;
 
+use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
-use Obol\HostedCheckoutService;
+use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 
 interface ProviderInterface
@@ -28,7 +29,9 @@ interface ProviderInterface
     /**
      * @throws UnsupportedFunctionalityException
      */
-    public function hostedCheckouts(): HostedCheckoutService;
+    public function hostedCheckouts(): HostedCheckoutServiceInterface;
+
+    public function customers(): CustomerServiceInterface;
 
     public function getName(): string;
 }

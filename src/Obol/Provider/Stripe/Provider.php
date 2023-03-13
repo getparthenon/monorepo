@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
-use Obol\HostedCheckoutService;
+use Obol\CustomerServiceInterface;
+use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
 
@@ -24,7 +25,8 @@ class Provider implements ProviderInterface
 
     public function __construct(
         private PaymentServiceInterface $paymentService,
-        private HostedCheckoutService $hostedCheckoutService,
+        private HostedCheckoutServiceInterface $hostedCheckoutService,
+        private CustomerServiceInterface $customerService,
     ) {
     }
 
@@ -33,7 +35,7 @@ class Provider implements ProviderInterface
         return $this->paymentService;
     }
 
-    public function hostedCheckouts(): HostedCheckoutService
+    public function hostedCheckouts(): HostedCheckoutServiceInterface
     {
         return $this->hostedCheckoutService;
     }
@@ -41,5 +43,10 @@ class Provider implements ProviderInterface
     public function getName(): string
     {
         return static::NAME;
+    }
+
+    public function customers(): CustomerServiceInterface
+    {
+        return $this->customerService;
     }
 }

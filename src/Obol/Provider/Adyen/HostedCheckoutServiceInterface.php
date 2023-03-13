@@ -24,7 +24,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
-class HostedCheckoutService implements \Obol\HostedCheckoutService
+class HostedCheckoutServiceInterface implements \Obol\HostedCheckoutServiceInterface
 {
     use CustomerReferenceTrait;
 

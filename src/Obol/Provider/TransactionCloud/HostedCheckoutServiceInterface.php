@@ -17,7 +17,7 @@ namespace Obol\Provider\TransactionCloud;
 use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
 
-class HostedCheckoutService implements \Obol\HostedCheckoutService
+class HostedCheckoutServiceInterface implements \Obol\HostedCheckoutServiceInterface
 {
     protected Config $config;
 
