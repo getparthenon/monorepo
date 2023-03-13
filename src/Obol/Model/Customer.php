@@ -18,7 +18,7 @@ class Customer
 {
     protected string $name = '';
 
-    protected string $description = '';
+    protected ?string $description = '';
 
     protected string $email = '';
 
@@ -34,12 +34,12 @@ class Customer
         $this->name = $name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }

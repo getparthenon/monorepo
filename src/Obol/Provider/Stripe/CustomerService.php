@@ -45,6 +45,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
                     'postal_code' => $customer->getAddress()->getPostalCode(),
                     'state' => $customer->getAddress()->getState(),
                 ],
+                'description' => $customer->getDescription(),
                 'email' => $customer->getEmail(),
                 'name' => $customer->getName(),
             ]
