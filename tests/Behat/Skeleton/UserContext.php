@@ -451,6 +451,19 @@ class UserContext implements Context
     }
 
     /**
+     * @When I click back
+     */
+    public function iClickBack()
+    {
+        try {
+            $this->session->getPage()->clickLink('crud_list_back');
+        } catch (\Throwable $e) {
+            echo $this->session->getPage()->getContent();
+            throw $e;
+        }
+    }
+
+    /**
      * @Then I should see :arg1 items
      */
     public function iShouldSeeItems($arg1)
@@ -469,6 +482,7 @@ class UserContext implements Context
     {
         if (!$this->session->getPage()->hasContent($arg1)) {
             echo $this->session->getPage()->getContent();
+            echo $this->session->getCurrentUrl();
             throw new \Exception("Can't see ".$arg1);
         }
     }

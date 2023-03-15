@@ -98,6 +98,29 @@ Feature: User sign up
     Then I should see "User 19"
     But I should not see "admin@example.org"
 
+
+  Scenario: Order by Email
+    Given an admin user "admin@example.org" with the password "RealPassword" exist
+    And I have logged in as "admin@example.org" with the password "RealPassword"
+    When I view the user list page with the following settings:
+      | limit    | 10 |
+      | sort_key | email |
+    And I click next
+    When I click back
+    Then I should see "admin@example.org"
+    And I should see "User 10"
+
+  Scenario: Order by Email ASC click next then back
+    Given an admin user "admin@example.org" with the password "RealPassword" exist
+    And I have logged in as "admin@example.org" with the password "RealPassword"
+    And I view the user list page with the following settings:
+      | limit    | 10 |
+      | sort_key | email |
+      | sort_type | ASC |
+    And I click next
+    When I click back
+    Then I should not see "User 19"
+
   Scenario: Order by Email ASC click next
     Given an admin user "admin@example.org" with the password "RealPassword" exist
     And I have logged in as "admin@example.org" with the password "RealPassword"
