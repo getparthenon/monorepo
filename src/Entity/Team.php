@@ -122,7 +122,7 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
         return $this->getName();
     }
 
-    public function setPaymentProviderDetailsUrl(?string $paymentProviderDetailsUrl): void
+    public function setPaymentProviderDetailsUrl(?string $paymentProviderDetailsUrl
     {
         $this->paymentProviderDetailsUrl = $paymentProviderDetailsUrl;
     }
@@ -130,5 +130,10 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     public function getPaymentProviderDetailsUrl()
     {
         return $this->paymentProviderDetailsUrl;
+    }
+
+    public function hasExternalCustomerReference(): bool
+    {
+        return isset($this->externalCustomerReference);
     }
 }

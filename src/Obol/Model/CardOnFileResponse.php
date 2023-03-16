@@ -18,6 +18,8 @@ class CardOnFileResponse
 {
     protected CardFile $cardFile;
 
+    protected ?CustomerCreation $customerCreation = null;
+
     public function getCardFile(): CardFile
     {
         return $this->cardFile;
@@ -26,5 +28,20 @@ class CardOnFileResponse
     public function setCardFile(CardFile $cardFile): void
     {
         $this->cardFile = $cardFile;
+    }
+
+    public function getCustomerCreation(): ?CustomerCreation
+    {
+        return $this->customerCreation;
+    }
+
+    public function setCustomerCreation(?CustomerCreation $customerCreation): void
+    {
+        $this->customerCreation = $customerCreation;
+    }
+
+    public function hasCustomerCreation(): bool
+    {
+        return isset($this->customerCreation);
     }
 }

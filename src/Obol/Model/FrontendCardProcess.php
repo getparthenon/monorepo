@@ -21,6 +21,8 @@ class FrontendCardProcess
 
     protected string $customerReference;
 
+    protected ?CustomerCreation $customerCreation;
+
     public function getToken(): string
     {
         return $this->token;
@@ -39,5 +41,20 @@ class FrontendCardProcess
     public function setCustomerReference(string $customerReference): void
     {
         $this->customerReference = $customerReference;
+    }
+
+    public function getCustomerCreation(): ?CustomerCreation
+    {
+        return $this->customerCreation;
+    }
+
+    public function setCustomerCreation(?CustomerCreation $customerCreation): void
+    {
+        $this->customerCreation = $customerCreation;
+    }
+
+    public function hasCustomerCreation(): bool
+    {
+        return isset($this->customerCreation);
     }
 }

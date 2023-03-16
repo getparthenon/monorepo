@@ -16,18 +16,18 @@ namespace Obol\Model;
 
 class CustomerCreation
 {
-    protected string $id;
+    protected string $reference;
 
     protected ?string $detailsUrl;
 
-    public function getId(): string
+    public function getReference(): string
     {
-        return $this->id;
+        return $this->reference;
     }
 
-    public function setId(string $id): void
+    public function setReference(string $reference): void
     {
-        $this->id = $id;
+        $this->reference = $reference;
     }
 
     public function getDetailsUrl(): ?string

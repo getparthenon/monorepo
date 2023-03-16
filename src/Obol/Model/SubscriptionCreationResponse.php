@@ -20,6 +20,8 @@ class SubscriptionCreationResponse
 
     protected PaymentDetails $paymentDetails;
 
+    protected ?CustomerCreation $customerCreation = null;
+
     public function getPaymentDetails(): PaymentDetails
     {
         return $this->paymentDetails;
@@ -42,5 +44,20 @@ class SubscriptionCreationResponse
         $this->subscriptionId = $subscriptionId;
 
         return $this;
+    }
+
+    public function getCustomerCreation(): ?CustomerCreation
+    {
+        return $this->customerCreation;
+    }
+
+    public function setCustomerCreation(?CustomerCreation $customerCreation): void
+    {
+        $this->customerCreation = $customerCreation;
+    }
+
+    public function hasCustomerCreation(): bool
+    {
+        return isset($this->customerCreation);
     }
 }

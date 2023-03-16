@@ -16,6 +16,7 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
+use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
 class CustomerService implements \Obol\CustomerServiceInterface
@@ -27,7 +28,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
     /**
      * @param StripeClient $stripe
      */
-    public function __construct(Config $config, ?StripeClient $stripe = null)
+    public function __construct(private ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
         $this->config = $config;
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -58,7 +59,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
         }
 
         $customerCreation = new CustomerCreation();
-        $customerCreation->setId($customerData->id);
+        $customerCreation->setReference($customerData->id);
         $customerCreation->setDetailsUrl($url);
 
         return $customerCreation;

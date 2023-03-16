@@ -16,9 +16,10 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
+use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
-class HostedCheckoutServiceInterface implements \Obol\HostedCheckoutServiceInterface
+class HostedCheckoutService implements \Obol\HostedCheckoutServiceInterface
 {
     protected StripeClient $stripe;
 
@@ -27,7 +28,7 @@ class HostedCheckoutServiceInterface implements \Obol\HostedCheckoutServiceInter
     /**
      * @param StripeClient $stripe
      */
-    public function __construct(Config $config, ?StripeClient $stripe = null)
+    public function __construct(private ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
         $this->config = $config;
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());

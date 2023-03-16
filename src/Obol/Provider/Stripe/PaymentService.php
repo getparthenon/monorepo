@@ -19,11 +19,14 @@ use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
+use Obol\Model\Customer;
+use Obol\Model\CustomerCreation;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
+use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
 class PaymentService implements PaymentServiceInterface
@@ -32,11 +35,14 @@ class PaymentService implements PaymentServiceInterface
 
     protected Config $config;
 
+    protected ProviderInterface $provider;
+
     /**
      * @param StripeClient $stripe
      */
-    public function __construct(Config $config, ?StripeClient $stripe = null)
+    public function __construct(ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
+        $this->provider = $provider;
         $this->config = $config;
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
     }
@@ -46,13 +52,14 @@ class PaymentService implements PaymentServiceInterface
         if (!$subscription->hasPriceId()) {
             throw new \Exception('Subscription must has price id for stripe');
         }
-
+        $customerCreation = null;
         if (!$subscription->getBillingDetails()->hasCustomerReference()) {
-            $this->setCustomerReference($subscription->getBillingDetails());
+            $customerCreation = $this->setCustomerReference($subscription->getBillingDetails());
         }
 
         if (!$subscription->getBillingDetails()->hasStoredPaymentReference()) {
-            $this->createCardOnFile($subscription->getBillingDetails());
+            $cardOnFileResponse = $this->createCardOnFile($subscription->getBillingDetails());
+            $customerCreation = $cardOnFileResponse->getCustomerCreation();
         }
 
         $stripeSubscription = $this->stripe->subscriptions->create(
@@ -76,6 +83,7 @@ class PaymentService implements PaymentServiceInterface
         $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
 
         $subscriptionCreation = new SubscriptionCreationResponse();
+        $subscriptionCreation->setCustomerCreation($customerCreation);
         $subscriptionCreation->setSubscriptionId($stripeSubscription->id)
             ->setPaymentDetails($paymentDetails);
 
@@ -89,8 +97,9 @@ class PaymentService implements PaymentServiceInterface
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse
     {
+        $customerCreation = null;
         if (!$billingDetails->hasCustomerReference()) {
-            $this->setCustomerReference($billingDetails);
+            $customerCreation = $this->setCustomerReference($billingDetails);
         }
         if ($this->config->isPciMode()) {
             $payload = [
@@ -128,6 +137,7 @@ class PaymentService implements PaymentServiceInterface
 
         $cardOnFile = new CardOnFileResponse();
         $cardOnFile->setCardFile($cardFile);
+        $cardOnFile->setCustomerCreation($customerCreation);
 
         return $cardOnFile;
     }
@@ -164,35 +174,31 @@ class PaymentService implements PaymentServiceInterface
 
     public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess
     {
+        $customerCreation = null;
         if (!$billingDetails->hasCustomerReference()) {
-            $this->setCustomerReference($billingDetails);
+            $customerCreation = $this->setCustomerReference($billingDetails);
         }
         $intentData = $this->stripe->setupIntents->create(['payment_method_types' => $this->config->getPaymentMethods(), 'customer' => $billingDetails->getCustomerReference()]);
 
         $process = new FrontendCardProcess();
         $process->setToken($intentData->client_secret);
         $process->setCustomerReference($billingDetails->getCustomerReference());
+        $process->setCustomerCreation($customerCreation);
 
         return $process;
     }
 
-    private function setCustomerReference(BillingDetails $billingDetails): void
+    private function setCustomerReference(BillingDetails $billingDetails): CustomerCreation
     {
-        $customerData = $this->stripe->customers->create(
-            [
-                'address' => [
-                    'city' => $billingDetails->getAddress()->getCity(),
-                    'country' => $billingDetails->getAddress()->getCountryCode(),
-                    'line1' => $billingDetails->getAddress()->getStreetLineOne(),
-                    'line2' => $billingDetails->getAddress()->getStreetLineTwo(),
-                    'postal_code' => $billingDetails->getAddress()->getPostalCode(),
-                    'state' => $billingDetails->getAddress()->getState(),
-                ],
-                'email' => $billingDetails->getEmail(),
-                'name' => $billingDetails->getName(),
-            ]
-        );
+        $customer = new Customer();
+        $customer->setEmail($billingDetails->getEmail());
+        $customer->setName($billingDetails->getName());
+        $customer->setAddress($billingDetails->getAddress());
+
+        $customerCreation = $this->provider->customers()->create($customer);
 
         $billingDetails->setCustomerReference($customerData->id);
+
+        return $customerCreation;
     }
 }

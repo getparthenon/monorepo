@@ -32,11 +32,7 @@ class Factory
             ['api_key' => $config->getApiKey()],
         );
 
-        $provider = new Provider(
-            new PaymentService($config, $stripe),
-            new HostedCheckoutServiceInterface($config, $stripe),
-            new CustomerService($config, $stripe),
-        );
+        $provider = new Provider($config, $stripe);
 
         return $provider;
     }
