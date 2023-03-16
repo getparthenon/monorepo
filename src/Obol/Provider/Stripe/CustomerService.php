@@ -51,8 +51,15 @@ class CustomerService implements \Obol\CustomerServiceInterface
             ]
         );
 
+        if (true === $customerData->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/customers/%s', $customerData->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/customers/%s', $customerData->id);
+        }
+
         $customerCreation = new CustomerCreation();
         $customerCreation->setId($customerData->id);
+        $customerCreation->setDetailsUrl($url);
 
         return $customerCreation;
     }

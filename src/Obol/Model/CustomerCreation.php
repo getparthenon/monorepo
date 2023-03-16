@@ -18,6 +18,8 @@ class CustomerCreation
 {
     protected string $id;
 
+    protected ?string $detailsUrl;
+
     public function getId(): string
     {
         return $this->id;
@@ -26,5 +28,15 @@ class CustomerCreation
     public function setId(string $id): void
     {
         $this->id = $id;
+    }
+
+    public function getDetailsUrl(): ?string
+    {
+        return $this->detailsUrl;
+    }
+
+    public function setDetailsUrl(?string $detailsUrl): void
+    {
+        $this->detailsUrl = $detailsUrl;
     }
 }

@@ -46,6 +46,11 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     protected ?string $externalCustomerReference;
 
     /**
+     * @ORM\Column(name="payment_provider_details_url", nullable=true)
+     */
+    protected ?string $paymentProviderDetailsUrl;
+
+    /**
      * @ORM\Embedded(class="Parthenon\Billing\Entity\Subscription")
      */
     private ?Subscription $subscription;
@@ -115,5 +120,15 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     public function getDisplayName(): string
     {
         return $this->getName();
+    }
+
+    public function setPaymentProviderDetailsUrl(?string $paymentProviderDetailsUrl): void
+    {
+        $this->paymentProviderDetailsUrl = $paymentProviderDetailsUrl;
+    }
+
+    public function getPaymentProviderDetailsUrl()
+    {
+        return $this->paymentProviderDetailsUrl;
     }
 }
