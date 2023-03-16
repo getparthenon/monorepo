@@ -122,9 +122,9 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
         return $this->getName();
     }
 
-    public function setPaymentProviderDetailsUrl(?string $paymentProviderDetailsUrl
+    public function setPaymentProviderDetailsUrl(?string $url)
     {
-        $this->paymentProviderDetailsUrl = $paymentProviderDetailsUrl;
+        $this->paymentProviderDetailsUrl = $url;
     }
 
     public function getPaymentProviderDetailsUrl()
