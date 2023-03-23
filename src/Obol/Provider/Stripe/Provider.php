@@ -17,6 +17,7 @@ namespace Obol\Provider\Stripe;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
+use Obol\PriceServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
@@ -24,6 +25,7 @@ class Provider implements ProviderInterface
 {
     public const NAME = 'stripe';
     private PaymentServiceInterface $paymentService;
+    private PriceServiceInterface $priceService;
     private HostedCheckoutServiceInterface $hostedCheckoutService;
     private CustomerServiceInterface $customerService;
     private StripeClient $stripeClient;
@@ -35,12 +37,14 @@ class Provider implements ProviderInterface
         ?PaymentServiceInterface $paymentService = null,
         ?HostedCheckoutServiceInterface $hostedCheckoutService = null,
         ?CustomerServiceInterface $customerService = null,
+        ?PriceServiceInterface $priceService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
         $this->paymentService = $paymentService ?? new PaymentService($this, $config, $this->stripeClient);
         $this->hostedCheckoutService = $hostedCheckoutService ?? new \Obol\Provider\Stripe\HostedCheckoutService($this, $config, $this->stripeClient);
         $this->customerService = $customerService ?? new CustomerService($this, $config, $this->stripeClient);
+        $this->priceService = $priceService ?? new PriceService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -61,5 +65,10 @@ class Provider implements ProviderInterface
     public function customers(): CustomerServiceInterface
     {
         return $this->customerService;
+    }
+
+    public function prices(): PriceServiceInterface
+    {
+        return $this->priceService;
     }
 }
