@@ -86,7 +86,7 @@ class PriceSection extends AbstractSection
     {
         $entityForm->section('Main')
                 ->field('amount')
-                ->field('currency')
+                ->field('currency', 'choice', ['choices' => ['Euro' => 'EUR', 'British Pounds' => 'GBP', 'US Dollars' => 'USD', 'AU Dollars' => 'AUD']])
                 ->field('recurring', 'checkbox', ['required' => false])
                 ->field('schedule', 'choice', ['choices' => ['Yearly' => 'year', 'Monthly' => 'month', 'Weekly' => 'week']])
                 ->field('includingTax', 'checkbox', ['required' => false])
