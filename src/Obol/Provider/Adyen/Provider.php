@@ -19,6 +19,7 @@ use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
+use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 
 class Provider implements ProviderInterface
@@ -52,5 +53,10 @@ class Provider implements ProviderInterface
     public function prices(): PriceServiceInterface
     {
         return new PriceService();
+    }
+
+    public function products(): ProductServiceInterface
+    {
+        // TODO: Implement products() method.
     }
 }

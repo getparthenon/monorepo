@@ -19,6 +19,7 @@ use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
+use Obol\ProductServiceInterface;
 
 interface ProviderInterface
 {
@@ -41,6 +42,11 @@ interface ProviderInterface
      * @throws UnsupportedFunctionalityException
      */
     public function prices(): PriceServiceInterface;
+
+    /**
+     * @throws UnsupportedFunctionalityException
+     */
+    public function products(): ProductServiceInterface;
 
     public function getName(): string;
 }
