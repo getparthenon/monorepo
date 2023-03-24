@@ -21,12 +21,14 @@ use Parthenon\Athena\Repository\CrudRepositoryInterface;
 use Parthenon\Billing\Entity\Price;
 use Parthenon\Billing\Obol\PriceRegisterInterface;
 use Parthenon\Billing\Repository\PriceRepositoryInterface;
+use Parthenon\Billing\Repository\ProductRepositoryInterface;
 
 class PriceSection extends AbstractSection
 {
     public function __construct(
         private PriceRepositoryInterface $priceRepository,
         private PriceRegisterInterface $priceRegister,
+        private ProductRepositoryInterface $productRepository,
     ) {
     }
 
@@ -76,12 +78,15 @@ class PriceSection extends AbstractSection
 
     public function buildEntityForm(EntityForm $entityForm): EntityForm
     {
+        $products = $this->productRepository->getAll();
+
         $entityForm->section('Main')
                 ->field('amount')
                 ->field('currency', 'choice', ['choices' => ['Euro' => 'EUR', 'British Pounds' => 'GBP', 'US Dollars' => 'USD', 'AU Dollars' => 'AUD']])
                 ->field('recurring', 'checkbox', ['required' => false])
                 ->field('schedule', 'choice', ['choices' => ['Yearly' => 'year', 'Monthly' => 'month', 'Weekly' => 'week']])
                 ->field('includingTax', 'checkbox', ['required' => false])
+                ->field('product', 'choice', ['choices' => $products, 'choice_label' => 'name', 'choice_value' => 'id'])
             ->end();
 
         return $entityForm;

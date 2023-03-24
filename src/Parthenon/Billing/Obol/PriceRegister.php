@@ -33,7 +33,7 @@ class PriceRegister implements PriceRegisterInterface
             $createPrice->setIncludingTax($price->isIncludingTax());
             $createPrice->setPaymentSchedule($price->getSchedule());
             $createPrice->setRecurring($price->isRecurring());
-            $createPrice->setProductReference('prod_K41oMALa5jMGjp');
+            $createPrice->setProductReference($price->getProduct()->getExternalReference());
             $creation = $this->provider->prices()->createPrice($createPrice);
 
             $price->setExternalReference($creation->getReference());
