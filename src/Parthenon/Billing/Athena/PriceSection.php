@@ -14,20 +14,19 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Athena;
 
-use Obol\Model\CreatePrice;
-use Obol\Provider\ProviderInterface;
 use Parthenon\Athena\AbstractSection;
 use Parthenon\Athena\EntityForm;
 use Parthenon\Athena\ListView;
 use Parthenon\Athena\Repository\CrudRepositoryInterface;
 use Parthenon\Billing\Entity\Price;
+use Parthenon\Billing\Obol\PriceRegisterInterface;
 use Parthenon\Billing\Repository\PriceRepositoryInterface;
 
 class PriceSection extends AbstractSection
 {
     public function __construct(
         private PriceRepositoryInterface $priceRepository,
-        private ProviderInterface $provider,
+        private PriceRegisterInterface $priceRegister,
     ) {
     }
 
@@ -62,14 +61,7 @@ class PriceSection extends AbstractSection
     public function preSave($entity): void
     {
         if (!$entity->hasExternalReference()) {
-            $createPrice = new CreatePrice();
-            $createPrice->setMoney($entity->getAsMoney());
-            $createPrice->setIncludingTax($entity->isIncludingTax());
-            $createPrice->setPaymentSchedule($entity->getSchedule());
-            $createPrice->setRecurring($entity->isRecurring());
-            $createPrice->setProductReference('prod_K41oMALa5jMGjp');
-            $creation = $this->provider->prices()->createPrice($createPrice);
-            $entity->setExternalReference($creation->getReference());
+            $this->priceRegister->registerPrice($entity);
         }
     }
 
