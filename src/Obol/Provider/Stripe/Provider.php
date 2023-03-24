@@ -18,6 +18,7 @@ use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
+use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
@@ -28,6 +29,7 @@ class Provider implements ProviderInterface
     private PriceServiceInterface $priceService;
     private HostedCheckoutServiceInterface $hostedCheckoutService;
     private CustomerServiceInterface $customerService;
+    private ProductServiceInterface $productService;
     private StripeClient $stripeClient;
     private Config $config;
 
@@ -38,6 +40,7 @@ class Provider implements ProviderInterface
         ?HostedCheckoutServiceInterface $hostedCheckoutService = null,
         ?CustomerServiceInterface $customerService = null,
         ?PriceServiceInterface $priceService = null,
+        ?ProductServiceInterface $productService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -45,6 +48,7 @@ class Provider implements ProviderInterface
         $this->hostedCheckoutService = $hostedCheckoutService ?? new \Obol\Provider\Stripe\HostedCheckoutService($this, $config, $this->stripeClient);
         $this->customerService = $customerService ?? new CustomerService($this, $config, $this->stripeClient);
         $this->priceService = $priceService ?? new PriceService($this, $config, $this->stripeClient);
+        $this->productService = $productService ?? new ProductService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -70,5 +74,10 @@ class Provider implements ProviderInterface
     public function prices(): PriceServiceInterface
     {
         return $this->priceService;
+    }
+
+    public function products(): ProductServiceInterface
+    {
+        return $this->productService;
     }
 }
