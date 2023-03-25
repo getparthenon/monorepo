@@ -5,6 +5,7 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-redis": "*",
         "brick/money": "^0.6",
         "chadhutchins/oauth2-slack": "^1.2.2",
         "doctrine/annotations": "^1.0",
