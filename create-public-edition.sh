@@ -55,6 +55,7 @@ cp src/Parthenon/DependencyInjection/Modules/Common.php ../public-edition/src/De
 cp -R src/Parthenon/Resources/config/doctrine-mapping/Common ../public-edition/src/Resources/config/doctrine-mapping/
 cp -R src/Parthenon/Resources/config/services/common/pdf ../public-edition/src/Resources/config/services/common/pdf
 cp -R src/Parthenon/Resources/config/services/common.xml ../public-edition/src/Resources/config/services/common.xml
+cp -R src/Parthenon/Resources/config/services/monolog_v2.xml ../public-edition/src/Resources/config/services/monolog_v2.xml
 cp -R tests/Parthenon/Common ../public-edition/tests/Parthenon/
 
 echo "[x] Update Cloud"
