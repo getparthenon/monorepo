@@ -14,10 +14,14 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
 
 interface CustomerServiceInterface
 {
+    /**
+     * @throws ProviderFailureException
+     */
     public function create(Customer $customer): CustomerCreation;
 }

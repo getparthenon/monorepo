@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
 use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
@@ -62,19 +63,22 @@ class PaymentService implements PaymentServiceInterface
             $customerCreation = $cardOnFileResponse->getCustomerCreation();
         }
 
-        $stripeSubscription = $this->stripe->subscriptions->create(
-            [
+        try {
+            $stripeSubscription = $this->stripe->subscriptions->create(
+                [
+                    'customer' => $subscription->getBillingDetails()->getCustomerReference(),
+                    'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
+                ]
+            );
+            $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
-                'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
-            ]
-        );
-
-        $charges = $this->stripe->charges->all([
-            'customer' => $subscription->getBillingDetails()->getCustomerReference(),
-            'limit' => 1,
-        ]);
-        /** @var \Stripe\Charge $charge */
-        $charge = $charges->first();
+                'limit' => 1,
+            ]);
+            /** @var \Stripe\Charge $charge */
+            $charge = $charges->first();
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setAmount($subscription->getTotalCost());
@@ -92,7 +96,11 @@ class PaymentService implements PaymentServiceInterface
 
     public function stopSubscription(Subscription $subscription): void
     {
-        $this->stripe->subscriptions->cancel($subscription->getId());
+        try {
+            $this->stripe->subscriptions->cancel($subscription->getId());
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
     }
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse
@@ -118,13 +126,22 @@ class PaymentService implements PaymentServiceInterface
                     'address_country' => $billingDetails->getAddress()->getCountryCode(),
                 ],
             ];
-            $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
+            try {
+                $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
+            } catch (\Throwable $exception) {
+                throw new ProviderFailureException(previous: $exception);
+            }
         } else {
             if (!$billingDetails->getCardDetails()->hasToken()) {
                 throw new \Exception('No token');
             }
             $payload = ['source' => $billingDetails->getCardDetails()->getToken()];
-            $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
+
+            try {
+                $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
+            } catch (\Throwable $exception) {
+                throw new ProviderFailureException(previous: $exception);
+            }
         }
 
         $cardFile = new CardFile();
@@ -144,21 +161,29 @@ class PaymentService implements PaymentServiceInterface
 
     public function deleteCardFile(BillingDetails $cardFile): void
     {
-        $this->stripe->paymentMethods->detach($cardFile->getStoredPaymentReference());
+        try {
+            $this->stripe->paymentMethods->detach($cardFile->getStoredPaymentReference());
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
     }
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse
     {
         // TODO add sanity check
-        $chargeData = $this->stripe->charges->create(
-            [
-                'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
-                'amount' => $cardFile->getAmount()->getMinorAmount()->toInt(),
-                'currency' => $cardFile->getAmount()->getCurrency()->getCurrencyCode(),
-                'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
-                'description' => $cardFile->getName(),
-            ]
-        );
+        try {
+            $chargeData = $this->stripe->charges->create(
+                [
+                    'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
+                    'amount' => $cardFile->getAmount()->getMinorAmount()->toInt(),
+                    'currency' => $cardFile->getAmount()->getCurrency()->getCurrencyCode(),
+                    'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
+                    'description' => $cardFile->getName(),
+                ]
+            );
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setAmount($cardFile->getAmount());
@@ -178,7 +203,11 @@ class PaymentService implements PaymentServiceInterface
         if (!$billingDetails->hasCustomerReference()) {
             $customerCreation = $this->setCustomerReference($billingDetails);
         }
-        $intentData = $this->stripe->setupIntents->create(['payment_method_types' => $this->config->getPaymentMethods(), 'customer' => $billingDetails->getCustomerReference()]);
+        try {
+            $intentData = $this->stripe->setupIntents->create(['payment_method_types' => $this->config->getPaymentMethods(), 'customer' => $billingDetails->getCustomerReference()]);
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $process = new FrontendCardProcess();
         $process->setToken($intentData->client_secret);
@@ -195,7 +224,11 @@ class PaymentService implements PaymentServiceInterface
         $customer->setName($billingDetails->getName());
         $customer->setAddress($billingDetails->getAddress());
 
-        $customerCreation = $this->provider->customers()->create($customer);
+        try {
+            $customerCreation = $this->provider->customers()->create($customer);
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $billingDetails->setCustomerReference($customerData->id);
 

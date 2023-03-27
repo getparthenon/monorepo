@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
@@ -24,15 +25,33 @@ use Obol\Model\SubscriptionCreationResponse;
 
 interface PaymentServiceInterface
 {
+    /**
+     * @throws ProviderFailureException
+     */
     public function startSubscription(Subscription $subscription): SubscriptionCreationResponse;
 
+    /**
+     * @throws ProviderFailureException
+     */
     public function stopSubscription(Subscription $subscription): void;
 
+    /**
+     * @throws ProviderFailureException
+     */
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse;
 
+    /**
+     * @throws ProviderFailureException
+     */
     public function deleteCardFile(BillingDetails $cardFile): void;
 
+    /**
+     * @throws ProviderFailureException
+     */
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse;
 
+    /**
+     * @throws ProviderFailureException
+     */
     public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess;
 }

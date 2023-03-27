@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
 use Obol\Provider\ProviderInterface;
@@ -36,18 +37,22 @@ class HostedCheckoutService implements \Obol\HostedCheckoutServiceInterface
 
     public function createCheckoutForSubscription(Subscription $subscription): CheckoutCreation
     {
-        $checkoutData = $this->stripe->checkout->sessions->create([
-            'mode' => 'subscription',
-            'success_url' => $this->config->getSuccessUrl(),
-            'cancel_url' => $this->config->getCancelUrl(),
-            'line_items' => [
-                [
-                    'price' => $subscription->getPriceId(),
-                    'quantity' => $subscription->getSeats(),
+        try {
+            $checkoutData = $this->stripe->checkout->sessions->create([
+                'mode' => 'subscription',
+                'success_url' => $this->config->getSuccessUrl(),
+                'cancel_url' => $this->config->getCancelUrl(),
+                'line_items' => [
+                    [
+                        'price' => $subscription->getPriceId(),
+                        'quantity' => $subscription->getSeats(),
+                    ],
                 ],
-            ],
-            'payment_method_types' => $this->config->getPaymentMethods(),
-        ]);
+                'payment_method_types' => $this->config->getPaymentMethods(),
+            ]);
+        } catch (\Throwable $e) {
+            throw new ProviderFailureException(previous: $e);
+        }
 
         $checkoutCreation = new CheckoutCreation();
         $checkoutCreation->setCheckoutUrl($checkoutData->url);

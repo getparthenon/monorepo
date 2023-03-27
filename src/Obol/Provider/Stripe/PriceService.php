@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\CreatePrice;
 use Obol\Model\PriceCreation;
 use Obol\PriceServiceInterface;
@@ -51,7 +52,11 @@ class PriceService implements PriceServiceInterface
             $payload['recurring'] = ['interval' => $createPrice->getPaymentSchedule()];
         }
 
-        $result = $this->stripe->prices->create($payload);
+        try {
+            $result = $this->stripe->prices->create($payload);
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $priceCreation = new PriceCreation();
         $priceCreation->setReference($result->id);

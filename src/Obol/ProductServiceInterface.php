@@ -14,10 +14,14 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\Product;
 use Obol\Model\ProductCreation;
 
 interface ProductServiceInterface
 {
+    /**
+     * @throws ProviderFailureException
+     */
     public function createProduct(Product $product): ProductCreation;
 }

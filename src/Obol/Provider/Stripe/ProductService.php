@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\Product;
 use Obol\Model\ProductCreation;
 use Obol\ProductServiceInterface;
@@ -40,7 +41,11 @@ class ProductService implements ProductServiceInterface
 
     public function createProduct(Product $product): ProductCreation
     {
-        $productResponse = $this->stripe->products->create(['name' => $product->getName()]);
+        try {
+            $productResponse = $this->stripe->products->create(['name' => $product->getName()]);
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
 
         $productCreation = new ProductCreation();
         $productCreation->setReference($productResponse->id);

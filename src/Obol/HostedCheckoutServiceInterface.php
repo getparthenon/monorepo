@@ -14,10 +14,14 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
 
 interface HostedCheckoutServiceInterface
 {
+    /**
+     * @throws ProviderFailureException
+     */
     public function createCheckoutForSubscription(Subscription $subscription): CheckoutCreation;
 }

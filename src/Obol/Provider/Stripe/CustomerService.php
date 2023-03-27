@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Exception\ProviderFailureException;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
 use Obol\Provider\ProviderInterface;
@@ -36,21 +37,25 @@ class CustomerService implements \Obol\CustomerServiceInterface
 
     public function create(Customer $customer): CustomerCreation
     {
-        $customerData = $this->stripe->customers->create(
-            [
-                'address' => [
-                    'city' => $customer->getAddress()->getCity(),
-                    'country' => $customer->getAddress()->getCountryCode(),
-                    'line1' => $customer->getAddress()->getStreetLineOne(),
-                    'line2' => $customer->getAddress()->getStreetLineTwo(),
-                    'postal_code' => $customer->getAddress()->getPostalCode(),
-                    'state' => $customer->getAddress()->getState(),
-                ],
-                'description' => $customer->getDescription(),
-                'email' => $customer->getEmail(),
-                'name' => $customer->getName(),
-            ]
-        );
+        try {
+            $customerData = $this->stripe->customers->create(
+                [
+                    'address' => [
+                        'city' => $customer->getAddress()->getCity(),
+                        'country' => $customer->getAddress()->getCountryCode(),
+                        'line1' => $customer->getAddress()->getStreetLineOne(),
+                        'line2' => $customer->getAddress()->getStreetLineTwo(),
+                        'postal_code' => $customer->getAddress()->getPostalCode(),
+                        'state' => $customer->getAddress()->getState(),
+                    ],
+                    'description' => $customer->getDescription(),
+                    'email' => $customer->getEmail(),
+                    'name' => $customer->getName(),
+                ]
+            );
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $e);
+        }
 
         if (true === $customerData->livemode) {
             $url = sprintf('https://dashboard.stripe.com/customers/%s', $customerData->id);
