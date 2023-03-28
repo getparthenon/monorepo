@@ -16,6 +16,7 @@ namespace Obol\Model;
 
 class ProductCreation
 {
+    protected ?string $detailsUrl = null;
     private ?string $reference = null;
 
     public function getReference(): ?string
@@ -26,5 +27,15 @@ class ProductCreation
     public function setReference(?string $reference): void
     {
         $this->reference = $reference;
+    }
+
+    public function getDetailsUrl(): ?string
+    {
+        return $this->detailsUrl;
+    }
+
+    public function setDetailsUrl(?string $detailsUrl): void
+    {
+        $this->detailsUrl = $detailsUrl;
     }
 }
