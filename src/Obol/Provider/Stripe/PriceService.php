@@ -57,9 +57,15 @@ class PriceService implements PriceServiceInterface
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }
+        if (true === $result->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/prices/%s', $result->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/prices/%s', $result->id);
+        }
 
         $priceCreation = new PriceCreation();
         $priceCreation->setReference($result->id);
+        $priceCreation->setDetailsUrl($url);
 
         return $priceCreation;
     }

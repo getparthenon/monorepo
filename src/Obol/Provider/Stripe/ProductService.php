@@ -46,9 +46,15 @@ class ProductService implements ProductServiceInterface
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }
+        if (true === $productResponse->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/products/%s', $productResponse->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/products/%s', $productResponse->id);
+        }
 
         $productCreation = new ProductCreation();
         $productCreation->setReference($productResponse->id);
+        $productCreation->setDetailsUrl($url);
 
         return $productCreation;
     }
