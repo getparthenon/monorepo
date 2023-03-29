@@ -97,7 +97,7 @@ parthenon:
     enabled: true
   billing:
     enabled: true
-    plan_management: config
+    plan_management: athena
     payments:
       provider: stripe
       stripe:
