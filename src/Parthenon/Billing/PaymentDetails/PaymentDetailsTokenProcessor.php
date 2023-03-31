@@ -24,7 +24,7 @@ use Parthenon\Billing\Obol\CustomerConverterInterface;
 use Parthenon\Billing\Repository\CustomerRepositoryInterface;
 use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
 
-class AddCardByTokenDriver implements AddCardByTokenDriverInterface
+class PaymentDetailsTokenProcessor implements PaymentDetailsTokenProcessorInterface
 {
     public function __construct(
         private ProviderInterface $provider,
