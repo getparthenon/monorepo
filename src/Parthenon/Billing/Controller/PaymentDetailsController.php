@@ -137,7 +137,7 @@ class PaymentDetailsController
     }
 
     #[Route('/billing/payment-details/{id}/default', name: 'parthenon_billing_paymentdetails_defaultcard', methods: ['POST'])]
-    public function defaultCard(Request $request, CustomerProviderInterface $customerProvider, DefaultPaymentManagerInterface $defaultPaymentManager)
+    public function defaultCard(Request $request, CustomerProviderInterface $customerProvider, PaymentDetailsRepositoryInterface $paymentDetailsRepository, DefaultPaymentManagerInterface $defaultPaymentManager)
     {
         $customer = $customerProvider->getCurrentCustomer();
         try {
