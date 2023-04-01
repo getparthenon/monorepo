@@ -17,7 +17,7 @@ namespace Parthenon\Billing\PaymentDetails;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\PaymentDetails;
 
-interface PaymentDetailsTokenProcessorInterface
+interface FrontendAddProcessorInterface
 {
     public function startTokenProcess(CustomerInterface $customer): string;
 
