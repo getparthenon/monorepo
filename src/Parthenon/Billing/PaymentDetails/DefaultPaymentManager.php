@@ -26,8 +26,9 @@ class DefaultPaymentManager implements DefaultPaymentManagerInterface
 
     public function makePaymentDetailsDefault(CustomerInterface $customer, PaymentDetails $paymentDetails): void
     {
-        $paymentDetails->setDefaultPaymentOption(true);
         $this->paymentDetailsRepository->markAllCustomerDetailsAsNotDefault($customer);
+        $paymentDetails = $this->paymentDetailsRepository->findById($paymentDetails->getId());
+        $paymentDetails->setDefaultPaymentOption(true);
         $this->paymentDetailsRepository->save($paymentDetails);
     }
 }
