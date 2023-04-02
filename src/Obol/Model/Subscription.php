@@ -30,6 +30,10 @@ class Subscription
 
     protected string $priceId;
 
+    protected ?bool $hasTrial;
+
+    protected ?int $trialLengthDays;
+
     public function getBillingDetails(): BillingDetails
     {
         return $this->billingDetails;
@@ -110,5 +114,25 @@ class Subscription
         $this->id = $id;
 
         return $this;
+    }
+
+    public function hasTrial(): ?bool
+    {
+        return $this->hasTrial;
+    }
+
+    public function setHasTrial(?bool $hasTrial): void
+    {
+        $this->hasTrial = $hasTrial;
+    }
+
+    public function getTrialLengthDays(): ?int
+    {
+        return $this->trialLengthDays;
+    }
+
+    public function setTrialLengthDays(?int $trialLengthDays): void
+    {
+        $this->trialLengthDays = $trialLengthDays;
     }
 }

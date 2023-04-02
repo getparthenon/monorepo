@@ -64,11 +64,17 @@ class PaymentService implements PaymentServiceInterface
         }
 
         try {
+            $payload = [
+                'customer' => $subscription->getBillingDetails()->getCustomerReference(),
+                'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
+            ];
+
+            if ($subscription->hasTrial()) {
+                $payload['trial_period_days'] = $subscription->getTrialLengthDays();
+            }
+
             $stripeSubscription = $this->stripe->subscriptions->create(
-                [
-                    'customer' => $subscription->getBillingDetails()->getCustomerReference(),
-                    'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
-                ]
+                $payload
             );
             $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
