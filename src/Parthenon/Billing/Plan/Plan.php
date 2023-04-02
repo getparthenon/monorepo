@@ -32,7 +32,7 @@ final class Plan
         private bool $isPerSeat,
         private int $userCount,
         private bool $public = false,
-        private ?null $hasTrial = false,
+        private ?bool $hasTrial = false,
         private ?int $trialLengthDays = 0,
     ) {
     }
