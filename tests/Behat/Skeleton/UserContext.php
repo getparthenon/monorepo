@@ -28,7 +28,7 @@ use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Parthenon\Athena\Entity\Link;
 use Parthenon\Athena\Entity\Notification;
-use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class UserContext implements Context
@@ -791,7 +791,7 @@ class UserContext implements Context
             $team->addMember($user);
         }
         $team->setCreatedAt(new \DateTime('now'));
-        $team->setSubscription(new Subscription());
+        $team->setSubscription(new EmbeddedSubscription());
         $team->getSubscription()->setPlanName($plan);
         $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
         $team->getSubscription()->setActive(true);

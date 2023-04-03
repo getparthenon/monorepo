@@ -17,7 +17,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\Common\Address;
 use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\UserInterface;
@@ -51,16 +51,16 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     protected ?string $paymentProviderDetailsUrl;
 
     /**
-     * @ORM\Embedded(class="Parthenon\Billing\Entity\Subscription")
+     * @ORM\Embedded(class="EmbeddedSubscription")
      */
-    private ?Subscription $subscription;
+    private ?EmbeddedSubscription $subscription;
 
-    public function setSubscription(Subscription $subscription)
+    public function setSubscription(EmbeddedSubscription $subscription)
     {
         $this->subscription = $subscription;
     }
 
-    public function getSubscription(): Subscription
+    public function getSubscription(): EmbeddedSubscription
     {
         return $this->subscription;
     }

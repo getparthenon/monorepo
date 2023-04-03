@@ -51,7 +51,7 @@ class PaymentService implements PaymentServiceInterface
     public function startSubscription(Subscription $subscription): SubscriptionCreationResponse
     {
         if (!$subscription->hasPriceId()) {
-            throw new \Exception('Subscription must has price id for stripe');
+            throw new \Exception('EmbeddedSubscription must has price id for stripe');
         }
         $customerCreation = null;
         if (!$subscription->getBillingDetails()->hasCustomerReference()) {

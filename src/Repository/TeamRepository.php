@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
-use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\User\Entity\UserInterface;
 
 class TeamRepository extends \Parthenon\User\Repository\TeamRepository implements TeamRepositoryInterface
@@ -23,7 +23,7 @@ class TeamRepository extends \Parthenon\User\Repository\TeamRepository implement
     /**
      * @param User $user
      */
-    public function getSubscriptionForUser(UserInterface $user): Subscription
+    public function getSubscriptionForUser(UserInterface $user): EmbeddedSubscription
     {
         return $user->getTeam()->getSubscription();
     }

@@ -17,7 +17,7 @@ namespace Parthenon\Billing\Entity;
 use Brick\Money\Currency;
 use Brick\Money\Money;
 
-class Subscription
+class EmbeddedSubscription
 {
     public const STATUS_UNKNOWN = 'unknown';
     public const STATUS_PENDING = 'pending';
