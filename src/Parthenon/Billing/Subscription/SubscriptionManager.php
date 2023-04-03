@@ -86,7 +86,6 @@ final class SubscriptionManager implements SubscriptionManagerInterface
         $subscription->setCreatedAt(new \DateTime());
         $subscription->setUpdatedAt(new \DateTime());
         $subscription->setCustomer($customer);
-        $subscription->setMainSubscription($main);
 
         if ($plan->hasEntityId()) {
             $subscriptionPlan = $this->subscriptionPlanRepository->findById($plan->getEntityId());
