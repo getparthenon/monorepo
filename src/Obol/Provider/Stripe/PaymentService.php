@@ -77,12 +77,16 @@ class PaymentService implements PaymentServiceInterface
                 $stripeSubscription = $this->stripe->subscriptions->create(
                     $payload
                 );
+                $subscriptionId = $stripeSubscription->id;
+                $lineId = $stripeSubscription->items->first()->id;
             } else {
                 $stripeSubscription = $this->stripe->subscriptionItems->create([
                     'subscription' => $subscription->getParentReference(),
                     'price' => $subscription->getPriceId(),
                     'quantity' => $subscription->getSeats(),
                 ]);
+                $subscriptionId = $subscription->getParentReference();
+                $lineId = $stripeSubscription->id;
             }
             $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
@@ -102,8 +106,9 @@ class PaymentService implements PaymentServiceInterface
 
         $subscriptionCreation = new SubscriptionCreationResponse();
         $subscriptionCreation->setCustomerCreation($customerCreation);
-        $subscriptionCreation->setSubscriptionId($stripeSubscription->id)
-            ->setPaymentDetails($paymentDetails);
+        $subscriptionCreation->setSubscriptionId($subscriptionId)
+            ->setPaymentDetails($paymentDetails)
+            ->setLineId($lineId);
 
         return $subscriptionCreation;
     }

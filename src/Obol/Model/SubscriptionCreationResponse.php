@@ -18,6 +18,8 @@ class SubscriptionCreationResponse
 {
     protected string $subscriptionId;
 
+    protected string $lineId;
+
     protected PaymentDetails $paymentDetails;
 
     protected ?CustomerCreation $customerCreation = null;
@@ -42,6 +44,18 @@ class SubscriptionCreationResponse
     public function setSubscriptionId(string $subscriptionId): static
     {
         $this->subscriptionId = $subscriptionId;
+
+        return $this;
+    }
+
+    public function getLineId(): string
+    {
+        return $this->lineId;
+    }
+
+    public function setLineId(string $lineId): static
+    {
+        $this->lineId = $lineId;
 
         return $this;
     }
