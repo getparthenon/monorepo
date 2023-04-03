@@ -17,7 +17,7 @@ namespace Parthenon\Billing\Plan;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Repository\SubscriptionRepositoryInterface;
 
-class CustomersPlanInfo implements CustomersPlanInfoInterface
+class CustomerPlanInfo implements CustomerPlanInfoInterface
 {
     public function __construct(
         private SubscriptionRepositoryInterface $subscriptionRepository,

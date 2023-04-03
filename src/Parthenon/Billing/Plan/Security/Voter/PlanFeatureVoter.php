@@ -16,7 +16,7 @@ namespace Parthenon\Billing\Plan\Security\Voter;
 
 use Parthenon\Billing\CustomerProviderInterface;
 use Parthenon\Billing\Plan\CounterManager;
-use Parthenon\Billing\Plan\CustomersPlanInfo;
+use Parthenon\Billing\Plan\CustomerPlanInfo;
 use Parthenon\Billing\Plan\LimitedUserInterface;
 use Parthenon\Common\LoggerAwareTrait;
 use Parthenon\User\Entity\UserInterface;
@@ -32,7 +32,7 @@ final class PlanFeatureVoter extends Voter
     public function __construct(
         private CounterManager $counterManager,
         private CustomerProviderInterface $customerProvider,
-        private CustomersPlanInfo $planInfo,
+        private CustomerPlanInfo $planInfo,
     ) {
     }
 

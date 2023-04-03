@@ -16,7 +16,7 @@ namespace Parthenon\Billing\Plan;
 
 use Parthenon\Billing\Entity\CustomerInterface;
 
-interface CustomersPlanInfoInterface
+interface CustomerPlanInfoInterface
 {
     public function getLimitCount(CustomerInterface $customer, string $limitCode): int;
 }
