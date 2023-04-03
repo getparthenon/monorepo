@@ -84,7 +84,8 @@ class PaymentService implements PaymentServiceInterface
 
             $subscriptionCreationResponse = new SubscriptionCreationResponse();
             $subscriptionCreationResponse->setPaymentDetails($paymentDetails)
-                ->setSubscriptionId($jsonData['pspReference']);
+                ->setSubscriptionId($jsonData['pspReference'])
+            ->setLineId($jsonData['pspReference']);
 
             return $subscriptionCreationResponse;
         }

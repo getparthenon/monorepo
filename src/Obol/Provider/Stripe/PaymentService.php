@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Brick\Money\Currency;
+use Brick\Money\Money;
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
 use Obol\Model\CardFile;
@@ -87,6 +89,9 @@ class PaymentService implements PaymentServiceInterface
                 ]);
                 $subscriptionId = $subscription->getParentReference();
                 $lineId = $stripeSubscription->id;
+                $this->stripe->subscriptions->update($subscriptionId,
+                    ['billing_cycle_anchor' => 'now', 'proration_behavior' => 'create_prorations']
+                );
             }
             $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
@@ -99,7 +104,7 @@ class PaymentService implements PaymentServiceInterface
         }
 
         $paymentDetails = new PaymentDetails();
-        $paymentDetails->setAmount($subscription->getTotalCost());
+        $paymentDetails->setAmount(Money::of($charge->amount, Currency::of(strtoupper($charge->currency))));
         $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
         $paymentDetails->setPaymentReference($charge->id);
         $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
