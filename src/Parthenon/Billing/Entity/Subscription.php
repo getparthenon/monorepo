@@ -27,8 +27,6 @@ class Subscription
 
     private string $paymentSchedule;
 
-    private bool $mainSubscription = true;
-
     private ?int $seats = 1;
 
     private bool $active;
