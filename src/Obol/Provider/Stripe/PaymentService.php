@@ -73,9 +73,17 @@ class PaymentService implements PaymentServiceInterface
                 $payload['trial_period_days'] = $subscription->getTrialLengthDays();
             }
 
-            $stripeSubscription = $this->stripe->subscriptions->create(
-                $payload
-            );
+            if (!$subscription->getParentReference()) {
+                $stripeSubscription = $this->stripe->subscriptions->create(
+                    $payload
+                );
+            } else {
+                $stripeSubscription = $this->stripe->subscriptionItems->create([
+                    'subscription' => $subscription->getParentReference(),
+                    'price' => $subscription->getPriceId(),
+                    'quantity' => $subscription->getSeats(),
+                ]);
+            }
             $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
                 'limit' => 1,

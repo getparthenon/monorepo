@@ -34,6 +34,8 @@ class Subscription
 
     protected ?int $trialLengthDays = null;
 
+    protected ?string $parentReference = null;
+
     public function getBillingDetails(): BillingDetails
     {
         return $this->billingDetails;
@@ -134,5 +136,15 @@ class Subscription
     public function setTrialLengthDays(?int $trialLengthDays): void
     {
         $this->trialLengthDays = $trialLengthDays;
+    }
+
+    public function getParentReference(): ?string
+    {
+        return $this->parentReference;
+    }
+
+    public function setParentReference(?string $parentReference): void
+    {
+        $this->parentReference = $parentReference;
     }
 }
