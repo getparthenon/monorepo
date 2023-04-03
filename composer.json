@@ -38,6 +38,7 @@
         "symfony/flex": "^1.19",
         "symfony/form": "^6.1",
         "symfony/framework-bundle": "^6.1",
+        "symfony/intl": "6.*",
         "symfony/mailer": "6.*",
         "symfony/monolog-bundle": "^3.8",
         "symfony/property-access": "6.*",

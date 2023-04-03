@@ -30,9 +30,9 @@ class Subscription
 
     protected string $priceId;
 
-    protected ?bool $hasTrial;
+    protected ?bool $hasTrial = null;
 
-    protected ?int $trialLengthDays;
+    protected ?int $trialLengthDays = null;
 
     public function getBillingDetails(): BillingDetails
     {
