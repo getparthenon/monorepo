@@ -51,7 +51,7 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     protected ?string $paymentProviderDetailsUrl;
 
     /**
-     * @ORM\Embedded(class="EmbeddedSubscription")
+     * @ORM\Embedded(class="Parthenon\Billing\Entity\EmbeddedSubscription")
      */
     private ?EmbeddedSubscription $subscription;
 
