@@ -81,6 +81,8 @@ class PaymentService implements PaymentServiceInterface
                 );
                 $subscriptionId = $stripeSubscription->id;
                 $lineId = $stripeSubscription->items->first()->id;
+                $billedUntil = new \DateTime();
+                $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             } else {
                 $stripeSubscription = $this->stripe->subscriptionItems->create([
                     'subscription' => $subscription->getParentReference(),
@@ -89,9 +91,12 @@ class PaymentService implements PaymentServiceInterface
                 ]);
                 $subscriptionId = $subscription->getParentReference();
                 $lineId = $stripeSubscription->id;
-                $this->stripe->subscriptions->update($subscriptionId,
+
+                $stripeSubscription = $this->stripe->subscriptions->update($subscriptionId,
                     ['billing_cycle_anchor' => 'now', 'proration_behavior' => 'create_prorations']
                 );
+                $billedUntil = new \DateTime();
+                $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
             $charges = $this->stripe->charges->all([
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
@@ -113,7 +118,8 @@ class PaymentService implements PaymentServiceInterface
         $subscriptionCreation->setCustomerCreation($customerCreation);
         $subscriptionCreation->setSubscriptionId($subscriptionId)
             ->setPaymentDetails($paymentDetails)
-            ->setLineId($lineId);
+            ->setLineId($lineId)
+            ->setBilledUntil($billedUntil);
 
         return $subscriptionCreation;
     }

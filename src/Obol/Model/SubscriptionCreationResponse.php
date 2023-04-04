@@ -20,6 +20,8 @@ class SubscriptionCreationResponse
 
     protected string $lineId;
 
+    protected \DateTimeInterface $billedUntil;
+
     protected PaymentDetails $paymentDetails;
 
     protected ?CustomerCreation $customerCreation = null;
@@ -65,13 +67,27 @@ class SubscriptionCreationResponse
         return $this->customerCreation;
     }
 
-    public function setCustomerCreation(?CustomerCreation $customerCreation): void
+    public function setCustomerCreation(?CustomerCreation $customerCreation): static
     {
         $this->customerCreation = $customerCreation;
+
+        return $this;
     }
 
     public function hasCustomerCreation(): bool
     {
         return isset($this->customerCreation);
+    }
+
+    public function getBilledUntil(): \DateTimeInterface
+    {
+        return $this->billedUntil;
+    }
+
+    public function setBilledUntil(\DateTimeInterface $billedUntil): static
+    {
+        $this->billedUntil = $billedUntil;
+
+        return $this;
     }
 }
