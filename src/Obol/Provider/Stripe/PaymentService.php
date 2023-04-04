@@ -108,6 +108,12 @@ class PaymentService implements PaymentServiceInterface
             throw new ProviderFailureException(previous: $exception);
         }
 
+        if (true === $stripeSubscription->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/subscriptions/%s', $stripeSubscription->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/subscriptions/%s', $stripeSubscription->id);
+        }
+
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setAmount(Money::of($charge->amount, Currency::of(strtoupper($charge->currency))));
         $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
@@ -119,7 +125,8 @@ class PaymentService implements PaymentServiceInterface
         $subscriptionCreation->setSubscriptionId($subscriptionId)
             ->setPaymentDetails($paymentDetails)
             ->setLineId($lineId)
-            ->setBilledUntil($billedUntil);
+            ->setBilledUntil($billedUntil)
+            ->setDetailsUrl($url);
 
         return $subscriptionCreation;
     }

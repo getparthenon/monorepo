@@ -16,6 +16,7 @@ namespace Obol\Model;
 
 class SubscriptionCreationResponse
 {
+    protected ?string $detailsUrl = null;
     protected string $subscriptionId;
 
     protected string $lineId;
@@ -89,5 +90,15 @@ class SubscriptionCreationResponse
         $this->billedUntil = $billedUntil;
 
         return $this;
+    }
+
+    public function getDetailsUrl(): ?string
+    {
+        return $this->detailsUrl;
+    }
+
+    public function setDetailsUrl(?string $detailsUrl): void
+    {
+        $this->detailsUrl = $detailsUrl;
     }
 }
