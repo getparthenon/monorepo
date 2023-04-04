@@ -36,6 +36,8 @@ class Subscription
 
     protected ?string $parentReference = null;
 
+    protected ?string $storedPaymentReference = null;
+
     public function getBillingDetails(): BillingDetails
     {
         return $this->billingDetails;
@@ -146,5 +148,20 @@ class Subscription
     public function setParentReference(?string $parentReference): void
     {
         $this->parentReference = $parentReference;
+    }
+
+    public function hasStoredPaymentReference(): bool
+    {
+        return isset($this->storedPaymentReference);
+    }
+
+    public function getStoredPaymentReference(): ?string
+    {
+        return $this->storedPaymentReference;
+    }
+
+    public function setStoredPaymentReference(?string $storedPaymentReference): void
+    {
+        $this->storedPaymentReference = $storedPaymentReference;
     }
 }

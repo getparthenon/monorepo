@@ -75,6 +75,10 @@ class PaymentService implements PaymentServiceInterface
                 $payload['trial_period_days'] = $subscription->getTrialLengthDays();
             }
 
+            if ($subscription->hasStoredPaymentReference()) {
+                $payload['default_payment_method'] = $subscription->getStoredPaymentReference();
+            }
+
             if (!$subscription->getParentReference()) {
                 $stripeSubscription = $this->stripe->subscriptions->create(
                     $payload
@@ -91,10 +95,12 @@ class PaymentService implements PaymentServiceInterface
                 ]);
                 $subscriptionId = $subscription->getParentReference();
                 $lineId = $stripeSubscription->id;
+                $payload = ['billing_cycle_anchor' => 'now', 'proration_behavior' => 'create_prorations'];
+                if ($subscription->hasStoredPaymentReference()) {
+                    $payload['default_source'] = $subscription->getStoredPaymentReference();
+                }
 
-                $stripeSubscription = $this->stripe->subscriptions->update($subscriptionId,
-                    ['billing_cycle_anchor' => 'now', 'proration_behavior' => 'create_prorations']
-                );
+                $stripeSubscription = $this->stripe->subscriptions->update($subscriptionId, $payload);
                 $billedUntil = new \DateTime();
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
