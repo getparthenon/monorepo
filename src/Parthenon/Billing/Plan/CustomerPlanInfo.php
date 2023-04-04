@@ -32,7 +32,7 @@ class CustomerPlanInfo implements CustomerPlanInfoInterface
         foreach ($active as $subscription) {
             $plan = $this->planManager->getPlanByName($subscription->getPlanName());
 
-            foreach ($plan->getFeatures() as $code => $limit) {
+            foreach ($plan->getFeatures() as $code) {
                 if ($featureCode === $code) {
                     return true;
                 }

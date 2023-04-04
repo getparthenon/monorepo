@@ -51,10 +51,6 @@ final class PlanVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!is_string($subject)) {
-            return false;
-        }
-
         if (!$subject instanceof LimitableInterface) {
             return true;
         }
@@ -69,7 +65,7 @@ final class PlanVoter extends Voter
 
         $subscriber = $this->customerProvider->getCurrentCustomer();
 
-        $limit = $this->customersPlanInfo->getLimitCount($subscriber, $subject);
+        $limit = $this->customersPlanInfo->getLimitCount($subscriber, $subject->getLimitableName());
 
         if (-1 === $limit) {
             return true;

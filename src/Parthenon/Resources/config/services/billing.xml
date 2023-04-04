@@ -167,7 +167,7 @@
             <argument type="service" id="Parthenon\Billing\Repository\SubscriptionRepositoryInterface" />
             <argument type="service" id="Parthenon\Billing\Plan\PlanManager" />
         </service>
-        <service id="Parthenon\Billing\Plan\CustomerPlanInfoInterface" class="Parthenon\Billing\Plan\CustomerPlanInfo" />
+        <service id="Parthenon\Billing\Plan\CustomerPlanInfoInterface" alias="Parthenon\Billing\Plan\CustomerPlanInfo" />
 
     </services>
 </container>
