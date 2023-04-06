@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Entity;
 
-interface BillingAdminInterface
+use Parthenon\Athena\Entity\CrudEntityInterface;
+
+interface BillingAdminInterface extends CrudEntityInterface
 {
 }

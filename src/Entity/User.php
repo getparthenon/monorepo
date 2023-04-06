@@ -56,4 +56,9 @@ class User extends \Parthenon\User\Entity\User implements MemberInterface, Limit
     {
         return $this->team->getSubscription()->getPlanName();
     }
+
+    public function getDisplayName(): string
+    {
+        return $this->email;
+    }
 }

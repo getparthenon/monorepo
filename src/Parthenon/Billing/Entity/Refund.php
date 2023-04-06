@@ -32,6 +32,8 @@ class Refund
 
     private ?string $reason = null;
 
+    private \DateTimeInterface $createdAt;
+
     /**
      * @return mixed
      */
@@ -116,5 +118,15 @@ class Refund
     public function setReason(?string $reason): void
     {
         $this->reason = $reason;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }
