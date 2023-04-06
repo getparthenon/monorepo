@@ -20,6 +20,8 @@ class Subscription
 {
     protected string $id;
 
+    protected ?string $lineId = null;
+
     protected BillingDetails $billingDetails;
 
     protected Money $costPerSeat;
@@ -163,5 +165,20 @@ class Subscription
     public function setStoredPaymentReference(?string $storedPaymentReference): void
     {
         $this->storedPaymentReference = $storedPaymentReference;
+    }
+
+    public function getLineId(): ?string
+    {
+        return $this->lineId;
+    }
+
+    public function setLineId(?string $lineId): void
+    {
+        $this->lineId = $lineId;
+    }
+
+    public function hasLineId(): bool
+    {
+        return isset($this->lineId);
     }
 }

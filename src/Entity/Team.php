@@ -16,6 +16,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Parthenon\Athena\Entity\CrudEntityInterface;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\Common\Address;
@@ -26,7 +27,7 @@ use Parthenon\User\Entity\UserInterface;
  * @ORM\Entity()
  * @ORM\Table(name="teams")
  */
-class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
+class Team extends \Parthenon\User\Entity\Team implements CustomerInterface, CrudEntityInterface
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="team")
