@@ -18,15 +18,19 @@ use Brick\Money\Currency;
 use Brick\Money\Money;
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
+use Obol\Model\CancelSubscription;
 use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
+use Obol\Model\Enum\RefundType;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
+use Obol\Model\Refund;
 use Obol\Model\Subscription;
+use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
@@ -137,10 +141,36 @@ class PaymentService implements PaymentServiceInterface
         return $subscriptionCreation;
     }
 
-    public function stopSubscription(Subscription $subscription): void
+    public function stopSubscription(CancelSubscription $cancelSubscription): SubscriptionCancellation
     {
         try {
-            $this->stripe->subscriptions->cancel($subscription->getId());
+            $payload = [];
+            if ($cancelSubscription->isInstantCancel()) {
+                $payload['invoice_now'] = true;
+
+                if (RefundType::PRORATE === $cancelSubscription->getRefundType()) {
+                    $payload['prorate'] = true;
+                }
+            }
+
+            $stripeSubscription = $this->stripe->subscriptions->cancel($cancelSubscription->getSubscription()->getId(), $payload);
+            $cancellation = new SubscriptionCancellation();
+            $cancellation->setSubscription($cancelSubscription->getSubscription());
+
+            if (RefundType::FULL === $cancelSubscription->getRefundType() &&
+                isset($stripeSubscription->latest_invoiced) &&
+                isset($stripeSubscription->latest_invoice->charge)) {
+                $stripeRefund = $this->stripe->refunds->create(['charge' => $stripeSubscription->latest_invoice->charge->id]);
+
+                $refund = new Refund();
+                $refund->setId($stripeRefund->id);
+                $refund->setAmount($stripeRefund->amount);
+                $refund->setCurrency($stripeRefund->currency);
+
+                $cancellation->setRefund($refund);
+            }
+
+            return $cancellation;
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }

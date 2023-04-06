@@ -16,11 +16,13 @@ namespace Obol;
 
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
+use Obol\Model\CancelSubscription;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\Subscription;
+use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 
 interface PaymentServiceInterface
@@ -33,7 +35,7 @@ interface PaymentServiceInterface
     /**
      * @throws ProviderFailureException
      */
-    public function stopSubscription(Subscription $subscription): void;
+    public function stopSubscription(CancelSubscription $cancelSubscription): SubscriptionCancellation;
 
     /**
      * @throws ProviderFailureException

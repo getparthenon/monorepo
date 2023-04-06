@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Copyright Iain Cambridge 2020-2023.
+ *
+ * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
+ *
+ * Change Date: TBD ( 3 years after 2.2.0 release )
+ *
+ * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
+ */
+
+namespace Obol\Model;
+
+use Obol\Model\Enum\RefundType;
+
+class CancelSubscription
+{
+    private Subscription $subscription;
+
+    private bool $instantCancel = false;
+
+    private RefundType $refundType = RefundType::NONE;
+
+    private ?string $comment = null;
+
+    public function getSubscription(): Subscription
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(Subscription $subscription): void
+    {
+        $this->subscription = $subscription;
+    }
+
+    public function isInstantCancel(): bool
+    {
+        return $this->instantCancel;
+    }
+
+    public function setInstantCancel(bool $instantCancel): void
+    {
+        $this->instantCancel = $instantCancel;
+    }
+
+    public function getRefundType(): RefundType
+    {
+        return $this->refundType;
+    }
+
+    public function setRefundType(RefundType $refundType): void
+    {
+        $this->refundType = $refundType;
+    }
+}

@@ -19,11 +19,13 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\Model\BillingDetails;
+use Obol\Model\CancelSubscription;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\Subscription;
+use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\Adyen\DataMapper\PaymentDetailsMapper;
@@ -101,9 +103,14 @@ class PaymentService implements PaymentServiceInterface
         throw new \Exception('Unable to make request');
     }
 
-    public function stopSubscription(Subscription $subscription): void
+    public function stopSubscription(CancelSubscription $cancelSubscription): SubscriptionCancellation
     {
-        $this->deleteCardFile($subscription->getBillingDetails());
+        $this->deleteCardFile($cancelSubscription->getSubscription()->getBillingDetails());
+
+        $subscriptionCancellation = new SubscriptionCancellation();
+        $subscriptionCancellation->setSubscription($cancelSubscription->getSubscription());
+
+        return $subscriptionCancellation;
     }
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse
