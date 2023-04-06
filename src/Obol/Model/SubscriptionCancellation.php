@@ -39,4 +39,9 @@ class SubscriptionCancellation
     {
         $this->refund = $refund;
     }
+
+    public function hasRefund()
+    {
+        return isset($this->refund);
+    }
 }

@@ -18,6 +18,8 @@ class Refund
 {
     private string $id;
 
+    private string $paymentId;
+
     private int $amount;
 
     private string $currency;
@@ -50,5 +52,15 @@ class Refund
     public function setCurrency(string $currency): void
     {
         $this->currency = $currency;
+    }
+
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
+    }
+
+    public function setPaymentId(string $paymentId): void
+    {
+        $this->paymentId = $paymentId;
     }
 }
