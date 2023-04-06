@@ -55,4 +55,14 @@ class CancelSubscription
     {
         $this->refundType = $refundType;
     }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
 }
