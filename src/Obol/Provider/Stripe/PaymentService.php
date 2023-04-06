@@ -151,43 +151,14 @@ class PaymentService implements PaymentServiceInterface
             $stripeSubscription = $this->stripe->subscriptions->retrieve($cancelSubscription->getSubscription()->getId());
 
             if ($cancelSubscription->getSubscription()->hasLineId() && 1 !== $stripeSubscription->items->count()) {
-                if ($cancelSubscription->isInstantCancel() && RefundType::NONE !== $cancelSubscription->getRefundType()) {
+                if ($cancelSubscription->isInstantCancel() && RefundType::PRORATE === $cancelSubscription->getRefundType()) {
                     $payload['proration_behavior'] = 'always_invoice';
                 } else {
                     $payload['proration_behavior'] = 'none';
                 }
-                $actualItem = $this->stripe->subscriptionItems->retrieve($cancelSubscription->getSubscription()->getLineId());
                 $this->stripe->subscriptionItems->delete($cancelSubscription->getSubscription()->getLineId(), $payload);
                 $payload = ['billing_cycle_anchor' => 'now', 'proration_behavior' => 'create_prorations'];
                 $stripeSubscription = $this->stripe->subscriptions->update($cancelSubscription->getSubscription()->getId(), $payload);
-
-                $stripeInvoices = $this->stripe->invoices->search(['query' => 'customer:"'.$stripeSubscription->customer.'"']);
-                $actualLine = null;
-                $actualInvoice = null;
-                foreach ($stripeInvoices as $stripeInvoice) {
-                    if ($stripeInvoice->total < 0) {
-                        // A refund invoice
-                        continue;
-                    }
-                    foreach ($stripeInvoice->lines as $line) {
-                        if ($line->price->id === $actualItem->price->id) {
-                            $actualLine = $line;
-                            $actualInvoice = $stripeInvoice;
-                            break;
-                        }
-                    }
-                }
-
-                $stripeRefund = $this->stripe->refunds->create(['charge' => $actualInvoice->charge, 'amount' => $actualLine->price->unit_amount]);
-                $refund = new Refund();
-                $refund->setId($stripeRefund->id);
-                $refund->setAmount($stripeRefund->amount);
-                $refund->setCurrency($stripeRefund->currency);
-                $refund->setPaymentId($actualInvoice->charge);
-
-                $cancellation->setRefund($refund);
-
-                return $cancellation;
             } else {
                 if ($cancelSubscription->isInstantCancel()) {
                     $payload['invoice_now'] = true;
@@ -200,31 +171,20 @@ class PaymentService implements PaymentServiceInterface
                 $stripeSubscription = $this->stripe->subscriptions->cancel($cancelSubscription->getSubscription()->getId(), $payload);
                 $cancellation = new SubscriptionCancellation();
                 $cancellation->setSubscription($cancelSubscription->getSubscription());
-
-                if (RefundType::FULL === $cancelSubscription->getRefundType()) {
-                    $stripeInvoices = $this->stripe->invoices->search(['query' => 'customer:"'.$stripeSubscription->customer.'"']);
-                    $actualLine = null;
-                    $actualInvoice = null;
-                    foreach ($stripeInvoices as $stripeInvoice) {
-                        if ($stripeInvoice->total < 0) {
-                            // A refund invoice
-                            continue;
-                        }
-                        $actualInvoice = $stripeInvoice;
-                    }
-
-                    $stripeRefund = $this->stripe->refunds->create(['charge' => $actualInvoice->charge, 'amount' => $actualInvoice->total]);
-                    $refund = new Refund();
-                    $refund->setId($stripeRefund->id);
-                    $refund->setAmount($stripeRefund->amount);
-                    $refund->setCurrency($stripeRefund->currency);
-                    $refund->setPaymentId($actualInvoice->charge);
-
-                    $cancellation->setRefund($refund);
-                }
-
-                return $cancellation;
             }
+
+            if (RefundType::FULL === $cancelSubscription->getRefundType()) {
+                $stripeRefund = $this->stripe->refunds->create(['amount' => $cancelSubscription->getSubscription()->getTotalCost()->getAmount()->getUnscaledValue()->toInt(), 'charge' => $cancelSubscription->getPaymentReference()]);
+                $refund = new Refund();
+                $refund->setId($stripeRefund->id);
+                $refund->setAmount($stripeRefund->amount);
+                $refund->setCurrency($stripeRefund->currency);
+                $refund->setPaymentId($cancelSubscription->getPaymentReference());
+
+                $cancellation->setRefund($refund);
+            }
+
+            return $cancellation;
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }

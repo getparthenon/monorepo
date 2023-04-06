@@ -26,6 +26,8 @@ class CancelSubscription
 
     private ?string $comment = null;
 
+    private string $paymentReference;
+
     public function getSubscription(): Subscription
     {
         return $this->subscription;
@@ -64,5 +66,15 @@ class CancelSubscription
     public function setComment(?string $comment): void
     {
         $this->comment = $comment;
+    }
+
+    public function getPaymentReference(): string
+    {
+        return $this->paymentReference;
+    }
+
+    public function setPaymentReference(string $paymentReference): void
+    {
+        $this->paymentReference = $paymentReference;
     }
 }
