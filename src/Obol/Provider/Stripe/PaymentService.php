@@ -168,6 +168,10 @@ class PaymentService implements PaymentServiceInterface
                     }
                 }
 
+                if (is_string($cancelSubscription->getComment())) {
+                    $payload['cancellation_details'] = ['comment' => $cancelSubscription->getComment()];
+                }
+
                 $stripeSubscription = $this->stripe->subscriptions->cancel($cancelSubscription->getSubscription()->getId(), $payload);
                 $cancellation = new SubscriptionCancellation();
                 $cancellation->setSubscription($cancelSubscription->getSubscription());
