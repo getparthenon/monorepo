@@ -14,19 +14,13 @@ declare(strict_types=1);
 
 namespace Obol\Model;
 
-use Obol\Model\Enum\RefundType;
-
 class CancelSubscription
 {
     private Subscription $subscription;
 
     private bool $instantCancel = false;
 
-    private RefundType $refundType = RefundType::NONE;
-
     private ?string $comment = null;
-
-    private string $paymentReference;
 
     public function getSubscription(): Subscription
     {
@@ -48,16 +42,6 @@ class CancelSubscription
         $this->instantCancel = $instantCancel;
     }
 
-    public function getRefundType(): RefundType
-    {
-        return $this->refundType;
-    }
-
-    public function setRefundType(RefundType $refundType): void
-    {
-        $this->refundType = $refundType;
-    }
-
     public function getComment(): ?string
     {
         return $this->comment;
@@ -66,15 +50,5 @@ class CancelSubscription
     public function setComment(?string $comment): void
     {
         $this->comment = $comment;
-    }
-
-    public function getPaymentReference(): string
-    {
-        return $this->paymentReference;
-    }
-
-    public function setPaymentReference(string $paymentReference): void
-    {
-        $this->paymentReference = $paymentReference;
     }
 }

@@ -25,7 +25,6 @@ use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
-use Obol\Model\Enum\RefundType;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
@@ -150,9 +149,7 @@ class PaymentService implements PaymentServiceInterface
             $stripeSubscription = $this->stripe->subscriptions->retrieve($cancelSubscription->getSubscription()->getId());
 
             if ($cancelSubscription->getSubscription()->hasLineId() && 1 !== $stripeSubscription->items->count()) {
-                if ($cancelSubscription->isInstantCancel() && RefundType::PRORATE === $cancelSubscription->getRefundType()) {
-                    $payload['proration_behavior'] = 'always_invoice';
-                } else {
+                if ($cancelSubscription->isInstantCancel()) {
                     $payload['proration_behavior'] = 'none';
                 }
                 $this->stripe->subscriptionItems->delete($cancelSubscription->getSubscription()->getLineId(), $payload);
@@ -161,10 +158,6 @@ class PaymentService implements PaymentServiceInterface
             } else {
                 if ($cancelSubscription->isInstantCancel()) {
                     $payload['invoice_now'] = true;
-
-                    if (RefundType::PRORATE === $cancelSubscription->getRefundType()) {
-                        $payload['prorate'] = true;
-                    }
                 }
 
                 if (is_string($cancelSubscription->getComment())) {
