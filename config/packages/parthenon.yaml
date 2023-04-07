@@ -118,11 +118,11 @@ parthenon:
           year:
             USD:
               amount: 100
-              price_id: price_1LIrP2IfxpuZtqIzh46OvQ3J
+              price_id: price_1MuB8lIfxpuZtqIzhzkWPFQm
           month:
             USD:
               amount: 10
-              price_id: price_1LIrP2IfxpuZtqIzT3zJRvXS
+              price_id: price_1MuB8UIfxpuZtqIztRsI00Pe
         user_count: 1
         features:
           - send_pdf
@@ -136,11 +136,11 @@ parthenon:
           month:
             USD:
               amount: 25
-              price_id: price_1MsrmaIfxpuZtqIz5sTwvYRa
+              price_id: price_1MuB7UIfxpuZtqIzRXquYoUp
           year:
             USD:
               amount: 250
-              price_id: price_1MsrpHIfxpuZtqIzMIIj39h4
+              price_id: price_1MuB7yIfxpuZtqIzUKNZkDy8
         limit:
           team_invite:
             limit: 5

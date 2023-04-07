@@ -115,7 +115,7 @@ class PaymentService implements PaymentServiceInterface
             /** @var \Stripe\Charge $charge */
             $charge = $charges->first();
         } catch (\Throwable $exception) {
-            throw new ProviderFailureException(previous: $exception);
+            throw new ProviderFailureException(message: $exception->getMessage(), previous: $exception);
         }
 
         if (true === $stripeSubscription->livemode) {
@@ -174,7 +174,7 @@ class PaymentService implements PaymentServiceInterface
             }
 
             if (RefundType::FULL === $cancelSubscription->getRefundType()) {
-                $stripeRefund = $this->stripe->refunds->create(['amount' => $cancelSubscription->getSubscription()->getTotalCost()->getAmount()->getUnscaledValue()->toInt(), 'charge' => $cancelSubscription->getPaymentReference()]);
+                $stripeRefund = $this->stripe->refunds->create(['amount' => $cancelSubscription->getSubscription()->getTotalCost()->getAmount()->toInt(), 'charge' => $cancelSubscription->getPaymentReference()]);
                 $refund = new Refund();
                 $refund->setId($stripeRefund->id);
                 $refund->setAmount($stripeRefund->amount);
