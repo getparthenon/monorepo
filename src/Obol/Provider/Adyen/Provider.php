@@ -21,6 +21,7 @@ use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
+use Obol\RefundServiceInterface;
 
 class Provider implements ProviderInterface
 {
@@ -58,5 +59,10 @@ class Provider implements ProviderInterface
     public function products(): ProductServiceInterface
     {
         // TODO: Implement products() method.
+    }
+
+    public function refunds(): RefundServiceInterface
+    {
+        return new RefundService();
     }
 }

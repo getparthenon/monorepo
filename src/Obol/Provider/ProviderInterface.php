@@ -20,6 +20,7 @@ use Obol\HostedCheckoutServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
+use Obol\RefundServiceInterface;
 
 interface ProviderInterface
 {
@@ -47,6 +48,11 @@ interface ProviderInterface
      * @throws UnsupportedFunctionalityException
      */
     public function products(): ProductServiceInterface;
+
+    /**
+     * @throws UnsupportedFunctionalityException
+     */
+    public function refunds(): RefundServiceInterface;
 
     public function getName(): string;
 }

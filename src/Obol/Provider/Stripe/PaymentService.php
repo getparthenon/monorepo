@@ -28,7 +28,6 @@ use Obol\Model\CustomerCreation;
 use Obol\Model\Enum\RefundType;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
-use Obol\Model\Refund;
 use Obol\Model\Subscription;
 use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
@@ -175,17 +174,6 @@ class PaymentService implements PaymentServiceInterface
                 $stripeSubscription = $this->stripe->subscriptions->cancel($cancelSubscription->getSubscription()->getId(), $payload);
                 $cancellation = new SubscriptionCancellation();
                 $cancellation->setSubscription($cancelSubscription->getSubscription());
-            }
-
-            if (RefundType::FULL === $cancelSubscription->getRefundType()) {
-                $stripeRefund = $this->stripe->refunds->create(['amount' => $cancelSubscription->getSubscription()->getTotalCost()->getAmount()->toInt(), 'charge' => $cancelSubscription->getPaymentReference()]);
-                $refund = new Refund();
-                $refund->setId($stripeRefund->id);
-                $refund->setAmount($stripeRefund->amount);
-                $refund->setCurrency($stripeRefund->currency);
-                $refund->setPaymentId($cancelSubscription->getPaymentReference());
-
-                $cancellation->setRefund($refund);
             }
 
             return $cancellation;
