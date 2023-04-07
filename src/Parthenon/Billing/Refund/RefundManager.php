@@ -46,7 +46,13 @@ class RefundManager implements RefundManagerInterface
 
     public function issueProrateRefundForSubscription(Subscription $subscription, BillingAdminInterface $billingAdmin, \DateTimeInterface $start, \DateTimeInterface $end): void
     {
-        $daysInMonth = date('t');
+        if ('month' === $subscription->getPaymentSchedule()) {
+            $days = date('t');
+        } elseif ('year' === $subscription->getPaymentSchedule()) {
+            $days = 365;
+        } else {
+            $days = 7;
+        }
 
         $interval = $start->diff($end);
         if (!is_int($interval->days)) {
@@ -55,7 +61,7 @@ class RefundManager implements RefundManagerInterface
 
         $payment = $this->paymentRepository->getLastPaymentForSubscription($subscription);
 
-        $perDay = $subscription->getMoneyAmount()->dividedBy($daysInMonth);
+        $perDay = $subscription->getMoneyAmount()->dividedBy($days);
         $totalAmount = $perDay->multipliedBy(abs($interval->days))->multipliedBy($subscription->getSeats());
 
         $issueRefund = new IssueRefund();
