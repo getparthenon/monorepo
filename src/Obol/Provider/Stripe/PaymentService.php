@@ -123,7 +123,7 @@ class PaymentService implements PaymentServiceInterface
         }
 
         $paymentDetails = new PaymentDetails();
-        $paymentDetails->setAmount(Money::of($charge->amount, Currency::of(strtoupper($charge->currency))));
+        $paymentDetails->setAmount(Money::ofMinor($charge->amount, Currency::of(strtoupper($charge->currency))));
         $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
         $paymentDetails->setPaymentReference($charge->id);
         $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
