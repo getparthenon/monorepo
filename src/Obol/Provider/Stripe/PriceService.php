@@ -42,7 +42,7 @@ class PriceService implements PriceServiceInterface
     public function createPrice(CreatePrice $createPrice): PriceCreation
     {
         $payload = [
-            'unit_amount' => $createPrice->getMoney()->getUnscaledAmount(),
+            'unit_amount' => $createPrice->getMoney()->getMinorAmount()->toInt(),
             'currency' => $createPrice->getMoney()->getCurrency()->getCurrencyCode(),
             'product' => $createPrice->getProductReference(),
             'tax_behavior' => $createPrice->isIncludingTax() ? 'inclusive' : 'exclusive',
