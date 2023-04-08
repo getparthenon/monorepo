@@ -43,7 +43,7 @@ class RefundService implements RefundServiceInterface
     public function issueRefund(IssueRefund $issueRefund): Refund
     {
         try {
-            $stripeRefund = $this->stripe->refunds->create(['amount' => $issueRefund->getAmount()->getAmount()->toInt(), 'charge' => $issueRefund->getPaymentExternalReference()]);
+            $stripeRefund = $this->stripe->refunds->create(['amount' => $issueRefund->getAmount()->getMinorAmount()->toInt(), 'charge' => $issueRefund->getPaymentExternalReference()]);
             $refund = new Refund();
             $refund->setId($stripeRefund->id);
             $refund->setAmount($stripeRefund->amount);
