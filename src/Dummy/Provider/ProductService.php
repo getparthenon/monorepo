@@ -12,19 +12,19 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Model;
+namespace App\Dummy\Provider;
 
-class SubscriptionCancellation
+use Obol\Model\Product;
+use Obol\Model\ProductCreation;
+use Obol\ProductServiceInterface;
+
+class ProductService implements ProductServiceInterface
 {
-    private Subscription $subscription;
-
-    public function getSubscription(): Subscription
+    public function createProduct(Product $product): ProductCreation
     {
-        return $this->subscription;
-    }
+        $productCreation = new ProductCreation();
+        $productCreation->setReference(bin2hex(random_bytes(32)));
 
-    public function setSubscription(Subscription $subscription): void
-    {
-        $this->subscription = $subscription;
+        return $productCreation;
     }
 }
