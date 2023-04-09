@@ -23,11 +23,11 @@ class SubscriptionCreationResponse
 
     protected \DateTimeInterface $billedUntil;
 
-    protected PaymentDetails $paymentDetails;
+    protected ?PaymentDetails $paymentDetails = null;
 
     protected ?CustomerCreation $customerCreation = null;
 
-    public function getPaymentDetails(): PaymentDetails
+    public function getPaymentDetails(): ?PaymentDetails
     {
         return $this->paymentDetails;
     }

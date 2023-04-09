@@ -106,12 +106,6 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil = new \DateTime();
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
-            $charges = $this->stripe->charges->all([
-                'customer' => $subscription->getBillingDetails()->getCustomerReference(),
-                'limit' => 1,
-            ]);
-            /** @var \Stripe\Charge $charge */
-            $charge = $charges->first();
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(message: $exception->getMessage(), previous: $exception);
         }
@@ -122,19 +116,28 @@ class PaymentService implements PaymentServiceInterface
             $url = sprintf('https://dashboard.stripe.com/test/subscriptions/%s', $stripeSubscription->id);
         }
 
-        $paymentDetails = new PaymentDetails();
-        $paymentDetails->setAmount(Money::ofMinor($charge->amount, Currency::of(strtoupper($charge->currency))));
-        $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
-        $paymentDetails->setPaymentReference($charge->id);
-        $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
-
         $subscriptionCreation = new SubscriptionCreationResponse();
         $subscriptionCreation->setCustomerCreation($customerCreation);
         $subscriptionCreation->setSubscriptionId($subscriptionId)
-            ->setPaymentDetails($paymentDetails)
             ->setLineId($lineId)
             ->setBilledUntil($billedUntil)
             ->setDetailsUrl($url);
+
+        if (!$subscription->hasTrial()) {
+            $charges = $this->stripe->charges->all([
+                'customer' => $subscription->getBillingDetails()->getCustomerReference(),
+                'limit' => 1,
+            ]);
+            /** @var \Stripe\Charge $charge */
+            $charge = $charges->first();
+            $paymentDetails = new PaymentDetails();
+            $paymentDetails->setAmount(Money::ofMinor($charge->amount, Currency::of(strtoupper($charge->currency))));
+            $paymentDetails->setStoredPaymentReference($subscription->getBillingDetails()->getStoredPaymentReference());
+            $paymentDetails->setPaymentReference($charge->id);
+            $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
+
+            $subscriptionCreation->setPaymentDetails($paymentDetails);
+        }
 
         return $subscriptionCreation;
     }
