@@ -122,9 +122,9 @@ class Subscription
         return $this;
     }
 
-    public function hasTrial(): ?bool
+    public function hasTrial(): bool
     {
-        return $this->hasTrial;
+        return true === $this->hasTrial;
     }
 
     public function setHasTrial(?bool $hasTrial): void
@@ -132,9 +132,9 @@ class Subscription
         $this->hasTrial = $hasTrial;
     }
 
-    public function getTrialLengthDays(): ?int
+    public function getTrialLengthDays(): int
     {
-        return $this->trialLengthDays;
+        return (int) $this->trialLengthDays;
     }
 
     public function setTrialLengthDays(?int $trialLengthDays): void
