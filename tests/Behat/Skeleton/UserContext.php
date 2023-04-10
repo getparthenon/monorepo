@@ -30,6 +30,7 @@ use Parthenon\Athena\Entity\Link;
 use Parthenon\Athena\Entity\Notification;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Billing\Enum\SubscriptionStatus;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class UserContext implements Context
@@ -814,7 +815,7 @@ class UserContext implements Context
         $subscription->setPlanName($plan);
         $subscription->setCustomer($team);
         $subscription->setActive(true);
-        $subscription->setStatus('active');
+        $subscription->setStatus(SubscriptionStatus::ACTIVE);
         $subscription->setAmount(100);
         $subscription->setCurrency('EUR');
         $subscription->setCreatedAt(new \DateTime());
