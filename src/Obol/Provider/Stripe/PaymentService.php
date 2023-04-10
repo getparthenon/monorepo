@@ -292,6 +292,11 @@ class PaymentService implements PaymentServiceInterface
         return $process;
     }
 
+    public function makeCardDefault(BillingDetails $billingDetails): void
+    {
+        $this->stripe->customers->update($billingDetails->getCustomerReference(), ['default_source' => $billingDetails->getStoredPaymentReference()]);
+    }
+
     private function setCustomerReference(BillingDetails $billingDetails): CustomerCreation
     {
         $customer = new Customer();

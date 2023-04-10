@@ -96,4 +96,9 @@ class PaymentService implements PaymentServiceInterface
 
         return $frontendCardProcess;
     }
+
+    public function makeCardDefault(BillingDetails $billingDetails): void
+    {
+        // TODO: Implement makeCardDefault() method.
+    }
 }

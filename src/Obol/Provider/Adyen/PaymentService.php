@@ -211,6 +211,11 @@ class PaymentService implements PaymentServiceInterface
         throw new UnsupportedFunctionalityException();
     }
 
+    public function makeCardDefault(BillingDetails $billingDetails): void
+    {
+        // TODO: Implement makeCardDefault() method.
+    }
+
     protected function createApiRequest(string $method, string $url): RequestInterface
     {
         $request = $this->requestFactory->createRequest($method, $url);

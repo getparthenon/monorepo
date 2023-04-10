@@ -50,6 +50,11 @@ interface PaymentServiceInterface
     /**
      * @throws ProviderFailureException
      */
+    public function makeCardDefault(BillingDetails $billingDetails): void;
+
+    /**
+     * @throws ProviderFailureException
+     */
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse;
 
     /**
