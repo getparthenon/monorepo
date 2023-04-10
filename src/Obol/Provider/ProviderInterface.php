@@ -21,6 +21,7 @@ use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
 use Obol\RefundServiceInterface;
+use Obol\SubscriptionServiceInterface;
 
 interface ProviderInterface
 {
@@ -53,6 +54,8 @@ interface ProviderInterface
      * @throws UnsupportedFunctionalityException
      */
     public function refunds(): RefundServiceInterface;
+
+    public function subscriptions(): SubscriptionServiceInterface;
 
     public function getName(): string;
 }

@@ -22,6 +22,7 @@ use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
+use Obol\SubscriptionServiceInterface;
 
 class Provider implements ProviderInterface
 {
@@ -64,5 +65,10 @@ class Provider implements ProviderInterface
     public function refunds(): RefundServiceInterface
     {
         return new RefundService();
+    }
+
+    public function subscriptions(): SubscriptionServiceInterface
+    {
+        throw new UnsupportedFunctionalityException();
     }
 }
