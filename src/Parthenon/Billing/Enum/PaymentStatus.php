@@ -16,6 +16,7 @@ namespace Parthenon\Billing\Enum;
 
 enum PaymentStatus: string
 {
+    case PENDING = 'pending';
     case COMPLETED = 'completed';
     case DISPUTED = 'disputed';
     case PARTIALLY_REFUNDED = 'partially_refunded';
