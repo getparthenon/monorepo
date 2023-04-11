@@ -164,14 +164,14 @@ describe("planservice", () => {
             const result = await planservice.cancel(subscriptionId);
 
             // then
-            expect(mock.history.post[0].url).toEqual(`/api/billing/cancel`);
+            expect(mock.history.post[0].url).toEqual(`/api/billing/subscription/`+subscriptionId+`/cancel`);
             expect(result.data).toEqual({success: true});
         });
 
         it("Should return error", async () => {
 
-            mock.onPost(`/api/billing/cancel`).reply(400, {success: false, error: "Error message here"});
             const subscriptionId = 'id';
+            mock.onPost(`/api/billing/subscription/`+subscriptionId+`/cancel`).reply(400, {success: false, error: "Error message here"});
             try {
                 await planservice.cancel(subscriptionId);
                 fail("Didn't throw error");
