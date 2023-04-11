@@ -24,6 +24,8 @@ class PaymentDetails
 
     protected ?string $paymentReference = null;
 
+    protected ?string $paymentReferenceLink = null;
+
     protected Money $amount;
 
     public function getCustomerReference(): string
@@ -72,5 +74,15 @@ class PaymentDetails
         $this->amount = $amount;
 
         return $this;
+    }
+
+    public function getPaymentReferenceLink(): ?string
+    {
+        return $this->paymentReferenceLink;
+    }
+
+    public function setPaymentReferenceLink(?string $paymentReferenceLink): void
+    {
+        $this->paymentReferenceLink = $paymentReferenceLink;
     }
 }

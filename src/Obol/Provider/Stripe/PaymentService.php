@@ -136,6 +136,12 @@ class PaymentService implements PaymentServiceInterface
             $paymentDetails->setPaymentReference($charge->id);
             $paymentDetails->setCustomerReference($subscription->getBillingDetails()->getCustomerReference());
 
+            if (true === $stripeSubscription->livemode) {
+                $url = sprintf('https://dashboard.stripe.com/payments/%s', $charge->id);
+            } else {
+                $url = sprintf('https://dashboard.stripe.com/test/payments/%s', $charge->id);
+            }
+            $paymentDetails->setPaymentReferenceLink($url);
             $subscriptionCreation->setPaymentDetails($paymentDetails);
         }
 
