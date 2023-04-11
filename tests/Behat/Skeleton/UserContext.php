@@ -818,6 +818,7 @@ class UserContext implements Context
         $subscription->setStatus(SubscriptionStatus::ACTIVE);
         $subscription->setAmount(100);
         $subscription->setCurrency('EUR');
+        $subscription->setPaymentSchedule('year');
         $subscription->setCreatedAt(new \DateTime());
         $subscription->setUpdatedAt(new \DateTime());
 
