@@ -23,6 +23,7 @@ use Parthenon\Billing\Entity\BillingAdminInterface;
 use Parthenon\Billing\Entity\Refund;
 use Parthenon\Billing\Entity\Subscription;
 use Parthenon\Billing\Enum\PaymentStatus;
+use Parthenon\Billing\Enum\RefundStatus;
 use Parthenon\Billing\Repository\PaymentRepositoryInterface;
 use Parthenon\Billing\Repository\RefundRepositoryInterface;
 
@@ -90,7 +91,7 @@ class RefundManager implements RefundManagerInterface
         $refundEn->setAmount($refund->getAmount());
         $refundEn->setCurrency($refund->getCurrency());
         $refundEn->setExternalReference($refund->getId());
-        $refundEn->setStatus('refunded');
+        $refundEn->setStatus(RefundStatus::ISSUED);
         $refundEn->setBillingAdmin($billingAdmin);
         $refundEn->setPayment($payment);
         $refundEn->setCustomer($subscription->getCustomer());
