@@ -22,6 +22,7 @@ use Behat\Mink\Session;
 use Brick\Money\Currency;
 use Brick\Money\Money;
 use Parthenon\Billing\Entity\Payment;
+use Parthenon\Billing\Enum\PaymentStatus;
 use Parthenon\Billing\Repository\Orm\PaymentServiceRepository;
 
 class PaymentsContext implements Context
@@ -54,6 +55,7 @@ class PaymentsContext implements Context
             $payment->setCompleted('false' !== $row['Completed']);
             $payment->setChargedBack('false' !== $row['Charged Back']);
             $payment->setRefunded('false' !== $row['Refunded']);
+            $payment->setStatus(PaymentStatus::COMPLETED);
             $this->paymentRepository->getEntityManager()->persist($payment);
         }
         $this->paymentRepository->getEntityManager()->flush();

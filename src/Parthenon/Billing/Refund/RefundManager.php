@@ -86,7 +86,6 @@ class RefundManager implements RefundManagerInterface
             $payment->setStatus(PaymentStatus::PARTIALLY_REFUNDED);
         }
         $this->paymentRepository->save($payment);
-
         $refundEn = new Refund();
         $refundEn->setAmount($refund->getAmount());
         $refundEn->setCurrency($refund->getCurrency());
