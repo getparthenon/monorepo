@@ -88,7 +88,7 @@ class Refund
 
     public function getAsMoney(): Money
     {
-        return Money::of($this->amount, Currency::of($this->currency));
+        return Money::ofMinor($this->amount, Currency::of($this->currency));
     }
 
     public function getCurrency(): string
