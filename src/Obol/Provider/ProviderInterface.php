@@ -22,6 +22,7 @@ use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
 use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
+use Obol\WebhookServiceInterface;
 
 interface ProviderInterface
 {
@@ -56,6 +57,8 @@ interface ProviderInterface
     public function refunds(): RefundServiceInterface;
 
     public function subscriptions(): SubscriptionServiceInterface;
+
+    public function webhook(): WebhookServiceInterface;
 
     public function getName(): string;
 }

@@ -22,6 +22,7 @@ use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
+use Obol\WebhookServiceInterface;
 use Stripe\StripeClient;
 
 class Provider implements ProviderInterface
@@ -34,6 +35,7 @@ class Provider implements ProviderInterface
     private ProductServiceInterface $productService;
     private RefundServiceInterface $refundService;
     private SubscriptionServiceInterface $subscriptionService;
+    private WebhookServiceInterface $webhookService;
     private StripeClient $stripeClient;
     private Config $config;
 
@@ -47,6 +49,7 @@ class Provider implements ProviderInterface
         ?ProductServiceInterface $productService = null,
         ?RefundService $refundService = null,
         ?SubscriptionServiceInterface $subscriptionService = null,
+        ?SubscriptionServiceInterface $webhookService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -57,6 +60,7 @@ class Provider implements ProviderInterface
         $this->productService = $productService ?? new ProductService($this, $config, $this->stripeClient);
         $this->refundService = $refundService ?? new RefundService($this, $config, $this->stripeClient);
         $this->subscriptionService = $subscriptionService ?? new SubscriptionService($this, $config, $this->stripeClient);
+        $this->webhookService = $webhookService ?? new WebhookService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -97,5 +101,10 @@ class Provider implements ProviderInterface
     public function subscriptions(): SubscriptionServiceInterface
     {
         return $this->subscriptionService;
+    }
+
+    public function webhook(): WebhookServiceInterface
+    {
+        return $this->webhookService;
     }
 }
