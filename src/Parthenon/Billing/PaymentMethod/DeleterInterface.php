@@ -12,11 +12,11 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 
 interface DeleterInterface
 {
-    public function delete(PaymentDetails $paymentDetails): void;
+    public function delete(PaymentMethod $paymentDetails): void;
 }

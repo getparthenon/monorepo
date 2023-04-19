@@ -12,26 +12,26 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
 use Obol\Model\CardDetails;
 use Obol\Model\Customer as ObolCustomer;
 use Obol\Provider\ProviderInterface;
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 use Parthenon\Billing\Factory\PaymentDetailsFactoryInterface;
 use Parthenon\Billing\Obol\CustomerConverterInterface;
 use Parthenon\Billing\Repository\CustomerRepositoryInterface;
-use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
+use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 
 class FrontendAddProcessor implements FrontendAddProcessorInterface
 {
     public function __construct(
-        private ProviderInterface $provider,
-        private CustomerRepositoryInterface $customerRepository,
-        private CustomerConverterInterface $customerConverter,
-        private PaymentDetailsFactoryInterface $paymentDetailsFactory,
-        private PaymentDetailsRepositoryInterface $paymentDetailsRepository,
+        private ProviderInterface                $provider,
+        private CustomerRepositoryInterface      $customerRepository,
+        private CustomerConverterInterface       $customerConverter,
+        private PaymentDetailsFactoryInterface   $paymentDetailsFactory,
+        private PaymentMethodRepositoryInterface $paymentDetailsRepository,
     ) {
     }
 
@@ -58,7 +58,7 @@ class FrontendAddProcessor implements FrontendAddProcessorInterface
         return $tokenData->getToken();
     }
 
-    public function createPaymentDetailsFromToken(CustomerInterface $customer, string $token): PaymentDetails
+    public function createPaymentDetailsFromToken(CustomerInterface $customer, string $token): PaymentMethod
     {
         $billingDetails = $this->customerConverter->convertToBillingDetails($customer);
         $billingDetails->setCardDetails(new CardDetails());
@@ -74,7 +74,7 @@ class FrontendAddProcessor implements FrontendAddProcessorInterface
         }
 
         if ($paymentDetails->isDefaultPaymentOption()) {
-            $this->paymentDetailsRepository->markAllCustomerDetailsAsNotDefault($customer);
+            $this->paymentDetailsRepository->markAllCustomerMethodsAsNotDefault($customer);
         }
         $this->paymentDetailsRepository->save($paymentDetails);
 

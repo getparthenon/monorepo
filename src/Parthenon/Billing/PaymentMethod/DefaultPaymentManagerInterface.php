@@ -12,12 +12,12 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 
 interface DefaultPaymentManagerInterface
 {
-    public function makePaymentDetailsDefault(CustomerInterface $customer, PaymentDetails $paymentDetails): void;
+    public function makePaymentDetailsDefault(CustomerInterface $customer, PaymentMethod $paymentDetails): void;
 }

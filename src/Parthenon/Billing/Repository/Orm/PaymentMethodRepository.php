@@ -15,14 +15,14 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Repository\Orm;
 
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
-use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
+use Parthenon\Billing\Entity\PaymentMethod;
+use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 use Parthenon\Common\Exception\NoEntityFoundException;
 use Parthenon\Common\Repository\DoctrineRepository;
 
-final class PaymentDetailsRepository extends DoctrineRepository implements PaymentDetailsRepositoryInterface
+final class PaymentMethodRepository extends DoctrineRepository implements PaymentMethodRepositoryInterface
 {
-    public function getPaymentDetailsForCustomer(CustomerInterface $customer): array
+    public function getPaymentMethodForCustomer(CustomerInterface $customer): array
     {
         $qb = $this->entityRepository->createQueryBuilder('pd');
         $qb->where('pd.deleted = false')
@@ -34,17 +34,17 @@ final class PaymentDetailsRepository extends DoctrineRepository implements Payme
         return $query->getResult();
     }
 
-    public function markAllCustomerDetailsAsNotDefault(CustomerInterface $customer): void
+    public function markAllCustomerMethodsAsNotDefault(CustomerInterface $customer): void
     {
         $qb = $this->entityRepository->createQueryBuilder('pd');
-        $qb->update(PaymentDetails::class, 'pd')
+        $qb->update(PaymentMethod::class, 'pd')
             ->set('pd.defaultPaymentOption', 'false')
             ->where('pd.customer = :customer')
             ->setParameter(':customer', $customer);
         $qb->getQuery()->execute();
     }
 
-    public function getDefaultPaymentDetailsForCustomer(CustomerInterface $customer): PaymentDetails
+    public function getDefaultPaymentMethodForCustomer(CustomerInterface $customer): PaymentMethod
     {
         $qb = $this->entityRepository->createQueryBuilder('pd');
         $qb->where('pd.deleted = false')
@@ -56,14 +56,14 @@ final class PaymentDetailsRepository extends DoctrineRepository implements Payme
 
         $paymentDetails = $query->getOneOrNullResult();
 
-        if (!$paymentDetails instanceof PaymentDetails) {
+        if (!$paymentDetails instanceof PaymentMethod) {
             throw new NoEntityFoundException();
         }
 
         return $paymentDetails;
     }
 
-    public function getPaymentDetailsForCustomerAndReference(CustomerInterface $customer, string $reference): PaymentDetails
+    public function getPaymentMethodForCustomerAndReference(CustomerInterface $customer, string $reference): PaymentMethod
     {
         $qb = $this->entityRepository->createQueryBuilder('pd');
         $qb->where('pd.deleted = false')

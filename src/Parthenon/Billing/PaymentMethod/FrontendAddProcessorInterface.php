@@ -12,14 +12,14 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 
 interface FrontendAddProcessorInterface
 {
     public function startTokenProcess(CustomerInterface $customer): string;
 
-    public function createPaymentDetailsFromToken(CustomerInterface $customer, string $token): PaymentDetails;
+    public function createPaymentDetailsFromToken(CustomerInterface $customer, string $token): PaymentMethod;
 }

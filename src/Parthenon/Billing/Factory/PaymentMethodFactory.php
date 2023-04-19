@@ -16,13 +16,13 @@ namespace Parthenon\Billing\Factory;
 
 use Obol\Model\CardFile;
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 
-final class PaymentDetailsFactory implements PaymentDetailsFactoryInterface
+final class PaymentMethodFactory implements PaymentMethodFactoryInterface
 {
-    public function buildFromCardFile(CustomerInterface $customer, CardFile $cardFile, string $provider): PaymentDetails
+    public function buildFromCardFile(CustomerInterface $customer, CardFile $cardFile, string $provider): PaymentMethod
     {
-        $paymentDetails = new PaymentDetails();
+        $paymentDetails = new PaymentMethod();
         $paymentDetails->setCustomer($customer);
         $paymentDetails->setStoredCustomerReference($customer->getExternalCustomerReference());
         $paymentDetails->setStoredPaymentReference($cardFile->getStoredPaymentReference());

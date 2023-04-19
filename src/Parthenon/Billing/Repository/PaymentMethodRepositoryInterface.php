@@ -15,26 +15,26 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Repository;
 
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 use Parthenon\Common\Exception\NoEntityFoundException;
 use Parthenon\Common\Repository\RepositoryInterface;
 
-interface PaymentDetailsRepositoryInterface extends RepositoryInterface
+interface PaymentMethodRepositoryInterface extends RepositoryInterface
 {
     /**
      * @throws NoEntityFoundException
      */
-    public function getPaymentDetailsForCustomerAndReference(CustomerInterface $customer, string $reference): PaymentDetails;
+    public function getPaymentMethodForCustomerAndReference(CustomerInterface $customer, string $reference): PaymentMethod;
 
     /**
-     * @return PaymentDetails[]
+     * @return PaymentMethod[]
      */
-    public function getPaymentDetailsForCustomer(CustomerInterface $customer): array;
+    public function getPaymentMethodForCustomer(CustomerInterface $customer): array;
 
-    public function markAllCustomerDetailsAsNotDefault(CustomerInterface $customer): void;
+    public function markAllCustomerMethodsAsNotDefault(CustomerInterface $customer): void;
 
     /**
      * @throws NoEntityFoundException
      */
-    public function getDefaultPaymentDetailsForCustomer(CustomerInterface $customer): PaymentDetails;
+    public function getDefaultPaymentMethodForCustomer(CustomerInterface $customer): PaymentMethod;
 }

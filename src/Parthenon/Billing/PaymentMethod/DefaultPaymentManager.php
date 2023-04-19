@@ -12,26 +12,26 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
 use Obol\Provider\ProviderInterface;
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\PaymentDetails;
+use Parthenon\Billing\Entity\PaymentMethod;
 use Parthenon\Billing\Obol\BillingDetailsFactoryInterface;
-use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
+use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 
 final class DefaultPaymentManager implements DefaultPaymentManagerInterface
 {
     public function __construct(
-        private PaymentDetailsRepositoryInterface $paymentDetailsRepository,
-        private ProviderInterface $provider,
-        private BillingDetailsFactoryInterface $billingDetailsFactory,
+        private PaymentMethodRepositoryInterface $paymentDetailsRepository,
+        private ProviderInterface                $provider,
+        private BillingDetailsFactoryInterface   $billingDetailsFactory,
     ) {
     }
 
-    public function makePaymentDetailsDefault(CustomerInterface $customer, PaymentDetails $paymentDetails): void
+    public function makePaymentDetailsDefault(CustomerInterface $customer, PaymentMethod $paymentDetails): void
     {
-        $this->paymentDetailsRepository->markAllCustomerDetailsAsNotDefault($customer);
+        $this->paymentDetailsRepository->markAllCustomerMethodsAsNotDefault($customer);
         $paymentDetails = $this->paymentDetailsRepository->findById($paymentDetails->getId());
         $paymentDetails->setDefaultPaymentOption(true);
         $this->paymentDetailsRepository->save($paymentDetails);

@@ -12,18 +12,18 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\PaymentDetails;
+namespace Parthenon\Billing\PaymentMethod;
 
-use Parthenon\Billing\Entity\PaymentDetails;
-use Parthenon\Billing\Repository\PaymentDetailsRepositoryInterface;
+use Parthenon\Billing\Entity\PaymentMethod;
+use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 
 class Deleter implements DeleterInterface
 {
-    public function __construct(private PaymentDetailsRepositoryInterface $paymentDetailsRepository)
+    public function __construct(private PaymentMethodRepositoryInterface $paymentDetailsRepository)
     {
     }
 
-    public function delete(PaymentDetails $paymentDetails): void
+    public function delete(PaymentMethod $paymentDetails): void
     {
         $paymentDetails->setDeleted(true);
         $this->paymentDetailsRepository->save($paymentDetails);
