@@ -25,6 +25,7 @@ use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
+use Obol\WebhookServiceInterface;
 
 class Provider implements ProviderInterface
 {
@@ -66,5 +67,10 @@ class Provider implements ProviderInterface
     public function getName(): string
     {
         return 'test_dummy';
+    }
+
+    public function webhook(): WebhookServiceInterface
+    {
+        // TODO: Implement webhook() method.
     }
 }
