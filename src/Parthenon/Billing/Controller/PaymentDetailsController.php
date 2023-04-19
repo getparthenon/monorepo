@@ -17,9 +17,9 @@ namespace Parthenon\Billing\Controller;
 use Parthenon\Billing\Config\FrontendConfig;
 use Parthenon\Billing\CustomerProviderInterface;
 use Parthenon\Billing\Entity\PaymentMethod;
-use Parthenon\Billing\PaymentDetails\DefaultPaymentManagerInterface;
-use Parthenon\Billing\PaymentDetails\DeleterInterface;
-use Parthenon\Billing\PaymentDetails\FrontendAddProcessorInterface;
+use Parthenon\Billing\PaymentMethod\DefaultPaymentManagerInterface;
+use Parthenon\Billing\PaymentMethod\DeleterInterface;
+use Parthenon\Billing\PaymentMethod\FrontendAddProcessorInterface;
 use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 use Parthenon\Common\Exception\NoEntityFoundException;
 use Psr\Log\LoggerInterface;
@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PaymentDetailsController
 {
-    #[Route('/billing/payment-details', name: 'parthenon_billing_paymentdetails_fetch_payment_details', methods: ['GET'])]
+    #[Route('/billing/payment-method', name: 'parthenon_billing_paymentdetails_fetch_payment_details', methods: ['GET'])]
     public function fetchPaymentDetails(
         Request $request,
         CustomerProviderInterface $customerProvider,
@@ -44,7 +44,7 @@ class PaymentDetailsController
         return JsonResponse::fromJsonString($returnData);
     }
 
-    #[Route('/billing/payment-details/token/start', name: 'parthenon_billing_paymentdetails_starttokenprocess', methods: ['GET'])]
+    #[Route('/billing/payment-method/token/start', name: 'parthenon_billing_paymentdetails_starttokenprocess', methods: ['GET'])]
     public function startTokenProcess(
         Request $request,
         LoggerInterface $logger,
@@ -63,7 +63,7 @@ class PaymentDetailsController
         ]);
     }
 
-    #[Route('/billing/payment-details/token/add', name: 'parthenon_billing_paymentdetails_addcardbytoken', methods: ['POST'])]
+    #[Route('/billing/payment-method/token/add', name: 'parthenon_billing_paymentdetails_addcardbytoken', methods: ['POST'])]
     public function addCardByToken(
         Request $request,
         CustomerProviderInterface $customerProvider,
@@ -80,7 +80,7 @@ class PaymentDetailsController
         return JsonResponse::fromJsonString($json, JsonResponse::HTTP_ACCEPTED);
     }
 
-    #[Route('/billing/payment-details/{id}', name: 'parthenon_billing_paymentdetails_deletecard', methods: ['DELETE'])]
+    #[Route('/billing/payment-method/{id}', name: 'parthenon_billing_paymentdetails_deletecard', methods: ['DELETE'])]
     public function deleteCard(Request $request, PaymentMethodRepositoryInterface $paymentDetailsRepository, DeleterInterface $deleter)
     {
         try {
@@ -94,7 +94,7 @@ class PaymentDetailsController
         return new JsonResponse(['success' => true], JsonResponse::HTTP_ACCEPTED);
     }
 
-    #[Route('/billing/payment-details/{id}/default', name: 'parthenon_billing_paymentdetails_defaultcard', methods: ['POST'])]
+    #[Route('/billing/payment-method/{id}/default', name: 'parthenon_billing_paymentdetails_defaultcard', methods: ['POST'])]
     public function defaultCard(Request $request, CustomerProviderInterface $customerProvider, PaymentMethodRepositoryInterface $paymentDetailsRepository, DefaultPaymentManagerInterface $defaultPaymentManager)
     {
         $customer = $customerProvider->getCurrentCustomer();

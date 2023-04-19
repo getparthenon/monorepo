@@ -103,7 +103,7 @@ class MainContext implements Context
      */
     public function iFetchThePaymentMethods()
     {
-        $this->sendJsonRequest('GET', '/api/billing/payment-details');
+        $this->sendJsonRequest('GET', '/api/billing/payment-method');
     }
 
     /**
@@ -140,7 +140,7 @@ class MainContext implements Context
     {
         $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
 
-        $this->sendJsonRequest('DELETE', '/api/billing/payment-details/'.(string) $paymentDetails->getId());
+        $this->sendJsonRequest('DELETE', '/api/billing/payment-method/'.(string) $paymentDetails->getId());
     }
 
     /**
@@ -176,7 +176,7 @@ class MainContext implements Context
     {
         $paymentDetails = $this->getPaymentDetailsFromLastFour($lastFour);
 
-        $this->sendJsonRequest('POST', '/api/billing/payment-details/'.(string) $paymentDetails->getId().'/default');
+        $this->sendJsonRequest('POST', '/api/billing/payment-method/'.(string) $paymentDetails->getId().'/default');
     }
 
     /**
