@@ -6,6 +6,7 @@ echo "[x] Removing old files"
 rm -Rf ../public-edition/src/AbTesting/*
 rm -Rf ../public-edition/src/Athena/*
 rm -Rf ../public-edition/src/Common/*
+rm -Rf ../public-edition/src/Billing/*
 rm -Rf ../public-edition/src/Funnel/*
 rm -Rf ../public-edition/src/Export/*
 rm -Rf ../public-edition/src/Health/*
