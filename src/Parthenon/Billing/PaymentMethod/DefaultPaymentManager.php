@@ -24,8 +24,8 @@ final class DefaultPaymentManager implements DefaultPaymentManagerInterface
 {
     public function __construct(
         private PaymentMethodRepositoryInterface $paymentDetailsRepository,
-        private ProviderInterface                $provider,
-        private BillingDetailsFactoryInterface   $billingDetailsFactory,
+        private ProviderInterface $provider,
+        private BillingDetailsFactoryInterface $billingDetailsFactory,
     ) {
     }
 

@@ -27,10 +27,10 @@ use Parthenon\Billing\Repository\PaymentMethodRepositoryInterface;
 class FrontendAddProcessor implements FrontendAddProcessorInterface
 {
     public function __construct(
-        private ProviderInterface                $provider,
-        private CustomerRepositoryInterface      $customerRepository,
-        private CustomerConverterInterface       $customerConverter,
-        private PaymentDetailsFactoryInterface   $paymentDetailsFactory,
+        private ProviderInterface $provider,
+        private CustomerRepositoryInterface $customerRepository,
+        private CustomerConverterInterface $customerConverter,
+        private PaymentDetailsFactoryInterface $paymentDetailsFactory,
         private PaymentMethodRepositoryInterface $paymentDetailsRepository,
     ) {
     }
