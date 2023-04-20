@@ -32,7 +32,6 @@ final class HandlerManager implements HandlerManagerInterface
     {
         foreach ($this->handlers as $handler) {
             if ($handler->supports($event)) {
-                var_dump('dsfdsf');
                 $handler->handle($event);
             }
         }
