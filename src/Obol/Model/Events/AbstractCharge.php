@@ -22,13 +22,13 @@ abstract class AbstractCharge
 
     private string $currency;
 
-    private ?string $externalCustomerId;
+    private ?string $externalCustomerId = null;
 
-    private string $externalPaymentMethodId;
+    private ?string $externalPaymentMethodId = null;
 
     private string $detailsLink;
 
-    private string $externalInvoiceId;
+    private ?string $externalInvoiceId = null;
 
     private \DateTimeInterface $createdAt;
 
@@ -62,7 +62,12 @@ abstract class AbstractCharge
         $this->currency = $currency;
     }
 
-    public function getExternalCustomerId(): string
+    public function hasExternalCustomerId(): bool
+    {
+        return isset($this->externalCustomerId);
+    }
+
+    public function getExternalCustomerId(): ?string
     {
         return $this->externalCustomerId;
     }
@@ -72,7 +77,12 @@ abstract class AbstractCharge
         $this->externalCustomerId = $externalCustomerId;
     }
 
-    public function getExternalPaymentMethodId(): string
+    public function hasExternalPaymentMethodId(): bool
+    {
+        return isset($this->externalPaymentMethodId);
+    }
+
+    public function getExternalPaymentMethodId(): ?string
     {
         return $this->externalPaymentMethodId;
     }
@@ -82,7 +92,12 @@ abstract class AbstractCharge
         $this->externalPaymentMethodId = $externalPaymentMethodId;
     }
 
-    public function getExternalInvoiceId(): string
+    public function hasExternalInvoiceId(): bool
+    {
+        return isset($this->externalInvoiceId);
+    }
+
+    public function getExternalInvoiceId(): ?string
     {
         return $this->externalInvoiceId;
     }

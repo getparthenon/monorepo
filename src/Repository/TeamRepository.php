@@ -17,6 +17,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
+use Parthenon\Common\Exception\NoEntityFoundException;
 use Parthenon\User\Entity\UserInterface;
 
 class TeamRepository extends \Parthenon\User\Repository\TeamRepository implements TeamRepositoryInterface
@@ -39,6 +40,6 @@ class TeamRepository extends \Parthenon\User\Repository\TeamRepository implement
 
     public function getByExternalReference(string $externalReference): CustomerInterface
     {
-        // TODO: Implement getByExternalReference() method.
+        throw new NoEntityFoundException();
     }
 }
