@@ -14,9 +14,10 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Model\Events\EventInterface;
 use Obol\Model\WebhookPayload;
 
 interface WebhookServiceInterface
 {
-    public function process(WebhookPayload $payload): mixed;
+    public function process(WebhookPayload $payload): ?EventInterface;
 }

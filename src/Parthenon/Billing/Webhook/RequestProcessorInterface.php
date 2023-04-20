@@ -12,8 +12,11 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Model\Events;
+namespace Parthenon\Billing\Webhook;
 
-class DisputeCreation extends AbstractDispute implements EventInterface
+use Symfony\Component\HttpFoundation\Request;
+
+interface RequestProcessorInterface
 {
+    public function processRequest(Request $request): void;
 }

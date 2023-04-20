@@ -14,41 +14,6 @@ declare(strict_types=1);
 
 namespace Obol\Model\Events;
 
-class DisputeClosed
+class DisputeClosed extends AbstractDispute implements EventInterface
 {
-    private string $disputedPaymentId;
-
-    private string $status;
-
-    private \DateTimeInterface $createdAt;
-
-    public function getDisputedPaymentId(): string
-    {
-        return $this->disputedPaymentId;
-    }
-
-    public function setDisputedPaymentId(string $disputedPaymentId): void
-    {
-        $this->disputedPaymentId = $disputedPaymentId;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): void
-    {
-        $this->status = $status;
-    }
-
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
 }

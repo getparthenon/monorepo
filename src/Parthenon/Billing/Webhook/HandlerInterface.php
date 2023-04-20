@@ -12,8 +12,13 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Obol\Model\Events;
+namespace Parthenon\Billing\Webhook;
 
-class DisputeCreation extends AbstractDispute implements EventInterface
+use Obol\Model\Events\EventInterface;
+
+interface HandlerInterface
 {
+    public function supports(EventInterface $event): bool;
+
+    public function handle(EventInterface $event): void;
 }

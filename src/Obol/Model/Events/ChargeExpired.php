@@ -14,6 +14,6 @@ declare(strict_types=1);
 
 namespace Obol\Model\Events;
 
-class DisputeCreation extends AbstractDispute implements EventInterface
+class ChargeExpired extends AbstractCharge implements EventInterface
 {
 }

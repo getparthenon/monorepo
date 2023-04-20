@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Model\Events\AbstractDispute;
 use Obol\Model\Events\DisputeClosed;
 use Obol\Model\Events\DisputeCreation;
+use Obol\Model\Events\EventInterface;
 use Obol\Model\WebhookPayload;
 use Obol\Provider\ProviderInterface;
 use Obol\WebhookServiceInterface;
@@ -40,7 +42,7 @@ class WebhookService implements WebhookServiceInterface
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
     }
 
-    public function process(WebhookPayload $payload): mixed
+    public function process(WebhookPayload $payload): ?EventInterface
     {
         $event = \Stripe\Webhook::constructEvent($payload->getPayload(), $payload->getSignature(), $payload->getSignature());
         switch ($event->type) {
@@ -53,17 +55,22 @@ class WebhookService implements WebhookServiceInterface
         }
     }
 
-    private function processDisputeCreated(Dispute $dispute): DisputeCreation
+    public function populateDisputeEvent(Dispute $dispute, AbstractDispute $event): void
     {
         $datetime = new \DateTime();
         $datetime->setTimestamp($dispute->created);
-
-        $event = new DisputeCreation();
         $event->setDisputedPaymentId($dispute->charge);
         $event->setReason($dispute->reason);
         $event->setAmount($dispute->amount);
         $event->setCurrency($dispute->currency);
         $event->setCreatedAt($datetime);
+        $event->setStatus($dispute->status);
+    }
+
+    private function processDisputeCreated(Dispute $dispute): DisputeCreation
+    {
+        $event = new DisputeCreation();
+        $this->populateDisputeEvent($dispute, $event);
 
         return $event;
     }
@@ -71,8 +78,7 @@ class WebhookService implements WebhookServiceInterface
     private function processDisputeClosed(Dispute $dispute): DisputeClosed
     {
         $event = new DisputeClosed();
-        $event->setDisputedPaymentId($dispute->charge);
-        $event->setStatus($dispute->status);
+        $this->populateDisputeEvent($dispute, $event);
 
         return $event;
     }
