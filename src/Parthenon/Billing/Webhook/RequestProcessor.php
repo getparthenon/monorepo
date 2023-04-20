@@ -32,11 +32,12 @@ final class RequestProcessor implements RequestProcessorInterface
     {
         $webhookPayload = new WebhookPayload();
         $webhookPayload->setPayload($request->getContent());
-        $webhookPayload->setSignature($request->get('stripe-signature'));
+        $webhookPayload->setSignature($request->server->get('HTTP_STRIPE_SIGNATURE'));
         $webhookPayload->setSecret($this->config->getSecret());
 
         $event = $this->provider->webhook()->process($webhookPayload);
 
+        var_dump($event);
         if (!$event) {
             return;
         }

@@ -32,7 +32,7 @@ abstract class AbstractCharge
 
     private \DateTimeInterface $createdAt;
 
-    public function getExternalPaymentId(): string
+    public function getPaymentReference(): string
     {
         return $this->externalPaymentId;
     }
