@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Model\Events\AbstractCharge;
 use Obol\Model\Events\AbstractDispute;
 use Obol\Model\Events\DisputeClosed;
 use Obol\Model\Events\DisputeCreation;
@@ -21,6 +22,7 @@ use Obol\Model\Events\EventInterface;
 use Obol\Model\WebhookPayload;
 use Obol\Provider\ProviderInterface;
 use Obol\WebhookServiceInterface;
+use Stripe\Charge;
 use Stripe\Dispute;
 use Stripe\StripeClient;
 
@@ -55,7 +57,7 @@ class WebhookService implements WebhookServiceInterface
         }
     }
 
-    public function populateDisputeEvent(Dispute $dispute, AbstractDispute $event): void
+    private function populateDisputeEvent(Dispute $dispute, AbstractDispute $event): void
     {
         $datetime = new \DateTime();
         $datetime->setTimestamp($dispute->created);
@@ -65,6 +67,24 @@ class WebhookService implements WebhookServiceInterface
         $event->setCurrency($dispute->currency);
         $event->setCreatedAt($datetime);
         $event->setStatus($dispute->status);
+    }
+
+    private function populateChargeEvent(Charge $charge, AbstractCharge $event): void
+    {
+        $datetime = new \DateTime();
+        $datetime->setTimestamp($charge->created);
+        $event->setAmount($charge->amount);
+        $event->setCurrency($charge->currency);
+        $event->setExternalCustomerId($charge->customer);
+        $event->setExternalPaymentId($charge->id);
+        $event->setExternalPaymentMethodId($charge->payment_method);
+
+        if (true === $charge->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/payments/%s', $charge->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/payments/%s', $charge->id);
+        }
+        $event->setDetailsLink($url);
     }
 
     private function processDisputeCreated(Dispute $dispute): DisputeCreation

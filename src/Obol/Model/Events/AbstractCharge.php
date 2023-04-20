@@ -26,7 +26,11 @@ abstract class AbstractCharge
 
     private string $externalPaymentMethodId;
 
+    private string $detailsLink;
+
     private string $externalInvoiceId;
+
+    private \DateTimeInterface $createdAt;
 
     public function getExternalPaymentId(): string
     {
@@ -86,5 +90,25 @@ abstract class AbstractCharge
     public function setExternalInvoiceId(string $externalInvoiceId): void
     {
         $this->externalInvoiceId = $externalInvoiceId;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getDetailsLink(): string
+    {
+        return $this->detailsLink;
+    }
+
+    public function setDetailsLink(string $detailsLink): void
+    {
+        $this->detailsLink = $detailsLink;
     }
 }
