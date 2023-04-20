@@ -22,7 +22,7 @@ abstract class AbstractCharge
 
     private string $currency;
 
-    private string $externalCustomerId;
+    private ?string $externalCustomerId;
 
     private string $externalPaymentMethodId;
 
@@ -67,7 +67,7 @@ abstract class AbstractCharge
         return $this->externalCustomerId;
     }
 
-    public function setExternalCustomerId(string $externalCustomerId): void
+    public function setExternalCustomerId(?string $externalCustomerId): void
     {
         $this->externalCustomerId = $externalCustomerId;
     }

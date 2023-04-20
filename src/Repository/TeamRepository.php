@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\User\Entity\UserInterface;
 
@@ -34,5 +35,10 @@ class TeamRepository extends \Parthenon\User\Repository\TeamRepository implement
             ->where('t.subscription.planName is not null')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getByExternalReference(string $externalReference): CustomerInterface
+    {
+        // TODO: Implement getByExternalReference() method.
     }
 }

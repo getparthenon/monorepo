@@ -50,14 +50,14 @@ class ChargeSucceededHandler implements HandlerInterface
         }
         $payment->setStatus(PaymentStatus::COMPLETED);
         $payment->setUpdatedAt(new \DateTime('now'));
-
+        /*
         try {
             $customer = $this->customerRepository->getByExternalReference($event->getExternalCustomerId());
         } catch (NoEntityFoundException $e) {
             throw new InvalidEventException('Customer not found', previous: $e);
         }
         $payment->setCustomer($customer);
-
+*/
         $this->paymentRepository->save($payment);
     }
 }

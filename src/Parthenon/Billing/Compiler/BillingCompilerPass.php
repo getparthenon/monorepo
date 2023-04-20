@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Parthenon\Billing\Compiler;
 
-use Parthenon\Billing\Webhook\HandlerManagerInterface;
+use Parthenon\Billing\Webhook\HandlerManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,11 +28,11 @@ final class BillingCompilerPass implements CompilerPassInterface
 
     private function handleEnabledDecider(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(HandlerManagerInterface::class)) {
+        if (!$container->hasDefinition(HandlerManager::class)) {
             return;
         }
 
-        $handlerManager = $container->getDefinition(HandlerManagerInterface::class);
+        $handlerManager = $container->getDefinition(HandlerManager::class);
         $definitions = $container->findTaggedServiceIds('parthenon.billing.webhooks.handler');
 
         foreach ($definitions as $id => $tagInfo) {

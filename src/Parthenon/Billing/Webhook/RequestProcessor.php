@@ -37,7 +37,6 @@ final class RequestProcessor implements RequestProcessorInterface
 
         $event = $this->provider->webhook()->process($webhookPayload);
 
-        var_dump($event);
         if (!$event) {
             return;
         }
