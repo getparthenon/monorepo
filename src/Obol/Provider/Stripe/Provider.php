@@ -123,6 +123,6 @@ class Provider implements ProviderInterface
 
     public function chargeBacks(): ChargeBackServiceInterface
     {
-        // TODO: Implement chargeBacks() method.
+        return $this->chargeBackService;
     }
 }
