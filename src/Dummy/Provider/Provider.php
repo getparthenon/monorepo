@@ -19,6 +19,7 @@ use App\Tests\Dummy\Provider\PriceService;
 use App\Tests\Dummy\Provider\ProductService;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
+use Obol\InvoiceServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
@@ -72,5 +73,10 @@ class Provider implements ProviderInterface
     public function webhook(): WebhookServiceInterface
     {
         // TODO: Implement webhook() method.
+    }
+
+    public function invoices(): InvoiceServiceInterface
+    {
+        // TODO: Implement invoices() method.
     }
 }

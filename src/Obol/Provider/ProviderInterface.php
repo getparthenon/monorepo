@@ -17,6 +17,7 @@ namespace Obol\Provider;
 use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
+use Obol\InvoiceServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
@@ -59,6 +60,8 @@ interface ProviderInterface
     public function subscriptions(): SubscriptionServiceInterface;
 
     public function webhook(): WebhookServiceInterface;
+
+    public function invoices(): InvoiceServiceInterface;
 
     public function getName(): string;
 }
