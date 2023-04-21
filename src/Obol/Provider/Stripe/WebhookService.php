@@ -73,7 +73,7 @@ class WebhookService implements WebhookServiceInterface
     {
         $datetime = new \DateTime();
         $datetime->setTimestamp($dispute->created);
-        $event->setDisputedPaymentReference($dispute->charge);
+        $event->setPaymentReference($dispute->charge);
         $event->setReason($dispute->reason);
         $event->setAmount($dispute->amount);
         $event->setCurrency($dispute->currency);

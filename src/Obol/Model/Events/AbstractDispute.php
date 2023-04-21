@@ -18,7 +18,7 @@ abstract class AbstractDispute
 {
     private string $id;
 
-    private string $disputedPaymentReference;
+    private string $paymentReference;
 
     private string $reason;
 
@@ -50,14 +50,14 @@ abstract class AbstractDispute
         $this->status = $status;
     }
 
-    public function getDisputedPaymentReference(): string
+    public function getPaymentReference(): string
     {
-        return $this->disputedPaymentReference;
+        return $this->paymentReference;
     }
 
-    public function setDisputedPaymentReference(string $disputedPaymentReference): void
+    public function setPaymentReference(string $paymentReference): void
     {
-        $this->disputedPaymentReference = $disputedPaymentReference;
+        $this->paymentReference = $paymentReference;
     }
 
     public function getReason(): string
