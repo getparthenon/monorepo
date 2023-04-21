@@ -44,6 +44,7 @@ class ChargeBackService implements ChargeBackServiceInterface
 
         foreach ($stripeResult->data as $stripeChargeBack) {
             $chargeBack = new ChargeBack();
+            $chargeBack->setId($stripeChargeBack->id);
             $chargeBack->setAmount($stripeChargeBack->amount);
             $chargeBack->setCurrency($stripeChargeBack->currency);
             $chargeBack->setPaymentReference($stripeChargeBack->charge);
