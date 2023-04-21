@@ -16,7 +16,9 @@ namespace Obol\Model\Events;
 
 abstract class AbstractDispute
 {
-    private string $disputedPaymentId;
+    private string $id;
+
+    private string $disputedPaymentReference;
 
     private string $reason;
 
@@ -28,6 +30,16 @@ abstract class AbstractDispute
 
     private string $status;
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
     public function getStatus(): string
     {
         return $this->status;
@@ -38,14 +50,14 @@ abstract class AbstractDispute
         $this->status = $status;
     }
 
-    public function getDisputedPaymentId(): string
+    public function getDisputedPaymentReference(): string
     {
-        return $this->disputedPaymentId;
+        return $this->disputedPaymentReference;
     }
 
-    public function setDisputedPaymentId(string $disputedPaymentId): void
+    public function setDisputedPaymentReference(string $disputedPaymentReference): void
     {
-        $this->disputedPaymentId = $disputedPaymentId;
+        $this->disputedPaymentReference = $disputedPaymentReference;
     }
 
     public function getReason(): string

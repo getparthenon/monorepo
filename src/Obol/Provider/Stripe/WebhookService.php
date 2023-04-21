@@ -73,12 +73,13 @@ class WebhookService implements WebhookServiceInterface
     {
         $datetime = new \DateTime();
         $datetime->setTimestamp($dispute->created);
-        $event->setDisputedPaymentId($dispute->charge);
+        $event->setDisputedPaymentReference($dispute->charge);
         $event->setReason($dispute->reason);
         $event->setAmount($dispute->amount);
         $event->setCurrency($dispute->currency);
         $event->setCreatedAt($datetime);
         $event->setStatus($dispute->status);
+        $event->setId($dispute->id);
     }
 
     private function populateChargeEvent(Charge $charge, AbstractCharge $event): void
@@ -90,6 +91,7 @@ class WebhookService implements WebhookServiceInterface
         $event->setExternalCustomerId($charge->customer);
         $event->setExternalPaymentId($charge->id);
         $event->setExternalPaymentMethodId($charge->payment_method);
+        $event->setId($charge->id);
 
         if (true === $charge->livemode) {
             $url = sprintf('https://dashboard.stripe.com/payments/%s', $charge->id);
