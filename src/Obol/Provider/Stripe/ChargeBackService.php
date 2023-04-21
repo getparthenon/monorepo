@@ -38,7 +38,7 @@ class ChargeBackService implements ChargeBackServiceInterface
     {
         $now = new \DateTime('-24 hours', new \DateTimeZone('UTC'));
 
-        $stripeResult = $this->stripe->disputes->all(['created' => ['gtw' => $now->getTimestamp()]]);
+        $stripeResult = $this->stripe->disputes->all(['created' => ['gte' => $now->getTimestamp()]]);
 
         $output = [];
 
