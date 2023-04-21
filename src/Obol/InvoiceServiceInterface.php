@@ -18,5 +18,5 @@ use Obol\Model\Invoice\Invoice;
 
 interface InvoiceServiceInterface
 {
-    public function fetch(string $id): Invoice;
+    public function fetch(string $id): ?Invoice;
 }

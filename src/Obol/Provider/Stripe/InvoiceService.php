@@ -18,6 +18,7 @@ use Obol\InvoiceServiceInterface;
 use Obol\Model\Invoice\Invoice;
 use Obol\Model\Invoice\InvoiceLine;
 use Obol\Provider\ProviderInterface;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 class InvoiceService implements InvoiceServiceInterface
@@ -38,9 +39,17 @@ class InvoiceService implements InvoiceServiceInterface
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
     }
 
-    public function fetch(string $id): Invoice
+    public function fetch(string $id): ?Invoice
     {
-        $stripeInvoice = $this->stripe->invoices->retrieve($id);
+        try {
+            $stripeInvoice = $this->stripe->invoices->retrieve($id);
+
+            if (!$stripeInvoice) {
+                return null;
+            }
+        } catch (ApiErrorException $exception) {
+            return null;
+        }
 
         $output = new Invoice();
         $output->setCurrency($stripeInvoice->currency);
