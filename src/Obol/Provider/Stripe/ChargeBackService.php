@@ -38,21 +38,25 @@ class ChargeBackService implements ChargeBackServiceInterface
     {
         $now = new \DateTime('-24 hours', new \DateTimeZone('UTC'));
 
-        $stripeResult = $this->stripe->disputes->all(['created' => ['gte' => $now->getTimestamp()]]);
-
+        $lastId = null;
         $output = [];
 
-        foreach ($stripeResult->data as $stripeChargeBack) {
-            $chargeBack = new ChargeBack();
-            $chargeBack->setId($stripeChargeBack->id);
-            $chargeBack->setAmount($stripeChargeBack->amount);
-            $chargeBack->setCurrency($stripeChargeBack->currency);
-            $chargeBack->setPaymentReference($stripeChargeBack->charge);
-            $chargeBack->setStatus($stripeChargeBack->status);
-            $chargeBack->setReason($stripeChargeBack->reason);
+        do {
+            $stripeResult = $this->stripe->disputes->all(['created' => ['gte' => $now->getTimestamp()], 'starting_after' => $lastId]);
 
-            $output[] = $chargeBack;
-        }
+            foreach ($stripeResult->data as $stripeChargeBack) {
+                $chargeBack = new ChargeBack();
+                $chargeBack->setId($stripeChargeBack->id);
+                $chargeBack->setAmount($stripeChargeBack->amount);
+                $chargeBack->setCurrency($stripeChargeBack->currency);
+                $chargeBack->setPaymentReference($stripeChargeBack->charge);
+                $chargeBack->setStatus($stripeChargeBack->status);
+                $chargeBack->setReason($stripeChargeBack->reason);
+
+                $output[] = $chargeBack;
+                $lastId = $stripeChargeBack->id;
+            }
+        } while ($stripeResult->has_more);
 
         return $output;
     }
