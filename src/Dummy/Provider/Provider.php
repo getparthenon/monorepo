@@ -17,6 +17,7 @@ namespace App\Dummy\Provider;
 use App\Tests\Dummy\Provider\CustomerService;
 use App\Tests\Dummy\Provider\PriceService;
 use App\Tests\Dummy\Provider\ProductService;
+use Obol\ChargeBackServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
@@ -78,5 +79,10 @@ class Provider implements ProviderInterface
     public function invoices(): InvoiceServiceInterface
     {
         // TODO: Implement invoices() method.
+    }
+
+    public function chargeBacks(): ChargeBackServiceInterface
+    {
+        // TODO: Implement chargeBacks() method.
     }
 }

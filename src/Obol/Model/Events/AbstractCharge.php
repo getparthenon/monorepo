@@ -16,6 +16,8 @@ namespace Obol\Model\Events;
 
 abstract class AbstractCharge
 {
+    private string $id;
+
     private string $externalPaymentId;
 
     private int $amount;
@@ -31,6 +33,16 @@ abstract class AbstractCharge
     private ?string $externalInvoiceId = null;
 
     private \DateTimeInterface $createdAt;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getPaymentReference(): string
     {
