@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\ChargeBackServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
@@ -38,6 +39,7 @@ class Provider implements ProviderInterface
     private SubscriptionServiceInterface $subscriptionService;
     private WebhookServiceInterface $webhookService;
     private InvoiceServiceInterface $invoiceService;
+    private ChargeBackServiceInterface $chargeBackService;
     private StripeClient $stripeClient;
     private Config $config;
 
@@ -53,6 +55,7 @@ class Provider implements ProviderInterface
         ?SubscriptionServiceInterface $subscriptionService = null,
         ?SubscriptionServiceInterface $webhookService = null,
         ?InvoiceServiceInterface $invoiceService = null,
+        ?ChargeBackServiceInterface $chargeBackService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -65,6 +68,7 @@ class Provider implements ProviderInterface
         $this->subscriptionService = $subscriptionService ?? new SubscriptionService($this, $config, $this->stripeClient);
         $this->webhookService = $webhookService ?? new WebhookService($this, $config, $this->stripeClient);
         $this->invoiceService = $invoiceService ?? new InvoiceService($this, $config, $this->stripeClient);
+        $this->chargeBackService = $chargeBackService ?? new ChargeBackService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -115,5 +119,10 @@ class Provider implements ProviderInterface
     public function invoices(): InvoiceServiceInterface
     {
         return $this->invoiceService;
+    }
+
+    public function chargeBacks(): ChargeBackServiceInterface
+    {
+        // TODO: Implement chargeBacks() method.
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider;
 
+use Obol\ChargeBackServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
@@ -62,6 +63,8 @@ interface ProviderInterface
     public function webhook(): WebhookServiceInterface;
 
     public function invoices(): InvoiceServiceInterface;
+
+    public function chargeBacks(): ChargeBackServiceInterface;
 
     public function getName(): string;
 }
