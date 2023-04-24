@@ -12,7 +12,7 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\Invoice;
+namespace Parthenon\Billing\Receipt;
 
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
@@ -110,7 +110,7 @@ class ReceiptGenerator implements ReceiptGeneratorInterface
     public function generateReceiptForPayment(Payment $payment): Receipt
     {
         $receipt = new Receipt();
-        $total = null;
+        $total = $payment->getMoneyAmount();
         $vatTotal = null;
         $subTotalTotal = null;
         $lines = [];
