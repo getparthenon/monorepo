@@ -15,19 +15,12 @@ declare(strict_types=1);
 namespace Parthenon\Billing\Invoice;
 
 use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\Invoice;
-use Parthenon\Billing\Repository\PaymentRepositoryInterface;
-use Parthenon\Billing\Repository\SubscriptionRepositoryInterface;
+use Parthenon\Billing\Entity\Payment;
+use Parthenon\Billing\Entity\Receipt;
 
-class InvoiceGenerator
+interface ReceiptGeneratorInterface
 {
-    public function __construct(
-        private SubscriptionRepositoryInterface $subscriptionRepository,
-        private PaymentRepositoryInterface $paymentRepository
-    ) {
-    }
+    public function generateInvoiceForPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate, CustomerInterface $customer): Receipt;
 
-    public function generateInvoiceForPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate, CustomerInterface $customer): Invoice
-    {
-    }
+    public function generateReceiptForPayment(Payment $payment): Receipt;
 }

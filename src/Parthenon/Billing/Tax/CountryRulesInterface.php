@@ -12,16 +12,11 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\Repository\Orm;
+namespace Parthenon\Billing\Tax;
 
-use Doctrine\Persistence\ManagerRegistry;
-use Parthenon\Billing\Entity\Invoice;
-use Parthenon\Common\Repository\CustomServiceRepository;
+use Parthenon\Common\Address;
 
-class InvoiceServiceRepository extends CustomServiceRepository
+interface CountryRulesInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Invoice::class);
-    }
+    public function getDigitalVatPercentage(Address $address): int|float;
 }
