@@ -28,8 +28,8 @@ class TaxCalculator implements TaxCalculatorInterface
     {
         $rate = $this->rules->getDigitalVatPercentage($customer->getBillingAddress());
 
-        $rate = $rate / 100;
+        $rate = ($rate / 100) + 1;
 
-        return $money->multipliedBy($rate, RoundingMode::HALF_UP);
+        return $money->minus($money->dividedBy($rate, RoundingMode::HALF_DOWN), RoundingMode::HALF_UP);
     }
 }
