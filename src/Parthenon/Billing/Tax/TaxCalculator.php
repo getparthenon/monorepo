@@ -24,12 +24,17 @@ class TaxCalculator implements TaxCalculatorInterface
     {
     }
 
-    public function calculateAmountForCustomer(CustomerInterface $customer, Money $money): Money
+    public function calculateSubTotalForCustomer(CustomerInterface $customer, Money $money): Money
     {
         $rate = $this->rules->getDigitalVatPercentage($customer->getBillingAddress());
 
         $rate = ($rate / 100) + 1;
 
-        return $money->minus($money->dividedBy($rate, RoundingMode::HALF_DOWN), RoundingMode::HALF_UP);
+        return $money->dividedBy($rate, RoundingMode::HALF_DOWN);
+    }
+
+    public function calculateVatAmountForCustomer(CustomerInterface $customer, Money $money): Money
+    {
+        return $money->minus($this->calculateSubTotalForCustomer($customer, $money), RoundingMode::HALF_UP);
     }
 }

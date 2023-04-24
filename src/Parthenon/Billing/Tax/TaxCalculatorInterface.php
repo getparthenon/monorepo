@@ -19,5 +19,7 @@ use Parthenon\Billing\Entity\CustomerInterface;
 
 interface TaxCalculatorInterface
 {
-    public function calculateAmountForCustomer(CustomerInterface $customer, Money $money): Money;
+    public function calculateSubTotalForCustomer(CustomerInterface $customer, Money $money): Money;
+
+    public function calculateVatAmountForCustomer(CustomerInterface $customer, Money $money): Money;
 }

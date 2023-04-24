@@ -54,8 +54,8 @@ class ReceiptGenerator implements ReceiptGeneratorInterface
             $total = $this->addToTotal($total, $money);
 
             if (0 === $payment->getSubscriptions()->count()) {
-                $vat = $this->taxCalculator->calculateAmountForCustomer($customer, $payment->getMoneyAmount());
-                $subTotal = $money->minus($vat, RoundingMode::HALF_DOWN);
+                $vat = $this->taxCalculator->calculateVatAmountForCustomer($customer, $payment->getMoneyAmount());
+                $subTotal = $this->taxCalculator->calculateSubTotalForCustomer($customer, $money);
                 $vatTotal = $this->addToTotal($vatTotal, $vat);
                 $subTotalTotal = $this->addToTotal($subTotalTotal, $subTotal);
 
@@ -75,7 +75,7 @@ class ReceiptGenerator implements ReceiptGeneratorInterface
         foreach ($subscriptions as $subscription) {
             $money = $subscription->getMoneyAmount();
 
-            $vat = $this->taxCalculator->calculateAmountForCustomer($customer, $money);
+            $vat = $this->taxCalculator->calculateVatAmountForCustomer($customer, $money);
             $subTotal = $money->minus($vat, RoundingMode::HALF_DOWN);
 
             $vatTotal = $this->addToTotal($vatTotal, $vat);
@@ -120,8 +120,8 @@ class ReceiptGenerator implements ReceiptGeneratorInterface
         foreach ($payment->getSubscriptions() as $subscription) {
             $money = $subscription->getMoneyAmount();
 
-            $vat = $this->taxCalculator->calculateAmountForCustomer($customer, $money);
-            $subTotal = $money->minus($vat, RoundingMode::HALF_DOWN);
+            $vat = $this->taxCalculator->calculateVatAmountForCustomer($customer, $money);
+            $subTotal = $this->taxCalculator->calculateSubTotalForCustomer($customer, $money);
 
             $vatTotal = $this->addToTotal($vatTotal, $vat);
             $subTotalTotal = $this->addToTotal($subTotalTotal, $subTotal);

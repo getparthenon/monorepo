@@ -44,8 +44,10 @@ class ReceiptGeneratorTest extends TestCase
         $payment->method('getMoneyAmount')->willReturn($amount);
 
         $vat = Money::ofMinor(2200, 'USD');
+        $subTotal = Money::ofMinor(7800, 'USD');
         $taxCalculator = $this->createMock(TaxCalculatorInterface::class);
-        $taxCalculator->method('calculateAmountForCustomer')->with($customer, $amount)->willReturn($vat);
+        $taxCalculator->method('calculateVatAmountForCustomer')->with($customer, $amount)->willReturn($vat);
+        $taxCalculator->method('calculateSubTotalForCustomer')->with($customer, $amount)->willReturn($subTotal);
 
         $paymentRepository = $this->createMock(PaymentRepositoryInterface::class);
 
@@ -85,7 +87,11 @@ class ReceiptGeneratorTest extends TestCase
         $vat = Money::ofMinor(2200, 'USD');
         $vatTwo = Money::ofMinor(2100, 'USD');
         $taxCalculator = $this->createMock(TaxCalculatorInterface::class);
-        $taxCalculator->method('calculateAmountForCustomer')->will($this->onConsecutiveCalls($vat, $vatTwo));
+        $taxCalculator->method('calculateVatAmountForCustomer')->will($this->onConsecutiveCalls($vat, $vatTwo));
+
+        $subTotal = Money::ofMinor(7800, 'USD');
+        $subTotalTwo = Money::ofMinor(10245, 'USD');
+        $taxCalculator->method('calculateSubTotalForCustomer')->will($this->onConsecutiveCalls($subTotal, $subTotalTwo));
         $paymentRepository = $this->createMock(PaymentRepositoryInterface::class);
 
         $subject = new ReceiptGenerator($paymentRepository, $taxCalculator);
