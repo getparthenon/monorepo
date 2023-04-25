@@ -32,8 +32,8 @@ class TaxCalculator implements TaxCalculatorInterface
 
         $rate = ($rawRate / 100) + 1;
 
-        $subTotal = $money->dividedBy($rate, RoundingMode::HALF_DOWN);
-        $vat = $money->minus($subTotal, RoundingMode::HALF_UP);
+        $subTotal = $money->dividedBy($rate, RoundingMode::HALF_UP);
+        $vat = $money->minus($subTotal, RoundingMode::HALF_DOWN);
 
         $receiptLine->setVatPercentage(floatval($rawRate));
         $receiptLine->setSubTotal($subTotal->getMinorAmount()->toInt());
