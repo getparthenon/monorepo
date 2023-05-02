@@ -16,6 +16,7 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Model\Events\AbstractCharge;
 use Obol\Model\Events\AbstractDispute;
+use Obol\Model\Events\ChargeFailed;
 use Obol\Model\Events\ChargeSucceeded;
 use Obol\Model\Events\DisputeClosed;
 use Obol\Model\Events\DisputeCreation;
@@ -55,6 +56,8 @@ class WebhookService implements WebhookServiceInterface
                 return $this->processDisputeClosed($event->data->object);
             case 'charge.succeeded':
                 return $this->processChargeApproved($event->data->object);
+            case 'charge.failed':
+                return $this->processChargeFailed($event->data->object);
             default:
                 return null;
         }
@@ -63,6 +66,15 @@ class WebhookService implements WebhookServiceInterface
     private function processChargeApproved(Charge $charge): ChargeSucceeded
     {
         $event = new ChargeSucceeded();
+
+        $this->populateChargeEvent($charge, $event);
+
+        return $event;
+    }
+
+    private function processChargeFailed(Charge $charge): ChargeFailed
+    {
+        $event = new ChargeFailed();
 
         $this->populateChargeEvent($charge, $event);
 
