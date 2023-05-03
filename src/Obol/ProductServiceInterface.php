@@ -24,4 +24,6 @@ interface ProductServiceInterface
      * @throws ProviderFailureException
      */
     public function createProduct(Product $product): ProductCreation;
+
+    public function fetchProduct(string $productId): Product;
 }

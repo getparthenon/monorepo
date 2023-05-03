@@ -58,4 +58,21 @@ class ProductService implements ProductServiceInterface
 
         return $productCreation;
     }
+
+    public function fetchProduct(string $productId): Product
+    {
+        $stripeProduct = $this->stripe->products->retrieve($productId);
+
+        if (true === $stripeProduct->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/products/%s', $productResponse->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/products/%s', $productResponse->id);
+        }
+
+        $product = new Product();
+        $product->setName($stripeProduct->name);
+        $product->setUrl($url);
+
+        return $product;
+    }
 }

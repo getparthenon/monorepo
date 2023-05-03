@@ -18,6 +18,8 @@ class Product
 {
     private string $name;
 
+    private ?string $url = null;
+
     public function getName(): string
     {
         return $this->name;
@@ -26,5 +28,15 @@ class Product
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): void
+    {
+        $this->url = $url;
     }
 }
