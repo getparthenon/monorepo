@@ -81,7 +81,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
     public function list(int $limit = 10, ?string $lastId = null): array
     {
         $payload = ['limit' => $limit];
-        if (!isset($lastId) && !empty($lastId)) {
+        if (isset($lastId) && !empty($lastId)) {
             $payload['starting_after'] = $lastId;
         }
         $result = $this->stripe->customers->all($payload);
