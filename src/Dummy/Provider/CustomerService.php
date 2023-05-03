@@ -28,4 +28,9 @@ class CustomerService implements CustomerServiceInterface
 
         return $customerCreation;
     }
+
+    public function fetch(string $customerId): Customer
+    {
+        // TODO: Implement fetch() method.
+    }
 }
