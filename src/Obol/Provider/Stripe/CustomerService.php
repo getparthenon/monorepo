@@ -75,6 +75,11 @@ class CustomerService implements \Obol\CustomerServiceInterface
     {
         $stripeCustomer = $this->stripe->customers->retrieve($customerId);
 
+        if (true === $stripeCustomer->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/customers/%s', $stripeCustomer->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/customers/%s', $stripeCustomer->id);
+        }
         $customer = new Customer();
         $customer->setId($stripeCustomer->id);
         $customer->setName($stripeCustomer->name);

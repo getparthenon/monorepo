@@ -22,6 +22,8 @@ class Customer
 
     protected ?string $description = '';
 
+    protected ?string $url = null;
+
     protected string $email = '';
 
     protected Address $address;
@@ -74,5 +76,15 @@ class Customer
     public function setAddress(Address $address): void
     {
         $this->address = $address;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): void
+    {
+        $this->url = $url;
     }
 }
