@@ -26,4 +26,6 @@ interface CustomerServiceInterface
     public function create(Customer $customer): CustomerCreation;
 
     public function fetch(string $customerId): Customer;
+
+    public function list(int $limit = 10, ?string $lastId = null): array;
 }

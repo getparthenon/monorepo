@@ -75,6 +75,22 @@ class CustomerService implements \Obol\CustomerServiceInterface
     {
         $stripeCustomer = $this->stripe->customers->retrieve($customerId);
 
+        return $this->populateCustomer($stripeCustomer);
+    }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        $result = $this->stripe->customers->all(['limit' => $limit, 'starting_after' => $lastId]);
+        $output = [];
+        foreach ($result->data as $stripeCustomer) {
+            $output[] = $this->populateCustomer($stripeCustomer);
+        }
+
+        return $output;
+    }
+
+    private function populateCustomer(\Stripe\Customer $stripeCustomer): Customer
+    {
         if (true === $stripeCustomer->livemode) {
             $url = sprintf('https://dashboard.stripe.com/customers/%s', $stripeCustomer->id);
         } else {
