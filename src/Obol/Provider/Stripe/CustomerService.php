@@ -80,7 +80,11 @@ class CustomerService implements \Obol\CustomerServiceInterface
 
     public function list(int $limit = 10, ?string $lastId = null): array
     {
-        $result = $this->stripe->customers->all(['limit' => $limit, 'starting_after' => $lastId]);
+        $payload = ['limit' => $limit];
+        if (!isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+        $result = $this->stripe->customers->all($payload);
         $output = [];
         foreach ($result->data as $stripeCustomer) {
             $output[] = $this->populateCustomer($stripeCustomer);
@@ -108,7 +112,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $address->setCity($stripeCustomer->address?->city);
         $address->setCountryCode($stripeCustomer->address?->country);
         $address->setState($stripeCustomer->address?->state);
-        $address->setPostalCode($stripeCustomer->address?->post_code);
+        $address->setPostalCode($stripeCustomer->address?->postal_code);
         $customer->setAddress($address);
 
         return $customer;

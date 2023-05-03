@@ -18,13 +18,13 @@ class Customer
 {
     protected ?string $id = null;
 
-    protected string $name = '';
+    protected ?string $name = '';
 
     protected ?string $description = '';
 
     protected ?string $url = null;
 
-    protected string $email = '';
+    protected ?string $email = '';
 
     protected Address $address;
 
@@ -38,12 +38,12 @@ class Customer
         $this->id = $id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -58,12 +58,12 @@ class Customer
         $this->description = $description;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
