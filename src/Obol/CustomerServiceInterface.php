@@ -24,4 +24,6 @@ interface CustomerServiceInterface
      * @throws ProviderFailureException
      */
     public function create(Customer $customer): CustomerCreation;
+
+    public function fetch(string $customerId): Customer;
 }

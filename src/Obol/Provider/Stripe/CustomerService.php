@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Stripe;
 
 use Obol\Exception\ProviderFailureException;
+use Obol\Model\Address;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
 use Obol\Provider\ProviderInterface;
@@ -68,5 +69,27 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $customerCreation->setDetailsUrl($url);
 
         return $customerCreation;
+    }
+
+    public function fetch(string $customerId): Customer
+    {
+        $stripeCustomer = $this->stripe->customers->retrieve($customerId);
+
+        $customer = new Customer();
+        $customer->setId($stripeCustomer->id);
+        $customer->setName($stripeCustomer->name);
+        $customer->setEmail($stripeCustomer->email);
+        $customer->setDescription($stripeCustomer->description);
+
+        $address = new Address();
+        $address->setStreetLineOne($stripeCustomer->address?->line1);
+        $address->setStreetLineTwo($stripeCustomer->address?->line2);
+        $address->setCity($stripeCustomer->address?->city);
+        $address->setCountryCode($stripeCustomer->address?->country);
+        $address->setState($stripeCustomer->address?->state);
+        $address->setPostalCode($stripeCustomer->address?->post_code);
+        $customer->setAddress($address);
+
+        return $customer;
     }
 }

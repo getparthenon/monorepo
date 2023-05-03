@@ -16,6 +16,8 @@ namespace Obol\Model;
 
 class Customer
 {
+    protected ?string $id = null;
+
     protected string $name = '';
 
     protected ?string $description = '';
@@ -23,6 +25,16 @@ class Customer
     protected string $email = '';
 
     protected Address $address;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getName(): string
     {
