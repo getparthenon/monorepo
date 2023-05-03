@@ -16,6 +16,7 @@ namespace Obol;
 
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\CreatePrice;
+use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 
 interface PriceServiceInterface
@@ -24,4 +25,6 @@ interface PriceServiceInterface
      * @throws ProviderFailureException
      */
     public function createPrice(CreatePrice $createPrice): PriceCreation;
+
+    public function fetch(string $priceId): Price;
 }

@@ -16,6 +16,7 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\CreatePrice;
+use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 use Obol\PriceServiceInterface;
 use Obol\Provider\ProviderInterface;
@@ -68,5 +69,28 @@ class PriceService implements PriceServiceInterface
         $priceCreation->setDetailsUrl($url);
 
         return $priceCreation;
+    }
+
+    public function fetch(string $priceId): Price
+    {
+        $stripePrice = $this->stripe->prices->retrieve($priceId);
+
+        if (true === $stripePrice->livemode) {
+            $url = sprintf('https://dashboard.stripe.com/prices/%s', $stripePrice->id);
+        } else {
+            $url = sprintf('https://dashboard.stripe.com/test/prices/%s', $stripePrice->id);
+        }
+
+        $price = new Price();
+        $price->setId($priceId);
+        $price->setAmount($stripePrice->unit_amount);
+        $price->setCurrency($stripePrice->currency);
+        $price->setUrl($url);
+        $price->setProductReference($stripePrice->product);
+        $price->setRecurring(isset($stripePrice->recurring?->interval));
+        $price->setSchedule($stripePrice->recurring?->interval);
+        $price->setIncludingTax('inclusive' === $stripePrice->tax_behavior);
+
+        return $price;
     }
 }

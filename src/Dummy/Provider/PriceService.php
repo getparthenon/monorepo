@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace App\Dummy\Provider;
 
 use Obol\Model\CreatePrice;
+use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 use Obol\PriceServiceInterface;
 
@@ -26,5 +27,9 @@ class PriceService implements PriceServiceInterface
         $priceCreation->setReference(bin2hex(random_bytes(32)));
 
         return $priceCreation;
+    }
+
+    public function fetch(string $priceId): Price
+    {
     }
 }
