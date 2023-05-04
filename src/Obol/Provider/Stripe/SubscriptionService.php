@@ -74,6 +74,7 @@ class SubscriptionService implements SubscriptionServiceInterface
         $subscription->setSeats($subscriptionItem->quantity);
         $subscription->setStoredPaymentReference($stripeSubscription->default_source);
         $subscription->setCustomerReference($stripeSubscription->customer);
+        $subscription->setStatus($stripeSubscription->status);
 
         $createdAt = new \DateTime();
         $createdAt->setTimestamp($subscriptionItem->created);
