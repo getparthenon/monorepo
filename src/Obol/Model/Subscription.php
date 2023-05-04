@@ -40,6 +40,12 @@ class Subscription
 
     protected ?string $storedPaymentReference = null;
 
+    protected ?string $customerReference = null;
+
+    protected ?\DateTimeInterface $createdAt = null;
+
+    protected ?\DateTimeInterface $validUntil = null;
+
     public function getBillingDetails(): BillingDetails
     {
         return $this->billingDetails;
@@ -180,5 +186,35 @@ class Subscription
     public function hasLineId(): bool
     {
         return isset($this->lineId);
+    }
+
+    public function getCustomerReference(): ?string
+    {
+        return $this->customerReference;
+    }
+
+    public function setCustomerReference(?string $customerReference): void
+    {
+        $this->customerReference = $customerReference;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getValidUntil(): ?\DateTimeInterface
+    {
+        return $this->validUntil;
+    }
+
+    public function setValidUntil(?\DateTimeInterface $validUntil): void
+    {
+        $this->validUntil = $validUntil;
     }
 }
