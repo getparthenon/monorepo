@@ -75,7 +75,7 @@ class PriceService implements PriceServiceInterface
     {
         $stripePrice = $this->stripe->prices->retrieve($priceId);
 
-        $price = $this->populatePrice($stripePrice, $priceId);
+        $price = $this->populatePrice($stripePrice);
 
         return $price;
     }
@@ -96,7 +96,7 @@ class PriceService implements PriceServiceInterface
         return $output;
     }
 
-    public function populatePrice(\Stripe\Price $stripePrice, string $priceId): Price
+    public function populatePrice(\Stripe\Price $stripePrice): Price
     {
         if (true === $stripePrice->livemode) {
             $url = sprintf('https://dashboard.stripe.com/prices/%s', $stripePrice->id);
@@ -105,7 +105,7 @@ class PriceService implements PriceServiceInterface
         }
 
         $price = new Price();
-        $price->setId($priceId);
+        $price->setId($stripePrice->id);
         $price->setAmount($stripePrice->unit_amount);
         $price->setCurrency($stripePrice->currency);
         $price->setUrl($url);
