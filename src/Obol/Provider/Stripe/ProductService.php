@@ -93,6 +93,7 @@ class ProductService implements ProductServiceInterface
         }
 
         $product = new Product();
+        $product->setId($stripeProduct->id);
         $product->setName($stripeProduct->name);
         $product->setUrl($url);
 

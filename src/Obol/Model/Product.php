@@ -16,9 +16,21 @@ namespace Obol\Model;
 
 class Product
 {
+    private ?string $id = null;
+
     private string $name;
 
     private ?string $url = null;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getName(): string
     {
