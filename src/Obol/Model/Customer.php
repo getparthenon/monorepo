@@ -26,6 +26,8 @@ class Customer
 
     protected ?string $email = '';
 
+    protected ?string $defaultSource = '';
+
     protected Address $address;
 
     public function getId(): ?string
@@ -86,5 +88,15 @@ class Customer
     public function setUrl(?string $url): void
     {
         $this->url = $url;
+    }
+
+    public function getDefaultSource(): ?string
+    {
+        return $this->defaultSource;
+    }
+
+    public function setDefaultSource(?string $defaultSource): void
+    {
+        $this->defaultSource = $defaultSource;
     }
 }
