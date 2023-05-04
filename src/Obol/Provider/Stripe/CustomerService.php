@@ -108,12 +108,11 @@ class CustomerService implements \Obol\CustomerServiceInterface
             $paymentMethodCard->setId($stripePayment->id);
             $paymentMethodCard->setCustomerReference($stripePayment->customer);
             $paymentMethodCard->setLastFour($stripePayment->last4);
-            $paymentMethodCard->setExpiryMonth($stripePayment->exp_month);
-            $paymentMethodCard->setExpiryYear($stripePayment->exp_year);
+            $paymentMethodCard->setExpiryMonth((string) $stripePayment->exp_month);
+            $paymentMethodCard->setExpiryYear((string) $stripePayment->exp_year);
             $paymentMethodCard->setBrand($stripePayment->brand);
 
             $createdAt = new \DateTime();
-            $createdAt->setTimestamp($stripePayment->created);
             $paymentMethodCard->setCreatedAt($createdAt);
             $output[] = $paymentMethodCard;
         }
