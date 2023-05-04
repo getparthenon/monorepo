@@ -67,6 +67,7 @@ class SubscriptionService implements SubscriptionServiceInterface
         $subscription = new Subscription();
         $subscription->setHasTrial(isset($stripeSubscription->trial_start));
         $subscription->setParentReference($stripeSubscription->id);
+        $subscription->setId($stripeSubscription->id);
         $subscription->setLineId($subscriptionItem->id);
         $subscription->setPriceId($subscriptionItem->price->id);
         $subscription->setCostPerSeat($money);
