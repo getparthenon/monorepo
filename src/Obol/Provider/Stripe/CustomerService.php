@@ -105,6 +105,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $customer->setName($stripeCustomer->name);
         $customer->setEmail($stripeCustomer->email);
         $customer->setDescription($stripeCustomer->description);
+        $customer->setUrl($url);
 
         $address = new Address();
         $address->setStreetLineOne($stripeCustomer->address?->line1);
