@@ -75,6 +75,29 @@ class PriceService implements PriceServiceInterface
     {
         $stripePrice = $this->stripe->prices->retrieve($priceId);
 
+        $price = $this->populatePrice($stripePrice, $priceId);
+
+        return $price;
+    }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+        $result = $this->stripe->prices->all($payload);
+        $output = [];
+
+        foreach ($result->data as $stripePrice) {
+            $output[] = $this->populatePrice($stripePrice);
+        }
+
+        return $output;
+    }
+
+    public function populatePrice(\Stripe\Price $stripePrice, string $priceId): Price
+    {
         if (true === $stripePrice->livemode) {
             $url = sprintf('https://dashboard.stripe.com/prices/%s', $stripePrice->id);
         } else {

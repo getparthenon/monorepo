@@ -27,4 +27,9 @@ interface PriceServiceInterface
     public function createPrice(CreatePrice $createPrice): PriceCreation;
 
     public function fetch(string $priceId): Price;
+
+    /**
+     * @return Price[]
+     */
+    public function list(int $limit = 10, ?string $lastId = null): array;
 }

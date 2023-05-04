@@ -32,4 +32,9 @@ class PriceService implements PriceServiceInterface
     public function fetch(string $priceId): Price
     {
     }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        // TODO: Implement list() method.
+    }
 }
