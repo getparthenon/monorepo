@@ -46,7 +46,7 @@ class SubscriptionService implements SubscriptionServiceInterface
 
     public function list(int $limit = 10, ?string $lastId = null): array
     {
-        $payload = ['limit' => $limit];
+        $payload = ['limit' => $limit, 'status' => 'all'];
         if (isset($lastId) && !empty($lastId)) {
             $payload['starting_after'] = $lastId;
         }
