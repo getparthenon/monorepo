@@ -18,6 +18,7 @@ use Obol\Exception\ProviderFailureException;
 use Obol\Model\Address;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
+use Obol\Model\PaymentMethod\PaymentMethodCard;
 use Obol\Provider\ProviderInterface;
 use Stripe\StripeClient;
 
@@ -88,6 +89,33 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $output = [];
         foreach ($result->data as $stripeCustomer) {
             $output[] = $this->populateCustomer($stripeCustomer);
+        }
+
+        return $output;
+    }
+
+    public function getCards(string $customerId, int $limit = 10, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+
+        $result = $this->stripe->customers->allSources($customerId, $payload);
+        $output = [];
+        foreach ($result->data as $stripePayment) {
+            $paymentMethodCard = new PaymentMethodCard();
+            $paymentMethodCard->setId($stripePayment->id);
+            $paymentMethodCard->setCustomerReference($stripePayment->customer);
+            $paymentMethodCard->setLastFour($stripePayment->last4);
+            $paymentMethodCard->setExpiryMonth($stripePayment->exp_month);
+            $paymentMethodCard->setExpiryYear($stripePayment->exp_year);
+            $paymentMethodCard->setBrand($stripePayment->brand);
+
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp($stripePayment->created);
+            $paymentMethodCard->setCreatedAt($createdAt);
+            $output[] = $paymentMethodCard;
         }
 
         return $output;
