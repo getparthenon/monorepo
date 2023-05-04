@@ -14,9 +14,15 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 
 interface SubscriptionServiceInterface
 {
     public function updatePaymentMethod(UpdatePaymentMethod $updatePaymentMethod): void;
+
+    /**
+     * @return Subscription[]
+     */
+    public function list(int $limit = 10, ?string $lastId = null): array;
 }
