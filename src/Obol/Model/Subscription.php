@@ -46,6 +46,8 @@ class Subscription
 
     protected ?\DateTimeInterface $validUntil = null;
 
+    protected ?\DateTimeInterface $startOfCurrentPeriod = null;
+
     public function getBillingDetails(): BillingDetails
     {
         return $this->billingDetails;
@@ -216,5 +218,15 @@ class Subscription
     public function setValidUntil(?\DateTimeInterface $validUntil): void
     {
         $this->validUntil = $validUntil;
+    }
+
+    public function getStartOfCurrentPeriod(): ?\DateTimeInterface
+    {
+        return $this->startOfCurrentPeriod;
+    }
+
+    public function setStartOfCurrentPeriod(?\DateTimeInterface $startOfCurrentPeriod): void
+    {
+        $this->startOfCurrentPeriod = $startOfCurrentPeriod;
     }
 }

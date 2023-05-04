@@ -83,6 +83,10 @@ class SubscriptionService implements SubscriptionServiceInterface
         $validUntil->setTimestamp($stripeSubscription->current_period_end);
         $subscription->setValidUntil($validUntil);
 
+        $currentPeriodStart = new \DateTime();
+        $currentPeriodStart->setTimestamp($stripeSubscription->current_period_start);
+        $subscription->setStartOfCurrentPeriod($currentPeriodStart);
+
         return $subscription;
     }
 }
