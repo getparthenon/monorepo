@@ -19,6 +19,7 @@ use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
+use Obol\PaymentMethodServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
@@ -88,5 +89,10 @@ class Provider implements ProviderInterface
     public function chargeBacks(): ChargeBackServiceInterface
     {
         // TODO: Implement chargeBacks() method.
+    }
+
+    public function paymentMethods(): PaymentMethodServiceInterface
+    {
+        // TODO: Implement paymentMethods() method.
     }
 }

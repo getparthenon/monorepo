@@ -19,6 +19,7 @@ use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
+use Obol\PaymentMethodServiceInterface;
 use Obol\PaymentServiceInterface;
 use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
@@ -65,6 +66,8 @@ interface ProviderInterface
     public function invoices(): InvoiceServiceInterface;
 
     public function chargeBacks(): ChargeBackServiceInterface;
+
+    public function paymentMethods(): PaymentMethodServiceInterface;
 
     public function getName(): string;
 }
