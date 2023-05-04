@@ -27,5 +27,8 @@ interface CustomerServiceInterface
 
     public function fetch(string $customerId): Customer;
 
+    /**
+     * @return Customer[]
+     */
     public function list(int $limit = 10, ?string $lastId = null): array;
 }

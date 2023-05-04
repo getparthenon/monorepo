@@ -63,6 +63,29 @@ class ProductService implements ProductServiceInterface
     {
         $stripeProduct = $this->stripe->products->retrieve($productId);
 
+        $product = $this->populateProduct($stripeProduct);
+
+        return $product;
+    }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+        $result = $this->stripe->products->all($payload);
+        $output = [];
+
+        foreach ($result->data as $stripeProduct) {
+            $output[] = $this->populateProduct($stripeProduct);
+        }
+
+        return $output;
+    }
+
+    public function populateProduct(\Stripe\Product $stripeProduct): Product
+    {
         if (true === $stripeProduct->livemode) {
             $url = sprintf('https://dashboard.stripe.com/products/%s', $stripeProduct->id);
         } else {

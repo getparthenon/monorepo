@@ -26,4 +26,9 @@ interface ProductServiceInterface
     public function createProduct(Product $product): ProductCreation;
 
     public function fetchProduct(string $productId): Product;
+
+    /**
+     * @return Product[]
+     */
+    public function list(int $limit = 10, ?string $lastId = null): array:
 }
