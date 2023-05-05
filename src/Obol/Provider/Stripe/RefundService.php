@@ -14,9 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
-use Brick\Money\Money;
 use Obol\Exception\ProviderFailureException;
-use Obol\Model\PaymentDetails;
 use Obol\Model\Refund;
 use Obol\Model\Refund\IssueRefund;
 use Obol\Provider\ProviderInterface;
@@ -72,7 +70,7 @@ class RefundService implements RefundServiceInterface
             $refund->setId($stripeRefund->id);
             $refund->setAmount($stripeRefund->amount);
             $refund->setCurrency($stripeRefund->currency);
-            $refund->setPaymentId($stripeRefund->charge));
+            $refund->setPaymentId($stripeRefund->charge);
             $createdAt = new \DateTime();
             $createdAt->setTimestamp($stripeRefund->created);
             $refund->setCreatedAt($createdAt);
@@ -81,5 +79,4 @@ class RefundService implements RefundServiceInterface
 
         return $output;
     }
-
 }
