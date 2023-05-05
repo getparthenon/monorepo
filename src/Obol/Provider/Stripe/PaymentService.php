@@ -318,6 +318,7 @@ class PaymentService implements PaymentServiceInterface
             $paymentDetails->setPaymentReference($charge->id);
             $paymentDetails->setStoredPaymentReference($charge->payment_method);
             $paymentDetails->setCustomerReference($charge->customer);
+            $paymentDetails->setInvoiceReference($charge->invoice);
             $paymentDetails->setAmount($money);
 
             if (true === $charge->livemode) {

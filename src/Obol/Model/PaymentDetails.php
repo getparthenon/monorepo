@@ -26,6 +26,8 @@ class PaymentDetails
 
     protected ?string $paymentReferenceLink = null;
 
+    protected ?string $invoiceReference = null;
+
     protected Money $amount;
 
     protected ?\DateTimeInterface $createdAt = null;
@@ -96,5 +98,15 @@ class PaymentDetails
     public function setCreatedAt(\DateTimeInterface $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getInvoiceReference(): ?string
+    {
+        return $this->invoiceReference;
+    }
+
+    public function setInvoiceReference(?string $invoiceReference): void
+    {
+        $this->invoiceReference = $invoiceReference;
     }
 }
