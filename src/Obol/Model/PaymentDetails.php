@@ -28,6 +28,8 @@ class PaymentDetails
 
     protected Money $amount;
 
+    protected \DateTimeInterface $createdAt = null;
+
     public function getCustomerReference(): string
     {
         return $this->customerReference;
@@ -84,5 +86,15 @@ class PaymentDetails
     public function setPaymentReferenceLink(?string $paymentReferenceLink): void
     {
         $this->paymentReferenceLink = $paymentReferenceLink;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

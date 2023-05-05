@@ -303,6 +303,39 @@ class PaymentService implements PaymentServiceInterface
         $this->stripe->customers->update($billingDetails->getCustomerReference(), ['default_source' => $billingDetails->getStoredPaymentReference()]);
     }
 
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+
+        $result = $this->stripe->charges->all($payload);
+        $output = [];
+        foreach ($result->data as $charge) {
+            $money = Money::ofMinor($charge->amount, strtoupper($charge->currency));
+            $paymentDetails = new PaymentDetails();
+            $paymentDetails->setPaymentReference($charge->id);
+            $paymentDetails->setStoredPaymentReference($charge->payment_method);
+            $paymentDetails->setCustomerReference($charge->customer);
+            $paymentDetails->setAmount($money);
+
+            if (true === $charge->livemode) {
+                $url = sprintf('https://dashboard.stripe.com/payments/%s', $charge->id);
+            } else {
+                $url = sprintf('https://dashboard.stripe.com/test/payments/%s', $charge->id);
+            }
+            $paymentDetails->setPaymentReferenceLink($url);
+
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp($charge->created);
+            $paymentDetails->setCreatedAt($createdAt);
+            $output[] = $paymentDetails;
+        }
+
+        return $output;
+    }
+
     private function setCustomerReference(BillingDetails $billingDetails): CustomerCreation
     {
         $customer = new Customer();

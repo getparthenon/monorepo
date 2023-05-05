@@ -61,4 +61,6 @@ interface PaymentServiceInterface
      * @throws ProviderFailureException
      */
     public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess;
+
+    public function list(int $limit = 10, ?string $lastId = null): array;
 }
