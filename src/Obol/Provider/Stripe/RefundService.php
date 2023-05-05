@@ -74,7 +74,7 @@ class RefundService implements RefundServiceInterface
             $refund->setCurrency($stripeRefund->currency);
             $refund->setPaymentId($stripeRefund->charge));
             $createdAt = new \DateTime();
-            $createdAt->setTimestamp($charge->created);
+            $createdAt->setTimestamp($stripeRefund->created);
             $refund->setCreatedAt($createdAt);
             $output[] = $refund;
         }
