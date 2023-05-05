@@ -30,4 +30,9 @@ class RefundService implements RefundServiceInterface
 
         return $refund;
     }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        // TODO: Implement list() method.
+    }
 }

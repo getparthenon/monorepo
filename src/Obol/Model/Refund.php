@@ -24,6 +24,8 @@ class Refund
 
     private string $currency;
 
+    private ?\DateTimeInterface $createdAt = null;
+
     public function getId(): string
     {
         return $this->id;
@@ -62,5 +64,15 @@ class Refund
     public function setPaymentId(string $paymentId): void
     {
         $this->paymentId = $paymentId;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }
