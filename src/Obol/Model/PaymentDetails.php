@@ -18,7 +18,7 @@ use Brick\Money\Money;
 
 class PaymentDetails
 {
-    protected string $customerReference;
+    protected ?string $customerReference = null;
 
     protected ?string $storedPaymentReference = null;
 
@@ -30,12 +30,12 @@ class PaymentDetails
 
     protected ?\DateTimeInterface $createdAt = null;
 
-    public function getCustomerReference(): string
+    public function getCustomerReference(): ?string
     {
         return $this->customerReference;
     }
 
-    public function setCustomerReference(string $customerReference): static
+    public function setCustomerReference(?string $customerReference): static
     {
         $this->customerReference = $customerReference;
 
