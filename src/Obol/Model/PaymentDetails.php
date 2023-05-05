@@ -28,7 +28,7 @@ class PaymentDetails
 
     protected Money $amount;
 
-    protected \DateTimeInterface $createdAt = null;
+    protected ?\DateTimeInterface $createdAt = null;
 
     public function getCustomerReference(): string
     {
