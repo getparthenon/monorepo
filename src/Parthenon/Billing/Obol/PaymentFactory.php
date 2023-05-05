@@ -38,7 +38,7 @@ final class PaymentFactory implements PaymentFactoryInterface
         $payment->setPaymentReference($paymentDetails->getPaymentReference());
         $payment->setPaymentProviderDetailsUrl($paymentDetails->getPaymentReferenceLink());
         $payment->setMoneyAmount($paymentDetails->getAmount());
-        if (!isset($customer)) {
+        if (isset($customer)) {
             $payment->setCustomer($customer);
         }
         $payment->setCompleted(true);
