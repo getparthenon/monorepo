@@ -72,7 +72,7 @@ class SubscriptionService implements SubscriptionServiceInterface
         $subscription->setPriceId($subscriptionItem->price->id);
         $subscription->setCostPerSeat($money);
         $subscription->setSeats($subscriptionItem->quantity);
-        $subscription->setStoredPaymentReference($stripeSubscription->default_source);
+        $subscription->setStoredPaymentReference($stripeSubscription->default_payment_method ?? $stripeSubscription->default_source);
         $subscription->setCustomerReference($stripeSubscription->customer);
         $subscription->setStatus($stripeSubscription->status);
 
