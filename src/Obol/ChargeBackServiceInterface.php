@@ -22,4 +22,6 @@ interface ChargeBackServiceInterface
      * @return ChargeBack[]
      */
     public function createdSinceYesterday(): array;
+
+    public function list(int $limit, ?string $lastId = null): array;
 }

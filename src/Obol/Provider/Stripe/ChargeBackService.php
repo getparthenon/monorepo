@@ -45,13 +45,7 @@ class ChargeBackService implements ChargeBackServiceInterface
             $stripeResult = $this->stripe->disputes->all(['created' => ['gte' => $now->getTimestamp()], 'starting_after' => $lastId]);
 
             foreach ($stripeResult->data as $stripeChargeBack) {
-                $chargeBack = new ChargeBack();
-                $chargeBack->setId($stripeChargeBack->id);
-                $chargeBack->setAmount($stripeChargeBack->amount);
-                $chargeBack->setCurrency($stripeChargeBack->currency);
-                $chargeBack->setPaymentReference($stripeChargeBack->charge);
-                $chargeBack->setStatus($stripeChargeBack->status);
-                $chargeBack->setReason($stripeChargeBack->reason);
+                $chargeBack = $this->populateChargeBack($stripeChargeBack);
 
                 $output[] = $chargeBack;
                 $lastId = $stripeChargeBack->id;
@@ -59,5 +53,36 @@ class ChargeBackService implements ChargeBackServiceInterface
         } while ($stripeResult->has_more);
 
         return $output;
+    }
+
+    public function list(int $limit, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+
+        $stripeResult = $this->stripe->disputes->all($payload);
+        $output = [];
+        foreach ($stripeResult->data as $stripeChargeBack) {
+            $chargeBack = $this->populateChargeBack($stripeChargeBack);
+
+            $output[] = $chargeBack;
+        }
+
+        return $output;
+    }
+
+    public function populateChargeBack(mixed $stripeChargeBack): ChargeBack
+    {
+        $chargeBack = new ChargeBack();
+        $chargeBack->setId($stripeChargeBack->id);
+        $chargeBack->setAmount($stripeChargeBack->amount);
+        $chargeBack->setCurrency($stripeChargeBack->currency);
+        $chargeBack->setPaymentReference($stripeChargeBack->charge);
+        $chargeBack->setStatus($stripeChargeBack->status);
+        $chargeBack->setReason($stripeChargeBack->reason);
+
+        return $chargeBack;
     }
 }
