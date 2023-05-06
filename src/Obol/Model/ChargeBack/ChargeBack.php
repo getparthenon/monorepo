@@ -28,6 +28,8 @@ class ChargeBack
 
     private string $reason;
 
+    private ?\DateTimeInterface $createdAt = null;
+
     public function getId(): string
     {
         return $this->id;
@@ -86,5 +88,15 @@ class ChargeBack
     public function setReason(string $reason): void
     {
         $this->reason = $reason;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

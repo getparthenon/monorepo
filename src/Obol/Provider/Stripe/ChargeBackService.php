@@ -17,6 +17,7 @@ namespace Obol\Provider\Stripe;
 use Obol\ChargeBackServiceInterface;
 use Obol\Model\ChargeBack\ChargeBack;
 use Obol\Provider\ProviderInterface;
+use Stripe\Dispute;
 use Stripe\StripeClient;
 
 class ChargeBackService implements ChargeBackServiceInterface
@@ -73,7 +74,7 @@ class ChargeBackService implements ChargeBackServiceInterface
         return $output;
     }
 
-    public function populateChargeBack(mixed $stripeChargeBack): ChargeBack
+    public function populateChargeBack(Dispute $stripeChargeBack): ChargeBack
     {
         $chargeBack = new ChargeBack();
         $chargeBack->setId($stripeChargeBack->id);
@@ -82,6 +83,10 @@ class ChargeBackService implements ChargeBackServiceInterface
         $chargeBack->setPaymentReference($stripeChargeBack->charge);
         $chargeBack->setStatus($stripeChargeBack->status);
         $chargeBack->setReason($stripeChargeBack->reason);
+
+        $createdAt = new \DateTime();
+        $createdAt->setTimestamp($stripeChargeBack->created);
+        $chargeBack->setCreatedAt($createdAt);
 
         return $chargeBack;
     }
