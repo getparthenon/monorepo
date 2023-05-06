@@ -300,7 +300,13 @@ class PaymentService implements PaymentServiceInterface
 
     public function makeCardDefault(BillingDetails $billingDetails): void
     {
-        $this->stripe->customers->update($billingDetails->getCustomerReference(), ['default_source' => $billingDetails->getStoredPaymentReference()]);
+        if (str_starts_with($billingDetails->getCustomerReference(), 'pm')) {
+            $payload = ['invoice_settings' => ['default_payment_method' => $billingDetails->getStoredPaymentReference()]];
+        } else {
+            $payload = ['default_source' => $billingDetails->getStoredPaymentReference()];
+        }
+
+        $this->stripe->customers->update($billingDetails->getCustomerReference(), $payload);
     }
 
     public function list(int $limit = 10, ?string $lastId = null): array
