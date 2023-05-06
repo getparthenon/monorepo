@@ -300,7 +300,7 @@ class PaymentService implements PaymentServiceInterface
 
     public function makeCardDefault(BillingDetails $billingDetails): void
     {
-        if (str_starts_with($billingDetails->getCustomerReference(), 'pm')) {
+        if (str_starts_with($billingDetails->getStoredPaymentReference(), 'pm')) {
             $payload = ['invoice_settings' => ['default_payment_method' => $billingDetails->getStoredPaymentReference()]];
         } else {
             $payload = ['default_source' => $billingDetails->getStoredPaymentReference()];
