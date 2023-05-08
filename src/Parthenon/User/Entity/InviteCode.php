@@ -158,7 +158,7 @@ class InviteCode
         return $this->role;
     }
 
-    public function setRole(string $role): static
+    public function setRole(?string $role): static
     {
         $this->role = $role;
 
