@@ -21,12 +21,17 @@ class PaymentCreated extends Event
 {
     public const NAME = 'parthenon.billing.payment.created';
 
-    public function __construct(private Payment $payment)
+    public function __construct(private Payment $payment, private bool $subscriptionPayment = false)
     {
     }
 
     public function getPayment(): Payment
     {
         return $this->payment;
+    }
+
+    public function isSubscriptionPayment(): bool
+    {
+        return $this->subscriptionPayment;
     }
 }
