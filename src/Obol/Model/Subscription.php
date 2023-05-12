@@ -44,6 +44,8 @@ class Subscription
 
     protected ?\DateTimeInterface $createdAt = null;
 
+    protected ?\DateTimeInterface $cancelledAt = null;
+
     protected ?\DateTimeInterface $validUntil = null;
 
     protected ?\DateTimeInterface $startOfCurrentPeriod = null;
@@ -240,5 +242,15 @@ class Subscription
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    public function getCancelledAt(): ?\DateTimeInterface
+    {
+        return $this->cancelledAt;
+    }
+
+    public function setCancelledAt(?\DateTimeInterface $cancelledAt): void
+    {
+        $this->cancelledAt = $cancelledAt;
     }
 }

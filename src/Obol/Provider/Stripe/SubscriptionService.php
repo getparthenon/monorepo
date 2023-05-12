@@ -88,6 +88,12 @@ class SubscriptionService implements SubscriptionServiceInterface
         $currentPeriodStart->setTimestamp($stripeSubscription->current_period_start);
         $subscription->setStartOfCurrentPeriod($currentPeriodStart);
 
+        if ($stripeSubscription->canceled_at) {
+            $canceledAt = new \DateTime();
+            $canceledAt->setTimestamp($stripeSubscription->canceled_at);
+            $subscription->setCancelledAt($canceledAt);
+        }
+
         return $subscription;
     }
 }
