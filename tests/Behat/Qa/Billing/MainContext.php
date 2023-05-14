@@ -22,8 +22,8 @@ use App\Tests\Behat\Skeleton\UserTrait;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Session;
-use Parthenon\Billing\Entity\PaymentMethod;
-use Parthenon\Billing\Repository\Orm\PaymentMethodServiceRepository;
+use Parthenon\Billing\Entity\PaymentCard;
+use Parthenon\Billing\Repository\Orm\PaymentCardServiceRepository;
 
 class MainContext implements Context
 {
@@ -35,7 +35,7 @@ class MainContext implements Context
         private Session $session,
         private UserRepository $userRepository,
         private TeamRepository $teamRepository,
-        private PaymentMethodServiceRepository $paymentDetailsServiceRepository,
+        private PaymentCardServiceRepository $paymentDetailsServiceRepository,
     ) {
     }
 
@@ -81,7 +81,7 @@ class MainContext implements Context
                 $default = false;
             }
 
-            $paymentDetails = new PaymentMethod();
+            $paymentDetails = new PaymentCard();
             $paymentDetails->setCustomer($team);
             $paymentDetails->setBrand($row['Brand']);
             $paymentDetails->setLastFour($row['Last Four']);
@@ -211,7 +211,7 @@ class MainContext implements Context
         $this->sendJsonRequest('GET', '/api/billing/plans');
     }
 
-    protected function getPaymentDetailsFromLastFour(string $lastFour): PaymentMethod
+    protected function getPaymentDetailsFromLastFour(string $lastFour): PaymentCard
     {
         $paymentDetails = $this->paymentDetailsServiceRepository->findOneBy(['lastFour' => $lastFour]);
 
