@@ -7,7 +7,7 @@
     <services>
         <service id="Parthenon\Billing\Repository\PaymentCardRepositoryInterface" alias="parthenon.billing.repository.payment_card_repository" />
         <service id="parthenon.billing.repository.payment_card_repository" class="Parthenon\Billing\Repository\Orm\PaymentCardRepository">
-            <argument type="service" id="parthenon.billing.repository.orm.payment_method_repository_doctrine" />
+            <argument type="service" id="parthenon.billing.repository.orm.payment_card_repository_doctrine" />
         </service>
         <service id="parthenon.billing.repository.orm.payment_card_repository_doctrine" class="Parthenon\Billing\Repository\Orm\PaymentCardServiceRepository">
             <argument type="service" id="Doctrine\Persistence\ManagerRegistry" />
