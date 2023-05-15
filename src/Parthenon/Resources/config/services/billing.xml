@@ -172,7 +172,7 @@
             <argument type="service" id="Parthenon\Billing\Obol\PaymentFactoryInterface" />
             <argument type="service" id="Parthenon\Billing\Subscription\PaymentLinkerInterface" />
             <argument type="service" id="Symfony\Component\EventDispatcher\EventDispatcherInterface" />
-            <argument type="service" id="Parthenon\Billing\Subscription\SchedulerInterface"" />
+            <argument type="service" id="Parthenon\Billing\Subscription\SchedulerInterface" />
         </service>
         <service id="Parthenon\Billing\Webhook\Handler\ChargeBackHandler" class="Parthenon\Billing\Webhook\Handler\ChargeBackHandler">
             <argument type="service" id="Parthenon\Billing\ChargeBack\ChargeBackSyncerInterface" />
