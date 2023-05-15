@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol;
 
+use Obol\Exception\NoResultFoundException;
 use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 
@@ -25,4 +26,9 @@ interface SubscriptionServiceInterface
      * @return Subscription[]
      */
     public function list(int $limit = 10, ?string $lastId = null): array;
+
+    /**
+     * @throws NoResultFoundException
+     */
+    public function get(string $id, string $subId): Subscription;
 }

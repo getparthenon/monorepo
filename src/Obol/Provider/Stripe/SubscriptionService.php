@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Stripe;
 
 use Brick\Money\Money;
+use Obol\Exception\NoResultFoundException;
 use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 use Obol\Provider\ProviderInterface;
@@ -59,6 +60,20 @@ class SubscriptionService implements SubscriptionServiceInterface
         }
 
         return $output;
+    }
+
+    public function get(string $id, string $subId): Subscription
+    {
+        $stripeResult = $this->stripe->subscriptions->retrieve($id);
+        foreach ($stripeResult->data as $stripeSubscription) {
+            foreach ($stripeSubscription->items as $stripeSubscriptionItem) {
+                if ($stripeSubscriptionItem->id === $subId) {
+                    return $this->populateSubsscription($stripeSubscription, $stripeSubscriptionItem);
+                }
+            }
+        }
+
+        throw new NoResultFoundException(sprintf("Unable to find subscription for main id '%s' and child id '%s'", $id, $subId));
     }
 
     protected function populateSubsscription(\Stripe\Subscription $stripeSubscription, \Stripe\SubscriptionItem $subscriptionItem): Subscription
