@@ -39,7 +39,7 @@ class Subscription
 
     private ?string $currency = null;
 
-    private string $mainExternalReference;
+    private ?string $mainExternalReference = null;
 
     private ?string $mainExternalReferenceDetailsUrl = null;
 
