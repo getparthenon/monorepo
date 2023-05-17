@@ -142,7 +142,7 @@ class Subscription
         $this->subscriptionPlan = $subscriptionPlan;
     }
 
-    public function getMainExternalReference(): string
+    public function getMainExternalReference(): ?string
     {
         return $this->mainExternalReference;
     }
