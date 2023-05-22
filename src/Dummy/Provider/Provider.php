@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace App\Dummy\Provider;
 
 use Obol\ChargeBackServiceInterface;
+use Obol\CreditServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
@@ -87,5 +88,10 @@ class Provider implements ProviderInterface
     public function paymentMethods(): PaymentMethodServiceInterface
     {
         // TODO: Implement paymentMethods() method.
+    }
+
+    public function credit(): CreditServiceInterface
+    {
+        // TODO: Implement credit() method.
     }
 }

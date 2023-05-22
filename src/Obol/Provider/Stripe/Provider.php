@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Stripe;
 
 use Obol\ChargeBackServiceInterface;
+use Obol\CreditServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\HostedCheckoutServiceInterface;
 use Obol\InvoiceServiceInterface;
@@ -42,6 +43,7 @@ class Provider implements ProviderInterface
     private InvoiceServiceInterface $invoiceService;
     private ChargeBackServiceInterface $chargeBackService;
     private PaymentMethodServiceInterface $paymentMethodService;
+    private CreditServiceInterface $creditService;
     private StripeClient $stripeClient;
     private Config $config;
 
@@ -59,6 +61,7 @@ class Provider implements ProviderInterface
         ?InvoiceServiceInterface $invoiceService = null,
         ?ChargeBackServiceInterface $chargeBackService = null,
         ?PaymentMethodServiceInterface $paymentMethodService = null,
+        ?CreditServiceInterface $creditService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -73,6 +76,7 @@ class Provider implements ProviderInterface
         $this->invoiceService = $invoiceService ?? new InvoiceService($this, $config, $this->stripeClient);
         $this->chargeBackService = $chargeBackService ?? new ChargeBackService($this, $config, $this->stripeClient);
         $this->paymentMethodService = $paymentMethodService ?? new PaymentMethodService($this, $config, $this->stripeClient);
+        $this->creditService = $creditService ?? new CreditService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -133,5 +137,10 @@ class Provider implements ProviderInterface
     public function paymentMethods(): PaymentMethodServiceInterface
     {
         return $this->paymentMethodService;
+    }
+
+    public function credit(): CreditServiceInterface
+    {
+        return $this->creditService;
     }
 }

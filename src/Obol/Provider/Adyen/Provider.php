@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol\Provider\Adyen;
 
 use Obol\ChargeBackServiceInterface;
+use Obol\CreditServiceInterface;
 use Obol\CustomerServiceInterface;
 use Obol\Exception\UnsupportedFunctionalityException;
 use Obol\HostedCheckoutServiceInterface;
@@ -94,5 +95,10 @@ class Provider implements ProviderInterface
     public function paymentMethods(): PaymentMethodServiceInterface
     {
         // TODO: Implement paymentMethods() method.
+    }
+
+    public function credit(): CreditServiceInterface
+    {
+        // TODO: Implement credit() method.
     }
 }

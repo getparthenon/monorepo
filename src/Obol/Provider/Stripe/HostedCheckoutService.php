@@ -37,6 +37,8 @@ class HostedCheckoutService implements \Obol\HostedCheckoutServiceInterface
 
     public function createCheckoutForSubscription(Subscription $subscription): CheckoutCreation
     {
+        $this->stripe->billingPortal->configurations->all();
+
         try {
             $checkoutData = $this->stripe->checkout->sessions->create([
                 'mode' => 'subscription',
