@@ -58,7 +58,7 @@ class CreditService implements CreditServiceInterface
         if (isset($lastId) && !empty($lastId)) {
             $payload['starting_after'] = $lastId;
         }
-        $stripeCredits = $this->stripe->customers->createBalanceTransaction($customerId, $payload);
+        $stripeCredits = $this->stripe->customers->allBalanceTransactions($customerId, $payload);
 
         $output = [];
         /** @var CustomerBalanceTransaction $stripeCredit */
