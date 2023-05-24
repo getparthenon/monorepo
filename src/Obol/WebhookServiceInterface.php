@@ -15,11 +15,12 @@ declare(strict_types=1);
 namespace Obol;
 
 use Obol\Model\Events\EventInterface;
+use Obol\Model\Webhook\WebhookCreation;
 use Obol\Model\WebhookPayload;
 
 interface WebhookServiceInterface
 {
-    public function registerWebhook(string $url, array $events): void;
+    public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation;
 
     public function process(WebhookPayload $payload): ?EventInterface;
 }
