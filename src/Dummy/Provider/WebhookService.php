@@ -30,4 +30,9 @@ class WebhookService implements WebhookServiceInterface
     {
         // TODO: Implement registerWebhook() method.
     }
+
+    public function deregisterWebhook(string $id): void
+    {
+        // TODO: Implement deregisterWebhook() method.
+    }
 }

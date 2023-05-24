@@ -22,5 +22,7 @@ interface WebhookServiceInterface
 {
     public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation;
 
+    public function deregisterWebhook(string $id): void;
+
     public function process(WebhookPayload $payload): ?EventInterface;
 }

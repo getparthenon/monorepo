@@ -59,6 +59,11 @@ class WebhookService implements WebhookServiceInterface
         return $webhookCreation;
     }
 
+    public function deregisterWebhook(string $id): void
+    {
+        $this->stripe->webhookEndpoints->delete($id);
+    }
+
     public function process(WebhookPayload $payload): ?EventInterface
     {
         $event = \Stripe\Webhook::constructEvent($payload->getPayload(), $payload->getSignature(), $payload->getSecret());
