@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace App\Dummy\Provider;
 
 use Obol\Model\Events\EventInterface;
+use Obol\Model\Webhook\WebhookCreation;
 use Obol\Model\WebhookPayload;
 use Obol\WebhookServiceInterface;
 
@@ -23,5 +24,10 @@ class WebhookService implements WebhookServiceInterface
     public function process(WebhookPayload $payload): ?EventInterface
     {
         return null;
+    }
+
+    public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation
+    {
+        // TODO: Implement registerWebhook() method.
     }
 }
