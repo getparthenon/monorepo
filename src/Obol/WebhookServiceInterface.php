@@ -19,5 +19,7 @@ use Obol\Model\WebhookPayload;
 
 interface WebhookServiceInterface
 {
+    public function registerWebhook(string $url, array $events): void;
+
     public function process(WebhookPayload $payload): ?EventInterface;
 }

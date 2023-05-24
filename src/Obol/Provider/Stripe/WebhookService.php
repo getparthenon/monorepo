@@ -46,6 +46,11 @@ class WebhookService implements WebhookServiceInterface
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
     }
 
+    public function registerWebhook(string $url, array $events): void
+    {
+        $this->stripe->webhookEndpoints->create(['url' => $url, 'enabled_events' => $events]);
+    }
+
     public function process(WebhookPayload $payload): ?EventInterface
     {
         $event = \Stripe\Webhook::constructEvent($payload->getPayload(), $payload->getSignature(), $payload->getSecret());
