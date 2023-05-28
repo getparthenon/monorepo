@@ -16,14 +16,38 @@ namespace Obol\Model;
 
 class ChargeCardResponse
 {
-    protected PaymentDetails $paymentDetails;
+    protected ?PaymentDetails $paymentDetails = null;
 
-    public function getPaymentDetails(): PaymentDetails
+    protected ?ChargeFailure $chargeFailure = null;
+
+    protected bool $successful;
+
+    public function getChargeFailure(): ?ChargeFailure
+    {
+        return $this->chargeFailure;
+    }
+
+    public function setChargeFailure(?ChargeFailure $chargeFailure): void
+    {
+        $this->chargeFailure = $chargeFailure;
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->successful;
+    }
+
+    public function setSuccessful(bool $successful): void
+    {
+        $this->successful = $successful;
+    }
+
+    public function getPaymentDetails(): ?PaymentDetails
     {
         return $this->paymentDetails;
     }
 
-    public function setPaymentDetails(PaymentDetails $paymentDetails): void
+    public function setPaymentDetails(?PaymentDetails $paymentDetails): void
     {
         $this->paymentDetails = $paymentDetails;
     }

@@ -23,8 +23,10 @@ use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
+use Obol\Model\ChargeFailure;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
+use Obol\Model\Enum\ChargeFailureReasons;
 use Obol\Model\FrontendCardProcess;
 use Obol\Model\PaymentDetails;
 use Obol\Model\Subscription;
@@ -32,6 +34,7 @@ use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
+use Stripe\Exception\CardException;
 use Stripe\StripeClient;
 
 class PaymentService implements PaymentServiceInterface
@@ -262,6 +265,22 @@ class PaymentService implements PaymentServiceInterface
                     'description' => $cardFile->getName(),
                 ]
             );
+        } catch (CardException $exception) {
+            $charge = new ChargeCardResponse();
+            $charge->setSuccessful(false);
+            $reason = match ($exception->getDeclineCode()) {
+                'authentication_required' => ChargeFailureReasons::AUTHENTICATION_REQUIRED,
+                'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
+                'call_issuer', 'do_not_honor', 'do_not_try_again', 'new_account_information_available', 'no_action_taken', 'not_permitted' => ChargeFailureReasons::CONTACT_PROVIDER,
+                'insufficient_funds' => ChargeFailureReasons::LACK_OF_FUNDS,
+                'generic_decline', 'duplicate_transaction', 'issuer_not_available', 'lost_card', 'merchant_blacklist' => ChargeFailureReasons::GENERAL_DECLINE,
+                default => ChargeFailureReasons::GENERAL_DECLINE,
+            };
+            $chargeFailure = new ChargeFailure();
+            $chargeFailure->setReason($reason);
+            $charge->setChargeFailure($chargeFailure);
+
+            return $charge;
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }
@@ -274,6 +293,7 @@ class PaymentService implements PaymentServiceInterface
 
         $chargeCardResponse = new ChargeCardResponse();
         $chargeCardResponse->setPaymentDetails($paymentDetails);
+        $chargeCardResponse->setSuccessful(true);
 
         return $chargeCardResponse;
     }
