@@ -273,7 +273,6 @@ class PaymentService implements PaymentServiceInterface
                 'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
                 'call_issuer', 'do_not_honor', 'do_not_try_again', 'new_account_information_available', 'no_action_taken', 'not_permitted' => ChargeFailureReasons::CONTACT_PROVIDER,
                 'insufficient_funds' => ChargeFailureReasons::LACK_OF_FUNDS,
-                'generic_decline', 'duplicate_transaction', 'issuer_not_available', 'lost_card', 'merchant_blacklist' => ChargeFailureReasons::GENERAL_DECLINE,
                 default => ChargeFailureReasons::GENERAL_DECLINE,
             };
             $chargeFailure = new ChargeFailure();
