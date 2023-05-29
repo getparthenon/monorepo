@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Model\Enum\ChargeFailureReasons;
 use Obol\Model\Events\AbstractCharge;
 use Obol\Model\Events\AbstractDispute;
 use Obol\Model\Events\ChargeFailed;
@@ -95,6 +96,16 @@ class WebhookService implements WebhookServiceInterface
         $event = new ChargeFailed();
 
         $this->populateChargeEvent($charge, $event);
+
+        $reason = match ($charge->failure_code) {
+            'authentication_required' => ChargeFailureReasons::AUTHENTICATION_REQUIRED,
+            'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
+            'call_issuer', 'do_not_honor', 'do_not_try_again', 'new_account_information_available', 'no_action_taken', 'not_permitted' => ChargeFailureReasons::CONTACT_PROVIDER,
+            'insufficient_funds' => ChargeFailureReasons::LACK_OF_FUNDS,
+            default => ChargeFailureReasons::GENERAL_DECLINE,
+        };
+
+        $event->setReason($reason);
 
         return $event;
     }

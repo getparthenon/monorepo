@@ -14,6 +14,19 @@ declare(strict_types=1);
 
 namespace Obol\Model\Events;
 
+use Obol\Model\Enum\ChargeFailureReasons;
+
 class ChargeFailed extends AbstractCharge implements EventInterface
 {
+    protected ChargeFailureReasons $reason;
+
+    public function getReason(): ChargeFailureReasons
+    {
+        return $this->reason;
+    }
+
+    public function setReason(ChargeFailureReasons $reason): void
+    {
+        $this->reason = $reason;
+    }
 }
