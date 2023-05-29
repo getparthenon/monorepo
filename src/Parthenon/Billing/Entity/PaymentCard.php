@@ -56,6 +56,7 @@ class PaymentCard implements DeletableInterface
     #[Ignore]
     protected bool $deleted = false;
 
+    #[Ignore]
     protected ?\DateTime $deletedAt = null;
 
     /**
