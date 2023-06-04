@@ -45,8 +45,11 @@ class VoucherService implements VoucherServiceInterface
         $couponPayload = [
             'name' => $voucher->getName(),
             'duration' => $voucher->getDuration(),
-            'duration_in_months' => $voucher->getDurationInMonths(),
         ];
+
+        if ('repeating' === $voucher->getDuration()) {
+            $couponPayload['duration_in_months'] = $voucher->getDurationInMonths();
+        }
 
         if ('percentage' === $voucher->getType()) {
             $couponPayload['percent_off'] = $voucher->getPercentage();
