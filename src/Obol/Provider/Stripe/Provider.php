@@ -26,6 +26,7 @@ use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
+use Obol\VoucherServiceInterface;
 use Obol\WebhookServiceInterface;
 use Stripe\StripeClient;
 
@@ -44,6 +45,7 @@ class Provider implements ProviderInterface
     private ChargeBackServiceInterface $chargeBackService;
     private PaymentMethodServiceInterface $paymentMethodService;
     private CreditServiceInterface $creditService;
+    private VoucherServiceInterface $voucherService;
     private StripeClient $stripeClient;
     private Config $config;
 
@@ -62,6 +64,7 @@ class Provider implements ProviderInterface
         ?ChargeBackServiceInterface $chargeBackService = null,
         ?PaymentMethodServiceInterface $paymentMethodService = null,
         ?CreditServiceInterface $creditService = null,
+        ?VoucherServiceInterface $voucherService = null,
     ) {
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
@@ -77,6 +80,7 @@ class Provider implements ProviderInterface
         $this->chargeBackService = $chargeBackService ?? new ChargeBackService($this, $config, $this->stripeClient);
         $this->paymentMethodService = $paymentMethodService ?? new PaymentMethodService($this, $config, $this->stripeClient);
         $this->creditService = $creditService ?? new CreditService($this, $config, $this->stripeClient);
+        $this->voucherService = $voucherService ?? new VoucherService($this, $config, $this->stripeClient);
     }
 
     public function payments(): PaymentServiceInterface
@@ -142,5 +146,10 @@ class Provider implements ProviderInterface
     public function credit(): CreditServiceInterface
     {
         return $this->creditService;
+    }
+
+    public function vouchers(): VoucherServiceInterface
+    {
+        return $this->voucherService;
     }
 }

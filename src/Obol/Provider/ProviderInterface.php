@@ -26,6 +26,7 @@ use Obol\PriceServiceInterface;
 use Obol\ProductServiceInterface;
 use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
+use Obol\VoucherServiceInterface;
 use Obol\WebhookServiceInterface;
 
 interface ProviderInterface
@@ -76,6 +77,8 @@ interface ProviderInterface
     public function paymentMethods(): PaymentMethodServiceInterface;
 
     public function credit(): CreditServiceInterface;
+
+    public function vouchers(): VoucherServiceInterface;
 
     public function getName(): string;
 }
