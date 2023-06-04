@@ -15,9 +15,17 @@ declare(strict_types=1);
 namespace Obol;
 
 use Obol\Model\Voucher\Voucher;
+use Obol\Model\Voucher\VoucherApplicationResponse;
 use Obol\Model\Voucher\VoucherCreation;
 
 interface VoucherServiceInterface
 {
     public function createVoucher(Voucher $voucher): VoucherCreation;
+
+    /**
+     * @return Voucher[]
+     */
+    public function list(int $limit = 10, ?string $lastId = null): array;
+
+    public function applyCoupon(string $customerReference, string $couponReference): VoucherApplicationResponse;
 }

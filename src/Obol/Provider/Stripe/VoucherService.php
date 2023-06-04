@@ -14,7 +14,9 @@ declare(strict_types=1);
 
 namespace Obol\Provider\Stripe;
 
+use Obol\Model\Voucher\Amount;
 use Obol\Model\Voucher\Voucher;
+use Obol\Model\Voucher\VoucherApplicationResponse;
 use Obol\Model\Voucher\VoucherCreation;
 use Obol\Provider\ProviderInterface;
 use Obol\VoucherServiceInterface;
@@ -73,6 +75,56 @@ class VoucherService implements VoucherServiceInterface
             $stripePromo = $this->stripe->promotionCodes->create($promoCodePayload);
             $response->setPromoId($stripePromo->id);
         }
+
+        return $response;
+    }
+
+    public function list(int $limit = 10, ?string $lastId = null): array
+    {
+        $payload = ['limit' => $limit];
+        if (isset($lastId) && !empty($lastId)) {
+            $payload['starting_after'] = $lastId;
+        }
+
+        $result = $this->stripe->coupons->all($payload);
+        $output = [];
+        foreach ($result->data as $coupon) {
+            $type = null === $coupon->percent_off ? 'fixed_credit' : 'percentage';
+
+            $voucher = new Voucher();
+            $voucher->setId($coupon->id);
+            $voucher->setType($type);
+            $voucher->setDuration($coupon->duration);
+            $voucher->setDurationInMonths($coupon->duration_in_months);
+            if ('percentage' === $type) {
+                $voucher->setPercentage($coupon->percent_off);
+            } else {
+                $amounts = [];
+                $amount = new Amount();
+                $amount->setAmount($coupon->amount_off);
+                $amount->setCurrency($coupon->currency);
+                $amounts[] = $amount;
+
+                $voucher->setAmounts($amounts);
+            }
+
+            $createdAt = new \DateTime();
+            $createdAt->setTimestamp($coupon->created);
+            $voucher->setCreatedAt($createdAt);
+            $output[] = $voucher;
+        }
+
+        return $output;
+    }
+
+    public function applyCoupon(string $customerReference, string $couponReference): VoucherApplicationResponse
+    {
+        $stripeCustomer = $this->stripe->customers->retrieve($customerReference);
+        $stripeCustomer->coupon = $couponReference;
+        $stripeCustomer->save();
+
+        $response = new VoucherApplicationResponse();
+        $response->setSuccess(true);
 
         return $response;
     }

@@ -16,6 +16,8 @@ namespace Obol\Model\Voucher;
 
 class Voucher
 {
+    private ?string $id = null;
+
     private ?string $code = null;
 
     private string $type;
@@ -28,7 +30,19 @@ class Voucher
 
     private string $name;
 
-    private int $percentage;
+    private int|float $percentage;
+
+    private ?\DateTime $createdAt;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
 
     public function getCode(): ?string
     {
@@ -70,12 +84,12 @@ class Voucher
         $this->name = $name;
     }
 
-    public function getPercentage(): int
+    public function getPercentage(): int|float
     {
         return $this->percentage;
     }
 
-    public function setPercentage(int $percentage): void
+    public function setPercentage(int|float $percentage): void
     {
         $this->percentage = $percentage;
     }
@@ -85,7 +99,7 @@ class Voucher
         return $this->durationInMonths;
     }
 
-    public function setDurationInMonths(int $durationInMonths): void
+    public function setDurationInMonths(?int $durationInMonths): void
     {
         $this->durationInMonths = $durationInMonths;
     }
@@ -101,5 +115,15 @@ class Voucher
     public function setAmounts(array $amounts): void
     {
         $this->amounts = $amounts;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }
