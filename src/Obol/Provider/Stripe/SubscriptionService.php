@@ -76,6 +76,11 @@ class SubscriptionService implements SubscriptionServiceInterface
         throw new NoResultFoundException(sprintf("Unable to find subscription for main id '%s' and child id '%s'", $id, $subId));
     }
 
+    public function updatePrice(Subscription $subscription): void
+    {
+        $this->stripe->subscriptionItems->update($subscription->getLineId(), ['price' => $subscription->getPriceId()]);
+    }
+
     protected function populateSubsscription(\Stripe\Subscription $stripeSubscription, \Stripe\SubscriptionItem $subscriptionItem): Subscription
     {
         $money = Money::ofMinor($subscriptionItem->price->unit_amount, strtoupper($subscriptionItem->price->currency));

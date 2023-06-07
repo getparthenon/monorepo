@@ -31,4 +31,6 @@ interface SubscriptionServiceInterface
      * @throws NoResultFoundException
      */
     public function get(string $id, string $subId): Subscription;
+
+    public function updatePrice(Subscription $subscription): void;
 }
