@@ -22,6 +22,8 @@ class WebhookCreation
 
     private array $events;
 
+    private string $secret;
+
     public function getId(): string
     {
         return $this->id;
@@ -50,5 +52,15 @@ class WebhookCreation
     public function setEvents(array $events): void
     {
         $this->events = $events;
+    }
+
+    public function getSecret(): string
+    {
+        return $this->secret;
+    }
+
+    public function setSecret(string $secret): void
+    {
+        $this->secret = $secret;
     }
 }

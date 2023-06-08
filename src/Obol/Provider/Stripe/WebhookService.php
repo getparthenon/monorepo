@@ -56,6 +56,7 @@ class WebhookService implements WebhookServiceInterface
         $webhookCreation->setId($stripeResult->id);
         $webhookCreation->setDescription($stripeResult->description);
         $webhookCreation->setEvents($stripeResult->enabled_events);
+        $webhookCreation->setSecret($stripeResult->secret);
 
         return $webhookCreation;
     }
