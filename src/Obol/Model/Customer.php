@@ -30,6 +30,8 @@ class Customer
 
     protected Address $address;
 
+    protected ?\DateTime $createdAt = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -98,5 +100,15 @@ class Customer
     public function setDefaultSource(?string $defaultSource): void
     {
         $this->defaultSource = $defaultSource;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

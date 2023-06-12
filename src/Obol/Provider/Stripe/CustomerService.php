@@ -147,6 +147,10 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $address->setPostalCode($stripeCustomer->address?->postal_code);
         $customer->setAddress($address);
 
+        $createdAt = new \DateTime();
+        $createdAt->setTimestamp($stripeCustomer->created);
+        $customer->setCreatedAt($createdAt);
+
         return $customer;
     }
 }
