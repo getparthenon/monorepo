@@ -85,7 +85,7 @@ class RefundManager implements RefundManagerInterface
 
         $interval = $start->diff($end);
         if (!is_int($interval->days)) {
-            return;
+            throw new \Exception('Invalid diff');
         }
 
         $payment = $this->paymentRepository->getLastPaymentForSubscription($subscription);
