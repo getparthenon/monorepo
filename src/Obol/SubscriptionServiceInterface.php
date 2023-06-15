@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Obol;
 
 use Obol\Exception\NoResultFoundException;
+use Obol\Model\Enum\ProrataType;
 use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 
@@ -32,5 +33,5 @@ interface SubscriptionServiceInterface
      */
     public function get(string $id, string $subId): Subscription;
 
-    public function updatePrice(Subscription $subscription): void;
+    public function updatePrice(Subscription $subscription, ProrataType $prorataType = ProrataType::NONE): void;
 }

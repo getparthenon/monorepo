@@ -16,6 +16,7 @@ namespace Obol\Provider\Stripe;
 
 use Brick\Money\Money;
 use Obol\Exception\NoResultFoundException;
+use Obol\Model\Enum\ProrataType;
 use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 use Obol\Provider\ProviderInterface;
@@ -76,9 +77,15 @@ class SubscriptionService implements SubscriptionServiceInterface
         throw new NoResultFoundException(sprintf("Unable to find subscription for main id '%s' and child id '%s'", $id, $subId));
     }
 
-    public function updatePrice(Subscription $subscription): void
+    public function updatePrice(Subscription $subscription, ProrataType $prorataType = ProrataType::NONE): void
     {
-        $this->stripe->subscriptionItems->update($subscription->getLineId(), ['price' => $subscription->getPriceId()]);
+        $payload = ['price' => $subscription->getPriceId()];
+
+        if (ProrataType::NOW === $prorataType) {
+            $payload['proration_behavior'] = 'always_invoice';
+        }
+
+        $this->stripe->subscriptionItems->update($subscription->getLineId(), $payload);
     }
 
     protected function populateSubsscription(\Stripe\Subscription $stripeSubscription, \Stripe\SubscriptionItem $subscriptionItem): Subscription
