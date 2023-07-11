@@ -25,6 +25,8 @@ interface CustomerServiceInterface
      */
     public function create(Customer $customer): CustomerCreation;
 
+    public function update(Customer $customer): bool;
+
     public function fetch(string $customerId): Customer;
 
     /**

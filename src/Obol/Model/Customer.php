@@ -32,6 +32,8 @@ class Customer
 
     protected ?\DateTime $createdAt = null;
 
+    protected bool $taxExempt = false;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -65,6 +67,16 @@ class Customer
     public function getEmail(): ?string
     {
         return $this->email;
+    }
+
+    public function isTaxExempt(): bool
+    {
+        return $this->taxExempt;
+    }
+
+    public function setTaxExempt(bool $taxExempt): void
+    {
+        $this->taxExempt = $taxExempt;
     }
 
     public function setEmail(?string $email): void

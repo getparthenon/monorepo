@@ -43,4 +43,9 @@ class CustomerService implements CustomerServiceInterface
     {
         // TODO: Implement getCards() method.
     }
+
+    public function update(Customer $customer): bool
+    {
+        return true;
+    }
 }

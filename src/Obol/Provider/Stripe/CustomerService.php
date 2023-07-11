@@ -41,22 +41,10 @@ class CustomerService implements \Obol\CustomerServiceInterface
     {
         try {
             $customerData = $this->stripe->customers->create(
-                [
-                    'address' => [
-                        'city' => $customer->getAddress()->getCity(),
-                        'country' => $customer->getAddress()->getCountryCode(),
-                        'line1' => $customer->getAddress()->getStreetLineOne(),
-                        'line2' => $customer->getAddress()->getStreetLineTwo(),
-                        'postal_code' => $customer->getAddress()->getPostalCode(),
-                        'state' => $customer->getAddress()->getState(),
-                    ],
-                    'description' => $customer->getDescription(),
-                    'email' => $customer->getEmail(),
-                    'name' => $customer->getName(),
-                ]
+                $this->generatePayload($customer)
             );
         } catch (\Throwable $exception) {
-            throw new ProviderFailureException(previous: $e);
+            throw new ProviderFailureException(previous: $exception);
         }
 
         if (true === $customerData->livemode) {
@@ -70,6 +58,19 @@ class CustomerService implements \Obol\CustomerServiceInterface
         $customerCreation->setDetailsUrl($url);
 
         return $customerCreation;
+    }
+
+    public function update(Customer $customer): bool
+    {
+        try {
+            $customerData = $this->stripe->customers->update($customer->getId(),
+                $this->generatePayload($customer)
+            );
+        } catch (\Throwable $exception) {
+            throw new ProviderFailureException(previous: $exception);
+        }
+
+        return true;
     }
 
     public function fetch(string $customerId): Customer
@@ -121,6 +122,24 @@ class CustomerService implements \Obol\CustomerServiceInterface
         }
 
         return $output;
+    }
+
+    public function generatePayload(Customer $customer): array
+    {
+        return [
+            'address' => [
+                'city' => $customer->getAddress()->getCity(),
+                'country' => $customer->getAddress()->getCountryCode(),
+                'line1' => $customer->getAddress()->getStreetLineOne(),
+                'line2' => $customer->getAddress()->getStreetLineTwo(),
+                'postal_code' => $customer->getAddress()->getPostalCode(),
+                'state' => $customer->getAddress()->getState(),
+            ],
+            'description' => $customer->getDescription(),
+            'email' => $customer->getEmail(),
+            'name' => $customer->getName(),
+            'tax_exempt' => $customer->isTaxExempt(),
+        ];
     }
 
     private function populateCustomer(\Stripe\Customer $stripeCustomer): Customer
