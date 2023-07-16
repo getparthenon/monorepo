@@ -20,6 +20,11 @@ doctrine:
             Parthenon\User\Entity\TeamInterface: App\Entity\Team
             Parthenon\Billing\Entity\CustomerInterface: App\Entity\Team
             Parthenon\Billing\Entity\BillingAdminInterface: App\Entity\User
+            Parthenon\Billing\Entity\PaymentInterface: App\Entity\Payment
+            Parthenon\Billing\Entity\ProductInterface: App\Entity\Product
+            Parthenon\Billing\Entity\PriceInterface: App\Entity\Price
+            Parthenon\Billing\Entity\SubscriptionInterface: App\Entity\Subscription
+            Parthenon\Billing\Entity\SubscriptionPlanInterface: App\Entity\SubscriptionPlan
             Parthenon\MultiTenancy\Entity\TenantInterface: App\Entity\Tenant
         entity_managers:
             default:

@@ -12,35 +12,21 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\Factory;
+namespace App\Billing;
 
 use App\Entity\Price;
 use App\Entity\Product;
+use App\Entity\SubscriptionPlan;
 use Parthenon\Billing\Entity\ChargeBack;
 use Parthenon\Billing\Entity\Payment;
 use Parthenon\Billing\Entity\PriceInterface;
 use Parthenon\Billing\Entity\ProductInterface;
 use Parthenon\Billing\Entity\Subscription;
-use Parthenon\Billing\Entity\SubscriptionPlan;
 use Parthenon\Billing\Entity\SubscriptionPlanInterface;
+use Parthenon\Billing\Factory\EntityFactoryInterface;
 
 class EntityFactory implements EntityFactoryInterface
 {
-    public function getSubscriptionEntity(): Subscription
-    {
-        return new Subscription();
-    }
-
-    public function getPaymentEntity(): Payment
-    {
-        return new Payment();
-    }
-
-    public function getChargeBackEntity(): ChargeBack
-    {
-        return new ChargeBack();
-    }
-
     public function getProductEntity(): ProductInterface
     {
         return new Product();
@@ -54,5 +40,20 @@ class EntityFactory implements EntityFactoryInterface
     public function getSubscriptionPlanEntity(): SubscriptionPlanInterface
     {
         return new SubscriptionPlan();
+    }
+
+    public function getSubscriptionEntity(): Subscription
+    {
+        return new \App\Entity\Subscription();
+    }
+
+    public function getPaymentEntity(): Payment
+    {
+        return new \App\Entity\Payment();
+    }
+
+    public function getChargeBackEntity(): ChargeBack
+    {
+        return new ChargeBack();
     }
 }
