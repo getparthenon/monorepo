@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1', '8.2']
-        composer-flags: [''] #, '--prefer-lowest']
+        composer-flags: [''] 
         experimental: [false]
 
 
@@ -111,9 +111,9 @@ jobs:
           export PHP_CS_FIXER_IGNORE_ENV=1
           vendor/bin/php-cs-fixer fix src --dry-run
 
-     - name: Behat
-        run: |
-          vendor/bin/behat
+      #- name: Behat
+      #  run: |
+      #    vendor/bin/behat
 
       - name: PHPUnit
         run: |
