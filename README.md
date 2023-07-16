@@ -22,7 +22,7 @@
 
 * Supporting other frameworks or languages
 * Provide custom business logic
-* Provide a FOSS solution
+* Provide a FOSS solution.
 
 ## Repositories
 
