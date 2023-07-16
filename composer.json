@@ -12,7 +12,7 @@
         "doctrine/dbal": "^3.6",
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.13",
+        "doctrine/orm": "^2.15",
         "elasticsearch/elasticsearch": "^7.17",
         "graylog2/gelf-php": "^1.7",
         "guzzlehttp/guzzle": "^7.5",
