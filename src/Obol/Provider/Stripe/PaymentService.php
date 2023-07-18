@@ -16,6 +16,7 @@ namespace Obol\Provider\Stripe;
 
 use Brick\Money\Currency;
 use Brick\Money\Money;
+use Obol\Exception\PaymentFailureException;
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\BillingDetails;
 use Obol\Model\CancelSubscription;
@@ -72,6 +73,7 @@ class PaymentService implements PaymentServiceInterface
 
         try {
             $payload = [
+                'payment_behavior' => 'error_if_incomplete',
                 'customer' => $subscription->getBillingDetails()->getCustomerReference(),
                 'items' => [['price' => $subscription->getPriceId(), 'quantity' => $subscription->getSeats()]],
             ];
@@ -109,6 +111,8 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil = new \DateTime();
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
+        } catch (CardException $exception) {
+            throw new PaymentFailureException(message: $exception->getMessage(), previous: $exception);
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(message: $exception->getMessage(), previous: $exception);
         }
