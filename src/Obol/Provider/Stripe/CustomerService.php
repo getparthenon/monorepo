@@ -44,7 +44,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
                 $this->generatePayload($customer)
             );
         } catch (\Throwable $exception) {
-            throw new ProviderFailureException(previous: $exception);
+            throw new ProviderFailureException(sprintf('Got - %s', $exception->getMessage()), previous: $exception);
         }
 
         if (true === $customerData->livemode) {
@@ -138,7 +138,7 @@ class CustomerService implements \Obol\CustomerServiceInterface
             'description' => $customer->getDescription(),
             'email' => $customer->getEmail(),
             'name' => $customer->getName(),
-            'tax_exempt' => $customer->isTaxExempt(),
+            'tax_exempt' => $customer->isTaxExempt() ? 'exempt' : 'none',
         ];
     }
 
