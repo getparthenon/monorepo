@@ -116,12 +116,12 @@ class ReceiptGenerator implements ReceiptGeneratorInterface
         $lines = [];
         $customer = $payment->getCustomer();
 
-        /** @var Subscription $subscription */
-        foreach ($payment->getSubscriptions() as $subscription) {
+        /* @var Subscription $subscription */
+        foreach ($payment->getItems() as $item) {
             $line = new ReceiptLine();
-            $line->setTotal($subscription->getAmount());
-            $line->setCurrency($subscription->getCurrency());
-            $line->setDescription($subscription->getPlanName());
+            $line->setTotal($item['amount']);
+            $line->setCurrency($item['currency']);
+            $line->setDescription($item['description']);
             $line->setReceipt($receipt);
 
             $this->taxCalculator->calculateReceiptLine($customer, $line);

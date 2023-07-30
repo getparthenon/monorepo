@@ -97,4 +97,6 @@ interface PaymentInterface
     public function getDescription(): ?string;
 
     public function setDescription(string $description): void;
+
+    public function getItems(): array;
 }

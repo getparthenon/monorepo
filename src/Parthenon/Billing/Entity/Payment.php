@@ -249,4 +249,18 @@ class Payment implements PaymentInterface
     {
         $this->description = $description;
     }
+
+    public function getItems(): array
+    {
+        $items = [];
+
+        /** @var Subscription $subscription */
+        foreach ($this->getSubscriptions() as $subscription) {
+            $items[] = [
+                'description' => $subscription->getPlanName(),
+                'amount' => $subscription->getAmount(),
+                'currency' => $subscription->getCurrency(),
+            ];
+        }
+    }
 }
