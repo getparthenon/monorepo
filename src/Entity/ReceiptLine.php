@@ -12,15 +12,14 @@ declare(strict_types=1);
  * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
  */
 
-namespace Parthenon\Billing\Receipt;
+namespace App\Entity;
 
-use Parthenon\Billing\Entity\CustomerInterface;
-use Parthenon\Billing\Entity\Payment;
-use Parthenon\Billing\Entity\ReceiptInterface;
+use Doctrine\ORM\Mapping as ORM;
 
-interface ReceiptGeneratorInterface
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="receipt_line")
+ */
+class ReceiptLine extends \Parthenon\Billing\Entity\ReceiptLine
 {
-    public function generateInvoiceForPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate, CustomerInterface $customer): ReceiptInterface;
-
-    public function generateReceiptForPayment(Payment $payment): ReceiptInterface;
 }

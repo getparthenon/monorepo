@@ -16,7 +16,7 @@ namespace Parthenon\Billing\Entity;
 
 use Brick\Money\Money;
 
-class ReceiptLine
+class ReceiptLine implements ReceiptLineInterface
 {
     private $id;
 
