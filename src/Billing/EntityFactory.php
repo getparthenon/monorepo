@@ -16,11 +16,15 @@ namespace App\Billing;
 
 use App\Entity\Price;
 use App\Entity\Product;
+use App\Entity\Receipt;
+use App\Entity\ReceiptLine;
 use App\Entity\SubscriptionPlan;
 use Parthenon\Billing\Entity\ChargeBack;
 use Parthenon\Billing\Entity\Payment;
 use Parthenon\Billing\Entity\PriceInterface;
 use Parthenon\Billing\Entity\ProductInterface;
+use Parthenon\Billing\Entity\ReceiptInterface;
+use Parthenon\Billing\Entity\ReceiptLineInterface;
 use Parthenon\Billing\Entity\Subscription;
 use Parthenon\Billing\Entity\SubscriptionPlanInterface;
 use Parthenon\Billing\Factory\EntityFactoryInterface;
@@ -55,5 +59,15 @@ class EntityFactory implements EntityFactoryInterface
     public function getChargeBackEntity(): ChargeBack
     {
         return new ChargeBack();
+    }
+
+    public function getReceipt(): ReceiptInterface
+    {
+        return new Receipt();
+    }
+
+    public function getReceiptLine(): ReceiptLineInterface
+    {
+        return new ReceiptLine();
     }
 }
