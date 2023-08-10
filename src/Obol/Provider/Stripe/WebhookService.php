@@ -134,6 +134,7 @@ class WebhookService implements WebhookServiceInterface
         $event->setExternalPaymentId($charge->id);
         $event->setExternalPaymentMethodId($charge->payment_method);
         $event->setId($charge->id);
+        $event->setExternalInvoiceId($charge->invoice);
 
         if (true === $charge->livemode) {
             $url = sprintf('https://dashboard.stripe.com/payments/%s', $charge->id);
