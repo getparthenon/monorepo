@@ -114,7 +114,7 @@ abstract class AbstractCharge
         return $this->externalInvoiceId;
     }
 
-    public function setExternalInvoiceId(string $externalInvoiceId): void
+    public function setExternalInvoiceId(?string $externalInvoiceId): void
     {
         $this->externalInvoiceId = $externalInvoiceId;
     }
