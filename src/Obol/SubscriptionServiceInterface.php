@@ -34,4 +34,6 @@ interface SubscriptionServiceInterface
     public function get(string $id, string $subId): Subscription;
 
     public function updatePrice(Subscription $subscription, ProrataType $prorataType = ProrataType::NONE): void;
+
+    public function updateSubscriptionSeats(Subscription $subscription): void;
 }

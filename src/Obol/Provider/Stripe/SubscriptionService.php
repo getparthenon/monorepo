@@ -88,6 +88,14 @@ class SubscriptionService implements SubscriptionServiceInterface
         $this->stripe->subscriptionItems->update($subscription->getLineId(), $payload);
     }
 
+    public function updateSubscriptionSeats(Subscription $subscription): void
+    {
+        $this->stripe->subscriptionItems->update(
+            $subscription->getLineId(),
+            ['quantity' => $subscription->getSeats()]
+        );
+    }
+
     protected function populateSubsscription(\Stripe\Subscription $stripeSubscription, \Stripe\SubscriptionItem $subscriptionItem): Subscription
     {
         $money = Money::ofMinor($subscriptionItem->price->unit_amount, strtoupper($subscriptionItem->price->currency));

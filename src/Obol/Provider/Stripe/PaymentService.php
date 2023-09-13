@@ -379,7 +379,7 @@ class PaymentService implements PaymentServiceInterface
             throw new ProviderFailureException(previous: $exception);
         }
 
-        $billingDetails->setCustomerReference($customerData->id);
+        $billingDetails->setCustomerReference($customerCreation->getReference());
 
         return $customerCreation;
     }
