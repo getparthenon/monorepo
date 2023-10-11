@@ -58,7 +58,7 @@ class VoucherService implements VoucherServiceInterface
             $amounts = $voucher->getAmounts();
             $amount = array_shift($amounts);
             $couponPayload['amount_off'] = $amount->getAmount();
-            $couponPayload['currency'] = $amount->getCurrency();
+            $couponPayload['currency'] = strtolower($amount->getCurrency());
 
             foreach ($amounts as $amount) {
                 $couponPayload['currency_options'][$amount->getCurrency()] = ['amount_off' => $amount->getAmount()];
