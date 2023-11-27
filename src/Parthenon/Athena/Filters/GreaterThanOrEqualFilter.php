@@ -17,11 +17,11 @@ namespace Parthenon\Athena\Filters;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
-class GreaterOrEqualThanFilter implements DoctrineFilterInterface
+class GreaterThanOrEqualFilter implements DoctrineFilterInterface
 {
     use QueryBuilderTrait;
 
-    public const NAME = 'greater_or_equal_than';
+    public const NAME = 'greater_than_or_equal';
 
     protected string $fieldName;
 

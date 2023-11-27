@@ -20,11 +20,11 @@ use Parthenon\Athena\Filters\DoctrineFilterInterface;
 use Parthenon\Athena\Filters\FilterInterface;
 use Parthenon\Athena\Filters\QueryBuilderTrait;
 
-class LessOrEqualThanFilter implements DoctrineFilterInterface
+class LessThanOrEqualFilter implements DoctrineFilterInterface
 {
     use QueryBuilderTrait;
 
-    public const NAME = 'less_or_equal_than';
+    public const NAME = 'less_than_or_equal';
 
     protected string $fieldName;
 
