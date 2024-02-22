@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table(name="subscription_plan")
  */
 class SubscriptionPlan extends \Parthenon\Billing\Entity\SubscriptionPlan

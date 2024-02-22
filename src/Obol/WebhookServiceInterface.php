@@ -20,7 +20,7 @@ use Obol\Model\WebhookPayload;
 
 interface WebhookServiceInterface
 {
-    public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation;
+    public function registerWebhook(string $url, array $events, ?string $description = null): WebhookCreation;
 
     public function deregisterWebhook(string $id): void;
 

@@ -30,7 +30,7 @@ class Voucher
 
     private string $name;
 
-    private null|int|float $percentage;
+    private int|float|null $percentage;
 
     private ?\DateTime $createdAt;
 
@@ -84,12 +84,12 @@ class Voucher
         $this->name = $name;
     }
 
-    public function getPercentage(): null|int|float
+    public function getPercentage(): int|float|null
     {
         return $this->percentage;
     }
 
-    public function setPercentage(null|int|float $percentage): void
+    public function setPercentage(int|float|null $percentage): void
     {
         $this->percentage = $percentage;
     }

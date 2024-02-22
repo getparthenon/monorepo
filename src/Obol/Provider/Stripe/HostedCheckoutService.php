@@ -26,9 +26,6 @@ class HostedCheckoutService implements \Obol\HostedCheckoutServiceInterface
 
     protected Config $config;
 
-    /**
-     * @param StripeClient $stripe
-     */
     public function __construct(private ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
         $this->config = $config;

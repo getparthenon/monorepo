@@ -31,9 +31,6 @@ class SubscriptionService implements SubscriptionServiceInterface
 
     protected ProviderInterface $provider;
 
-    /**
-     * @param StripeClient $stripe
-     */
     public function __construct(ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
         $this->provider = $provider;

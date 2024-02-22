@@ -69,7 +69,7 @@ class Provider implements ProviderInterface
         $this->config = $config;
         $this->stripeClient = $stripe ?? new StripeClient($this->config->getApiKey());
         $this->paymentService = $paymentService ?? new PaymentService($this, $config, $this->stripeClient);
-        $this->hostedCheckoutService = $hostedCheckoutService ?? new \Obol\Provider\Stripe\HostedCheckoutService($this, $config, $this->stripeClient);
+        $this->hostedCheckoutService = $hostedCheckoutService ?? new HostedCheckoutService($this, $config, $this->stripeClient);
         $this->customerService = $customerService ?? new CustomerService($this, $config, $this->stripeClient);
         $this->priceService = $priceService ?? new PriceService($this, $config, $this->stripeClient);
         $this->productService = $productService ?? new ProductService($this, $config, $this->stripeClient);

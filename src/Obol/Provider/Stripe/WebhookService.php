@@ -38,9 +38,6 @@ class WebhookService implements WebhookServiceInterface
 
     protected ProviderInterface $provider;
 
-    /**
-     * @param StripeClient $stripe
-     */
     public function __construct(ProviderInterface $provider, Config $config, ?StripeClient $stripe = null)
     {
         $this->provider = $provider;
@@ -48,7 +45,7 @@ class WebhookService implements WebhookServiceInterface
         $this->stripe = $stripe ?? new StripeClient($this->config->getApiKey());
     }
 
-    public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation
+    public function registerWebhook(string $url, array $events, ?string $description = null): WebhookCreation
     {
         $stripeResult = $this->stripe->webhookEndpoints->create(['url' => $url, 'enabled_events' => $events, 'description' => $description]);
 

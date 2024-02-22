@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table(name="receipt")
  */
 class Receipt extends \Parthenon\Billing\Entity\Receipt

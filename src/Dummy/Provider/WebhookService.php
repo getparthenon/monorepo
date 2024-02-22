@@ -26,7 +26,7 @@ class WebhookService implements WebhookServiceInterface
         return null;
     }
 
-    public function registerWebhook(string $url, array $events, string $description = null): WebhookCreation
+    public function registerWebhook(string $url, array $events, ?string $description = null): WebhookCreation
     {
         // TODO: Implement registerWebhook() method.
     }

@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
+ *
  * @ORM\Table(name="tenant")
  */
 class Tenant extends \Parthenon\MultiTenancy\Entity\Tenant
