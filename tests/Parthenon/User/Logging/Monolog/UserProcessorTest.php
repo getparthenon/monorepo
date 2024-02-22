@@ -17,7 +17,7 @@ namespace Parthenon\User\Logging\Monolog;
 use Parthenon\User\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\UuidFactory;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class UserProcessorTest extends TestCase
 {

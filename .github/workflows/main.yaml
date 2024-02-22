@@ -72,7 +72,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit-bridge
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, pgsql, mongodb
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, pgsql, mongodb, http
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

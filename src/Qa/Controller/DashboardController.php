@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace App\Qa\Controller;
 
 use App\Entity\User;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 class DashboardController
 {

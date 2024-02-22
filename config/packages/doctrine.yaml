@@ -36,7 +36,7 @@ doctrine:
                 mappings:
                     App:
                         is_bundle: false
-                        type: annotation
+                        type: attribute
                         dir: '%kernel.project_dir%/src/Entity'
                         prefix: 'App\Entity'
                         alias: App
@@ -47,7 +47,7 @@ doctrine:
                 mappings:
                     App:
                         is_bundle: false
-                        type: annotation
+                        type: attribute
                         dir: '%kernel.project_dir%/src/MultiTenant/Entity'
                         prefix: 'App\MultiTenant\Entity'
                         alias: App

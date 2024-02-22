@@ -16,7 +16,7 @@ namespace Parthenon\User\Logging\Monolog;
 
 use Monolog\Processor\ProcessorInterface;
 use Parthenon\User\Entity\UserInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class UserProcessor implements ProcessorInterface
 {
