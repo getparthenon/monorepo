@@ -20,7 +20,7 @@ class InvalidFieldsFailedRequestException extends FailedRequestException
 {
     protected array $fields;
 
-    public function __construct(array $fields, RequestInterface $request, ?string $message = null, ?int $code = null, \Throwable|null $exception = null)
+    public function __construct(array $fields, RequestInterface $request, ?string $message = null, ?int $code = null, ?\Throwable $exception = null)
     {
         $this->fields = $fields;
         parent::__construct($request, $message, $code, $exception);
