@@ -63,7 +63,7 @@ final class CurrentTenantProvider implements TenantProviderInterface
         }
 
         $host = $request->getHost();
-        if (str_ends_with($host, $this->domain)) {
+        if (!str_ends_with($host, $this->domain)) {
             return Tenant::createWithSubdomainAndDatabase($this->defaultDatabase, 'dummy.subdomain');
         }
 
