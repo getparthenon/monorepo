@@ -74,14 +74,18 @@ class ParthenonBundle extends Bundle
         ];
 
         $bundles = $container->getParameter('kernel.bundles');
+        $global = $container->getParameter('parthenon_multi_tenancy_global_orm_entity_manager');
 
         if (isset($bundles['DoctrineBundle'])) {
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings, ['parthenon.orm']));
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($abMappings, ['parthenon.ab_testing.orm'], enabledParameter: 'parthenon_abtesting_enabled'));
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($exportMappings, ['parthenon.export.orm'], enabledParameter: 'parthenon_export_enabled'));
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($multiTenacyMappings, ['parthenon.multi_tenancy.orm'], enabledParameter: 'parthenon_multi_tenancy_enabled'));
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($paymentMappings, ['parthenon.payments.orm'], enabledParameter: 'parthenon_payments_enabled'));
-            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($userMappings, ['parthenon.user.orm'], enabledParameter: 'parthenon_user_enabled'));
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($abMappings, enabledParameter: 'parthenon_abtesting_enabled'));
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($exportMappings, enabledParameter: 'parthenon_export_enabled'));
+            if ($global) {
+                $manager = sprintf('doctrine.%s_entity_manager', $global);
+                $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($multiTenacyMappings, [$manager], enabledParameter: 'parthenon_multi_tenancy_enabled'));
+            }
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($paymentMappings, enabledParameter: 'parthenon_payments_enabled'));
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($userMappings, enabledParameter: 'parthenon_user_enabled'));
 
             Type::overrideType('datetime', UtcDateTimeType::class);
             Type::overrideType('datetimetz', UtcDateTimeType::class);
@@ -122,11 +126,11 @@ class ParthenonBundle extends Bundle
 
         // Doctrine ORM Bundle
         if (isset($bundles['DoctrineBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($athenaMappings, ['parthenon.athena.orm'], enabledParameter: 'parthenon_athena_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($athenaMappings, enabledParameter: 'parthenon_athena_enabled'));
         }
         // Doctrine ODM Bundle
         if (isset($bundles['DoctrineMongoDBBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($athenaMappings, ['parthenon.athena.mongodb'], enabledParameter: 'parthenon_athena_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($athenaMappings, enabledParameter: 'parthenon_athena_enabled'));
         }
     }
 
@@ -141,11 +145,11 @@ class ParthenonBundle extends Bundle
 
         // Doctrine ORM Bundle
         if (isset($bundles['DoctrineBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings, ['parthenon.billing.orm'], enabledParameter: 'parthenon_billing_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings, enabledParameter: 'parthenon_billing_enabled'));
         }
         // Doctrine ODM Bundle
         if (isset($bundles['DoctrineMongoDBBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($mappings, ['parthenon.billing.mongodb'], enabledParameter: 'parthenon_billing_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($mappings, enabledParameter: 'parthenon_billing_enabled'));
         }
     }
 }
