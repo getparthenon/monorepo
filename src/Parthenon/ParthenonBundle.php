@@ -74,16 +74,12 @@ class ParthenonBundle extends Bundle
         ];
 
         $bundles = $container->getParameter('kernel.bundles');
-        $global = $container->getParameter('parthenon_multi_tenancy_global_orm_entity_manager');
 
         if (isset($bundles['DoctrineBundle'])) {
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($mappings));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($abMappings, enabledParameter: 'parthenon_abtesting_enabled'));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($exportMappings, enabledParameter: 'parthenon_export_enabled'));
-            if ($global) {
-                $manager = sprintf('doctrine.%s_entity_manager', $global);
-                $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($multiTenacyMappings, [$manager], enabledParameter: 'parthenon_multi_tenancy_enabled'));
-            }
+            $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($multiTenacyMappings, ['doctrine.global_entity_manager'], enabledParameter: 'parthenon_multi_tenancy_enabled'));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($paymentMappings, enabledParameter: 'parthenon_payments_enabled'));
             $container->addCompilerPass(DoctrineOrmMappingsPass::createXmlMappingDriver($userMappings, enabledParameter: 'parthenon_user_enabled'));
 
@@ -130,7 +126,7 @@ class ParthenonBundle extends Bundle
         }
         // Doctrine ODM Bundle
         if (isset($bundles['DoctrineMongoDBBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($athenaMappings, enabledParameter: 'parthenon_athena_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($athenaMappings, [], enabledParameter: 'parthenon_athena_enabled'));
         }
     }
 
@@ -149,7 +145,7 @@ class ParthenonBundle extends Bundle
         }
         // Doctrine ODM Bundle
         if (isset($bundles['DoctrineMongoDBBundle'])) {
-            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($mappings, enabledParameter: 'parthenon_billing_enabled'));
+            $containerBuilder->addCompilerPass(DoctrineMongoDBMappingsPass::createXmlMappingDriver($mappings, [], enabledParameter: 'parthenon_billing_enabled'));
         }
     }
 }
