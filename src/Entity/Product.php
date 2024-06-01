@@ -23,11 +23,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="product")
- */
+#[ORM\Entity()]
+#[ORM\Table('product')]
 class Product extends \Parthenon\Billing\Entity\Product
 {
 }

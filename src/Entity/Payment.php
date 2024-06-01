@@ -23,11 +23,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="payment")
- */
+#[ORM\Entity()]
+#[ORM\Table('payment')]
 class Payment extends \Parthenon\Billing\Entity\Payment
 {
 }

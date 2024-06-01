@@ -23,11 +23,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="subscription_plan")
- */
+#[ORM\Entity()]
+#[ORM\Table('subscription_plan')]
 class SubscriptionPlan extends \Parthenon\Billing\Entity\SubscriptionPlan
 {
 }

@@ -14,6 +14,7 @@ doctrine:
                 url: '%env(resolve:TIMESCALE_URL)%'
 
     orm:
+        default_entity_manager: default
         auto_generate_proxy_classes: true
         resolve_target_entities:
             Parthenon\User\Entity\UserInterface: App\Entity\User

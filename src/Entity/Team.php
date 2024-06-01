@@ -23,45 +23,28 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Athena\Entity\CrudEntityInterface;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\Common\Address;
 use Parthenon\User\Entity\MemberInterface;
-use Parthenon\User\Entity\UserInterface;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="teams")
- */
-class Team extends \Parthenon\User\Entity\Team implements CustomerInterface, CrudEntityInterface
+#[ORM\Entity()]
+#[ORM\Table('teams')]
+class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
 {
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="team")
-     *
-     * @var UserInterface[]|Collection
-     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'teams')]
     protected Collection $members;
 
-    /**
-     * @ORM\Embedded(class="Parthenon\Common\Address")
-     */
+    #[ORM\Embedded(class: Address::class)]
     protected Address $billingAddress;
 
-    /**
-     * @ORM\Column(name="external_customer_reference", nullable=true)
-     */
+    #[ORM\Column(name: 'external_customer_reference', nullable: true)]
     protected ?string $externalCustomerReference;
 
-    /**
-     * @ORM\Column(name="payment_provider_details_url", nullable=true)
-     */
+    #[ORM\Column(name: 'payment_provider_details_url', nullable: true)]
     protected ?string $paymentProviderDetailsUrl;
 
-    /**
-     * @ORM\Embedded(class="Parthenon\Billing\Entity\EmbeddedSubscription")
-     */
+    #[ORM\Embedded(class: EmbeddedSubscription::class)]
     private ?EmbeddedSubscription $subscription;
 
     public function setSubscription(EmbeddedSubscription $subscription)
