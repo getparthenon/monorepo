@@ -28,5 +28,14 @@
             <argument type="service" id="Parthenon\Billing\Obol\ProductRegisterInterface" />
             <argument type="service" id="Parthenon\Billing\Factory\EntityFactoryInterface" />
         </service>
+
+        <service id="Parthenon\Billing\Plan\DatabasePlanManager" class="Parthenon\Billing\Plan\DatabasePlanManager">
+            <argument type="service" id="Parthenon\Billing\Repository\SubscriptionPlanRepositoryInterface" />
+        </service>
+        <service id="Parthenon\Billing\Plan\CachedPlanManager" class="Parthenon\Billing\Plan\CachedPlanManager">
+            <argument type="service" id="Parthenon\Billing\Plan\DatabasePlanManager" />
+            <argument type="service" id="Redis" />
+        </service>
+        <service id="Parthenon\Billing\Plan\PlanManagerInterface" alias="Parthenon\Billing\Plan\CachedPlanManager" />
     </services>
 </container>

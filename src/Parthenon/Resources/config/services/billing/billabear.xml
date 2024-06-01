@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults autoconfigure="true" />
+
+        <service id="Parthenon\Billing\BillaBear\SdkFactory" class="Parthenon\Billing\BillaBear\SdkFactory">
+            <argument>%parthenon_billing_billabear_api_url%</argument>
+            <argument>%parthenon_billing_billabear_api_key%</argument>
+        </service>
+
+        <service id="Parthenon\Billing\Subscriber\CustomerCreatedSubscriber" class="Parthenon\Billing\Subscriber\CustomerCreatedSubscriber">
+            <argument type="service" id="Parthenon\User\Repository\UserRepositoryInterface" />
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+
+        <service id="Parthenon\Billing\Plan\BillaBearPlanManager" class="Parthenon\Billing\Plan\BillaBearPlanManager">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+
+        <service id="Parthenon\Billing\Plan\CachedPlanManager" class="Parthenon\Billing\Plan\CachedPlanManager">
+            <argument type="service" id="Parthenon\Billing\BillaBear\BillaBearPlanManager" />
+            <argument type="service" id="Redis" />
+        </service>
+        <service id="Parthenon\Billing\Plan\PlanManagerInterface" alias="Parthenon\Billing\Plan\CachedPlanManager" />
+    </services>
+</container>
