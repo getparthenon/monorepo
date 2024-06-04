@@ -17,7 +17,7 @@
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
 
-        <service id="Parthenon\Billing\Plan\BillaBearPlanManager" class="Parthenon\Billing\Plan\BillaBearPlanManager">
+        <service id="Parthenon\Billing\BillaBear\BillaBearPlanManager" class="Parthenon\Billing\BillaBear\BillaBearPlanManager">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
 
