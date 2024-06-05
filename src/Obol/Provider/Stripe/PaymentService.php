@@ -291,7 +291,7 @@ class PaymentService implements PaymentServiceInterface
                 'expired_card' => ChargeFailureReasons::EXPIRED_CARD,
                 default => ChargeFailureReasons::GENERAL_DECLINE,
             };
-            throw new PaymentFailureException($reason, $e);
+            throw new PaymentFailureException($reason, $exception);
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }
