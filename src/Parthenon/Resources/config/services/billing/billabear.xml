@@ -26,5 +26,12 @@
             <argument type="service" id="Redis" />
         </service>
         <service id="Parthenon\Billing\Plan\PlanManagerInterface" alias="Parthenon\Billing\Plan\CachedPlanManager" />
+
+        <service id="Parthenon\Billing\BillaBear\SubscriptionManager" class="Parthenon\Billing\BillaBear\SubscriptionManager">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+            <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
+            <argument type="service" id="Symfony\Component\EventDispatcher\EventDispatcherInterface" />
+        </service>
+        <service id="Parthenon\Billing\Subscription\SubscriptionManagerInterface" alias="Parthenon\Billing\BillaBear\SubscriptionManager" />
     </services>
 </container>
