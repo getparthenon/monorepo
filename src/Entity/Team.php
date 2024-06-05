@@ -32,7 +32,7 @@ use Parthenon\User\Entity\MemberInterface;
 #[ORM\Table('teams')]
 class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
 {
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'teams')]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'team')]
     protected Collection $members;
 
     #[ORM\Embedded(class: Address::class)]
