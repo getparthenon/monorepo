@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MultiTenantController
 {
-    #[Route('/multi-tenant', name: 'multi_tenant')]
+    #[Route('/multi-tenancy', name: 'multi_tenant')]
     public function show(LinkRepository $linkRepository)
     {
         return new Response('hello world');

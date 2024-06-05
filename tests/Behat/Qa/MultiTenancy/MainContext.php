@@ -118,6 +118,7 @@ class MainContext implements Context
     public function iWillSeeHelloWorld()
     {
         if ('hello world' !== $this->session->getPage()->getContent()) {
+            var_dump($this->session->getPage()->getContent());
             throw new \Exception('Unable to see hello world');
         }
     }

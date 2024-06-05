@@ -23,7 +23,7 @@ namespace App\Qa\Controller;
 
 use Parthenon\Common\Pdf\GeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CommonPdfController
 {
