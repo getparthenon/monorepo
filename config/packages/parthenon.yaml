@@ -98,9 +98,7 @@ parthenon:
   billing:
     enabled: true
     billabear:
-      enabled: true
-      api_key: '%env(resolve:BILLABEAR_API_KEY)%'
-      api_url: '%env(resolve:BILLABEAR_API_URL)%'
+      enabled: false
     plan_management: config
     payments:
       provider: stripe
