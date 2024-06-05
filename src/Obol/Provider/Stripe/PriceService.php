@@ -27,10 +27,13 @@ use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 use Obol\PriceServiceInterface;
 use Obol\Provider\ProviderInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class PriceService implements PriceServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;

@@ -28,10 +28,13 @@ use Obol\Model\Subscription;
 use Obol\Model\Subscription\UpdatePaymentMethod;
 use Obol\Provider\ProviderInterface;
 use Obol\SubscriptionServiceInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class SubscriptionService implements SubscriptionServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;

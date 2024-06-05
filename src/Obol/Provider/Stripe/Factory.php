@@ -23,11 +23,12 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Exception\InvalidConfigException;
 use Obol\Provider\ProviderInterface;
+use Psr\Log\LoggerInterface;
 use Stripe\StripeClient;
 
 class Factory
 {
-    public static function create(array $configData): ProviderInterface
+    public static function create(array $configData, ?LoggerInterface $logger = null): ProviderInterface
     {
         if (!isset($configData['provider']) || Provider::NAME !== strtolower($configData['provider'])) {
             throw new InvalidConfigException('Provider is not defined as stripe');
@@ -40,6 +41,10 @@ class Factory
         );
 
         $provider = new Provider($config, $stripe);
+
+        if (null !== $logger) {
+            $provider->setLogger($logger);
+        }
 
         return $provider;
     }

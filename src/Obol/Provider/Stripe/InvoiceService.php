@@ -25,11 +25,14 @@ use Obol\InvoiceServiceInterface;
 use Obol\Model\Invoice\Invoice;
 use Obol\Model\Invoice\InvoiceLine;
 use Obol\Provider\ProviderInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 class InvoiceService implements InvoiceServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;

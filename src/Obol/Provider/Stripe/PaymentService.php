@@ -41,11 +41,14 @@ use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\Exception\CardException;
 use Stripe\StripeClient;
 
 class PaymentService implements PaymentServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;
@@ -115,6 +118,7 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
         } catch (CardException $exception) {
+            $this->getLogger()->warning('Got a card decline response from stripe for subscription start', ['decline_code' => $exception->getDeclineCode()]);
             $reason = match ($exception->getDeclineCode()) {
                 'authentication_required' => ChargeFailureReasons::AUTHENTICATION_REQUIRED,
                 'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
@@ -269,6 +273,11 @@ class PaymentService implements PaymentServiceInterface
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse
     {
+        $this->getLogger()->info('Making a card to card request', [
+            'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
+            'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
+        ]
+        );
         // TODO add sanity check
         try {
             $chargeData = $this->stripe->charges->create(
@@ -281,6 +290,7 @@ class PaymentService implements PaymentServiceInterface
                 ]
             );
         } catch (CardException $exception) {
+            $this->getLogger()->warning('Got a card decline response from stripe for charge card', ['decline_code' => $exception->getDeclineCode()]);
             $charge = new ChargeCardResponse();
             $charge->setSuccessful(false);
             $reason = match ($exception->getDeclineCode()) {

@@ -27,10 +27,13 @@ use Obol\Model\Voucher\VoucherApplicationResponse;
 use Obol\Model\Voucher\VoucherCreation;
 use Obol\Provider\ProviderInterface;
 use Obol\VoucherServiceInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class VoucherService implements VoucherServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;

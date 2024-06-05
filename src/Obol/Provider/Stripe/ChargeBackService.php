@@ -24,11 +24,14 @@ namespace Obol\Provider\Stripe;
 use Obol\ChargeBackServiceInterface;
 use Obol\Model\ChargeBack\ChargeBack;
 use Obol\Provider\ProviderInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\Dispute;
 use Stripe\StripeClient;
 
 class ChargeBackService implements ChargeBackServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;

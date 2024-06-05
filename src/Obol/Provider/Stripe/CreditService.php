@@ -25,11 +25,13 @@ use Obol\CreditServiceInterface;
 use Obol\Model\Credit\BalanceOutput;
 use Obol\Model\Credit\CreditTransaction;
 use Obol\Provider\ProviderInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\CustomerBalanceTransaction;
 use Stripe\StripeClient;
 
 class CreditService implements CreditServiceInterface
 {
+    use LoggerAwareTrait;
     protected StripeClient $stripe;
 
     protected Config $config;

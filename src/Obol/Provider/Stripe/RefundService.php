@@ -26,11 +26,14 @@ use Obol\Model\Refund;
 use Obol\Model\Refund\IssueRefund;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
+use Parthenon\Common\LoggerAwareTrait;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 class RefundService implements RefundServiceInterface
 {
+    use LoggerAwareTrait;
+
     protected StripeClient $stripe;
 
     protected Config $config;
