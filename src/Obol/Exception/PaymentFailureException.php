@@ -21,6 +21,17 @@ declare(strict_types=1);
 
 namespace Obol\Exception;
 
+use Obol\Model\Enum\ChargeFailureReasons;
+
 class PaymentFailureException extends ProviderFailureException
 {
+    public function __construct(private ChargeFailureReasons $reason, ?\Exception $previous = null)
+    {
+        parent::__construct();
+    }
+
+    public function getReason(): ChargeFailureReasons
+    {
+        return $this->reason;
+    }
 }

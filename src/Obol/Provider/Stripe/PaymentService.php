@@ -31,7 +31,6 @@ use Obol\Model\CardFile;
 use Obol\Model\CardOnFileResponse;
 use Obol\Model\Charge;
 use Obol\Model\ChargeCardResponse;
-use Obol\Model\ChargeFailure;
 use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
 use Obol\Model\Enum\ChargeFailureReasons;
@@ -116,7 +115,15 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
         } catch (CardException $exception) {
-            throw new PaymentFailureException(message: $exception->getMessage(), previous: $exception);
+            $reason = match ($exception->getDeclineCode()) {
+                'authentication_required' => ChargeFailureReasons::AUTHENTICATION_REQUIRED,
+                'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
+                'call_issuer', 'do_not_honor', 'do_not_try_again', 'new_account_information_available', 'no_action_taken', 'not_permitted' => ChargeFailureReasons::CONTACT_PROVIDER,
+                'insufficient_funds' => ChargeFailureReasons::LACK_OF_FUNDS,
+                'expired_card' => ChargeFailureReasons::EXPIRED_CARD,
+                default => ChargeFailureReasons::GENERAL_DECLINE,
+            };
+            throw new PaymentFailureException($reason, $exception);
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(message: $exception->getMessage(), previous: $exception);
         }
@@ -284,11 +291,7 @@ class PaymentService implements PaymentServiceInterface
                 'expired_card' => ChargeFailureReasons::EXPIRED_CARD,
                 default => ChargeFailureReasons::GENERAL_DECLINE,
             };
-            $chargeFailure = new ChargeFailure();
-            $chargeFailure->setReason($reason);
-            $charge->setChargeFailure($chargeFailure);
-
-            return $charge;
+            throw new PaymentFailureException($reason, $e);
         } catch (\Throwable $exception) {
             throw new ProviderFailureException(previous: $exception);
         }

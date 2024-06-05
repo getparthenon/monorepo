@@ -23,13 +23,11 @@ namespace App\Qa\Controller;
 
 use App\MultiTenant\Repository\LinkRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class MultiTenantController
 {
-    /**
-     * @Route("/multi-tenancy", name="app_multitenancy")
-     */
+    #[Route('/multi-tenant', name: 'multi_tenant')]
     public function show(LinkRepository $linkRepository)
     {
         return new Response('hello world');
