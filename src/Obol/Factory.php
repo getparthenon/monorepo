@@ -25,6 +25,7 @@ use Obol\Exception\InvalidProviderException;
 use Obol\Provider\Adyen\Factory as AdyenFactory;
 use Obol\Provider\ProviderInterface;
 use Obol\Provider\Stripe\Factory as StripeFactory;
+use Psr\Log\LoggerInterface;
 
 class Factory
 {
@@ -32,7 +33,7 @@ class Factory
      * @throws Exception\InvalidConfigException
      * @throws InvalidProviderException
      */
-    public static function create(array $config): ProviderInterface
+    public static function create(array $config, ?LoggerInterface $logger = null): ProviderInterface
     {
         if (!isset($config['provider']) || empty($config['provider']) || !is_string($config['provider'])) {
             throw new InvalidProviderException('No provider given');
@@ -41,7 +42,7 @@ class Factory
         $provider = $config['provider'];
 
         if ('stripe' === $provider) {
-            return StripeFactory::create($config);
+            return StripeFactory::create($config, $logger);
         }
 
         if ('adyen' === $provider) {
