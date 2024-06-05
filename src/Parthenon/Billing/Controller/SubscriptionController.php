@@ -105,7 +105,7 @@ class SubscriptionController
         } catch (PaymentFailureException $exception) {
             $this->getLogger()->warning('Payment failed so subscription was not created');
 
-            return new JsonResponse(StartSubscriptionResponse::createPaymentFailed(), JsonResponse::HTTP_BAD_REQUEST);
+            return new JsonResponse(StartSubscriptionResponse::createPaymentFailed($exception->getChargeFailureReason()), JsonResponse::HTTP_BAD_REQUEST);
         } catch (NoPaymentDetailsException $exception) {
             $this->getLogger()->warning('Customer does not have payment details so subscription was not created');
 
