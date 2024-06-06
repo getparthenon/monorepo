@@ -25,7 +25,7 @@ use Obol\Exception\ProviderFailureException;
 use Obol\Model\CheckoutCreation;
 use Obol\Model\Subscription;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class HostedCheckoutService implements \Obol\HostedCheckoutServiceInterface

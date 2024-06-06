@@ -41,7 +41,7 @@ use Obol\Model\SubscriptionCancellation;
 use Obol\Model\SubscriptionCreationResponse;
 use Obol\PaymentServiceInterface;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\Exception\CardException;
 use Stripe\StripeClient;
 
@@ -64,6 +64,7 @@ class PaymentService implements PaymentServiceInterface
 
     public function startSubscription(Subscription $subscription): SubscriptionCreationResponse
     {
+        $this->logger?->info('Starting subscription', ['customer' => $subscription->getCustomerReference()]);
         if (!$subscription->hasPriceId()) {
             throw new \Exception('EmbeddedSubscription must has price id for stripe');
         }
@@ -93,6 +94,7 @@ class PaymentService implements PaymentServiceInterface
             }
 
             if (!$subscription->getParentReference()) {
+                $this->logger?->info('Creating parent subscription', ['customer' => $subscription->getCustomerReference()]);
                 $stripeSubscription = $this->stripe->subscriptions->create(
                     $payload
                 );
@@ -101,6 +103,7 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil = new \DateTime();
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             } else {
+                $this->logger?->info('Creating child subscription', ['customer' => $subscription->getCustomerReference()]);
                 $stripeSubscription = $this->stripe->subscriptionItems->create([
                     'subscription' => $subscription->getParentReference(),
                     'price' => $subscription->getPriceId(),
@@ -118,7 +121,7 @@ class PaymentService implements PaymentServiceInterface
                 $billedUntil->setTimestamp($stripeSubscription->current_period_end);
             }
         } catch (CardException $exception) {
-            $this->getLogger()->warning('Got a card decline response from stripe for subscription start', ['decline_code' => $exception->getDeclineCode()]);
+            $this->logger?->warning('Got a card decline response from stripe for subscription start', ['decline_code' => $exception->getDeclineCode()]);
             $reason = match ($exception->getDeclineCode()) {
                 'authentication_required' => ChargeFailureReasons::AUTHENTICATION_REQUIRED,
                 'invalid_account', 'currency_not_supported', 'incorrect_number', 'incorrect_cvc', 'incorrect_pin', 'incorrect_zip', 'card_not_supported', 'invalid_amount', 'invalid_cvc', 'invalid_number', 'invalid_expiry_month', 'invalid_expiry_year' => ChargeFailureReasons::INVALID_DETAILS,
@@ -129,6 +132,7 @@ class PaymentService implements PaymentServiceInterface
             };
             throw new PaymentFailureException($reason, $exception);
         } catch (\Throwable $exception) {
+            $this->logger?->warning('Got a general failure response from stripe for subscription start', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(message: $exception->getMessage(), previous: $exception);
         }
 
@@ -173,6 +177,7 @@ class PaymentService implements PaymentServiceInterface
     public function stopSubscription(CancelSubscription $cancelSubscription): SubscriptionCancellation
     {
         try {
+            $this->logger?->info('Starting subscription stop process', ['subscription' => $cancelSubscription->getSubscription()->getId()]);
             $payload = [];
             $cancellation = new SubscriptionCancellation();
             $cancellation->setSubscription($cancelSubscription->getSubscription());
@@ -202,17 +207,20 @@ class PaymentService implements PaymentServiceInterface
 
             return $cancellation;
         } catch (\Throwable $exception) {
+            $this->logger?->warning('Received a general failure from stripe for subscription stop', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(previous: $exception);
         }
     }
 
     public function createCardOnFile(BillingDetails $billingDetails): CardOnFileResponse
     {
+        $this->logger?->info('Creating a card on stripe', ['customer' => $billingDetails->getCustomerReference()]);
         $customerCreation = null;
         if (!$billingDetails->hasCustomerReference()) {
             $customerCreation = $this->setCustomerReference($billingDetails);
         }
         if ($this->config->isPciMode()) {
+            $this->logger?->info('Creating a card on stripe via PCI mode', ['customer' => $billingDetails->getCustomerReference()]);
             $payload = [
                 'source' => [
                     'object' => 'card',
@@ -232,9 +240,11 @@ class PaymentService implements PaymentServiceInterface
             try {
                 $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
             } catch (\Throwable $exception) {
+                $this->logger?->warning('Received a general failure from stripe for creating a card', ['exception_message' => $exception->getMessage()]);
                 throw new ProviderFailureException(previous: $exception);
             }
         } else {
+            $this->logger?->info('Creating a card on stripe via token mode', ['customer' => $billingDetails->getCustomerReference()]);
             if (!$billingDetails->getCardDetails()->hasToken()) {
                 throw new \Exception('No token');
             }
@@ -243,9 +253,12 @@ class PaymentService implements PaymentServiceInterface
             try {
                 $cardData = $this->stripe->customers->createSource($billingDetails->getCustomerReference(), $payload);
             } catch (\Throwable $exception) {
+                $this->logger?->warning('Received general error from stripe', ['exception_message' => $exception->getMessage()]);
                 throw new ProviderFailureException(previous: $exception);
             }
         }
+
+        $this->logger?->info('Card successfully created on stripe', ['customer' => $billingDetails->getCustomerReference(), 'card' => $cardData->id]);
 
         $cardFile = new CardFile();
         $cardFile->setCustomerReference($billingDetails->getCustomerReference())
@@ -265,35 +278,33 @@ class PaymentService implements PaymentServiceInterface
     public function deleteCardFile(BillingDetails $cardFile): void
     {
         try {
+            $this->logger?->info('Deleting a card on stripe', ['customer' => $cardFile->getCustomerReference(), 'card' => $cardFile->getStoredPaymentReference()]);
             $this->stripe->paymentMethods->detach($cardFile->getStoredPaymentReference());
         } catch (\Throwable $exception) {
+            $this->logger?->info('Received a general error from stripe', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(previous: $exception);
         }
     }
 
     public function chargeCardOnFile(Charge $cardFile): ChargeCardResponse
     {
-        $this->getLogger()->info('Making a card to card request', [
-            'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
-            'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
-        ]
-        );
         // TODO add sanity check
         try {
-            $chargeData = $this->stripe->charges->create(
-                [
-                    'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
-                    'amount' => $cardFile->getAmount()->getMinorAmount()->toInt(),
-                    'currency' => $cardFile->getAmount()->getCurrency()->getCurrencyCode(),
-                    'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
-                    'description' => $cardFile->getName(),
-                ]
-            );
+            $payload = [
+                'customer' => $cardFile->getBillingDetails()->getCustomerReference(),
+                'amount' => $cardFile->getAmount()->getMinorAmount()->toInt(),
+                'currency' => $cardFile->getAmount()->getCurrency()->getCurrencyCode(),
+                'source' => $cardFile->getBillingDetails()->getStoredPaymentReference(),
+                'description' => $cardFile->getName(),
+            ];
+
+            $this->logger?->info('Making a card to card request', $payload);
+            $chargeData = $this->stripe->charges->create($payload);
         } catch (CardException $exception) {
             $json = $exception->getJsonBody();
             $declineCode = $json['code'] ?? null;
 
-            $this->getLogger()->warning('Got a card decline response from stripe for charge card', ['decline_code' => $declineCode]);
+            $this->logger?->warning('Got a card decline response from stripe for charge card', ['decline_code' => $declineCode]);
             $charge = new ChargeCardResponse();
             $charge->setSuccessful(false);
             $reason = match ($declineCode) {
@@ -306,8 +317,11 @@ class PaymentService implements PaymentServiceInterface
             };
             throw new PaymentFailureException($reason, $exception);
         } catch (\Throwable $exception) {
+            $this->logger?->warning('Received a general error from stripe', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(previous: $exception);
         }
+
+        $this->logger?->info('Successfully charged card', ['customer' => $cardFile->getBillingDetails()->getCustomerReference(), 'charge' => $chargeData->id]);
 
         $paymentDetails = new PaymentDetails();
         $paymentDetails->setAmount($cardFile->getAmount());
@@ -324,6 +338,7 @@ class PaymentService implements PaymentServiceInterface
 
     public function startFrontendCreateCardOnFile(BillingDetails $billingDetails): FrontendCardProcess
     {
+        $this->logger?->info('Starting front end create card on file');
         $customerCreation = null;
         if (!$billingDetails->hasCustomerReference()) {
             $customerCreation = $this->setCustomerReference($billingDetails);
@@ -331,6 +346,7 @@ class PaymentService implements PaymentServiceInterface
         try {
             $intentData = $this->stripe->setupIntents->create(['payment_method_types' => $this->config->getPaymentMethods(), 'customer' => $billingDetails->getCustomerReference()]);
         } catch (\Throwable $exception) {
+            $this->logger?->warning('Received a general error from stripe', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(previous: $exception);
         }
 
@@ -344,13 +360,18 @@ class PaymentService implements PaymentServiceInterface
 
     public function makeCardDefault(BillingDetails $billingDetails): void
     {
+        $this->logger?->info('Make card default stripe');
         if (str_starts_with($billingDetails->getStoredPaymentReference(), 'pm')) {
             $payload = ['invoice_settings' => ['default_payment_method' => $billingDetails->getStoredPaymentReference()]];
         } else {
             $payload = ['default_source' => $billingDetails->getStoredPaymentReference()];
         }
-
-        $this->stripe->customers->update($billingDetails->getCustomerReference(), $payload);
+        try {
+            $this->stripe->customers->update($billingDetails->getCustomerReference(), $payload);
+        } catch (\Throwable $e) {
+            $this->logger?->warning('Received a general error from stripe', ['exception_message' => $e->getMessage()]);
+            throw new ProviderFailureException($e->getMessage(), previous: $e);
+        }
     }
 
     public function list(int $limit = 10, ?string $lastId = null): array

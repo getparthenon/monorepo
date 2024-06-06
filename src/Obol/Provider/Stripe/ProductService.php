@@ -26,7 +26,7 @@ use Obol\Model\Product;
 use Obol\Model\ProductCreation;
 use Obol\ProductServiceInterface;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class ProductService implements ProductServiceInterface

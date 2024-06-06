@@ -24,7 +24,7 @@ namespace Obol\Provider\Stripe;
 use Obol\ChargeBackServiceInterface;
 use Obol\Model\ChargeBack\ChargeBack;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\Dispute;
 use Stripe\StripeClient;
 

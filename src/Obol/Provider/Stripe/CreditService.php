@@ -25,7 +25,7 @@ use Obol\CreditServiceInterface;
 use Obol\Model\Credit\BalanceOutput;
 use Obol\Model\Credit\CreditTransaction;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\CustomerBalanceTransaction;
 use Stripe\StripeClient;
 

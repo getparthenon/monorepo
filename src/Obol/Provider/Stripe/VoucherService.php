@@ -27,7 +27,7 @@ use Obol\Model\Voucher\VoucherApplicationResponse;
 use Obol\Model\Voucher\VoucherCreation;
 use Obol\Provider\ProviderInterface;
 use Obol\VoucherServiceInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class VoucherService implements VoucherServiceInterface

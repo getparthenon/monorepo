@@ -24,7 +24,7 @@ namespace Obol\Provider\Stripe;
 use Obol\Model\PaymentMethod\PaymentMethodCard;
 use Obol\PaymentMethodServiceInterface;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class PaymentMethodService implements PaymentMethodServiceInterface

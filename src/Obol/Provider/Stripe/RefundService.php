@@ -26,7 +26,7 @@ use Obol\Model\Refund;
 use Obol\Model\Refund\IssueRefund;
 use Obol\Provider\ProviderInterface;
 use Obol\RefundServiceInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 

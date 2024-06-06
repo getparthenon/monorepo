@@ -33,7 +33,7 @@ use Obol\Model\Webhook\WebhookCreation;
 use Obol\Model\WebhookPayload;
 use Obol\Provider\ProviderInterface;
 use Obol\WebhookServiceInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\Charge;
 use Stripe\Dispute;
 use Stripe\StripeClient;

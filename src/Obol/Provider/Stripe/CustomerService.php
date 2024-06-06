@@ -27,7 +27,7 @@ use Obol\Model\Customer;
 use Obol\Model\CustomerCreation;
 use Obol\Model\PaymentMethod\PaymentMethodCard;
 use Obol\Provider\ProviderInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class CustomerService implements \Obol\CustomerServiceInterface
