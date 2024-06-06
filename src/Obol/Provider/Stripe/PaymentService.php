@@ -416,8 +416,10 @@ class PaymentService implements PaymentServiceInterface
         $customer->setAddress($billingDetails->getAddress());
 
         try {
+            $this->logger?->info('Creating a customer on stripe');
             $customerCreation = $this->provider->customers()->create($customer);
         } catch (\Throwable $exception) {
+            $this->logger?->warning('General error received from stripe', ['exception_message' => $exception->getMessage()]);
             throw new ProviderFailureException(previous: $exception);
         }
 
