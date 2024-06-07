@@ -26,6 +26,8 @@ use Parthenon\Billing\Entity\Subscription;
 
 interface SubscriptionProviderInterface
 {
+    public function getSubscription(string $id): Subscription;
+
     /**
      * @return Subscription[]
      */

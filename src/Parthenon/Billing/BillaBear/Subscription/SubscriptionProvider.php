@@ -57,4 +57,11 @@ class SubscriptionProvider implements SubscriptionProviderInterface
 
         return $entity;
     }
+
+    public function getSubscription(string $id): Subscription
+    {
+        $response = $this->sdkFactory->createSubscriptionsApi()->showSubscriptionById($id);
+
+        return $this->buildSubscription($response);
+    }
 }
