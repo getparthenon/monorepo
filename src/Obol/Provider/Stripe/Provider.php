@@ -35,7 +35,7 @@ use Obol\RefundServiceInterface;
 use Obol\SubscriptionServiceInterface;
 use Obol\VoucherServiceInterface;
 use Obol\WebhookServiceInterface;
-use Parthenon\Common\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
 
 class Provider implements ProviderInterface
