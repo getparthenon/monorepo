@@ -45,12 +45,12 @@
         </service>
         <service id="Parthenon\Billing\Plan\PlanManagerInterface" alias="Parthenon\Billing\Plan\CachedPlanManager" />
 
-        <service id="Parthenon\Billing\BillaBear\SubscriptionManager" class="Parthenon\Billing\BillaBear\SubscriptionManager">
+        <service id="Parthenon\Billing\BillaBear\Subscription\SubscriptionManager" class="Parthenon\Billing\BillaBear\Subscription\SubscriptionManager">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
             <argument type="service" id="Parthenon\Billing\Plan\PlanManagerInterface" />
             <argument type="service" id="Symfony\Component\EventDispatcher\EventDispatcherInterface" />
         </service>
-        <service id="Parthenon\Billing\Subscription\SubscriptionManagerInterface" alias="Parthenon\Billing\BillaBear\SubscriptionManager" />
+        <service id="Parthenon\Billing\Subscription\SubscriptionManagerInterface" alias="Parthenon\Billing\BillaBear\Subscription\SubscriptionManager" />
 
         <service id="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider" class="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />

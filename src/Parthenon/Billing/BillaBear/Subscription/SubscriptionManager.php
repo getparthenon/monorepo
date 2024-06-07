@@ -19,7 +19,7 @@ declare(strict_types=1);
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace App\Parthenon\Billing\BillaBear\Subscription;
+namespace Parthenon\Billing\BillaBear\Subscription;
 
 use BillaBear\ApiException;
 use BillaBear\Model\SubscriptionStartBody;
