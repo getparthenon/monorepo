@@ -49,6 +49,21 @@ services:
     ports:
       - "6379:6379"
 
+  rediscommander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      REDIS_HOSTS: redis
+      REDIS_HOST: redis
+      REDIS_PORT: redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      HTTP_USER: root
+      HTTP_PASSWORD: root
+    ports:
+      - 8081:8081
+    networks:
+      - parthenon
+
   timescaledb:
     image: timescale/timescaledb:latest-pg12
     environment:
@@ -87,8 +102,10 @@ services:
       discovery.type: single-node
     networks:
       - parthenon
+
 networks:
   parthenon:
     driver: bridge
+
 volumes:
   elasticsearch:

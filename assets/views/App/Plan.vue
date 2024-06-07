@@ -24,6 +24,9 @@
       <div class="plans_bdy">
         <h6 class="mb-5">{{ $t('app.plan.main.features') }}:</h6>
 
+        <div class="media" v-for="feature in plan.features">
+          <i class="fa fa-check"></i> {{ feature.description }}
+        </div>
         <div class="media" v-for="limit in plan.limits">
           <i class="fa fa-check"></i>  {{ limit.limit }} {{ limit.description }}
         </div>
