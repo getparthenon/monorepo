@@ -17,6 +17,21 @@
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
 
+        <service id="Parthenon\Billing\BillaBear\PaymentCardRepository" class="Parthenon\Billing\BillaBear\PaymentCardRepository">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+        <service id="Parthenon\Billing\Repository\PaymentCardRepositoryInterface" alias="Parthenon\Billing\BillaBear\PaymentCardRepository" />
+
+        <service id="Parthenon\Billing\BillaBear\Deleter" class="Parthenon\Billing\BillaBear\Deleter">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+        <service id="Parthenon\Billing\PaymentMethod\DeleterInterface" alias="Parthenon\Billing\BillaBear\Deleter" />
+
+        <service id="Parthenon\Billing\BillaBear\FrontendAddProcessor" class="Parthenon\Billing\BillaBear\FrontendAddProcessor">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+        <service id="Parthenon\Billing\PaymentMethod\FrontendAddProcessorInterface" alias="Parthenon\Billing\BillaBear\FrontendAddProcessor" />
+
         <service id="Parthenon\Billing\BillaBear\BillaBearPlanManager" class="Parthenon\Billing\BillaBear\BillaBearPlanManager">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
