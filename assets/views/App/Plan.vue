@@ -65,6 +65,7 @@ import { planservice } from "../../services/planservice";
 import { stripeservice } from "../../services/stripeservice";
 import { transactoncloudservice } from "../../services/transactioncloudservice";
 import {toRaw} from "vue";
+import currency from "currency.js";
 
 export default {
   name: "Plan.vue",
@@ -93,6 +94,9 @@ export default {
     })
   },
   methods: {
+    displayCurrency: function (value) {
+      return currency(value, { fromCents: true }).format({symbol: ''});
+    },
     select: function (planName, paymentSchedule, plan) {
        this.in_progress = true;
       planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currency).then(response => {

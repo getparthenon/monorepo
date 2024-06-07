@@ -1315,9 +1315,11 @@
 
 "@parthenon/ui@link:./js-packages/ui":
   version "0.0.0"
+  uid ""
 
 "@parthenon/vue-menu@link:./js-packages/vue-menu":
   version "0.0.0"
+  uid ""
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.44"
@@ -2818,6 +2820,11 @@ csstype@^2.6.8:
   version "2.6.21"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
+
+currency.js@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/currency.js/-/currency.js-2.0.4.tgz#a8a4d69be3b2e509bf67a560c78220bc04809cf1"
+  integrity sha512-6/OplJYgJ0RUlli74d93HJ/OsKVBi8lB1+Z6eJYS1YZzBuIp4qKKHpJ7ad+GvTlWmLR/hLJOWTykN5Nm8NJ7+w==
 
 data-urls@^3.0.2:
   version "3.0.2"
