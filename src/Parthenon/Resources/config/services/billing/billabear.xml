@@ -61,5 +61,9 @@
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
         <service id="Parthenon\Billing\Invoice\InvoiceProviderInterface" alias="Parthenon\Billing\BillaBear\Invoice\InvoiceProvider" />
+        <service id="Parthenon\Billing\BillaBear\Invoice\InvoiceCharger" class="Parthenon\Billing\BillaBear\Invoice\InvoiceCharger">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+        <service id="Parthenon\Billing\Invoice\InvoiceChargerInterface" alias="Parthenon\Billing\BillaBear\Invoice\InvoiceCharger" />
     </services>
 </container>
