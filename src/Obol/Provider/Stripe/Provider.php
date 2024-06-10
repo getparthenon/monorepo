@@ -95,14 +95,18 @@ class Provider implements ProviderInterface
 
     public function payments(): PaymentServiceInterface
     {
-        $this->paymentService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->paymentService->setLogger($this->logger);
+        }
 
         return $this->paymentService;
     }
 
     public function hostedCheckouts(): HostedCheckoutServiceInterface
     {
-        $this->hostedCheckoutService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->hostedCheckoutService->setLogger($this->logger);
+        }
 
         return $this->hostedCheckoutService;
     }
@@ -114,77 +118,99 @@ class Provider implements ProviderInterface
 
     public function customers(): CustomerServiceInterface
     {
-        $this->customerService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->customerService->setLogger($this->logger);
+        }
 
         return $this->customerService;
     }
 
     public function prices(): PriceServiceInterface
     {
-        $this->priceService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->priceService->setLogger($this->logger);
+        }
 
         return $this->priceService;
     }
 
     public function products(): ProductServiceInterface
     {
-        $this->productService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->productService->setLogger($this->logger);
+        }
 
         return $this->productService;
     }
 
     public function refunds(): RefundServiceInterface
     {
-        $this->refundService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->refundService->setLogger($this->logger);
+        }
 
         return $this->refundService;
     }
 
     public function subscriptions(): SubscriptionServiceInterface
     {
-        $this->subscriptionService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->subscriptionService->setLogger($this->logger);
+        }
 
         return $this->subscriptionService;
     }
 
     public function webhook(): WebhookServiceInterface
     {
-        $this->webhookService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->webhookService->setLogger($this->logger);
+        }
 
         return $this->webhookService;
     }
 
     public function invoices(): InvoiceServiceInterface
     {
-        $this->invoiceService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->invoiceService->setLogger($this->logger);
+        }
 
         return $this->invoiceService;
     }
 
     public function chargeBacks(): ChargeBackServiceInterface
     {
-        $this->chargeBackService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->chargeBackService->setLogger($this->logger);
+        }
 
         return $this->chargeBackService;
     }
 
     public function paymentMethods(): PaymentMethodServiceInterface
     {
-        $this->paymentMethodService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->paymentMethodService->setLogger($this->logger);
+        }
 
         return $this->paymentMethodService;
     }
 
     public function credit(): CreditServiceInterface
     {
-        $this->creditService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->creditService->setLogger($this->logger);
+        }
 
         return $this->creditService;
     }
 
     public function vouchers(): VoucherServiceInterface
     {
-        $this->voucherService->setLogger($this->getLogger());
+        if ($this->logger) {
+            $this->voucherService->setLogger($this->logger);
+        }
 
         return $this->voucherService;
     }
