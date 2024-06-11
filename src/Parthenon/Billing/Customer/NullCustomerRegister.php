@@ -19,9 +19,8 @@ declare(strict_types=1);
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Parthen\Billing\Customer;
+namespace Parthenon\Billing\Customer;
 
-use Parthenon\Billing\Customer\CustomerRegisterInterface;
 use Parthenon\Billing\Entity\CustomerInterface;
 
 class NullCustomerRegister implements CustomerRegisterInterface

@@ -78,7 +78,9 @@ class PaymentCardRepository implements PaymentCardRepositoryInterface
         $paymentCard->setLastFour($paymentDetails->getLastFour());
         $paymentCard->setExpiryMonth($paymentDetails->getExpiryMonth());
         $paymentCard->setExpiryYear($paymentDetails->getExpiryYear());
-        $paymentCard->setCreatedAt(new \DateTime($paymentDetails->getCreatedAt()));
+        if ($paymentCard->getCreatedAt()) {
+            $paymentCard->setCreatedAt(new \DateTime($paymentDetails->getCreatedAt()));
+        }
 
         return $paymentCard;
     }
