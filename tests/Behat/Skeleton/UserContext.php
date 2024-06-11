@@ -804,6 +804,7 @@ class UserContext implements Context
         $team->getSubscription()->setPlanName($plan);
         $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
         $team->getSubscription()->setActive(true);
+        $team->setBillingEmail('billing@example.org');
 
         $externalReference = bin2hex(random_bytes(40));
         $team->setExternalCustomerReference($externalReference);
