@@ -26,7 +26,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Billing\Entity\EmbeddedSubscription;
 use Parthenon\Common\Address;
-use Parthenon\User\Entity\MemberInterface;
 
 #[ORM\Entity()]
 #[ORM\Table('teams')]
@@ -99,14 +98,6 @@ class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
     public function getExternalCustomerReference()
     {
         return $this->externalCustomerReference;
-    }
-
-    public function getBillingEmail()
-    {
-        /** @var MemberInterface $member */
-        $member = $this->members->first();
-
-        return $member->getEmail();
     }
 
     public function getDisplayName(): string

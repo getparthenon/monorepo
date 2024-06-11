@@ -14,7 +14,7 @@
 
         <service id="Parthenon\Billing\Subscriber\CustomerCreatedSubscriber" class="Parthenon\Billing\Subscriber\CustomerCreatedSubscriber">
             <argument type="service" id="Parthenon\User\Repository\UserRepositoryInterface" />
-            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+            <argument type="service" id="Parthenon\Billing\Customer\CustomerRegisterInterface" />
         </service>
 
         <service id="Parthenon\Billing\BillaBear\Repository\PaymentCardRepository" class="Parthenon\Billing\BillaBear\Repository\PaymentCardRepository">
@@ -78,5 +78,11 @@
                 <argument type="service" id="Parthenon\Billing\BillaBear\Webhook\CustomerDisableProcessor" />
             </argument>
         </service>
+
+
+        <service id="Parthenon\Billing\BillaBear\Customer\CustomerRegister" class="Parthenon\Billing\BillaBear\Customer\CustomerRegister">
+            <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
+        </service>
+        <service id="Parthenon\Billing\Customer\CustomerRegisterInterface" alias="Parthenon\Billing\BillaBear\Customer\CustomerRegister" />
     </services>
 </container>
