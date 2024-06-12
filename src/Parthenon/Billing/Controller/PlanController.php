@@ -67,10 +67,8 @@ class PlanController
 
         foreach ($plans as $plan) {
             if (!$plan->isPublic()) {
-                $logger->info('Skipping plan', ['plan_name' => $plan->getName()]);
                 continue;
             }
-            $logger->info('Found plan', ['plan_name' => $plan->getName()]);
             $output[$plan->getName()] = [
                 'name' => $plan->getName(),
                 'limits' => $plan->getLimits(),

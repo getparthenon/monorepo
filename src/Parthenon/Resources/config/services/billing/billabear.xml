@@ -55,7 +55,16 @@
         <service id="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider" class="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
         </service>
-        <service id="Parthenon\Billing\Subscription\SubscriptionProviderInterface" alias="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider" />
+
+        <service id="Parthenon\Billing\Subscription\CachedSubscriptionProvider" class="Parthenon\Billing\Subscription\CachedSubscriptionProvider">
+            <argument type="service" id="Parthenon\Billing\BillaBear\Subscription\SubscriptionProvider" />
+            <argument type="service" id="Redis" />
+            <call method="setLogger">
+                <argument type="service" id="logger" />
+            </call>
+        </service>
+        <service id="Parthenon\Billing\Subscription\SubscriptionProviderInterface" alias="Parthenon\Billing\Subscription\CachedSubscriptionProvider" />
+
 
         <service id="Parthenon\Billing\BillaBear\Invoice\InvoiceProvider" class="Parthenon\Billing\BillaBear\Invoice\InvoiceProvider">
             <argument type="service" id="Parthenon\Billing\BillaBear\SdkFactory" />
