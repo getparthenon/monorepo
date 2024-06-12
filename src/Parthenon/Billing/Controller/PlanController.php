@@ -61,6 +61,7 @@ class PlanController
                 'name' => $subscription->getPlanName(),
                 'schedule' => $subscription->getPaymentSchedule(),
                 'id' => (string) $subscription->getId(),
+                'currency' => $subscription->getCurrency(),
             ];
         }
 
