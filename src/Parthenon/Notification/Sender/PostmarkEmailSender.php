@@ -60,6 +60,10 @@ final class PostmarkEmailSender implements EmailSenderInterface
                 $email['HtmlBody'] = $message->getContent();
                 $response = $this->postmarkClient->sendEmailBatch([$email]);
             }
+            $response = $response[0];
+            if (0 !== $response->ErrorCode) {
+                throw new \Exception($response->Message);
+            }
 
             $this->getLogger()->info('Sent email using PostMark');
         } catch (\Exception $e) {
