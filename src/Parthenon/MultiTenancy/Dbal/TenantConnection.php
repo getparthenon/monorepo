@@ -51,7 +51,7 @@ class TenantConnection extends Connection
 
     public function connect(bool $refresh = false): bool
     {
-        if ($this->connected && !$refresh) {
+        if ($this->conneqted && !$refresh) {
             return false;
         }
 
