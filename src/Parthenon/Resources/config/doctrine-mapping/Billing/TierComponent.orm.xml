@@ -15,6 +15,6 @@
         <field name="unitPrice" column="unit_price" type="integer" nullable="false" />
         <field name="flatFee" column="flat_fee" type="integer" nullable="false" />
 
-        <many-to-one field="price" target-entity="Parthenon\Billing\Entity\PriceInterface" />
+        <many-to-one field="price" target-entity="Parthenon\Billing\Entity\PriceInterface" inversed-by="price" />
     </mapped-superclass>
 </doctrine-mapping>

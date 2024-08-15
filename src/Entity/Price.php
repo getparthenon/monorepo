@@ -22,9 +22,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Parthenon\Billing\Enum\PriceType;
 
 #[ORM\Entity()]
 #[ORM\Table('price')]
 class Price extends \Parthenon\Billing\Entity\Price
 {
+    public function __construct()
+    {
+        $this->type = PriceType::RECURRING;
+    }
 }
