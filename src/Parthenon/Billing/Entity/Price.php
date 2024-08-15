@@ -23,8 +23,11 @@ namespace Parthenon\Billing\Entity;
 
 use Brick\Money\Currency;
 use Brick\Money\Money;
+use Doctrine\Common\Collections\Collection;
 use Parthenon\Athena\Entity\CrudEntityInterface;
 use Parthenon\Athena\Entity\DeletableInterface;
+use Parthenon\Billing\Enum\PriceType;
+use Parthenon\Billing\Enum\UsageType;
 
 class Price implements CrudEntityInterface, DeletableInterface, PriceInterface
 {
@@ -52,6 +55,12 @@ class Price implements CrudEntityInterface, DeletableInterface, PriceInterface
     private \DateTimeInterface $createdAt;
 
     private ?\DateTimeInterface $deletedAt = null;
+
+    private array|Collection $tierComponents = [];
+
+    private PriceType $type;
+
+    private ?UsageType $usageType = null;
 
     public function getId()
     {
