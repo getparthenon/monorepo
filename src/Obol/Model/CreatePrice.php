@@ -25,6 +25,8 @@ use Brick\Money\Money;
 
 class CreatePrice
 {
+    private string $type;
+
     private Money $money;
 
     private ?string $productReference = null;
@@ -34,6 +36,12 @@ class CreatePrice
     private ?string $paymentSchedule;
 
     private bool $includingTax = false;
+
+    private bool $usage = false;
+
+    private bool $perUnit = false;
+
+    private array $tiers = [];
 
     public function getMoney(): Money
     {
