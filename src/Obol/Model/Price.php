@@ -32,7 +32,7 @@ class Price
 
     protected ?string $url = null;
 
-    private int $amount;
+    private ?int $amount;
 
     private string $currency;
 
@@ -82,12 +82,12 @@ class Price
         $this->url = $url;
     }
 
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    public function setAmount(int $amount): void
+    public function setAmount(?int $amount): void
     {
         $this->amount = $amount;
     }
