@@ -52,6 +52,8 @@ class Price
 
     private ?UsageType $usageType = null;
 
+    private array $tiers = [];
+
     public function isIncludingTax(): bool
     {
         return $this->includingTax;
@@ -170,5 +172,15 @@ class Price
     public function setUsageType(?UsageType $usageType): void
     {
         $this->usageType = $usageType;
+    }
+
+    public function getTiers(): array
+    {
+        return $this->tiers;
+    }
+
+    public function setTiers(array $tiers): void
+    {
+        $this->tiers = $tiers;
     }
 }

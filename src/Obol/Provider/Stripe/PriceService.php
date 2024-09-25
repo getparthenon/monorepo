@@ -29,10 +29,12 @@ use Obol\Model\Enum\TierMode;
 use Obol\Model\Enum\UsageType;
 use Obol\Model\Price;
 use Obol\Model\PriceCreation;
+use Obol\Model\Tier;
 use Obol\PriceServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Psr\Log\LoggerAwareTrait;
 use Stripe\StripeClient;
+use Stripe\StripeObject;
 
 class PriceService implements PriceServiceInterface
 {
@@ -129,7 +131,22 @@ class PriceService implements PriceServiceInterface
         $price->setTierMode(TierMode::fromString($stripePrice->tiers_mode));
         $price->setBillingType(BillingType::fromStripe($stripePrice->billing_scheme));
         $price->setUsageType(UsageType::fromStripe($stripePrice->recurring?->usage_type));
+        $tiers = [];
+        foreach($stripePrice->tiers ?? [] as $tier) {
+            $tiers[] = $this->populatTier($tier)
+        }
+        $price->setTiers($tiers);
 
         return $price;
+    }
+
+    public function populatTier(StripeObject $data): Tier
+    {
+        $tier = new Tier();
+        $tier->setUpTo($data->up_to);
+        $tier->setFlatAmount($data->flat_amount);
+        $tier->setUnitAmount($data->unit_amount);
+
+        return $tier;
     }
 }
