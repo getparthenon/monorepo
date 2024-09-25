@@ -23,6 +23,10 @@ namespace Obol\Provider\Stripe;
 
 use Obol\Exception\ProviderFailureException;
 use Obol\Model\CreatePrice;
+use Obol\Model\Enum\AggregateType;
+use Obol\Model\Enum\BillingType;
+use Obol\Model\Enum\TierMode;
+use Obol\Model\Enum\UsageType;
 use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 use Obol\PriceServiceInterface;
@@ -121,6 +125,13 @@ class PriceService implements PriceServiceInterface
         $price->setRecurring(isset($stripePrice->recurring?->interval));
         $price->setSchedule($stripePrice->recurring?->interval);
         $price->setIncludingTax('inclusive' === $stripePrice->tax_behavior);
+
+        if ($stripePrice->recurring?->aggregate_usage) {
+            $price->setAggregateType(AggregateType::fromStripe($stripePrice->recurring->aggregate_usage));
+        }
+        $price->setTierMode(TierMode::fromString($stripePrice->tiers_mode));
+        $price->setBillingType(BillingType::fromStripe($stripePrice->billing_scheme));
+        $price->setUsageType(UsageType::fromStripe($stripePrice->recurring?->usage_type));
 
         return $price;
     }

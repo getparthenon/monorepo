@@ -21,6 +21,11 @@ declare(strict_types=1);
 
 namespace Obol\Model;
 
+use Obol\Model\Enum\AggregateType;
+use Obol\Model\Enum\BillingType;
+use Obol\Model\Enum\TierMode;
+use Obol\Model\Enum\UsageType;
+
 class Price
 {
     protected ?string $id = null;
@@ -38,6 +43,14 @@ class Price
     private bool $recurring;
 
     private ?string $schedule = null;
+
+    private ?TierMode $tierMode = null;
+
+    private ?BillingType $billingType = null;
+
+    private ?AggregateType $aggregateType = null;
+
+    private ?UsageType $usageType = null;
 
     public function isIncludingTax(): bool
     {
@@ -117,5 +130,45 @@ class Price
     public function setSchedule(?string $schedule): void
     {
         $this->schedule = $schedule;
+    }
+
+    public function getTierMode(): ?TierMode
+    {
+        return $this->tierMode;
+    }
+
+    public function setTierMode(?TierMode $tierMode): void
+    {
+        $this->tierMode = $tierMode;
+    }
+
+    public function getBillingType(): ?BillingType
+    {
+        return $this->billingType;
+    }
+
+    public function setBillingType(?BillingType $billingType): void
+    {
+        $this->billingType = $billingType;
+    }
+
+    public function getAggregateType(): ?AggregateType
+    {
+        return $this->aggregateType;
+    }
+
+    public function setAggregateType(?AggregateType $aggregateType): void
+    {
+        $this->aggregateType = $aggregateType;
+    }
+
+    public function getUsageType(): ?UsageType
+    {
+        return $this->usageType;
+    }
+
+    public function setUsageType(?UsageType $usageType): void
+    {
+        $this->usageType = $usageType;
     }
 }
