@@ -132,8 +132,8 @@ class PriceService implements PriceServiceInterface
         $price->setBillingType(BillingType::fromStripe($stripePrice->billing_scheme));
         $price->setUsageType(UsageType::fromStripe($stripePrice->recurring?->usage_type));
         $tiers = [];
-        foreach($stripePrice->tiers ?? [] as $tier) {
-            $tiers[] = $this->populatTier($tier)
+        foreach ($stripePrice->tiers ?? [] as $tier) {
+            $tiers[] = $this->populatTier($tier);
         }
         $price->setTiers($tiers);
 
