@@ -27,12 +27,14 @@ use Obol\Model\Enum\AggregateType;
 use Obol\Model\Enum\BillingType;
 use Obol\Model\Enum\TierMode;
 use Obol\Model\Enum\UsageType;
+use Obol\Model\Metric;
 use Obol\Model\Price;
 use Obol\Model\PriceCreation;
 use Obol\Model\Tier;
 use Obol\PriceServiceInterface;
 use Obol\Provider\ProviderInterface;
 use Psr\Log\LoggerAwareTrait;
+use Stripe\Billing\Meter;
 use Stripe\StripeClient;
 use Stripe\StripeObject;
 
@@ -131,16 +133,23 @@ class PriceService implements PriceServiceInterface
         $price->setTierMode(TierMode::fromString($stripePrice->tiers_mode));
         $price->setBillingType(BillingType::fromStripe($stripePrice->billing_scheme));
         $price->setUsageType(UsageType::fromStripe($stripePrice->recurring?->usage_type));
+
+        if ($stripePrice->recurring?->meter) {
+            /** @var Meter $stripeMeter */
+            $stripeMeter = $this->stripe->billing->meters->retrieve($stripePrice->recurring->meter);
+            $price->setMetric($this->populateMeter($stripeMeter));
+        }
+
         $tiers = [];
         foreach ($stripePrice->tiers ?? [] as $tier) {
-            $tiers[] = $this->populatTier($tier);
+            $tiers[] = $this->populateTier($tier);
         }
         $price->setTiers($tiers);
 
         return $price;
     }
 
-    public function populatTier(StripeObject $data): Tier
+    public function populateTier(StripeObject $data): Tier
     {
         $tier = new Tier();
         $tier->setUpTo($data->up_to);
@@ -148,5 +157,15 @@ class PriceService implements PriceServiceInterface
         $tier->setUnitAmount($data->unit_amount);
 
         return $tier;
+    }
+
+    public function populateMeter(Meter $data): Metric
+    {
+        $metric = new Metric();
+        $metric->setAggregation($data->default_aggregation->formula);
+        $metric->setDisplayName($data->display_name);
+        $metric->setEventName($data->event_name);
+
+        return $metric;
     }
 }

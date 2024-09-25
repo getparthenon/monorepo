@@ -54,6 +54,8 @@ class Price
 
     private array $tiers = [];
 
+    private ?Metric $metric = null;
+
     public function isIncludingTax(): bool
     {
         return $this->includingTax;
@@ -182,5 +184,15 @@ class Price
     public function setTiers(array $tiers): void
     {
         $this->tiers = $tiers;
+    }
+
+    public function getMetric(): ?Metric
+    {
+        return $this->metric;
+    }
+
+    public function setMetric(?Metric $metric): void
+    {
+        $this->metric = $metric;
     }
 }
