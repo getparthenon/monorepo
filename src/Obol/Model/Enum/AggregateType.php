@@ -28,13 +28,14 @@ enum AggregateType
     case MAX;
     case SUM;
 
-    public static function fromStripe(string $value): AggregateType
+    public static function fromStripe(?string $value): ?AggregateType
     {
         return match ($value) {
             'last_during_period' => self::LAST_DURING_PERIOD,
             'last_ever' => self::LAST_EVER,
             'max' => self::MAX,
-            default => self::SUM,
+            'sum', 'metered' => self::SUM,
+            default => null,
         };
     }
 }
