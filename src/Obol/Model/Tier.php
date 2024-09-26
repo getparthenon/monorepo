@@ -23,38 +23,38 @@ namespace Obol\Model;
 
 class Tier
 {
-    private int $flatAmount;
+    private ?int $flatAmount = null;
 
-    private int $unitAmount;
+    private ?int $unitAmount = null;
 
-    private int $upTo;
+    private ?int $upTo = null;
 
-    public function getFlatAmount(): int
+    public function getFlatAmount(): ?int
     {
         return $this->flatAmount;
     }
 
-    public function setFlatAmount(int $flatAmount): void
+    public function setFlatAmount(?int $flatAmount): void
     {
         $this->flatAmount = $flatAmount;
     }
 
-    public function getUnitAmount(): int
+    public function getUnitAmount(): ?int
     {
         return $this->unitAmount;
     }
 
-    public function setUnitAmount(int $unitAmount): void
+    public function setUnitAmount(?int $unitAmount): void
     {
         $this->unitAmount = $unitAmount;
     }
 
-    public function getUpTo(): int
+    public function getUpTo(): ?int
     {
         return $this->upTo;
     }
 
-    public function setUpTo(int $upTo): void
+    public function setUpTo(?int $upTo): void
     {
         $this->upTo = $upTo;
     }
