@@ -29,7 +29,7 @@ class Metric
 
     private string $aggregation;
 
-    private string $eventTimeWindow;
+    private ?string $eventTimeWindow = null;
 
     public function getDisplayName(): string
     {
@@ -61,12 +61,12 @@ class Metric
         $this->aggregation = $aggregation;
     }
 
-    public function getEventTimeWindow(): string
+    public function getEventTimeWindow(): ?string
     {
         return $this->eventTimeWindow;
     }
 
-    public function setEventTimeWindow(string $eventTimeWindow): void
+    public function setEventTimeWindow(?string $eventTimeWindow): void
     {
         $this->eventTimeWindow = $eventTimeWindow;
     }
