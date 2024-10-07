@@ -165,6 +165,7 @@ class PriceService implements PriceServiceInterface
         $metric->setAggregation($data->default_aggregation->formula);
         $metric->setDisplayName($data->display_name);
         $metric->setEventName($data->event_name);
+        $metric->setEventTimeWindow($data->event_time_window);
 
         return $metric;
     }
