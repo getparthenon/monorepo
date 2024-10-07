@@ -102,6 +102,7 @@ class PriceService implements PriceServiceInterface
         if (isset($lastId) && !empty($lastId)) {
             $payload['starting_after'] = $lastId;
         }
+        $payload['expand'] = ['data.tiers'];
         $result = $this->stripe->prices->all($payload);
         $output = [];
 
