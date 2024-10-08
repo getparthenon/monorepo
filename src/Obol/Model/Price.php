@@ -56,6 +56,8 @@ class Price
 
     private ?Metric $metric = null;
 
+    private ?int $packageAmount = null;
+
     public function isIncludingTax(): bool
     {
         return $this->includingTax;
@@ -194,5 +196,15 @@ class Price
     public function setMetric(?Metric $metric): void
     {
         $this->metric = $metric;
+    }
+
+    public function getPackageAmount(): ?int
+    {
+        return $this->packageAmount;
+    }
+
+    public function setPackageAmount(?int $packageAmount): void
+    {
+        $this->packageAmount = $packageAmount;
     }
 }

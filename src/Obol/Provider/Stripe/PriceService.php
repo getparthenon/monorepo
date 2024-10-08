@@ -134,6 +134,7 @@ class PriceService implements PriceServiceInterface
         $price->setTierMode(TierMode::fromString($stripePrice->tiers_mode));
         $price->setBillingType(BillingType::fromStripe($stripePrice->billing_scheme));
         $price->setUsageType(UsageType::fromStripe($stripePrice->recurring?->usage_type));
+        $price->setPackageAmount($stripePrice->transform_quantity?->divide_by);
 
         if ($stripePrice->recurring?->meter) {
             /** @var Meter $stripeMeter */
