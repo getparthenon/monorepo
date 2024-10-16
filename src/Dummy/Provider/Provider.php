@@ -107,4 +107,9 @@ class Provider implements ProviderInterface
     {
         // TODO: Implement vouchers() method.
     }
+
+    public function isLive(): bool
+    {
+        return true;
+    }
 }
