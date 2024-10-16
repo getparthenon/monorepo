@@ -214,4 +214,13 @@ class Provider implements ProviderInterface
 
         return $this->voucherService;
     }
+
+    public function isLive(): bool
+    {
+        \Stripe\Stripe::setApiKey($this->config->getApiKey());
+        $account = \Stripe\Account::retrieve();
+
+        // Check if the API key is live mode or test mode
+        return $account->livemode;
+    }
 }

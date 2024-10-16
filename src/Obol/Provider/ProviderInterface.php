@@ -88,4 +88,6 @@ interface ProviderInterface
     public function vouchers(): VoucherServiceInterface;
 
     public function getName(): string;
+
+    public function isLive(): bool;
 }
