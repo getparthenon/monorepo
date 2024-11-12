@@ -202,7 +202,7 @@ final class Funnel implements FunnelInterface
     private function getState(bool $newState): FunnelState
     {
         $this->getLogger()->info('Fetching funnel state from session', ['entity' => $this->getEntityName()]);
-        $state = $this->session->get(get_class($this->entity).'_funnel');
+        $state = $this->session->get($this->entity->getId().'_funnel');
 
         if (!$state instanceof FunnelState || $newState) {
             if ($newState) {
