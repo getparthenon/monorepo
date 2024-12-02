@@ -19,7 +19,7 @@
         </service>
 
         <service id="Parthenon\Billing\Subscriber\SubscriptionChangeSubscriber" class="Parthenon\Billing\Subscriber\SubscriptionChangeSubscriber">
-            <argument type="service" id="\Redis" />
+            <argument type="service" id="Redis" />
             <tag name="kernel.event_subscriber" />
         </service>
 
