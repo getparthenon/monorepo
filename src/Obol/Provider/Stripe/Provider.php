@@ -36,6 +36,7 @@ use Obol\SubscriptionServiceInterface;
 use Obol\VoucherServiceInterface;
 use Obol\WebhookServiceInterface;
 use Psr\Log\LoggerAwareTrait;
+use Stripe\Balance;
 use Stripe\StripeClient;
 
 class Provider implements ProviderInterface
@@ -218,9 +219,9 @@ class Provider implements ProviderInterface
     public function isLive(): bool
     {
         \Stripe\Stripe::setApiKey($this->config->getApiKey());
-        $account = \Stripe\Account::retrieve();
+        $balance = Balance::retrieve();
 
         // Check if the API key is live mode or test mode
-        return $account->livemode;
+        return $balance->livemode ?? false;
     }
 }
