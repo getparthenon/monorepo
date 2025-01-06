@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * Copyright (C) 2020-2024 Iain Cambridge
+ * Copyright (C) 2020-2025 Iain Cambridge
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by
@@ -19,12 +19,14 @@ declare(strict_types=1);
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+
 return (new PhpCsFixer\Config())
             ->setRiskyAllowed(true)
             ->setRules([
                 '@PSR2' => true,
                 '@Symfony' => true,
-                'header_comment' => ['header' => 'Copyright (C) 2020-2024 Iain Cambridge
+                'header_comment' => ['header' => 'Copyright (C) 2020-2025 Iain Cambridge
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by
@@ -49,4 +51,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.'],
             ->setFinder(
                 PhpCsFixer\Finder::create()->in(__DIR__)
             )
+    ->setParallelConfig(ParallelConfigFactory::detect())
 ;
