@@ -29,8 +29,8 @@ export default {
 
 <style scoped>
 .spinner {
-  -webkit-animation: spin-30994d36 1s linear infinite;
-  animation: spin-30994d36 1s linear infinite;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
   --tw-text-opacity: 1;
   color: v-bind('color');
   height: v-bind('height');

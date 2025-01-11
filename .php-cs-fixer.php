@@ -47,6 +47,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.'],
                 'no_multiple_statements_per_line' => true,
                 'constant_case' => true,
                 'no_useless_nullsafe_operator' => true,
+                'yoda_style' => true,
+                'elseif' => true,
             ])
             ->setFinder(
                 PhpCsFixer\Finder::create()->in(__DIR__)
