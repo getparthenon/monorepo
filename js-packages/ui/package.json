@@ -1,6 +1,6 @@
 {
   "name": "@parthenon/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "BUSL-1.1",
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.0",
